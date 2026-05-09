@@ -15,12 +15,20 @@ import {
   updateUserController,
   uploadAvatarController,
 } from "../controllers/user.controller";
+import {
+  createAddressController,
+  getAddressController,
+  getAddressByIdController,
+  updateUserAddress,
+  deleteAddressController,
+  setDefaultAddressController,
+} from "../controllers/address.controller";
 import { upload } from "../middlewares/upload.middleware";
 const router = Router();
 
 router.post("/auth/register", registerController);
 router.post("/auth/login", loginLimiter, loginController);
-router.post("/auth/refresh", refreshTokenController);
+router.post("/auth/refresh-token", refreshTokenController);
 router.post("/auth/logout", logoutController);
 router.post("/logout", logoutController);
 
@@ -28,6 +36,7 @@ router.post("/forgot-password", forgotPasswordController);
 router.post("/reset-password", resetPasswordController);
 router.post("/change-password", authMiddleware, changePasswordController);
 
+// user profile
 router.get("/users/profile", authMiddleware, getUserProfileController);
 router.put("/users/profile", authMiddleware, updateUserController);
 /**
@@ -35,8 +44,20 @@ router.put("/users/profile", authMiddleware, updateUserController);
  */
 router.put(
   "/users/profile/avatar",
-  authMiddleware, 
+  authMiddleware,
   upload.single("avatar"),
   uploadAvatarController,
+);
+
+// user address
+router.post("/users/address", authMiddleware, createAddressController);
+router.get("/users/address", authMiddleware, getAddressController);
+router.get("/users/address/:addressId", authMiddleware, getAddressByIdController);
+router.put("/users/address/:addressId", authMiddleware, updateUserAddress);
+router.delete("/users/address/:addressId", authMiddleware, deleteAddressController);
+router.patch(
+  "/users/address/:addressId/default",
+  authMiddleware,
+  setDefaultAddressController,
 );
 export default router;

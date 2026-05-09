@@ -105,9 +105,9 @@ export const loginUserService = async (data: LoginInput) => {
   }
 
   // Kiểm tra xác thực email
-  // if (!user.isVerified) {
-  //   throw new Error("Please verify your email before logging in");
-  // }
+  if (!user.isVerified) {
+    throw new Error("Please verify your email before logging in");
+  }
 
   /**
    * Tạo access token + refresh token
