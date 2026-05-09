@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  customer
+  admin
+  manager
+  staff
+}
+
+enum GenderType {
+  male
+  female
+  other
+}
+
+enum SeatType {
+  standard
+  vip
+  couple
+  recliner
+}
+
+enum SeatStatus {
+  available
+  reserved
+  booked
+  maintenance
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  cancelled
+  completed
+  refunded
+}
+
+enum PaymentMethod {
+  momo
+  zalopay
+  vnpay
+  credit_card
+  debit_card
+  cash
+  bank_transfer
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  refunded
+}
+
+enum MovieStatus {
+  coming_soon
+  now_showing
+  ended
+}
+
+enum PromotionType {
+  percentage
+  fixed_amount
+  combo
+}
+
+enum VoucherStatus {
+  active
+  expired
+  used
+  disabled
+}

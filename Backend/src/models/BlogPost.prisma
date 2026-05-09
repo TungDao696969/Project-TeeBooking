@@ -1,0 +1,14 @@
+model BlogPost {
+    id           String    @id @default(uuid())
+    title        String
+    slug         String    @unique
+    thumbnailUrl String?
+    content      String
+    authorId     String
+    publishedAt  DateTime?
+    createdAt    DateTime  @default(now())
+
+    author User @relation(fields: [authorId], references: [id])
+
+    @@map("blog_posts")
+}

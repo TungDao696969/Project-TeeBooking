@@ -1,0 +1,9 @@
+model Genre {
+    id   String @id @default(uuid())
+    name String
+    slug String @unique
+
+    movies MovieGenre[]
+
+    @@map("genres")
+}

@@ -1,0 +1,13 @@
+model BookingCombo {
+    id         String @id @default(uuid())
+    bookingId  String
+    comboId    String
+    quantity   Int
+    unitPrice  Float
+    totalPrice Float
+
+    booking Booking   @relation(fields: [bookingId], references: [id])
+    combo   FoodCombo @relation(fields: [comboId], references: [id])
+
+    @@map("booking_combos")
+}

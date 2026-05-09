@@ -1,0 +1,22 @@
+model Booking {
+    id               String        @id @default(uuid())
+    bookingCode      String        @unique
+    userId           String
+    showtimeId       String
+    totalTicketPrice Float
+    totalComboPrice  Float
+    discountAmount   Float
+    finalAmount      Float
+    status           BookingStatus
+    bookedAt         DateTime      @default(now())
+    expiresAt        DateTime?
+
+    user     User            @relation(fields: [userId], references: [id])
+    showtime Showtime        @relation(fields: [showtimeId], references: [id])
+    tickets  BookingTicket[]
+    combos   BookingCombo[]
+    payments Payment[]
+    refunds  Refund[]
+
+    @@map("bookings")
+}

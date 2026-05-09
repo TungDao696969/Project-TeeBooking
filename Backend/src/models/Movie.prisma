@@ -1,0 +1,28 @@
+model Movie {
+    id              String      @id @default(uuid())
+    title           String
+    slug            String      @unique
+    originalTitle   String?
+    description     String
+    durationMinutes Int
+    releaseDate     DateTime
+    endDate         DateTime?
+    ageRating       String?
+    language        String?
+    subtitle        String?
+    trailerUrl      String?
+    posterUrl       String?
+    bannerUrl       String?
+    status          MovieStatus
+    country         String?
+    producer        String?
+    createdAt       DateTime    @default(now())
+    updatedAt       DateTime    @updatedAt
+
+    genres    MovieGenre[]
+    casts     MovieCast[]
+    showtimes Showtime[]
+    reviews   Review[]
+
+    @@map("movies")
+}

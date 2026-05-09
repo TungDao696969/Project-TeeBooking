@@ -1,0 +1,14 @@
+model Voucher {
+    id          String        @id @default(uuid())
+    promotionId String
+    code        String        @unique
+    usageLimit  Int
+    usedCount   Int           @default(0)
+    status      VoucherStatus
+    createdAt   DateTime      @default(now())
+
+    promotion Promotion     @relation(fields: [promotionId], references: [id])
+    users     UserVoucher[]
+
+    @@map("vouchers")
+}

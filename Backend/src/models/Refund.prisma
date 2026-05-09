@@ -1,0 +1,14 @@
+model Refund {
+    id           String    @id @default(uuid())
+    bookingId    String
+    paymentId    String
+    refundAmount Float
+    refundReason String?
+    refundStatus String
+    processedAt  DateTime?
+
+    booking Booking @relation(fields: [bookingId], references: [id])
+    payment Payment @relation(fields: [paymentId], references: [id])
+
+    @@map("refunds")
+}

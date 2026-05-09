@@ -1,0 +1,21 @@
+model Showtime {
+    id        String   @id @default(uuid())
+    movieId   String
+    roomId    String
+    showDate  DateTime
+    startTime DateTime
+    endTime   DateTime
+    basePrice Float
+    format    String?
+    language  String?
+    subtitle  String?
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+
+    movie    Movie          @relation(fields: [movieId], references: [id])
+    room     CinemaRoom     @relation(fields: [roomId], references: [id])
+    seats    ShowtimeSeat[]
+    bookings Booking[]
+
+    @@map("showtimes")
+}

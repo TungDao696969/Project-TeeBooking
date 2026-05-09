@@ -1,0 +1,20 @@
+model Cinema {
+    id           String   @id @default(uuid())
+    name         String
+    slug         String   @unique
+    hotline      String?
+    email        String?
+    province     String
+    district     String
+    ward         String
+    address      String
+    latitude     Float?
+    longitude    Float?
+    openingHours String?
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    rooms CinemaRoom[]
+
+    @@map("cinemas")
+}

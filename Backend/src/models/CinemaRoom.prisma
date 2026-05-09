@@ -1,0 +1,16 @@
+model CinemaRoom {
+    id          String   @id @default(uuid())
+    cinemaId    String
+    roomName    String
+    roomType    String
+    totalSeats  Int
+    screenType  String?
+    soundSystem String?
+    createdAt   DateTime @default(now())
+
+    cinema    Cinema     @relation(fields: [cinemaId], references: [id])
+    seats     Seat[]
+    showtimes Showtime[]
+
+    @@map("cinema_rooms")
+}

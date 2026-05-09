@@ -1,0 +1,16 @@
+model Payment {
+    id              String        @id @default(uuid())
+    bookingId       String
+    paymentMethod   PaymentMethod
+    paymentGateway  String?
+    transactionCode String?
+    amount          Float
+    status          PaymentStatus
+    paidAt          DateTime?
+    createdAt       DateTime      @default(now())
+
+    booking Booking  @relation(fields: [bookingId], references: [id])
+    refunds Refund[]
+
+    @@map("payments")
+}

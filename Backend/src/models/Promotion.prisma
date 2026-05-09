@@ -1,0 +1,16 @@
+model Promotion {
+    id            String        @id @default(uuid())
+    title         String
+    description   String?
+    type          PromotionType
+    discountValue Float
+    minOrderValue Float?
+    maxDiscount   Float?
+    startDate     DateTime
+    endDate       DateTime
+    isActive      Boolean       @default(true)
+
+    vouchers Voucher[]
+
+    @@map("promotions")
+}
