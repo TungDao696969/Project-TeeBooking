@@ -76,9 +76,15 @@ enum PromotionType {
   combo
 }
 
+// enum VoucherStatus {
+//   active
+//   expired
+//   used
+//   disabled
+// }
+
 enum VoucherStatus {
   active
+  inactive
   expired
-  used
-  disabled
 }

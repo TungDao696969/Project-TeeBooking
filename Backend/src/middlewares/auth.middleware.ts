@@ -1,11 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import type { UserRole } from "../generated/prisma/enums";
 import { prisma } from "../utils/prisma";
 
 export interface AuthRequest extends Request {
   user?: {
     id: string;
-    role: string;
+    role: UserRole;
   };
 }
 
@@ -80,7 +81,7 @@ export const authMiddleware = async (
 };
 
 // Middleware phân quyền
-export const authorizeRoles = (...roles: string[]) => {
+export const authorizeRoles = (...roles: UserRole[]) => {
   return (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({

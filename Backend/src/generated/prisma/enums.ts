@@ -102,9 +102,8 @@ export type PromotionType = (typeof PromotionType)[keyof typeof PromotionType]
 
 export const VoucherStatus = {
   active: 'active',
-  expired: 'expired',
-  used: 'used',
-  disabled: 'disabled'
+  inactive: 'inactive',
+  expired: 'expired'
 } as const
 
 export type VoucherStatus = (typeof VoucherStatus)[keyof typeof VoucherStatus]
