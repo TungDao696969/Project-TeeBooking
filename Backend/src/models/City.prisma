@@ -1,0 +1,12 @@
+model City {
+    id        String   @id @default(uuid())
+    name      String
+    slug      String   @unique
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    cinemas Cinema[]
+
+    @@map("cities")
+}

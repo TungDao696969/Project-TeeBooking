@@ -1,0 +1,163 @@
+import { CreateShowtimeInput, UpdateShowtimeInput } from "../validations/showtime.validation";
+export declare const createShowtimeService: (data: CreateShowtimeInput) => Promise<{
+    movie: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("../generated/prisma/enums").MovieStatus;
+        title: string;
+        slug: string;
+        originalTitle: string | null;
+        description: string;
+        durationMinutes: number;
+        releaseDate: Date;
+        endDate: Date | null;
+        ageRating: string | null;
+        language: string | null;
+        subtitle: string | null;
+        trailerUrl: string | null;
+        posterUrl: string | null;
+        bannerUrl: string | null;
+        country: string | null;
+        producer: string | null;
+    };
+    room: {
+        id: string;
+        createdAt: Date;
+        cinemaId: string;
+        roomName: string;
+        roomType: string;
+        totalSeats: number;
+        screenType: string | null;
+        soundSystem: string | null;
+    };
+} & {
+    format: string | null;
+    id: string;
+    isActive: boolean;
+    createdAt: Date;
+    language: string | null;
+    subtitle: string | null;
+    movieId: string;
+    roomId: string;
+    showDate: Date;
+    startTime: Date;
+    endTime: Date;
+    basePrice: number;
+}>;
+export declare const getAllShowtimesService: () => Promise<any>;
+export declare const getShowtimeByIdService: (id: string) => Promise<({
+    bookings: {
+        userId: string;
+        id: string;
+        status: import("../generated/prisma/enums").BookingStatus;
+        showtimeId: string;
+        bookingCode: string;
+        totalTicketPrice: number;
+        totalComboPrice: number;
+        discountAmount: number;
+        finalAmount: number;
+        bookedAt: Date;
+        expiresAt: Date | null;
+    }[];
+    movie: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("../generated/prisma/enums").MovieStatus;
+        title: string;
+        slug: string;
+        originalTitle: string | null;
+        description: string;
+        durationMinutes: number;
+        releaseDate: Date;
+        endDate: Date | null;
+        ageRating: string | null;
+        language: string | null;
+        subtitle: string | null;
+        trailerUrl: string | null;
+        posterUrl: string | null;
+        bannerUrl: string | null;
+        country: string | null;
+        producer: string | null;
+    };
+    seats: {
+        id: string;
+        status: import("../generated/prisma/enums").SeatStatus;
+        finalPrice: number;
+        lockedUntil: Date | null;
+        showtimeId: string;
+        seatId: string;
+    }[];
+    room: {
+        id: string;
+        createdAt: Date;
+        cinemaId: string;
+        roomName: string;
+        roomType: string;
+        totalSeats: number;
+        screenType: string | null;
+        soundSystem: string | null;
+    };
+} & {
+    format: string | null;
+    id: string;
+    isActive: boolean;
+    createdAt: Date;
+    language: string | null;
+    subtitle: string | null;
+    movieId: string;
+    roomId: string;
+    showDate: Date;
+    startTime: Date;
+    endTime: Date;
+    basePrice: number;
+}) | null>;
+export declare const updateShowtimeService: (id: string, data: UpdateShowtimeInput) => Promise<{
+    movie: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("../generated/prisma/enums").MovieStatus;
+        title: string;
+        slug: string;
+        originalTitle: string | null;
+        description: string;
+        durationMinutes: number;
+        releaseDate: Date;
+        endDate: Date | null;
+        ageRating: string | null;
+        language: string | null;
+        subtitle: string | null;
+        trailerUrl: string | null;
+        posterUrl: string | null;
+        bannerUrl: string | null;
+        country: string | null;
+        producer: string | null;
+    };
+    room: {
+        id: string;
+        createdAt: Date;
+        cinemaId: string;
+        roomName: string;
+        roomType: string;
+        totalSeats: number;
+        screenType: string | null;
+        soundSystem: string | null;
+    };
+} & {
+    format: string | null;
+    id: string;
+    isActive: boolean;
+    createdAt: Date;
+    language: string | null;
+    subtitle: string | null;
+    movieId: string;
+    roomId: string;
+    showDate: Date;
+    startTime: Date;
+    endTime: Date;
+    basePrice: number;
+}>;
+export declare const deleteShowtimeService: (id: string) => Promise<boolean>;
+//# sourceMappingURL=showtime.service.d.ts.map

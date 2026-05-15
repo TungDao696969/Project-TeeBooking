@@ -61,8 +61,8 @@ __exportStar(require("./enums"), exports);
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more AdminLogs
- * const adminLogs = await prisma.adminLog.findMany()
+ * // Fetch zero or more ActivityLogs
+ * const activityLogs = await prisma.activityLog.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).

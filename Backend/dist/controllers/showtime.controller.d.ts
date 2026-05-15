@@ -1,0 +1,7 @@
+import { Request, Response } from "express";
+export declare const createShowtime: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const getAllShowtimes: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const getShowtimeById: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const updateShowtime: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const deleteShowtime: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+//# sourceMappingURL=showtime.controller.d.ts.map

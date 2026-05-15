@@ -21,35 +21,26 @@ export type ReviewSumAggregateOutputType = {
 export type ReviewMinAggregateOutputType = {
     id: string | null;
     userId: string | null;
-    tourId: string | null;
-    bookingId: string | null;
+    movieId: string | null;
     rating: number | null;
     comment: string | null;
-    isVerified: boolean | null;
     createdAt: Date | null;
-    updatedAt: Date | null;
 };
 export type ReviewMaxAggregateOutputType = {
     id: string | null;
     userId: string | null;
-    tourId: string | null;
-    bookingId: string | null;
+    movieId: string | null;
     rating: number | null;
     comment: string | null;
-    isVerified: boolean | null;
     createdAt: Date | null;
-    updatedAt: Date | null;
 };
 export type ReviewCountAggregateOutputType = {
     id: number;
     userId: number;
-    tourId: number;
-    bookingId: number;
+    movieId: number;
     rating: number;
     comment: number;
-    isVerified: number;
     createdAt: number;
-    updatedAt: number;
     _all: number;
 };
 export type ReviewAvgAggregateInputType = {
@@ -61,35 +52,26 @@ export type ReviewSumAggregateInputType = {
 export type ReviewMinAggregateInputType = {
     id?: true;
     userId?: true;
-    tourId?: true;
-    bookingId?: true;
+    movieId?: true;
     rating?: true;
     comment?: true;
-    isVerified?: true;
     createdAt?: true;
-    updatedAt?: true;
 };
 export type ReviewMaxAggregateInputType = {
     id?: true;
     userId?: true;
-    tourId?: true;
-    bookingId?: true;
+    movieId?: true;
     rating?: true;
     comment?: true;
-    isVerified?: true;
     createdAt?: true;
-    updatedAt?: true;
 };
 export type ReviewCountAggregateInputType = {
     id?: true;
     userId?: true;
-    tourId?: true;
-    bookingId?: true;
+    movieId?: true;
     rating?: true;
     comment?: true;
-    isVerified?: true;
     createdAt?: true;
-    updatedAt?: true;
     _all?: true;
 };
 export type ReviewAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -171,13 +153,10 @@ export type ReviewGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type ReviewGroupByOutputType = {
     id: string;
     userId: string;
-    tourId: string;
-    bookingId: string;
+    movieId: string;
     rating: number;
     comment: string | null;
-    isVerified: boolean;
     createdAt: Date;
-    updatedAt: Date;
     _count: ReviewCountAggregateOutputType | null;
     _avg: ReviewAvgAggregateOutputType | null;
     _sum: ReviewSumAggregateOutputType | null;
@@ -193,30 +172,22 @@ export type ReviewWhereInput = {
     NOT?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[];
     id?: Prisma.StringFilter<"Review"> | string;
     userId?: Prisma.StringFilter<"Review"> | string;
-    tourId?: Prisma.StringFilter<"Review"> | string;
-    bookingId?: Prisma.StringFilter<"Review"> | string;
+    movieId?: Prisma.StringFilter<"Review"> | string;
     rating?: Prisma.IntFilter<"Review"> | number;
     comment?: Prisma.StringNullableFilter<"Review"> | string | null;
-    isVerified?: Prisma.BoolFilter<"Review"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string;
-    updatedAt?: Prisma.DateTimeFilter<"Review"> | Date | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
-    tour?: Prisma.XOR<Prisma.TourScalarRelationFilter, Prisma.TourWhereInput>;
-    booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>;
+    movie?: Prisma.XOR<Prisma.MovieScalarRelationFilter, Prisma.MovieWhereInput>;
 };
 export type ReviewOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    tourId?: Prisma.SortOrder;
-    bookingId?: Prisma.SortOrder;
+    movieId?: Prisma.SortOrder;
     rating?: Prisma.SortOrder;
     comment?: Prisma.SortOrderInput | Prisma.SortOrder;
-    isVerified?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    updatedAt?: Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
-    tour?: Prisma.TourOrderByWithRelationInput;
-    booking?: Prisma.BookingOrderByWithRelationInput;
+    movie?: Prisma.MovieOrderByWithRelationInput;
 };
 export type ReviewWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -224,27 +195,20 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
     OR?: Prisma.ReviewWhereInput[];
     NOT?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[];
     userId?: Prisma.StringFilter<"Review"> | string;
-    tourId?: Prisma.StringFilter<"Review"> | string;
-    bookingId?: Prisma.StringFilter<"Review"> | string;
+    movieId?: Prisma.StringFilter<"Review"> | string;
     rating?: Prisma.IntFilter<"Review"> | number;
     comment?: Prisma.StringNullableFilter<"Review"> | string | null;
-    isVerified?: Prisma.BoolFilter<"Review"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string;
-    updatedAt?: Prisma.DateTimeFilter<"Review"> | Date | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
-    tour?: Prisma.XOR<Prisma.TourScalarRelationFilter, Prisma.TourWhereInput>;
-    booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>;
+    movie?: Prisma.XOR<Prisma.MovieScalarRelationFilter, Prisma.MovieWhereInput>;
 }, "id">;
 export type ReviewOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    tourId?: Prisma.SortOrder;
-    bookingId?: Prisma.SortOrder;
+    movieId?: Prisma.SortOrder;
     rating?: Prisma.SortOrder;
     comment?: Prisma.SortOrderInput | Prisma.SortOrder;
-    isVerified?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    updatedAt?: Prisma.SortOrder;
     _count?: Prisma.ReviewCountOrderByAggregateInput;
     _avg?: Prisma.ReviewAvgOrderByAggregateInput;
     _max?: Prisma.ReviewMaxOrderByAggregateInput;
@@ -257,87 +221,64 @@ export type ReviewScalarWhereWithAggregatesInput = {
     NOT?: Prisma.ReviewScalarWhereWithAggregatesInput | Prisma.ReviewScalarWhereWithAggregatesInput[];
     id?: Prisma.StringWithAggregatesFilter<"Review"> | string;
     userId?: Prisma.StringWithAggregatesFilter<"Review"> | string;
-    tourId?: Prisma.StringWithAggregatesFilter<"Review"> | string;
-    bookingId?: Prisma.StringWithAggregatesFilter<"Review"> | string;
+    movieId?: Prisma.StringWithAggregatesFilter<"Review"> | string;
     rating?: Prisma.IntWithAggregatesFilter<"Review"> | number;
     comment?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null;
-    isVerified?: Prisma.BoolWithAggregatesFilter<"Review"> | boolean;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Review"> | Date | string;
-    updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Review"> | Date | string;
 };
 export type ReviewCreateInput = {
     id?: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
     user: Prisma.UserCreateNestedOneWithoutReviewsInput;
-    tour: Prisma.TourCreateNestedOneWithoutReviewsInput;
-    booking: Prisma.BookingCreateNestedOneWithoutReviewsInput;
+    movie: Prisma.MovieCreateNestedOneWithoutReviewsInput;
 };
 export type ReviewUncheckedCreateInput = {
     id?: string;
     userId: string;
-    tourId: string;
-    bookingId: string;
+    movieId: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
 };
 export type ReviewUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     user?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput;
-    tour?: Prisma.TourUpdateOneRequiredWithoutReviewsNestedInput;
-    booking?: Prisma.BookingUpdateOneRequiredWithoutReviewsNestedInput;
+    movie?: Prisma.MovieUpdateOneRequiredWithoutReviewsNestedInput;
 };
 export type ReviewUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
-    tourId?: Prisma.StringFieldUpdateOperationsInput | string;
-    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    movieId?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type ReviewCreateManyInput = {
     id?: string;
     userId: string;
-    tourId: string;
-    bookingId: string;
+    movieId: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
 };
 export type ReviewUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type ReviewUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
-    tourId?: Prisma.StringFieldUpdateOperationsInput | string;
-    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    movieId?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type ReviewListRelationFilter = {
     every?: Prisma.ReviewWhereInput;
@@ -350,13 +291,10 @@ export type ReviewOrderByRelationAggregateInput = {
 export type ReviewCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    tourId?: Prisma.SortOrder;
-    bookingId?: Prisma.SortOrder;
+    movieId?: Prisma.SortOrder;
     rating?: Prisma.SortOrder;
     comment?: Prisma.SortOrder;
-    isVerified?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    updatedAt?: Prisma.SortOrder;
 };
 export type ReviewAvgOrderByAggregateInput = {
     rating?: Prisma.SortOrder;
@@ -364,102 +302,58 @@ export type ReviewAvgOrderByAggregateInput = {
 export type ReviewMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    tourId?: Prisma.SortOrder;
-    bookingId?: Prisma.SortOrder;
+    movieId?: Prisma.SortOrder;
     rating?: Prisma.SortOrder;
     comment?: Prisma.SortOrder;
-    isVerified?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    updatedAt?: Prisma.SortOrder;
 };
 export type ReviewMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    tourId?: Prisma.SortOrder;
-    bookingId?: Prisma.SortOrder;
+    movieId?: Prisma.SortOrder;
     rating?: Prisma.SortOrder;
     comment?: Prisma.SortOrder;
-    isVerified?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    updatedAt?: Prisma.SortOrder;
 };
 export type ReviewSumOrderByAggregateInput = {
     rating?: Prisma.SortOrder;
 };
-export type ReviewCreateNestedManyWithoutBookingInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutBookingInput, Prisma.ReviewUncheckedCreateWithoutBookingInput> | Prisma.ReviewCreateWithoutBookingInput[] | Prisma.ReviewUncheckedCreateWithoutBookingInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutBookingInput | Prisma.ReviewCreateOrConnectWithoutBookingInput[];
-    createMany?: Prisma.ReviewCreateManyBookingInputEnvelope;
+export type ReviewCreateNestedManyWithoutMovieInput = {
+    create?: Prisma.XOR<Prisma.ReviewCreateWithoutMovieInput, Prisma.ReviewUncheckedCreateWithoutMovieInput> | Prisma.ReviewCreateWithoutMovieInput[] | Prisma.ReviewUncheckedCreateWithoutMovieInput[];
+    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutMovieInput | Prisma.ReviewCreateOrConnectWithoutMovieInput[];
+    createMany?: Prisma.ReviewCreateManyMovieInputEnvelope;
     connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
 };
-export type ReviewUncheckedCreateNestedManyWithoutBookingInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutBookingInput, Prisma.ReviewUncheckedCreateWithoutBookingInput> | Prisma.ReviewCreateWithoutBookingInput[] | Prisma.ReviewUncheckedCreateWithoutBookingInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutBookingInput | Prisma.ReviewCreateOrConnectWithoutBookingInput[];
-    createMany?: Prisma.ReviewCreateManyBookingInputEnvelope;
+export type ReviewUncheckedCreateNestedManyWithoutMovieInput = {
+    create?: Prisma.XOR<Prisma.ReviewCreateWithoutMovieInput, Prisma.ReviewUncheckedCreateWithoutMovieInput> | Prisma.ReviewCreateWithoutMovieInput[] | Prisma.ReviewUncheckedCreateWithoutMovieInput[];
+    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutMovieInput | Prisma.ReviewCreateOrConnectWithoutMovieInput[];
+    createMany?: Prisma.ReviewCreateManyMovieInputEnvelope;
     connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
 };
-export type ReviewUpdateManyWithoutBookingNestedInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutBookingInput, Prisma.ReviewUncheckedCreateWithoutBookingInput> | Prisma.ReviewCreateWithoutBookingInput[] | Prisma.ReviewUncheckedCreateWithoutBookingInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutBookingInput | Prisma.ReviewCreateOrConnectWithoutBookingInput[];
-    upsert?: Prisma.ReviewUpsertWithWhereUniqueWithoutBookingInput | Prisma.ReviewUpsertWithWhereUniqueWithoutBookingInput[];
-    createMany?: Prisma.ReviewCreateManyBookingInputEnvelope;
+export type ReviewUpdateManyWithoutMovieNestedInput = {
+    create?: Prisma.XOR<Prisma.ReviewCreateWithoutMovieInput, Prisma.ReviewUncheckedCreateWithoutMovieInput> | Prisma.ReviewCreateWithoutMovieInput[] | Prisma.ReviewUncheckedCreateWithoutMovieInput[];
+    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutMovieInput | Prisma.ReviewCreateOrConnectWithoutMovieInput[];
+    upsert?: Prisma.ReviewUpsertWithWhereUniqueWithoutMovieInput | Prisma.ReviewUpsertWithWhereUniqueWithoutMovieInput[];
+    createMany?: Prisma.ReviewCreateManyMovieInputEnvelope;
     set?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
     disconnect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
     delete?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
     connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    update?: Prisma.ReviewUpdateWithWhereUniqueWithoutBookingInput | Prisma.ReviewUpdateWithWhereUniqueWithoutBookingInput[];
-    updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutBookingInput | Prisma.ReviewUpdateManyWithWhereWithoutBookingInput[];
+    update?: Prisma.ReviewUpdateWithWhereUniqueWithoutMovieInput | Prisma.ReviewUpdateWithWhereUniqueWithoutMovieInput[];
+    updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutMovieInput | Prisma.ReviewUpdateManyWithWhereWithoutMovieInput[];
     deleteMany?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
 };
-export type ReviewUncheckedUpdateManyWithoutBookingNestedInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutBookingInput, Prisma.ReviewUncheckedCreateWithoutBookingInput> | Prisma.ReviewCreateWithoutBookingInput[] | Prisma.ReviewUncheckedCreateWithoutBookingInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutBookingInput | Prisma.ReviewCreateOrConnectWithoutBookingInput[];
-    upsert?: Prisma.ReviewUpsertWithWhereUniqueWithoutBookingInput | Prisma.ReviewUpsertWithWhereUniqueWithoutBookingInput[];
-    createMany?: Prisma.ReviewCreateManyBookingInputEnvelope;
+export type ReviewUncheckedUpdateManyWithoutMovieNestedInput = {
+    create?: Prisma.XOR<Prisma.ReviewCreateWithoutMovieInput, Prisma.ReviewUncheckedCreateWithoutMovieInput> | Prisma.ReviewCreateWithoutMovieInput[] | Prisma.ReviewUncheckedCreateWithoutMovieInput[];
+    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutMovieInput | Prisma.ReviewCreateOrConnectWithoutMovieInput[];
+    upsert?: Prisma.ReviewUpsertWithWhereUniqueWithoutMovieInput | Prisma.ReviewUpsertWithWhereUniqueWithoutMovieInput[];
+    createMany?: Prisma.ReviewCreateManyMovieInputEnvelope;
     set?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
     disconnect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
     delete?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
     connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    update?: Prisma.ReviewUpdateWithWhereUniqueWithoutBookingInput | Prisma.ReviewUpdateWithWhereUniqueWithoutBookingInput[];
-    updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutBookingInput | Prisma.ReviewUpdateManyWithWhereWithoutBookingInput[];
-    deleteMany?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
-};
-export type ReviewCreateNestedManyWithoutTourInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutTourInput, Prisma.ReviewUncheckedCreateWithoutTourInput> | Prisma.ReviewCreateWithoutTourInput[] | Prisma.ReviewUncheckedCreateWithoutTourInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutTourInput | Prisma.ReviewCreateOrConnectWithoutTourInput[];
-    createMany?: Prisma.ReviewCreateManyTourInputEnvelope;
-    connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-};
-export type ReviewUncheckedCreateNestedManyWithoutTourInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutTourInput, Prisma.ReviewUncheckedCreateWithoutTourInput> | Prisma.ReviewCreateWithoutTourInput[] | Prisma.ReviewUncheckedCreateWithoutTourInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutTourInput | Prisma.ReviewCreateOrConnectWithoutTourInput[];
-    createMany?: Prisma.ReviewCreateManyTourInputEnvelope;
-    connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-};
-export type ReviewUpdateManyWithoutTourNestedInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutTourInput, Prisma.ReviewUncheckedCreateWithoutTourInput> | Prisma.ReviewCreateWithoutTourInput[] | Prisma.ReviewUncheckedCreateWithoutTourInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutTourInput | Prisma.ReviewCreateOrConnectWithoutTourInput[];
-    upsert?: Prisma.ReviewUpsertWithWhereUniqueWithoutTourInput | Prisma.ReviewUpsertWithWhereUniqueWithoutTourInput[];
-    createMany?: Prisma.ReviewCreateManyTourInputEnvelope;
-    set?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    disconnect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    delete?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    update?: Prisma.ReviewUpdateWithWhereUniqueWithoutTourInput | Prisma.ReviewUpdateWithWhereUniqueWithoutTourInput[];
-    updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutTourInput | Prisma.ReviewUpdateManyWithWhereWithoutTourInput[];
-    deleteMany?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
-};
-export type ReviewUncheckedUpdateManyWithoutTourNestedInput = {
-    create?: Prisma.XOR<Prisma.ReviewCreateWithoutTourInput, Prisma.ReviewUncheckedCreateWithoutTourInput> | Prisma.ReviewCreateWithoutTourInput[] | Prisma.ReviewUncheckedCreateWithoutTourInput[];
-    connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutTourInput | Prisma.ReviewCreateOrConnectWithoutTourInput[];
-    upsert?: Prisma.ReviewUpsertWithWhereUniqueWithoutTourInput | Prisma.ReviewUpsertWithWhereUniqueWithoutTourInput[];
-    createMany?: Prisma.ReviewCreateManyTourInputEnvelope;
-    set?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    disconnect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    delete?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    connect?: Prisma.ReviewWhereUniqueInput | Prisma.ReviewWhereUniqueInput[];
-    update?: Prisma.ReviewUpdateWithWhereUniqueWithoutTourInput | Prisma.ReviewUpdateWithWhereUniqueWithoutTourInput[];
-    updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutTourInput | Prisma.ReviewUpdateManyWithWhereWithoutTourInput[];
+    update?: Prisma.ReviewUpdateWithWhereUniqueWithoutMovieInput | Prisma.ReviewUpdateWithWhereUniqueWithoutMovieInput[];
+    updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutMovieInput | Prisma.ReviewUpdateManyWithWhereWithoutMovieInput[];
     deleteMany?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
 };
 export type ReviewCreateNestedManyWithoutUserInput = {
@@ -500,46 +394,40 @@ export type ReviewUncheckedUpdateManyWithoutUserNestedInput = {
     updateMany?: Prisma.ReviewUpdateManyWithWhereWithoutUserInput | Prisma.ReviewUpdateManyWithWhereWithoutUserInput[];
     deleteMany?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
 };
-export type ReviewCreateWithoutBookingInput = {
+export type ReviewCreateWithoutMovieInput = {
     id?: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
     user: Prisma.UserCreateNestedOneWithoutReviewsInput;
-    tour: Prisma.TourCreateNestedOneWithoutReviewsInput;
 };
-export type ReviewUncheckedCreateWithoutBookingInput = {
+export type ReviewUncheckedCreateWithoutMovieInput = {
     id?: string;
     userId: string;
-    tourId: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
 };
-export type ReviewCreateOrConnectWithoutBookingInput = {
+export type ReviewCreateOrConnectWithoutMovieInput = {
     where: Prisma.ReviewWhereUniqueInput;
-    create: Prisma.XOR<Prisma.ReviewCreateWithoutBookingInput, Prisma.ReviewUncheckedCreateWithoutBookingInput>;
+    create: Prisma.XOR<Prisma.ReviewCreateWithoutMovieInput, Prisma.ReviewUncheckedCreateWithoutMovieInput>;
 };
-export type ReviewCreateManyBookingInputEnvelope = {
-    data: Prisma.ReviewCreateManyBookingInput | Prisma.ReviewCreateManyBookingInput[];
+export type ReviewCreateManyMovieInputEnvelope = {
+    data: Prisma.ReviewCreateManyMovieInput | Prisma.ReviewCreateManyMovieInput[];
     skipDuplicates?: boolean;
 };
-export type ReviewUpsertWithWhereUniqueWithoutBookingInput = {
+export type ReviewUpsertWithWhereUniqueWithoutMovieInput = {
     where: Prisma.ReviewWhereUniqueInput;
-    update: Prisma.XOR<Prisma.ReviewUpdateWithoutBookingInput, Prisma.ReviewUncheckedUpdateWithoutBookingInput>;
-    create: Prisma.XOR<Prisma.ReviewCreateWithoutBookingInput, Prisma.ReviewUncheckedCreateWithoutBookingInput>;
+    update: Prisma.XOR<Prisma.ReviewUpdateWithoutMovieInput, Prisma.ReviewUncheckedUpdateWithoutMovieInput>;
+    create: Prisma.XOR<Prisma.ReviewCreateWithoutMovieInput, Prisma.ReviewUncheckedCreateWithoutMovieInput>;
 };
-export type ReviewUpdateWithWhereUniqueWithoutBookingInput = {
+export type ReviewUpdateWithWhereUniqueWithoutMovieInput = {
     where: Prisma.ReviewWhereUniqueInput;
-    data: Prisma.XOR<Prisma.ReviewUpdateWithoutBookingInput, Prisma.ReviewUncheckedUpdateWithoutBookingInput>;
+    data: Prisma.XOR<Prisma.ReviewUpdateWithoutMovieInput, Prisma.ReviewUncheckedUpdateWithoutMovieInput>;
 };
-export type ReviewUpdateManyWithWhereWithoutBookingInput = {
+export type ReviewUpdateManyWithWhereWithoutMovieInput = {
     where: Prisma.ReviewScalarWhereInput;
-    data: Prisma.XOR<Prisma.ReviewUpdateManyMutationInput, Prisma.ReviewUncheckedUpdateManyWithoutBookingInput>;
+    data: Prisma.XOR<Prisma.ReviewUpdateManyMutationInput, Prisma.ReviewUncheckedUpdateManyWithoutMovieInput>;
 };
 export type ReviewScalarWhereInput = {
     AND?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
@@ -547,74 +435,24 @@ export type ReviewScalarWhereInput = {
     NOT?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[];
     id?: Prisma.StringFilter<"Review"> | string;
     userId?: Prisma.StringFilter<"Review"> | string;
-    tourId?: Prisma.StringFilter<"Review"> | string;
-    bookingId?: Prisma.StringFilter<"Review"> | string;
+    movieId?: Prisma.StringFilter<"Review"> | string;
     rating?: Prisma.IntFilter<"Review"> | number;
     comment?: Prisma.StringNullableFilter<"Review"> | string | null;
-    isVerified?: Prisma.BoolFilter<"Review"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string;
-    updatedAt?: Prisma.DateTimeFilter<"Review"> | Date | string;
-};
-export type ReviewCreateWithoutTourInput = {
-    id?: string;
-    rating: number;
-    comment?: string | null;
-    isVerified?: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    user: Prisma.UserCreateNestedOneWithoutReviewsInput;
-    booking: Prisma.BookingCreateNestedOneWithoutReviewsInput;
-};
-export type ReviewUncheckedCreateWithoutTourInput = {
-    id?: string;
-    userId: string;
-    bookingId: string;
-    rating: number;
-    comment?: string | null;
-    isVerified?: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-};
-export type ReviewCreateOrConnectWithoutTourInput = {
-    where: Prisma.ReviewWhereUniqueInput;
-    create: Prisma.XOR<Prisma.ReviewCreateWithoutTourInput, Prisma.ReviewUncheckedCreateWithoutTourInput>;
-};
-export type ReviewCreateManyTourInputEnvelope = {
-    data: Prisma.ReviewCreateManyTourInput | Prisma.ReviewCreateManyTourInput[];
-    skipDuplicates?: boolean;
-};
-export type ReviewUpsertWithWhereUniqueWithoutTourInput = {
-    where: Prisma.ReviewWhereUniqueInput;
-    update: Prisma.XOR<Prisma.ReviewUpdateWithoutTourInput, Prisma.ReviewUncheckedUpdateWithoutTourInput>;
-    create: Prisma.XOR<Prisma.ReviewCreateWithoutTourInput, Prisma.ReviewUncheckedCreateWithoutTourInput>;
-};
-export type ReviewUpdateWithWhereUniqueWithoutTourInput = {
-    where: Prisma.ReviewWhereUniqueInput;
-    data: Prisma.XOR<Prisma.ReviewUpdateWithoutTourInput, Prisma.ReviewUncheckedUpdateWithoutTourInput>;
-};
-export type ReviewUpdateManyWithWhereWithoutTourInput = {
-    where: Prisma.ReviewScalarWhereInput;
-    data: Prisma.XOR<Prisma.ReviewUpdateManyMutationInput, Prisma.ReviewUncheckedUpdateManyWithoutTourInput>;
 };
 export type ReviewCreateWithoutUserInput = {
     id?: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
-    tour: Prisma.TourCreateNestedOneWithoutReviewsInput;
-    booking: Prisma.BookingCreateNestedOneWithoutReviewsInput;
+    movie: Prisma.MovieCreateNestedOneWithoutReviewsInput;
 };
 export type ReviewUncheckedCreateWithoutUserInput = {
     id?: string;
-    tourId: string;
-    bookingId: string;
+    movieId: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
 };
 export type ReviewCreateOrConnectWithoutUserInput = {
     where: Prisma.ReviewWhereUniqueInput;
@@ -637,212 +475,126 @@ export type ReviewUpdateManyWithWhereWithoutUserInput = {
     where: Prisma.ReviewScalarWhereInput;
     data: Prisma.XOR<Prisma.ReviewUpdateManyMutationInput, Prisma.ReviewUncheckedUpdateManyWithoutUserInput>;
 };
-export type ReviewCreateManyBookingInput = {
+export type ReviewCreateManyMovieInput = {
     id?: string;
     userId: string;
-    tourId: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
 };
-export type ReviewUpdateWithoutBookingInput = {
+export type ReviewUpdateWithoutMovieInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     user?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput;
-    tour?: Prisma.TourUpdateOneRequiredWithoutReviewsNestedInput;
 };
-export type ReviewUncheckedUpdateWithoutBookingInput = {
+export type ReviewUncheckedUpdateWithoutMovieInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
-    tourId?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
-export type ReviewUncheckedUpdateManyWithoutBookingInput = {
+export type ReviewUncheckedUpdateManyWithoutMovieInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
-    tourId?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-};
-export type ReviewCreateManyTourInput = {
-    id?: string;
-    userId: string;
-    bookingId: string;
-    rating: number;
-    comment?: string | null;
-    isVerified?: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-};
-export type ReviewUpdateWithoutTourInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    rating?: Prisma.IntFieldUpdateOperationsInput | number;
-    comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput;
-    booking?: Prisma.BookingUpdateOneRequiredWithoutReviewsNestedInput;
-};
-export type ReviewUncheckedUpdateWithoutTourInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    userId?: Prisma.StringFieldUpdateOperationsInput | string;
-    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
-    rating?: Prisma.IntFieldUpdateOperationsInput | number;
-    comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-};
-export type ReviewUncheckedUpdateManyWithoutTourInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    userId?: Prisma.StringFieldUpdateOperationsInput | string;
-    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
-    rating?: Prisma.IntFieldUpdateOperationsInput | number;
-    comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type ReviewCreateManyUserInput = {
     id?: string;
-    tourId: string;
-    bookingId: string;
+    movieId: string;
     rating: number;
     comment?: string | null;
-    isVerified?: boolean;
     createdAt?: Date | string;
-    updatedAt?: Date | string;
 };
 export type ReviewUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tour?: Prisma.TourUpdateOneRequiredWithoutReviewsNestedInput;
-    booking?: Prisma.BookingUpdateOneRequiredWithoutReviewsNestedInput;
+    movie?: Prisma.MovieUpdateOneRequiredWithoutReviewsNestedInput;
 };
 export type ReviewUncheckedUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    tourId?: Prisma.StringFieldUpdateOperationsInput | string;
-    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    movieId?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type ReviewUncheckedUpdateManyWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    tourId?: Prisma.StringFieldUpdateOperationsInput | string;
-    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    movieId?: Prisma.StringFieldUpdateOperationsInput | string;
     rating?: Prisma.IntFieldUpdateOperationsInput | number;
     comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     userId?: boolean;
-    tourId?: boolean;
-    bookingId?: boolean;
+    movieId?: boolean;
     rating?: boolean;
     comment?: boolean;
-    isVerified?: boolean;
     createdAt?: boolean;
-    updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>;
-    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["review"]>;
 export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     userId?: boolean;
-    tourId?: boolean;
-    bookingId?: boolean;
+    movieId?: boolean;
     rating?: boolean;
     comment?: boolean;
-    isVerified?: boolean;
     createdAt?: boolean;
-    updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>;
-    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["review"]>;
 export type ReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     userId?: boolean;
-    tourId?: boolean;
-    bookingId?: boolean;
+    movieId?: boolean;
     rating?: boolean;
     comment?: boolean;
-    isVerified?: boolean;
     createdAt?: boolean;
-    updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>;
-    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["review"]>;
 export type ReviewSelectScalar = {
     id?: boolean;
     userId?: boolean;
-    tourId?: boolean;
-    bookingId?: boolean;
+    movieId?: boolean;
     rating?: boolean;
     comment?: boolean;
-    isVerified?: boolean;
     createdAt?: boolean;
-    updatedAt?: boolean;
 };
-export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tourId" | "bookingId" | "rating" | "comment" | "isVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["review"]>;
+export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "movieId" | "rating" | "comment" | "createdAt", ExtArgs["result"]["review"]>;
 export type ReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>;
-    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>;
 };
 export type ReviewIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>;
-    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>;
 };
 export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>;
-    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>;
 };
 export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Review";
     objects: {
         user: Prisma.$UserPayload<ExtArgs>;
-        tour: Prisma.$TourPayload<ExtArgs>;
-        booking: Prisma.$BookingPayload<ExtArgs>;
+        movie: Prisma.$MoviePayload<ExtArgs>;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
         userId: string;
-        tourId: string;
-        bookingId: string;
+        movieId: string;
         rating: number;
         comment: string | null;
-        isVerified: boolean;
         createdAt: Date;
-        updatedAt: Date;
     }, ExtArgs["result"]["review"]>;
     composites: {};
 };
@@ -1173,8 +925,7 @@ export interface ReviewDelegate<ExtArgs extends runtime.Types.Extensions.Interna
 export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
     user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
-    tour<T extends Prisma.TourDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TourDefaultArgs<ExtArgs>>): Prisma.Prisma__TourClient<runtime.Types.Result.GetResult<Prisma.$TourPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
-    booking<T extends Prisma.BookingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookingDefaultArgs<ExtArgs>>): Prisma.Prisma__BookingClient<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    movie<T extends Prisma.MovieDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MovieDefaultArgs<ExtArgs>>): Prisma.Prisma__MovieClient<runtime.Types.Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1202,13 +953,10 @@ export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends runtime.T
 export interface ReviewFieldRefs {
     readonly id: Prisma.FieldRef<"Review", 'String'>;
     readonly userId: Prisma.FieldRef<"Review", 'String'>;
-    readonly tourId: Prisma.FieldRef<"Review", 'String'>;
-    readonly bookingId: Prisma.FieldRef<"Review", 'String'>;
+    readonly movieId: Prisma.FieldRef<"Review", 'String'>;
     readonly rating: Prisma.FieldRef<"Review", 'Int'>;
     readonly comment: Prisma.FieldRef<"Review", 'String'>;
-    readonly isVerified: Prisma.FieldRef<"Review", 'Boolean'>;
     readonly createdAt: Prisma.FieldRef<"Review", 'DateTime'>;
-    readonly updatedAt: Prisma.FieldRef<"Review", 'DateTime'>;
 }
 /**
  * Review findUnique

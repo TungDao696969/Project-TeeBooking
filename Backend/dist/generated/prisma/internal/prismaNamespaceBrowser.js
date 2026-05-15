@@ -48,7 +48,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.WishlistScalarFieldEnum = exports.UserScalarFieldEnum = exports.TourImageScalarFieldEnum = exports.TourAvailabilityScalarFieldEnum = exports.TourScalarFieldEnum = exports.ReviewScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.NotificationScalarFieldEnum = exports.CouponScalarFieldEnum = exports.CategoryScalarFieldEnum = exports.BookingScalarFieldEnum = exports.AnalyticsDailyScalarFieldEnum = exports.AdminLogScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.VoucherScalarFieldEnum = exports.UserVoucherScalarFieldEnum = exports.UserAddressScalarFieldEnum = exports.UserScalarFieldEnum = exports.ShowtimeSeatScalarFieldEnum = exports.ShowtimeScalarFieldEnum = exports.SeatScalarFieldEnum = exports.ReviewScalarFieldEnum = exports.RefundScalarFieldEnum = exports.PromotionScalarFieldEnum = exports.PersonScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.NotificationScalarFieldEnum = exports.MovieGenreScalarFieldEnum = exports.MovieCastScalarFieldEnum = exports.MovieScalarFieldEnum = exports.MembershipScalarFieldEnum = exports.GenreScalarFieldEnum = exports.FoodComboScalarFieldEnum = exports.CinemaRoomScalarFieldEnum = exports.CinemaScalarFieldEnum = exports.BookingTicketScalarFieldEnum = exports.BookingComboScalarFieldEnum = exports.BookingScalarFieldEnum = exports.BlogPostScalarFieldEnum = exports.BannerScalarFieldEnum = exports.ActivityLogScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -75,19 +75,33 @@ exports.JsonNull = runtime.JsonNull;
  */
 exports.AnyNull = runtime.AnyNull;
 exports.ModelName = {
-    AdminLog: 'AdminLog',
-    AnalyticsDaily: 'AnalyticsDaily',
+    ActivityLog: 'ActivityLog',
+    Banner: 'Banner',
+    BlogPost: 'BlogPost',
     Booking: 'Booking',
-    Category: 'Category',
-    Coupon: 'Coupon',
+    BookingCombo: 'BookingCombo',
+    BookingTicket: 'BookingTicket',
+    Cinema: 'Cinema',
+    CinemaRoom: 'CinemaRoom',
+    FoodCombo: 'FoodCombo',
+    Genre: 'Genre',
+    Membership: 'Membership',
+    Movie: 'Movie',
+    MovieCast: 'MovieCast',
+    MovieGenre: 'MovieGenre',
     Notification: 'Notification',
     Payment: 'Payment',
+    Person: 'Person',
+    Promotion: 'Promotion',
+    Refund: 'Refund',
     Review: 'Review',
-    Tour: 'Tour',
-    TourAvailability: 'TourAvailability',
-    TourImage: 'TourImage',
+    Seat: 'Seat',
+    Showtime: 'Showtime',
+    ShowtimeSeat: 'ShowtimeSeat',
     User: 'User',
-    Wishlist: 'Wishlist'
+    UserAddress: 'UserAddress',
+    UserVoucher: 'UserVoucher',
+    Voucher: 'Voucher'
 };
 /*
  * Enums
@@ -98,65 +112,154 @@ exports.TransactionIsolationLevel = runtime.makeStrictEnum({
     RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
 });
-exports.AdminLogScalarFieldEnum = {
+exports.ActivityLogScalarFieldEnum = {
     id: 'id',
-    adminId: 'adminId',
+    userId: 'userId',
     action: 'action',
     targetType: 'targetType',
     targetId: 'targetId',
-    description: 'description',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
     createdAt: 'createdAt'
 };
-exports.AnalyticsDailyScalarFieldEnum = {
+exports.BannerScalarFieldEnum = {
     id: 'id',
-    date: 'date',
-    totalUsers: 'totalUsers',
-    totalBookings: 'totalBookings',
-    totalRevenue: 'totalRevenue',
-    cancellationRate: 'cancellationRate',
-    topTourId: 'topTourId',
+    title: 'title',
+    imageUrl: 'imageUrl',
+    redirectUrl: 'redirectUrl',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    isActive: 'isActive'
+};
+exports.BlogPostScalarFieldEnum = {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    thumbnailUrl: 'thumbnailUrl',
+    content: 'content',
+    authorId: 'authorId',
+    publishedAt: 'publishedAt',
     createdAt: 'createdAt'
 };
 exports.BookingScalarFieldEnum = {
     id: 'id',
+    bookingCode: 'bookingCode',
     userId: 'userId',
-    tourId: 'tourId',
-    couponId: 'couponId',
-    bookingDate: 'bookingDate',
-    guestCount: 'guestCount',
-    unitPrice: 'unitPrice',
-    subtotal: 'subtotal',
+    showtimeId: 'showtimeId',
+    totalTicketPrice: 'totalTicketPrice',
+    totalComboPrice: 'totalComboPrice',
     discountAmount: 'discountAmount',
-    totalPrice: 'totalPrice',
+    finalAmount: 'finalAmount',
     status: 'status',
-    paymentStatus: 'paymentStatus',
-    specialRequests: 'specialRequests',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    bookedAt: 'bookedAt',
+    expiresAt: 'expiresAt'
 };
-exports.CategoryScalarFieldEnum = {
+exports.BookingComboScalarFieldEnum = {
+    id: 'id',
+    bookingId: 'bookingId',
+    comboId: 'comboId',
+    quantity: 'quantity',
+    unitPrice: 'unitPrice',
+    totalPrice: 'totalPrice'
+};
+exports.BookingTicketScalarFieldEnum = {
+    id: 'id',
+    bookingId: 'bookingId',
+    showtimeSeatId: 'showtimeSeatId',
+    ticketPrice: 'ticketPrice',
+    qrCode: 'qrCode',
+    checkinStatus: 'checkinStatus',
+    checkedInAt: 'checkedInAt'
+};
+exports.CinemaScalarFieldEnum = {
     id: 'id',
     name: 'name',
     slug: 'slug',
-    description: 'description',
+    hotline: 'hotline',
+    email: 'email',
+    province: 'province',
+    district: 'district',
+    ward: 'ward',
+    address: 'address',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    openingHours: 'openingHours',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+exports.CinemaRoomScalarFieldEnum = {
+    id: 'id',
+    cinemaId: 'cinemaId',
+    roomName: 'roomName',
+    roomType: 'roomType',
+    totalSeats: 'totalSeats',
+    screenType: 'screenType',
+    soundSystem: 'soundSystem',
     createdAt: 'createdAt'
 };
-exports.CouponScalarFieldEnum = {
+exports.FoodComboScalarFieldEnum = {
     id: 'id',
-    code: 'code',
-    discountType: 'discountType',
-    value: 'value',
-    usageLimit: 'usageLimit',
-    usedCount: 'usedCount',
-    expiresAt: 'expiresAt',
+    name: 'name',
+    description: 'description',
+    imageUrl: 'imageUrl',
+    price: 'price',
+    stockQuantity: 'stockQuantity',
     isActive: 'isActive',
     createdAt: 'createdAt'
+};
+exports.GenreScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    slug: 'slug'
+};
+exports.MembershipScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    membershipCode: 'membershipCode',
+    level: 'level',
+    points: 'points',
+    lifetimePoints: 'lifetimePoints',
+    joinedAt: 'joinedAt',
+    expiredAt: 'expiredAt'
+};
+exports.MovieScalarFieldEnum = {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    originalTitle: 'originalTitle',
+    description: 'description',
+    durationMinutes: 'durationMinutes',
+    releaseDate: 'releaseDate',
+    endDate: 'endDate',
+    ageRating: 'ageRating',
+    language: 'language',
+    subtitle: 'subtitle',
+    trailerUrl: 'trailerUrl',
+    posterUrl: 'posterUrl',
+    bannerUrl: 'bannerUrl',
+    status: 'status',
+    country: 'country',
+    producer: 'producer',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+exports.MovieCastScalarFieldEnum = {
+    id: 'id',
+    movieId: 'movieId',
+    personId: 'personId',
+    roleType: 'roleType',
+    characterName: 'characterName'
+};
+exports.MovieGenreScalarFieldEnum = {
+    movieId: 'movieId',
+    genreId: 'genreId'
 };
 exports.NotificationScalarFieldEnum = {
     id: 'id',
     userId: 'userId',
     title: 'title',
-    message: 'message',
+    content: 'content',
+    type: 'type',
     isRead: 'isRead',
     createdAt: 'createdAt'
 };
@@ -164,79 +267,124 @@ exports.PaymentScalarFieldEnum = {
     id: 'id',
     bookingId: 'bookingId',
     paymentMethod: 'paymentMethod',
-    transactionId: 'transactionId',
+    paymentGateway: 'paymentGateway',
+    transactionCode: 'transactionCode',
     amount: 'amount',
-    currency: 'currency',
     status: 'status',
     paidAt: 'paidAt',
     createdAt: 'createdAt'
 };
+exports.PersonScalarFieldEnum = {
+    id: 'id',
+    fullName: 'fullName',
+    avatarUrl: 'avatarUrl',
+    bio: 'bio',
+    birthDate: 'birthDate',
+    nationality: 'nationality'
+};
+exports.PromotionScalarFieldEnum = {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    type: 'type',
+    discountValue: 'discountValue',
+    minOrderValue: 'minOrderValue',
+    maxDiscount: 'maxDiscount',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    isActive: 'isActive'
+};
+exports.RefundScalarFieldEnum = {
+    id: 'id',
+    bookingId: 'bookingId',
+    paymentId: 'paymentId',
+    refundAmount: 'refundAmount',
+    refundReason: 'refundReason',
+    refundStatus: 'refundStatus',
+    processedAt: 'processedAt'
+};
 exports.ReviewScalarFieldEnum = {
     id: 'id',
     userId: 'userId',
-    tourId: 'tourId',
-    bookingId: 'bookingId',
+    movieId: 'movieId',
     rating: 'rating',
     comment: 'comment',
-    isVerified: 'isVerified',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    createdAt: 'createdAt'
 };
-exports.TourScalarFieldEnum = {
+exports.SeatScalarFieldEnum = {
     id: 'id',
-    guideId: 'guideId',
-    categoryId: 'categoryId',
-    title: 'title',
-    slug: 'slug',
-    description: 'description',
-    location: 'location',
-    meetingPoint: 'meetingPoint',
-    durationHours: 'durationHours',
-    maxGuests: 'maxGuests',
-    price: 'price',
-    currency: 'currency',
-    cancellationPolicy: 'cancellationPolicy',
-    included: 'included',
-    excluded: 'excluded',
-    faq: 'faq',
+    roomId: 'roomId',
+    seatRow: 'seatRow',
+    seatNumber: 'seatNumber',
+    seatCode: 'seatCode',
+    seatType: 'seatType',
+    extraPrice: 'extraPrice',
+    createdAt: 'createdAt'
+};
+exports.ShowtimeScalarFieldEnum = {
+    id: 'id',
+    movieId: 'movieId',
+    roomId: 'roomId',
+    showDate: 'showDate',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    basePrice: 'basePrice',
+    format: 'format',
+    language: 'language',
+    subtitle: 'subtitle',
+    isActive: 'isActive',
+    createdAt: 'createdAt'
+};
+exports.ShowtimeSeatScalarFieldEnum = {
+    id: 'id',
+    showtimeId: 'showtimeId',
+    seatId: 'seatId',
+    status: 'status',
+    finalPrice: 'finalPrice',
+    lockedUntil: 'lockedUntil'
+};
+exports.UserScalarFieldEnum = {
+    id: 'id',
+    fullName: 'fullName',
+    email: 'email',
+    phone: 'phone',
+    passwordHash: 'passwordHash',
+    avatarUrl: 'avatarUrl',
+    gender: 'gender',
+    dateOfBirth: 'dateOfBirth',
+    role: 'role',
+    verificationCode: 'verificationCode',
+    resetPasswordCode: 'resetPasswordCode',
+    resetPasswordExpiresAt: 'resetPasswordExpiresAt',
+    refreshToken: 'refreshToken',
+    isVerified: 'isVerified',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
-exports.TourAvailabilityScalarFieldEnum = {
-    id: 'id',
-    tourId: 'tourId',
-    availableDate: 'availableDate',
-    availableSlots: 'availableSlots',
-    createdAt: 'createdAt'
-};
-exports.TourImageScalarFieldEnum = {
-    id: 'id',
-    tourId: 'tourId',
-    imageUrl: 'imageUrl',
-    isCover: 'isCover',
-    createdAt: 'createdAt'
-};
-exports.UserScalarFieldEnum = {
-    id: 'id',
-    name: 'name',
-    email: 'email',
-    passwordHash: 'passwordHash',
-    phone: 'phone',
-    avatarUrl: 'avatarUrl',
-    country: 'country',
-    language: 'language',
-    role: 'role',
-    isVerified: 'isVerified',
-    resetPasswordToken: 'resetPasswordToken',
-    resetPasswordExpires: 'resetPasswordExpires',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-};
-exports.WishlistScalarFieldEnum = {
+exports.UserAddressScalarFieldEnum = {
     id: 'id',
     userId: 'userId',
-    tourId: 'tourId',
+    province: 'province',
+    district: 'district',
+    ward: 'ward',
+    addressDetail: 'addressDetail',
+    isDefault: 'isDefault',
+    createdAt: 'createdAt'
+};
+exports.UserVoucherScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    voucherId: 'voucherId',
+    usedAt: 'usedAt'
+};
+exports.VoucherScalarFieldEnum = {
+    id: 'id',
+    promotionId: 'promotionId',
+    code: 'code',
+    usageLimit: 'usageLimit',
+    usedCount: 'usedCount',
+    status: 'status',
     createdAt: 'createdAt'
 };
 exports.SortOrder = {

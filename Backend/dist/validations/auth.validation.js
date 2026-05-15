@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerSchema = void 0;
+exports.loginSchema = exports.registerSchema = void 0;
 const zod_1 = require("zod");
 exports.registerSchema = zod_1.z.object({
-    name: zod_1.z.string().min(3, "Name must be at least 3 characters"),
+    fullName: zod_1.z.string().trim().min(3, "Full name must be at least 3 characters"),
     email: zod_1.z.string().email("Invalid email address"),
     password: zod_1.z
         .string()
@@ -11,8 +11,12 @@ exports.registerSchema = zod_1.z.object({
         .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
         .regex(/[a-z]/, "Password must contain at least one lowercase letter")
         .regex(/[0-9]/, "Password must contain at least one number"),
-    phone: zod_1.z.string().optional(),
-    country: zod_1.z.string().optional(),
-    language: zod_1.z.string().optional(),
+    phone: zod_1.z.string().trim().min(8, "Phone must be at least 8 characters"),
+    gender: zod_1.z.enum(["male", "female", "other"]).optional(),
+    dateOfBirth: zod_1.z.coerce.date().optional(),
+});
+exports.loginSchema = zod_1.z.object({
+    email: zod_1.z.string().email("Invalid email"),
+    password: zod_1.z.string().min(1, "Password is required"),
 });
 //# sourceMappingURL=auth.validation.js.map

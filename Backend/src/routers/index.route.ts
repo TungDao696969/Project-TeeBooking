@@ -85,6 +85,91 @@ import {
   createCinemaRoomSchema,
   updateCinemaRoomSchema,
 } from "../validations/activityLog.schema";
+import {
+  createShowtimeSchema,
+  updateShowtimeSchema,
+} from "../validations/showtime.validation";
+import {
+  createShowtime,
+  deleteShowtime,
+  getAllShowtimes,
+  getShowtimeById,
+  updateShowtime,
+} from "../controllers/showtime.controller";
+import {
+  createBlogPostSchema,
+  updateBlogPostSchema,
+} from "../validations/blogPost.validation";
+import {
+  createBlogPost,
+  deleteBlogPost,
+  getAllBlogPosts,
+  getBlogPostById,
+  getBlogPostBySlug,
+  updateBlogPost,
+} from "../controllers/blogPost.controller";
+import {
+  createSeatSchema,
+  updateSeatSchema,
+} from "../validations/seat.validation";
+import {
+  createSeat,
+  deleteSeat,
+  generateSeats,
+  getAllSeats,
+  getSeatById,
+  getSeatsByRoom,
+  updateSeat,
+} from "../controllers/seat.controller";
+import { getMoviesListController } from "../controllers/movieList.controller";
+import { movieListQuerySchema } from "../validations/movieList.validation";
+import { getMovieDetailController } from "../controllers/movieSlug.controller";
+import {
+  createGenreController,
+  deleteGenreController,
+  getGenreByIdController,
+  getGenresController,
+  updateGenreController,
+} from "../controllers/genre.controller";
+import {
+  createReviewSchema,
+  updateReviewSchema,
+} from "../validations/review.validation";
+import {
+  createReviewController,
+  deleteReviewController,
+  getMovieReviewsController,
+  updateReviewController,
+} from "../controllers/review.controller";
+import {
+  createTrailerSchema,
+  updateTrailerSchema,
+} from "../validations/trailer.validation";
+import {
+  createTrailerController,
+  deleteTrailerController,
+  getTrailerByIdController,
+  getTrailersByMovieController,
+  updateTrailerController,
+} from "../controllers/trailer.controller";
+import { movieSearchSchema } from "../validations/movieSearch.validation";
+import { searchMoviesController } from "../controllers/movieSearch.controller";
+import {
+  createCityController,
+  deleteCityController,
+  getCitiesController,
+  getCityByIdController,
+  updateCityController,
+} from "../controllers/city.controller";
+import {
+  createCitySchema,
+  updateCitySchema,
+} from "../validations/city.validation";
+import {
+  confirmBookingShowtimeSeatController,
+  releaseShowtimeSeatController,
+  reserveShowtimeSeatController,
+} from "../controllers/showtimeSeat.controller";
 const router = Router();
 
 router.post("/auth/register", registerController);
@@ -223,15 +308,15 @@ router.delete(
 );
 
 // movie
-router.post("/movies", createMovie);
+router.post("/movie", createMovie);
 
-router.get("/movies", getMovies);
+router.get("/movie", getMovies);
 
-router.get("/movies/:id", getMovieById);
+router.get("/movie/:id", getMovieById);
 
-router.patch("/movies/:id", updateMovie);
+router.patch("/movie/:id", updateMovie);
 
-router.delete("/movies/:id", deleteMovie);
+router.delete("/movie/:id", deleteMovie);
 
 // cinema
 router.post("/cinema", validate(createCinemaSchema), createCinema);
@@ -258,6 +343,180 @@ router.put(
 );
 
 router.delete("/cinema-rooms/:id", deleteCinemaRoom);
+
+// showtime
+router.post("/showtime", validate(createShowtimeSchema), createShowtime);
+
+router.get("/showtime", getAllShowtimes);
+
+router.get("/showtime/:id", getShowtimeById);
+
+router.put("/showtime/:id", validate(updateShowtimeSchema), updateShowtime);
+
+router.delete("/showtime/:id", deleteShowtime);
+
+// showtime seat
+router.post(
+  "/showtime-seat/:id/reserve",
+  authMiddleware,
+  reserveShowtimeSeatController,
+);
+
+router.post(
+  "/showtime-seat/:id/release",
+  authMiddleware,
+  releaseShowtimeSeatController,
+);
+
+router.post(
+  "/showtime-seat/:id/confirm",
+  authMiddleware,
+  confirmBookingShowtimeSeatController,
+);
+
+// blog
+router.post("/blog", validate(createBlogPostSchema), createBlogPost);
+
+router.get("/blog", getAllBlogPosts);
+
+router.get("/blog/slug/:slug", getBlogPostBySlug);
+
+router.get("/blog/:id", getBlogPostById);
+
+router.put("/blog/:id", validate(updateBlogPostSchema), updateBlogPost);
+
+router.delete("/blog/:id", deleteBlogPost);
+
+// seat
+router.post("/seat", validate(createSeatSchema), createSeat);
+
+router.post("/seat/generate", generateSeats);
+
+router.get("/seat", getAllSeats);
+
+router.get("/seat/room/:roomId", getSeatsByRoom);
+
+router.get("/seat/:id", getSeatById);
+
+router.put("/seat/:id", validate(updateSeatSchema), updateSeat);
+
+router.delete("/seat/:id", deleteSeat);
+
+// movies List
+router.get(
+  "/movies/list",
+  validate(movieListQuerySchema),
+  getMoviesListController,
+);
+
+// movie detail by slug
+router.get("/movies/detail/:slug", getMovieDetailController);
+
+// genre
+router.get("/genre", getGenresController);
+router.get("/genre/:id", getGenreByIdController);
+
+// genre
+router.get("/genre", getGenresController);
+router.get("/genre/:id", getGenreByIdController);
+
+router.post(
+  "/genre",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  createGenreController,
+);
+
+router.put(
+  "/genre/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  updateGenreController,
+);
+
+router.delete(
+  "/genre/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  deleteGenreController,
+);
+
+// review
+router.post(
+  "/review",
+  authMiddleware,
+  validate(createReviewSchema),
+  createReviewController,
+);
+
+router.get("/review/:movieId", getMovieReviewsController);
+
+router.put(
+  "/review/:id",
+  authMiddleware,
+  validate(updateReviewSchema),
+  updateReviewController,
+);
+
+router.delete("/review/:id", authMiddleware, deleteReviewController);
+
+// trailer
+router.post(
+  "/",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  validate(createTrailerSchema),
+  createTrailerController,
+);
+
+router.get("/movie/:movieId", getTrailersByMovieController);
+
+router.get("/:id", getTrailerByIdController);
+
+router.put(
+  "/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  validate(updateTrailerSchema),
+  updateTrailerController,
+);
+
+router.delete(
+  "/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  deleteTrailerController,
+);
+
+// search
+router.get("/", validate(movieSearchSchema), searchMoviesController);
+
+// city
+router.get("/city", getCitiesController);
+router.get("/city/:id", getCityByIdController);
+
+router.post(
+  "/city",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  validate(createCitySchema),
+  createCityController,
+);
+
+router.put(
+  "/city/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  validate(updateCitySchema),
+  updateCityController,
+);
+
+router.delete(
+  "/city/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin),
+  deleteCityController,
+);
 
 // dashboard
 router.get(

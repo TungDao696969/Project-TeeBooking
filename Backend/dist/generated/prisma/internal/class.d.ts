@@ -11,8 +11,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more AdminLogs
-   * const adminLogs = await prisma.adminLog.findMany()
+   * // Fetch zero or more ActivityLogs
+   * const activityLogs = await prisma.activityLog.findMany()
    * ```
    *
    * Read more in our [docs](https://pris.ly/d/client).
@@ -30,8 +30,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more AdminLogs
- * const adminLogs = await prisma.adminLog.findMany()
+ * // Fetch zero or more ActivityLogs
+ * const activityLogs = await prisma.activityLog.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -118,25 +118,36 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         extArgs: ExtArgs;
     }>>;
     /**
- * `prisma.adminLog`: Exposes CRUD operations for the **AdminLog** model.
+ * `prisma.activityLog`: Exposes CRUD operations for the **ActivityLog** model.
   * Example usage:
   * ```ts
-  * // Fetch zero or more AdminLogs
-  * const adminLogs = await prisma.adminLog.findMany()
+  * // Fetch zero or more ActivityLogs
+  * const activityLogs = await prisma.activityLog.findMany()
   * ```
   */
-    get adminLog(): Prisma.AdminLogDelegate<ExtArgs, {
+    get activityLog(): Prisma.ActivityLogDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.analyticsDaily`: Exposes CRUD operations for the **AnalyticsDaily** model.
+     * `prisma.banner`: Exposes CRUD operations for the **Banner** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more AnalyticsDailies
-      * const analyticsDailies = await prisma.analyticsDaily.findMany()
+      * // Fetch zero or more Banners
+      * const banners = await prisma.banner.findMany()
       * ```
       */
-    get analyticsDaily(): Prisma.AnalyticsDailyDelegate<ExtArgs, {
+    get banner(): Prisma.BannerDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.blogPost`: Exposes CRUD operations for the **BlogPost** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more BlogPosts
+      * const blogPosts = await prisma.blogPost.findMany()
+      * ```
+      */
+    get blogPost(): Prisma.BlogPostDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
@@ -151,25 +162,113 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.category`: Exposes CRUD operations for the **Category** model.
+     * `prisma.bookingCombo`: Exposes CRUD operations for the **BookingCombo** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more Categories
-      * const categories = await prisma.category.findMany()
+      * // Fetch zero or more BookingCombos
+      * const bookingCombos = await prisma.bookingCombo.findMany()
       * ```
       */
-    get category(): Prisma.CategoryDelegate<ExtArgs, {
+    get bookingCombo(): Prisma.BookingComboDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.coupon`: Exposes CRUD operations for the **Coupon** model.
+     * `prisma.bookingTicket`: Exposes CRUD operations for the **BookingTicket** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more Coupons
-      * const coupons = await prisma.coupon.findMany()
+      * // Fetch zero or more BookingTickets
+      * const bookingTickets = await prisma.bookingTicket.findMany()
       * ```
       */
-    get coupon(): Prisma.CouponDelegate<ExtArgs, {
+    get bookingTicket(): Prisma.BookingTicketDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.cinema`: Exposes CRUD operations for the **Cinema** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Cinemas
+      * const cinemas = await prisma.cinema.findMany()
+      * ```
+      */
+    get cinema(): Prisma.CinemaDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.cinemaRoom`: Exposes CRUD operations for the **CinemaRoom** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more CinemaRooms
+      * const cinemaRooms = await prisma.cinemaRoom.findMany()
+      * ```
+      */
+    get cinemaRoom(): Prisma.CinemaRoomDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.foodCombo`: Exposes CRUD operations for the **FoodCombo** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more FoodCombos
+      * const foodCombos = await prisma.foodCombo.findMany()
+      * ```
+      */
+    get foodCombo(): Prisma.FoodComboDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.genre`: Exposes CRUD operations for the **Genre** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Genres
+      * const genres = await prisma.genre.findMany()
+      * ```
+      */
+    get genre(): Prisma.GenreDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.membership`: Exposes CRUD operations for the **Membership** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Memberships
+      * const memberships = await prisma.membership.findMany()
+      * ```
+      */
+    get membership(): Prisma.MembershipDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.movie`: Exposes CRUD operations for the **Movie** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Movies
+      * const movies = await prisma.movie.findMany()
+      * ```
+      */
+    get movie(): Prisma.MovieDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.movieCast`: Exposes CRUD operations for the **MovieCast** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more MovieCasts
+      * const movieCasts = await prisma.movieCast.findMany()
+      * ```
+      */
+    get movieCast(): Prisma.MovieCastDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.movieGenre`: Exposes CRUD operations for the **MovieGenre** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more MovieGenres
+      * const movieGenres = await prisma.movieGenre.findMany()
+      * ```
+      */
+    get movieGenre(): Prisma.MovieGenreDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
@@ -195,6 +294,39 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.person`: Exposes CRUD operations for the **Person** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more People
+      * const people = await prisma.person.findMany()
+      * ```
+      */
+    get person(): Prisma.PersonDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.promotion`: Exposes CRUD operations for the **Promotion** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Promotions
+      * const promotions = await prisma.promotion.findMany()
+      * ```
+      */
+    get promotion(): Prisma.PromotionDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.refund`: Exposes CRUD operations for the **Refund** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Refunds
+      * const refunds = await prisma.refund.findMany()
+      * ```
+      */
+    get refund(): Prisma.RefundDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.review`: Exposes CRUD operations for the **Review** model.
       * Example usage:
       * ```ts
@@ -206,36 +338,36 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.tour`: Exposes CRUD operations for the **Tour** model.
+     * `prisma.seat`: Exposes CRUD operations for the **Seat** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more Tours
-      * const tours = await prisma.tour.findMany()
+      * // Fetch zero or more Seats
+      * const seats = await prisma.seat.findMany()
       * ```
       */
-    get tour(): Prisma.TourDelegate<ExtArgs, {
+    get seat(): Prisma.SeatDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.tourAvailability`: Exposes CRUD operations for the **TourAvailability** model.
+     * `prisma.showtime`: Exposes CRUD operations for the **Showtime** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more TourAvailabilities
-      * const tourAvailabilities = await prisma.tourAvailability.findMany()
+      * // Fetch zero or more Showtimes
+      * const showtimes = await prisma.showtime.findMany()
       * ```
       */
-    get tourAvailability(): Prisma.TourAvailabilityDelegate<ExtArgs, {
+    get showtime(): Prisma.ShowtimeDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.tourImage`: Exposes CRUD operations for the **TourImage** model.
+     * `prisma.showtimeSeat`: Exposes CRUD operations for the **ShowtimeSeat** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more TourImages
-      * const tourImages = await prisma.tourImage.findMany()
+      * // Fetch zero or more ShowtimeSeats
+      * const showtimeSeats = await prisma.showtimeSeat.findMany()
       * ```
       */
-    get tourImage(): Prisma.TourImageDelegate<ExtArgs, {
+    get showtimeSeat(): Prisma.ShowtimeSeatDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
@@ -250,14 +382,36 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.wishlist`: Exposes CRUD operations for the **Wishlist** model.
+     * `prisma.userAddress`: Exposes CRUD operations for the **UserAddress** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more Wishlists
-      * const wishlists = await prisma.wishlist.findMany()
+      * // Fetch zero or more UserAddresses
+      * const userAddresses = await prisma.userAddress.findMany()
       * ```
       */
-    get wishlist(): Prisma.WishlistDelegate<ExtArgs, {
+    get userAddress(): Prisma.UserAddressDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.userVoucher`: Exposes CRUD operations for the **UserVoucher** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more UserVouchers
+      * const userVouchers = await prisma.userVoucher.findMany()
+      * ```
+      */
+    get userVoucher(): Prisma.UserVoucherDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.voucher`: Exposes CRUD operations for the **Voucher** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Vouchers
+      * const vouchers = await prisma.voucher.findMany()
+      * ```
+      */
+    get voucher(): Prisma.VoucherDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
 }

@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateSeatSchema = exports.createSeatSchema = void 0;
+const zod_1 = require("zod");
+exports.createSeatSchema = zod_1.z.object({
+    roomId: zod_1.z.string().uuid(),
+    seatRow: zod_1.z.string().min(1).max(5),
+    seatNumber: zod_1.z.number().int().positive(),
+    seatCode: zod_1.z.string().min(2),
+    seatType: zod_1.z.enum(["standard", "vip", "couple", "recliner"]),
+    extraPrice: zod_1.z.number().min(0).optional(),
+});
+exports.updateSeatSchema = exports.createSeatSchema.partial();
+//# sourceMappingURL=seat.validation.js.map

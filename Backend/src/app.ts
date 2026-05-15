@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import indexRoute from "./routers/index.route";
 import dotenv from "dotenv";
+import { startSeatLockCleanupJob } from "./jobs/seatLockCleanup.job";
 const app = express();
 dotenv.config();
 app.use(helmet());
@@ -16,7 +17,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-
+startSeatLockCleanupJob();
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,

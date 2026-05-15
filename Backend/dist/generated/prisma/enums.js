@@ -9,32 +9,65 @@
 * 🟢 You can import this file directly.
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DiscountType = exports.PaymentMethod = exports.PaymentStatus = exports.BookingStatus = exports.UserRole = void 0;
+exports.VoucherStatus = exports.PromotionType = exports.MovieStatus = exports.PaymentStatus = exports.PaymentMethod = exports.BookingStatus = exports.SeatStatus = exports.SeatType = exports.GenderType = exports.UserRole = void 0;
 exports.UserRole = {
     customer: 'customer',
-    guide: 'guide',
-    admin: 'admin'
+    admin: 'admin',
+    manager: 'manager',
+    staff: 'staff'
+};
+exports.GenderType = {
+    male: 'male',
+    female: 'female',
+    other: 'other'
+};
+exports.SeatType = {
+    standard: 'standard',
+    vip: 'vip',
+    couple: 'couple',
+    recliner: 'recliner'
+};
+exports.SeatStatus = {
+    available: 'available',
+    reserved: 'reserved',
+    booked: 'booked',
+    maintenance: 'maintenance'
 };
 exports.BookingStatus = {
     pending: 'pending',
-    paid: 'paid',
+    confirmed: 'confirmed',
     cancelled: 'cancelled',
     completed: 'completed',
     refunded: 'refunded'
 };
+exports.PaymentMethod = {
+    momo: 'momo',
+    zalopay: 'zalopay',
+    vnpay: 'vnpay',
+    credit_card: 'credit_card',
+    debit_card: 'debit_card',
+    cash: 'cash',
+    bank_transfer: 'bank_transfer'
+};
 exports.PaymentStatus = {
     pending: 'pending',
-    success: 'success',
+    paid: 'paid',
     failed: 'failed',
     refunded: 'refunded'
 };
-exports.PaymentMethod = {
-    stripe: 'stripe',
-    paypal: 'paypal',
-    vnpay: 'vnpay'
+exports.MovieStatus = {
+    coming_soon: 'coming_soon',
+    now_showing: 'now_showing',
+    ended: 'ended'
 };
-exports.DiscountType = {
+exports.PromotionType = {
     percentage: 'percentage',
-    fixed: 'fixed'
+    fixed_amount: 'fixed_amount',
+    combo: 'combo'
+};
+exports.VoucherStatus = {
+    active: 'active',
+    inactive: 'inactive',
+    expired: 'expired'
 };
 //# sourceMappingURL=enums.js.map

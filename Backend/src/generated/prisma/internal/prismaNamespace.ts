@@ -392,6 +392,7 @@ export const ModelName = {
   BookingTicket: 'BookingTicket',
   Cinema: 'Cinema',
   CinemaRoom: 'CinemaRoom',
+  City: 'City',
   FoodCombo: 'FoodCombo',
   Genre: 'Genre',
   Membership: 'Membership',
@@ -407,6 +408,7 @@ export const ModelName = {
   Seat: 'Seat',
   Showtime: 'Showtime',
   ShowtimeSeat: 'ShowtimeSeat',
+  Trailer: 'Trailer',
   User: 'User',
   UserAddress: 'UserAddress',
   UserVoucher: 'UserVoucher',
@@ -426,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activityLog" | "banner" | "blogPost" | "booking" | "bookingCombo" | "bookingTicket" | "cinema" | "cinemaRoom" | "foodCombo" | "genre" | "membership" | "movie" | "movieCast" | "movieGenre" | "notification" | "payment" | "person" | "promotion" | "refund" | "review" | "seat" | "showtime" | "showtimeSeat" | "user" | "userAddress" | "userVoucher" | "voucher"
+    modelProps: "activityLog" | "banner" | "blogPost" | "booking" | "bookingCombo" | "bookingTicket" | "cinema" | "cinemaRoom" | "city" | "foodCombo" | "genre" | "membership" | "movie" | "movieCast" | "movieGenre" | "notification" | "payment" | "person" | "promotion" | "refund" | "review" | "seat" | "showtime" | "showtimeSeat" | "trailer" | "user" | "userAddress" | "userVoucher" | "voucher"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1019,6 +1021,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CinemaRoomCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CinemaRoomCountAggregateOutputType> | number
+        }
+      }
+    }
+    City: {
+      payload: Prisma.$CityPayload<ExtArgs>
+      fields: Prisma.CityFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CityFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CityFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        findFirst: {
+          args: Prisma.CityFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CityFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        findMany: {
+          args: Prisma.CityFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>[]
+        }
+        create: {
+          args: Prisma.CityCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        createMany: {
+          args: Prisma.CityCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CityCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>[]
+        }
+        delete: {
+          args: Prisma.CityDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        update: {
+          args: Prisma.CityUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        deleteMany: {
+          args: Prisma.CityDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CityUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CityUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>[]
+        }
+        upsert: {
+          args: Prisma.CityUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CityPayload>
+        }
+        aggregate: {
+          args: Prisma.CityAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCity>
+        }
+        groupBy: {
+          args: Prisma.CityGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CityGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CityCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CityCountAggregateOutputType> | number
         }
       }
     }
@@ -2132,6 +2208,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Trailer: {
+      payload: Prisma.$TrailerPayload<ExtArgs>
+      fields: Prisma.TrailerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrailerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrailerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>
+        }
+        findFirst: {
+          args: Prisma.TrailerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrailerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>
+        }
+        findMany: {
+          args: Prisma.TrailerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>[]
+        }
+        create: {
+          args: Prisma.TrailerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>
+        }
+        createMany: {
+          args: Prisma.TrailerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrailerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>[]
+        }
+        delete: {
+          args: Prisma.TrailerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>
+        }
+        update: {
+          args: Prisma.TrailerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrailerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrailerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrailerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrailerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrailerPayload>
+        }
+        aggregate: {
+          args: Prisma.TrailerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrailer>
+        }
+        groupBy: {
+          args: Prisma.TrailerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrailerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrailerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrailerCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -2556,6 +2706,7 @@ export const CinemaScalarFieldEnum = {
   slug: 'slug',
   hotline: 'hotline',
   email: 'email',
+  cityId: 'cityId',
   province: 'province',
   district: 'district',
   ward: 'ward',
@@ -2584,6 +2735,18 @@ export const CinemaRoomScalarFieldEnum = {
 export type CinemaRoomScalarFieldEnum = (typeof CinemaRoomScalarFieldEnum)[keyof typeof CinemaRoomScalarFieldEnum]
 
 
+export const CityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
+
+
 export const FoodComboScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2601,7 +2764,9 @@ export type FoodComboScalarFieldEnum = (typeof FoodComboScalarFieldEnum)[keyof t
 export const GenreScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  slug: 'slug'
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
@@ -2740,7 +2905,8 @@ export const ReviewScalarFieldEnum = {
   movieId: 'movieId',
   rating: 'rating',
   comment: 'comment',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -2788,6 +2954,22 @@ export const ShowtimeSeatScalarFieldEnum = {
 } as const
 
 export type ShowtimeSeatScalarFieldEnum = (typeof ShowtimeSeatScalarFieldEnum)[keyof typeof ShowtimeSeatScalarFieldEnum]
+
+
+export const TrailerScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  title: 'title',
+  videoUrl: 'videoUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  type: 'type',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrailerScalarFieldEnum = (typeof TrailerScalarFieldEnum)[keyof typeof TrailerScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -3042,6 +3224,20 @@ export type ListEnumSeatStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'TrailerType'
+ */
+export type EnumTrailerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrailerType'>
+    
+
+
+/**
+ * Reference to a field of type 'TrailerType[]'
+ */
+export type ListEnumTrailerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrailerType[]'>
+    
+
+
+/**
  * Reference to a field of type 'GenderType'
  */
 export type EnumGenderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GenderType'>
@@ -3200,6 +3396,7 @@ export type GlobalOmitConfig = {
   bookingTicket?: Prisma.BookingTicketOmit
   cinema?: Prisma.CinemaOmit
   cinemaRoom?: Prisma.CinemaRoomOmit
+  city?: Prisma.CityOmit
   foodCombo?: Prisma.FoodComboOmit
   genre?: Prisma.GenreOmit
   membership?: Prisma.MembershipOmit
@@ -3215,6 +3412,7 @@ export type GlobalOmitConfig = {
   seat?: Prisma.SeatOmit
   showtime?: Prisma.ShowtimeOmit
   showtimeSeat?: Prisma.ShowtimeSeatOmit
+  trailer?: Prisma.TrailerOmit
   user?: Prisma.UserOmit
   userAddress?: Prisma.UserAddressOmit
   userVoucher?: Prisma.UserVoucherOmit

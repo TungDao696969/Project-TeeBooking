@@ -1,0 +1,1 @@
+{"version":3,"file":"activityLogger.middleware.d.ts","sourceRoot":"","sources":["../../src/middlewares/activityLogger.middleware.ts"],"names":[],"mappings":"AAAA,OAAO,EAAW,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAE1D,OAAO,EAAE,WAAW,EAAE,MAAM,mBAAmB,CAAC;AAEhD,eAAO,MAAM,cAAc,GAAI,QAAQ,MAAM,EAAE,YAAY,MAAM,MACjD,KAAK,WAAW,EAAE,KAAK,QAAQ,EAAE,MAAM,YAAY,4DAqBlE,CAAC"}

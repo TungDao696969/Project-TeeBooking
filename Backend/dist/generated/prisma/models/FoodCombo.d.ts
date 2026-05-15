@@ -1,0 +1,1300 @@
+import type * as runtime from "@prisma/client/runtime/client";
+import type * as Prisma from "../internal/prismaNamespace";
+/**
+ * Model FoodCombo
+ *
+ */
+export type FoodComboModel = runtime.Types.Result.DefaultSelection<Prisma.$FoodComboPayload>;
+export type AggregateFoodCombo = {
+    _count: FoodComboCountAggregateOutputType | null;
+    _avg: FoodComboAvgAggregateOutputType | null;
+    _sum: FoodComboSumAggregateOutputType | null;
+    _min: FoodComboMinAggregateOutputType | null;
+    _max: FoodComboMaxAggregateOutputType | null;
+};
+export type FoodComboAvgAggregateOutputType = {
+    price: number | null;
+    stockQuantity: number | null;
+};
+export type FoodComboSumAggregateOutputType = {
+    price: number | null;
+    stockQuantity: number | null;
+};
+export type FoodComboMinAggregateOutputType = {
+    id: string | null;
+    name: string | null;
+    description: string | null;
+    imageUrl: string | null;
+    price: number | null;
+    stockQuantity: number | null;
+    isActive: boolean | null;
+    createdAt: Date | null;
+};
+export type FoodComboMaxAggregateOutputType = {
+    id: string | null;
+    name: string | null;
+    description: string | null;
+    imageUrl: string | null;
+    price: number | null;
+    stockQuantity: number | null;
+    isActive: boolean | null;
+    createdAt: Date | null;
+};
+export type FoodComboCountAggregateOutputType = {
+    id: number;
+    name: number;
+    description: number;
+    imageUrl: number;
+    price: number;
+    stockQuantity: number;
+    isActive: number;
+    createdAt: number;
+    _all: number;
+};
+export type FoodComboAvgAggregateInputType = {
+    price?: true;
+    stockQuantity?: true;
+};
+export type FoodComboSumAggregateInputType = {
+    price?: true;
+    stockQuantity?: true;
+};
+export type FoodComboMinAggregateInputType = {
+    id?: true;
+    name?: true;
+    description?: true;
+    imageUrl?: true;
+    price?: true;
+    stockQuantity?: true;
+    isActive?: true;
+    createdAt?: true;
+};
+export type FoodComboMaxAggregateInputType = {
+    id?: true;
+    name?: true;
+    description?: true;
+    imageUrl?: true;
+    price?: true;
+    stockQuantity?: true;
+    isActive?: true;
+    createdAt?: true;
+};
+export type FoodComboCountAggregateInputType = {
+    id?: true;
+    name?: true;
+    description?: true;
+    imageUrl?: true;
+    price?: true;
+    stockQuantity?: true;
+    isActive?: true;
+    createdAt?: true;
+    _all?: true;
+};
+export type FoodComboAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which FoodCombo to aggregate.
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of FoodCombos to fetch.
+     */
+    orderBy?: Prisma.FoodComboOrderByWithRelationInput | Prisma.FoodComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: Prisma.FoodComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` FoodCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` FoodCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned FoodCombos
+    **/
+    _count?: true | FoodComboCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+    **/
+    _avg?: FoodComboAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+    **/
+    _sum?: FoodComboSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+    **/
+    _min?: FoodComboMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+    **/
+    _max?: FoodComboMaxAggregateInputType;
+};
+export type GetFoodComboAggregateType<T extends FoodComboAggregateArgs> = {
+    [P in keyof T & keyof AggregateFoodCombo]: P extends '_count' | 'count' ? T[P] extends true ? number : Prisma.GetScalarType<T[P], AggregateFoodCombo[P]> : Prisma.GetScalarType<T[P], AggregateFoodCombo[P]>;
+};
+export type FoodComboGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.FoodComboWhereInput;
+    orderBy?: Prisma.FoodComboOrderByWithAggregationInput | Prisma.FoodComboOrderByWithAggregationInput[];
+    by: Prisma.FoodComboScalarFieldEnum[] | Prisma.FoodComboScalarFieldEnum;
+    having?: Prisma.FoodComboScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: FoodComboCountAggregateInputType | true;
+    _avg?: FoodComboAvgAggregateInputType;
+    _sum?: FoodComboSumAggregateInputType;
+    _min?: FoodComboMinAggregateInputType;
+    _max?: FoodComboMaxAggregateInputType;
+};
+export type FoodComboGroupByOutputType = {
+    id: string;
+    name: string;
+    description: string | null;
+    imageUrl: string | null;
+    price: number;
+    stockQuantity: number;
+    isActive: boolean;
+    createdAt: Date;
+    _count: FoodComboCountAggregateOutputType | null;
+    _avg: FoodComboAvgAggregateOutputType | null;
+    _sum: FoodComboSumAggregateOutputType | null;
+    _min: FoodComboMinAggregateOutputType | null;
+    _max: FoodComboMaxAggregateOutputType | null;
+};
+export type GetFoodComboGroupByPayload<T extends FoodComboGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<FoodComboGroupByOutputType, T['by']> & {
+    [P in ((keyof T) & (keyof FoodComboGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], FoodComboGroupByOutputType[P]> : Prisma.GetScalarType<T[P], FoodComboGroupByOutputType[P]>;
+}>>;
+export type FoodComboWhereInput = {
+    AND?: Prisma.FoodComboWhereInput | Prisma.FoodComboWhereInput[];
+    OR?: Prisma.FoodComboWhereInput[];
+    NOT?: Prisma.FoodComboWhereInput | Prisma.FoodComboWhereInput[];
+    id?: Prisma.StringFilter<"FoodCombo"> | string;
+    name?: Prisma.StringFilter<"FoodCombo"> | string;
+    description?: Prisma.StringNullableFilter<"FoodCombo"> | string | null;
+    imageUrl?: Prisma.StringNullableFilter<"FoodCombo"> | string | null;
+    price?: Prisma.FloatFilter<"FoodCombo"> | number;
+    stockQuantity?: Prisma.IntFilter<"FoodCombo"> | number;
+    isActive?: Prisma.BoolFilter<"FoodCombo"> | boolean;
+    createdAt?: Prisma.DateTimeFilter<"FoodCombo"> | Date | string;
+    bookings?: Prisma.BookingComboListRelationFilter;
+};
+export type FoodComboOrderByWithRelationInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    description?: Prisma.SortOrderInput | Prisma.SortOrder;
+    imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    bookings?: Prisma.BookingComboOrderByRelationAggregateInput;
+};
+export type FoodComboWhereUniqueInput = Prisma.AtLeast<{
+    id?: string;
+    AND?: Prisma.FoodComboWhereInput | Prisma.FoodComboWhereInput[];
+    OR?: Prisma.FoodComboWhereInput[];
+    NOT?: Prisma.FoodComboWhereInput | Prisma.FoodComboWhereInput[];
+    name?: Prisma.StringFilter<"FoodCombo"> | string;
+    description?: Prisma.StringNullableFilter<"FoodCombo"> | string | null;
+    imageUrl?: Prisma.StringNullableFilter<"FoodCombo"> | string | null;
+    price?: Prisma.FloatFilter<"FoodCombo"> | number;
+    stockQuantity?: Prisma.IntFilter<"FoodCombo"> | number;
+    isActive?: Prisma.BoolFilter<"FoodCombo"> | boolean;
+    createdAt?: Prisma.DateTimeFilter<"FoodCombo"> | Date | string;
+    bookings?: Prisma.BookingComboListRelationFilter;
+}, "id">;
+export type FoodComboOrderByWithAggregationInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    description?: Prisma.SortOrderInput | Prisma.SortOrder;
+    imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    _count?: Prisma.FoodComboCountOrderByAggregateInput;
+    _avg?: Prisma.FoodComboAvgOrderByAggregateInput;
+    _max?: Prisma.FoodComboMaxOrderByAggregateInput;
+    _min?: Prisma.FoodComboMinOrderByAggregateInput;
+    _sum?: Prisma.FoodComboSumOrderByAggregateInput;
+};
+export type FoodComboScalarWhereWithAggregatesInput = {
+    AND?: Prisma.FoodComboScalarWhereWithAggregatesInput | Prisma.FoodComboScalarWhereWithAggregatesInput[];
+    OR?: Prisma.FoodComboScalarWhereWithAggregatesInput[];
+    NOT?: Prisma.FoodComboScalarWhereWithAggregatesInput | Prisma.FoodComboScalarWhereWithAggregatesInput[];
+    id?: Prisma.StringWithAggregatesFilter<"FoodCombo"> | string;
+    name?: Prisma.StringWithAggregatesFilter<"FoodCombo"> | string;
+    description?: Prisma.StringNullableWithAggregatesFilter<"FoodCombo"> | string | null;
+    imageUrl?: Prisma.StringNullableWithAggregatesFilter<"FoodCombo"> | string | null;
+    price?: Prisma.FloatWithAggregatesFilter<"FoodCombo"> | number;
+    stockQuantity?: Prisma.IntWithAggregatesFilter<"FoodCombo"> | number;
+    isActive?: Prisma.BoolWithAggregatesFilter<"FoodCombo"> | boolean;
+    createdAt?: Prisma.DateTimeWithAggregatesFilter<"FoodCombo"> | Date | string;
+};
+export type FoodComboCreateInput = {
+    id?: string;
+    name: string;
+    description?: string | null;
+    imageUrl?: string | null;
+    price: number;
+    stockQuantity: number;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    bookings?: Prisma.BookingComboCreateNestedManyWithoutComboInput;
+};
+export type FoodComboUncheckedCreateInput = {
+    id?: string;
+    name: string;
+    description?: string | null;
+    imageUrl?: string | null;
+    price: number;
+    stockQuantity: number;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    bookings?: Prisma.BookingComboUncheckedCreateNestedManyWithoutComboInput;
+};
+export type FoodComboUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    price?: Prisma.FloatFieldUpdateOperationsInput | number;
+    stockQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    bookings?: Prisma.BookingComboUpdateManyWithoutComboNestedInput;
+};
+export type FoodComboUncheckedUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    price?: Prisma.FloatFieldUpdateOperationsInput | number;
+    stockQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    bookings?: Prisma.BookingComboUncheckedUpdateManyWithoutComboNestedInput;
+};
+export type FoodComboCreateManyInput = {
+    id?: string;
+    name: string;
+    description?: string | null;
+    imageUrl?: string | null;
+    price: number;
+    stockQuantity: number;
+    isActive?: boolean;
+    createdAt?: Date | string;
+};
+export type FoodComboUpdateManyMutationInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    price?: Prisma.FloatFieldUpdateOperationsInput | number;
+    stockQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type FoodComboUncheckedUpdateManyInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    price?: Prisma.FloatFieldUpdateOperationsInput | number;
+    stockQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type FoodComboScalarRelationFilter = {
+    is?: Prisma.FoodComboWhereInput;
+    isNot?: Prisma.FoodComboWhereInput;
+};
+export type FoodComboCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    imageUrl?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+};
+export type FoodComboAvgOrderByAggregateInput = {
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+};
+export type FoodComboMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    imageUrl?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+};
+export type FoodComboMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    imageUrl?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+};
+export type FoodComboSumOrderByAggregateInput = {
+    price?: Prisma.SortOrder;
+    stockQuantity?: Prisma.SortOrder;
+};
+export type FoodComboCreateNestedOneWithoutBookingsInput = {
+    create?: Prisma.XOR<Prisma.FoodComboCreateWithoutBookingsInput, Prisma.FoodComboUncheckedCreateWithoutBookingsInput>;
+    connectOrCreate?: Prisma.FoodComboCreateOrConnectWithoutBookingsInput;
+    connect?: Prisma.FoodComboWhereUniqueInput;
+};
+export type FoodComboUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: Prisma.XOR<Prisma.FoodComboCreateWithoutBookingsInput, Prisma.FoodComboUncheckedCreateWithoutBookingsInput>;
+    connectOrCreate?: Prisma.FoodComboCreateOrConnectWithoutBookingsInput;
+    upsert?: Prisma.FoodComboUpsertWithoutBookingsInput;
+    connect?: Prisma.FoodComboWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.FoodComboUpdateToOneWithWhereWithoutBookingsInput, Prisma.FoodComboUpdateWithoutBookingsInput>, Prisma.FoodComboUncheckedUpdateWithoutBookingsInput>;
+};
+export type FoodComboCreateWithoutBookingsInput = {
+    id?: string;
+    name: string;
+    description?: string | null;
+    imageUrl?: string | null;
+    price: number;
+    stockQuantity: number;
+    isActive?: boolean;
+    createdAt?: Date | string;
+};
+export type FoodComboUncheckedCreateWithoutBookingsInput = {
+    id?: string;
+    name: string;
+    description?: string | null;
+    imageUrl?: string | null;
+    price: number;
+    stockQuantity: number;
+    isActive?: boolean;
+    createdAt?: Date | string;
+};
+export type FoodComboCreateOrConnectWithoutBookingsInput = {
+    where: Prisma.FoodComboWhereUniqueInput;
+    create: Prisma.XOR<Prisma.FoodComboCreateWithoutBookingsInput, Prisma.FoodComboUncheckedCreateWithoutBookingsInput>;
+};
+export type FoodComboUpsertWithoutBookingsInput = {
+    update: Prisma.XOR<Prisma.FoodComboUpdateWithoutBookingsInput, Prisma.FoodComboUncheckedUpdateWithoutBookingsInput>;
+    create: Prisma.XOR<Prisma.FoodComboCreateWithoutBookingsInput, Prisma.FoodComboUncheckedCreateWithoutBookingsInput>;
+    where?: Prisma.FoodComboWhereInput;
+};
+export type FoodComboUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: Prisma.FoodComboWhereInput;
+    data: Prisma.XOR<Prisma.FoodComboUpdateWithoutBookingsInput, Prisma.FoodComboUncheckedUpdateWithoutBookingsInput>;
+};
+export type FoodComboUpdateWithoutBookingsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    price?: Prisma.FloatFieldUpdateOperationsInput | number;
+    stockQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type FoodComboUncheckedUpdateWithoutBookingsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    price?: Prisma.FloatFieldUpdateOperationsInput | number;
+    stockQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+/**
+ * Count Type FoodComboCountOutputType
+ */
+export type FoodComboCountOutputType = {
+    bookings: number;
+};
+export type FoodComboCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    bookings?: boolean | FoodComboCountOutputTypeCountBookingsArgs;
+};
+/**
+ * FoodComboCountOutputType without action
+ */
+export type FoodComboCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodComboCountOutputType
+     */
+    select?: Prisma.FoodComboCountOutputTypeSelect<ExtArgs> | null;
+};
+/**
+ * FoodComboCountOutputType without action
+ */
+export type FoodComboCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.BookingComboWhereInput;
+};
+export type FoodComboSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    name?: boolean;
+    description?: boolean;
+    imageUrl?: boolean;
+    price?: boolean;
+    stockQuantity?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+    bookings?: boolean | Prisma.FoodCombo$bookingsArgs<ExtArgs>;
+    _count?: boolean | Prisma.FoodComboCountOutputTypeDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["foodCombo"]>;
+export type FoodComboSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    name?: boolean;
+    description?: boolean;
+    imageUrl?: boolean;
+    price?: boolean;
+    stockQuantity?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+}, ExtArgs["result"]["foodCombo"]>;
+export type FoodComboSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    name?: boolean;
+    description?: boolean;
+    imageUrl?: boolean;
+    price?: boolean;
+    stockQuantity?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+}, ExtArgs["result"]["foodCombo"]>;
+export type FoodComboSelectScalar = {
+    id?: boolean;
+    name?: boolean;
+    description?: boolean;
+    imageUrl?: boolean;
+    price?: boolean;
+    stockQuantity?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+};
+export type FoodComboOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "imageUrl" | "price" | "stockQuantity" | "isActive" | "createdAt", ExtArgs["result"]["foodCombo"]>;
+export type FoodComboInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    bookings?: boolean | Prisma.FoodCombo$bookingsArgs<ExtArgs>;
+    _count?: boolean | Prisma.FoodComboCountOutputTypeDefaultArgs<ExtArgs>;
+};
+export type FoodComboIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
+export type FoodComboIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
+export type $FoodComboPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    name: "FoodCombo";
+    objects: {
+        bookings: Prisma.$BookingComboPayload<ExtArgs>[];
+    };
+    scalars: runtime.Types.Extensions.GetPayloadResult<{
+        id: string;
+        name: string;
+        description: string | null;
+        imageUrl: string | null;
+        price: number;
+        stockQuantity: number;
+        isActive: boolean;
+        createdAt: Date;
+    }, ExtArgs["result"]["foodCombo"]>;
+    composites: {};
+};
+export type FoodComboGetPayload<S extends boolean | null | undefined | FoodComboDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$FoodComboPayload, S>;
+export type FoodComboCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = Omit<FoodComboFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: FoodComboCountAggregateInputType | true;
+};
+export interface FoodComboDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: {
+        types: Prisma.TypeMap<ExtArgs>['model']['FoodCombo'];
+        meta: {
+            name: 'FoodCombo';
+        };
+    };
+    /**
+     * Find zero or one FoodCombo that matches the filter.
+     * @param {FoodComboFindUniqueArgs} args - Arguments to find a FoodCombo
+     * @example
+     * // Get one FoodCombo
+     * const foodCombo = await prisma.foodCombo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FoodComboFindUniqueArgs>(args: Prisma.SelectSubset<T, FoodComboFindUniqueArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find one FoodCombo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FoodComboFindUniqueOrThrowArgs} args - Arguments to find a FoodCombo
+     * @example
+     * // Get one FoodCombo
+     * const foodCombo = await prisma.foodCombo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FoodComboFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, FoodComboFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first FoodCombo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboFindFirstArgs} args - Arguments to find a FoodCombo
+     * @example
+     * // Get one FoodCombo
+     * const foodCombo = await prisma.foodCombo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FoodComboFindFirstArgs>(args?: Prisma.SelectSubset<T, FoodComboFindFirstArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first FoodCombo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboFindFirstOrThrowArgs} args - Arguments to find a FoodCombo
+     * @example
+     * // Get one FoodCombo
+     * const foodCombo = await prisma.foodCombo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FoodComboFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, FoodComboFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find zero or more FoodCombos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FoodCombos
+     * const foodCombos = await prisma.foodCombo.findMany()
+     *
+     * // Get first 10 FoodCombos
+     * const foodCombos = await prisma.foodCombo.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const foodComboWithIdOnly = await prisma.foodCombo.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends FoodComboFindManyArgs>(args?: Prisma.SelectSubset<T, FoodComboFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>;
+    /**
+     * Create a FoodCombo.
+     * @param {FoodComboCreateArgs} args - Arguments to create a FoodCombo.
+     * @example
+     * // Create one FoodCombo
+     * const FoodCombo = await prisma.foodCombo.create({
+     *   data: {
+     *     // ... data to create a FoodCombo
+     *   }
+     * })
+     *
+     */
+    create<T extends FoodComboCreateArgs>(args: Prisma.SelectSubset<T, FoodComboCreateArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Create many FoodCombos.
+     * @param {FoodComboCreateManyArgs} args - Arguments to create many FoodCombos.
+     * @example
+     * // Create many FoodCombos
+     * const foodCombo = await prisma.foodCombo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends FoodComboCreateManyArgs>(args?: Prisma.SelectSubset<T, FoodComboCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Create many FoodCombos and returns the data saved in the database.
+     * @param {FoodComboCreateManyAndReturnArgs} args - Arguments to create many FoodCombos.
+     * @example
+     * // Create many FoodCombos
+     * const foodCombo = await prisma.foodCombo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many FoodCombos and only return the `id`
+     * const foodComboWithIdOnly = await prisma.foodCombo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends FoodComboCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, FoodComboCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Delete a FoodCombo.
+     * @param {FoodComboDeleteArgs} args - Arguments to delete one FoodCombo.
+     * @example
+     * // Delete one FoodCombo
+     * const FoodCombo = await prisma.foodCombo.delete({
+     *   where: {
+     *     // ... filter to delete one FoodCombo
+     *   }
+     * })
+     *
+     */
+    delete<T extends FoodComboDeleteArgs>(args: Prisma.SelectSubset<T, FoodComboDeleteArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Update one FoodCombo.
+     * @param {FoodComboUpdateArgs} args - Arguments to update one FoodCombo.
+     * @example
+     * // Update one FoodCombo
+     * const foodCombo = await prisma.foodCombo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends FoodComboUpdateArgs>(args: Prisma.SelectSubset<T, FoodComboUpdateArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Delete zero or more FoodCombos.
+     * @param {FoodComboDeleteManyArgs} args - Arguments to filter FoodCombos to delete.
+     * @example
+     * // Delete a few FoodCombos
+     * const { count } = await prisma.foodCombo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends FoodComboDeleteManyArgs>(args?: Prisma.SelectSubset<T, FoodComboDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more FoodCombos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FoodCombos
+     * const foodCombo = await prisma.foodCombo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends FoodComboUpdateManyArgs>(args: Prisma.SelectSubset<T, FoodComboUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more FoodCombos and returns the data updated in the database.
+     * @param {FoodComboUpdateManyAndReturnArgs} args - Arguments to update many FoodCombos.
+     * @example
+     * // Update many FoodCombos
+     * const foodCombo = await prisma.foodCombo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more FoodCombos and only return the `id`
+     * const foodComboWithIdOnly = await prisma.foodCombo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends FoodComboUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, FoodComboUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Create or update one FoodCombo.
+     * @param {FoodComboUpsertArgs} args - Arguments to update or create a FoodCombo.
+     * @example
+     * // Update or create a FoodCombo
+     * const foodCombo = await prisma.foodCombo.upsert({
+     *   create: {
+     *     // ... data to create a FoodCombo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FoodCombo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FoodComboUpsertArgs>(args: Prisma.SelectSubset<T, FoodComboUpsertArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Count the number of FoodCombos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboCountArgs} args - Arguments to filter FoodCombos to count.
+     * @example
+     * // Count the number of FoodCombos
+     * const count = await prisma.foodCombo.count({
+     *   where: {
+     *     // ... the filter for the FoodCombos we want to count
+     *   }
+     * })
+    **/
+    count<T extends FoodComboCountArgs>(args?: Prisma.Subset<T, FoodComboCountArgs>): Prisma.PrismaPromise<T extends runtime.Types.Utils.Record<'select', any> ? T['select'] extends true ? number : Prisma.GetScalarType<T['select'], FoodComboCountAggregateOutputType> : number>;
+    /**
+     * Allows you to perform aggregations operations on a FoodCombo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FoodComboAggregateArgs>(args: Prisma.Subset<T, FoodComboAggregateArgs>): Prisma.PrismaPromise<GetFoodComboAggregateType<T>>;
+    /**
+     * Group by FoodCombo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoodComboGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+    **/
+    groupBy<T extends FoodComboGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? {
+        orderBy: FoodComboGroupByArgs['orderBy'];
+    } : {
+        orderBy?: FoodComboGroupByArgs['orderBy'];
+    }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<T['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<T['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True ? `Error: "by" must not be empty.` : HavingValid extends Prisma.False ? {
+        [P in HavingFields]: P extends ByFields ? never : P extends string ? `Error: Field "${P}" used in "having" needs to be provided in "by".` : [
+            Error,
+            'Field ',
+            P,
+            ` in "having" needs to be provided in "by"`
+        ];
+    }[HavingFields] : 'take' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "take", you also need to provide "orderBy"' : 'skip' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "skip", you also need to provide "orderBy"' : ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields]>(args: Prisma.SubsetIntersection<T, FoodComboGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFoodComboGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the FoodCombo model
+     */
+    readonly fields: FoodComboFieldRefs;
+}
+/**
+ * The delegate class that acts as a "Promise-like" for FoodCombo.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export interface Prisma__FoodComboClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    bookings<T extends Prisma.FoodCombo$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodCombo$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
+}
+/**
+ * Fields of the FoodCombo model
+ */
+export interface FoodComboFieldRefs {
+    readonly id: Prisma.FieldRef<"FoodCombo", 'String'>;
+    readonly name: Prisma.FieldRef<"FoodCombo", 'String'>;
+    readonly description: Prisma.FieldRef<"FoodCombo", 'String'>;
+    readonly imageUrl: Prisma.FieldRef<"FoodCombo", 'String'>;
+    readonly price: Prisma.FieldRef<"FoodCombo", 'Float'>;
+    readonly stockQuantity: Prisma.FieldRef<"FoodCombo", 'Int'>;
+    readonly isActive: Prisma.FieldRef<"FoodCombo", 'Boolean'>;
+    readonly createdAt: Prisma.FieldRef<"FoodCombo", 'DateTime'>;
+}
+/**
+ * FoodCombo findUnique
+ */
+export type FoodComboFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which FoodCombo to fetch.
+     */
+    where: Prisma.FoodComboWhereUniqueInput;
+};
+/**
+ * FoodCombo findUniqueOrThrow
+ */
+export type FoodComboFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which FoodCombo to fetch.
+     */
+    where: Prisma.FoodComboWhereUniqueInput;
+};
+/**
+ * FoodCombo findFirst
+ */
+export type FoodComboFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which FoodCombo to fetch.
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of FoodCombos to fetch.
+     */
+    orderBy?: Prisma.FoodComboOrderByWithRelationInput | Prisma.FoodComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for FoodCombos.
+     */
+    cursor?: Prisma.FoodComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` FoodCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` FoodCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of FoodCombos.
+     */
+    distinct?: Prisma.FoodComboScalarFieldEnum | Prisma.FoodComboScalarFieldEnum[];
+};
+/**
+ * FoodCombo findFirstOrThrow
+ */
+export type FoodComboFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which FoodCombo to fetch.
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of FoodCombos to fetch.
+     */
+    orderBy?: Prisma.FoodComboOrderByWithRelationInput | Prisma.FoodComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for FoodCombos.
+     */
+    cursor?: Prisma.FoodComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` FoodCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` FoodCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of FoodCombos.
+     */
+    distinct?: Prisma.FoodComboScalarFieldEnum | Prisma.FoodComboScalarFieldEnum[];
+};
+/**
+ * FoodCombo findMany
+ */
+export type FoodComboFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which FoodCombos to fetch.
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of FoodCombos to fetch.
+     */
+    orderBy?: Prisma.FoodComboOrderByWithRelationInput | Prisma.FoodComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing FoodCombos.
+     */
+    cursor?: Prisma.FoodComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` FoodCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` FoodCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of FoodCombos.
+     */
+    distinct?: Prisma.FoodComboScalarFieldEnum | Prisma.FoodComboScalarFieldEnum[];
+};
+/**
+ * FoodCombo create
+ */
+export type FoodComboCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a FoodCombo.
+     */
+    data: Prisma.XOR<Prisma.FoodComboCreateInput, Prisma.FoodComboUncheckedCreateInput>;
+};
+/**
+ * FoodCombo createMany
+ */
+export type FoodComboCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FoodCombos.
+     */
+    data: Prisma.FoodComboCreateManyInput | Prisma.FoodComboCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+/**
+ * FoodCombo createManyAndReturn
+ */
+export type FoodComboCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * The data used to create many FoodCombos.
+     */
+    data: Prisma.FoodComboCreateManyInput | Prisma.FoodComboCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+/**
+ * FoodCombo update
+ */
+export type FoodComboUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a FoodCombo.
+     */
+    data: Prisma.XOR<Prisma.FoodComboUpdateInput, Prisma.FoodComboUncheckedUpdateInput>;
+    /**
+     * Choose, which FoodCombo to update.
+     */
+    where: Prisma.FoodComboWhereUniqueInput;
+};
+/**
+ * FoodCombo updateMany
+ */
+export type FoodComboUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FoodCombos.
+     */
+    data: Prisma.XOR<Prisma.FoodComboUpdateManyMutationInput, Prisma.FoodComboUncheckedUpdateManyInput>;
+    /**
+     * Filter which FoodCombos to update
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * Limit how many FoodCombos to update.
+     */
+    limit?: number;
+};
+/**
+ * FoodCombo updateManyAndReturn
+ */
+export type FoodComboUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * The data used to update FoodCombos.
+     */
+    data: Prisma.XOR<Prisma.FoodComboUpdateManyMutationInput, Prisma.FoodComboUncheckedUpdateManyInput>;
+    /**
+     * Filter which FoodCombos to update
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * Limit how many FoodCombos to update.
+     */
+    limit?: number;
+};
+/**
+ * FoodCombo upsert
+ */
+export type FoodComboUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the FoodCombo to update in case it exists.
+     */
+    where: Prisma.FoodComboWhereUniqueInput;
+    /**
+     * In case the FoodCombo found by the `where` argument doesn't exist, create a new FoodCombo with this data.
+     */
+    create: Prisma.XOR<Prisma.FoodComboCreateInput, Prisma.FoodComboUncheckedCreateInput>;
+    /**
+     * In case the FoodCombo was found with the provided `where` argument, update it with this data.
+     */
+    update: Prisma.XOR<Prisma.FoodComboUpdateInput, Prisma.FoodComboUncheckedUpdateInput>;
+};
+/**
+ * FoodCombo delete
+ */
+export type FoodComboDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+    /**
+     * Filter which FoodCombo to delete.
+     */
+    where: Prisma.FoodComboWhereUniqueInput;
+};
+/**
+ * FoodCombo deleteMany
+ */
+export type FoodComboDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which FoodCombos to delete
+     */
+    where?: Prisma.FoodComboWhereInput;
+    /**
+     * Limit how many FoodCombos to delete.
+     */
+    limit?: number;
+};
+/**
+ * FoodCombo.bookings
+ */
+export type FoodCombo$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    where?: Prisma.BookingComboWhereInput;
+    orderBy?: Prisma.BookingComboOrderByWithRelationInput | Prisma.BookingComboOrderByWithRelationInput[];
+    cursor?: Prisma.BookingComboWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.BookingComboScalarFieldEnum | Prisma.BookingComboScalarFieldEnum[];
+};
+/**
+ * FoodCombo without action
+ */
+export type FoodComboDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoodCombo
+     */
+    select?: Prisma.FoodComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the FoodCombo
+     */
+    omit?: Prisma.FoodComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.FoodComboInclude<ExtArgs> | null;
+};
+//# sourceMappingURL=FoodCombo.d.ts.map

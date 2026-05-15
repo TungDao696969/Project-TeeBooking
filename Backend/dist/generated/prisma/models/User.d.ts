@@ -13,98 +13,116 @@ export type AggregateUser = {
 };
 export type UserMinAggregateOutputType = {
     id: string | null;
-    name: string | null;
+    fullName: string | null;
     email: string | null;
-    passwordHash: string | null;
     phone: string | null;
+    passwordHash: string | null;
     avatarUrl: string | null;
-    country: string | null;
-    language: string | null;
+    gender: $Enums.GenderType | null;
+    dateOfBirth: Date | null;
     role: $Enums.UserRole | null;
+    verificationCode: string | null;
+    resetPasswordCode: string | null;
+    resetPasswordExpiresAt: Date | null;
+    refreshToken: string | null;
     isVerified: boolean | null;
-    resetPasswordToken: string | null;
-    resetPasswordExpires: Date | null;
+    isActive: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
 export type UserMaxAggregateOutputType = {
     id: string | null;
-    name: string | null;
+    fullName: string | null;
     email: string | null;
-    passwordHash: string | null;
     phone: string | null;
+    passwordHash: string | null;
     avatarUrl: string | null;
-    country: string | null;
-    language: string | null;
+    gender: $Enums.GenderType | null;
+    dateOfBirth: Date | null;
     role: $Enums.UserRole | null;
+    verificationCode: string | null;
+    resetPasswordCode: string | null;
+    resetPasswordExpiresAt: Date | null;
+    refreshToken: string | null;
     isVerified: boolean | null;
-    resetPasswordToken: string | null;
-    resetPasswordExpires: Date | null;
+    isActive: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
 export type UserCountAggregateOutputType = {
     id: number;
-    name: number;
+    fullName: number;
     email: number;
-    passwordHash: number;
     phone: number;
+    passwordHash: number;
     avatarUrl: number;
-    country: number;
-    language: number;
+    gender: number;
+    dateOfBirth: number;
     role: number;
+    verificationCode: number;
+    resetPasswordCode: number;
+    resetPasswordExpiresAt: number;
+    refreshToken: number;
     isVerified: number;
-    resetPasswordToken: number;
-    resetPasswordExpires: number;
+    isActive: number;
     createdAt: number;
     updatedAt: number;
     _all: number;
 };
 export type UserMinAggregateInputType = {
     id?: true;
-    name?: true;
+    fullName?: true;
     email?: true;
-    passwordHash?: true;
     phone?: true;
+    passwordHash?: true;
     avatarUrl?: true;
-    country?: true;
-    language?: true;
+    gender?: true;
+    dateOfBirth?: true;
     role?: true;
+    verificationCode?: true;
+    resetPasswordCode?: true;
+    resetPasswordExpiresAt?: true;
+    refreshToken?: true;
     isVerified?: true;
-    resetPasswordToken?: true;
-    resetPasswordExpires?: true;
+    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
 };
 export type UserMaxAggregateInputType = {
     id?: true;
-    name?: true;
+    fullName?: true;
     email?: true;
-    passwordHash?: true;
     phone?: true;
+    passwordHash?: true;
     avatarUrl?: true;
-    country?: true;
-    language?: true;
+    gender?: true;
+    dateOfBirth?: true;
     role?: true;
+    verificationCode?: true;
+    resetPasswordCode?: true;
+    resetPasswordExpiresAt?: true;
+    refreshToken?: true;
     isVerified?: true;
-    resetPasswordToken?: true;
-    resetPasswordExpires?: true;
+    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
 };
 export type UserCountAggregateInputType = {
     id?: true;
-    name?: true;
+    fullName?: true;
     email?: true;
-    passwordHash?: true;
     phone?: true;
+    passwordHash?: true;
     avatarUrl?: true;
-    country?: true;
-    language?: true;
+    gender?: true;
+    dateOfBirth?: true;
     role?: true;
+    verificationCode?: true;
+    resetPasswordCode?: true;
+    resetPasswordExpiresAt?: true;
+    refreshToken?: true;
     isVerified?: true;
-    resetPasswordToken?: true;
-    resetPasswordExpires?: true;
+    isActive?: true;
     createdAt?: true;
     updatedAt?: true;
     _all?: true;
@@ -173,17 +191,20 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 };
 export type UserGroupByOutputType = {
     id: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone: string | null;
     avatarUrl: string | null;
-    country: string | null;
-    language: string | null;
+    gender: $Enums.GenderType | null;
+    dateOfBirth: Date | null;
     role: $Enums.UserRole;
+    verificationCode: string | null;
+    resetPasswordCode: string | null;
+    resetPasswordExpiresAt: Date | null;
+    refreshToken: string | null;
     isVerified: boolean;
-    resetPasswordToken: string | null;
-    resetPasswordExpires: Date | null;
+    isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
     _count: UserCountAggregateOutputType | null;
@@ -198,86 +219,104 @@ export type UserWhereInput = {
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     id?: Prisma.StringFilter<"User"> | string;
-    name?: Prisma.StringFilter<"User"> | string;
+    fullName?: Prisma.StringFilter<"User"> | string;
     email?: Prisma.StringFilter<"User"> | string;
+    phone?: Prisma.StringFilter<"User"> | string;
     passwordHash?: Prisma.StringFilter<"User"> | string;
-    phone?: Prisma.StringNullableFilter<"User"> | string | null;
     avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null;
-    country?: Prisma.StringNullableFilter<"User"> | string | null;
-    language?: Prisma.StringNullableFilter<"User"> | string | null;
+    gender?: Prisma.EnumGenderTypeNullableFilter<"User"> | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null;
     role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole;
+    verificationCode?: Prisma.StringNullableFilter<"User"> | string | null;
+    resetPasswordCode?: Prisma.StringNullableFilter<"User"> | string | null;
+    resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null;
+    refreshToken?: Prisma.StringNullableFilter<"User"> | string | null;
     isVerified?: Prisma.BoolFilter<"User"> | boolean;
-    resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null;
-    resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null;
+    isActive?: Prisma.BoolFilter<"User"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    tours?: Prisma.TourListRelationFilter;
-    wishlist?: Prisma.WishlistListRelationFilter;
+    addresses?: Prisma.UserAddressListRelationFilter;
+    memberships?: Prisma.MembershipListRelationFilter;
     bookings?: Prisma.BookingListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
-    adminLogs?: Prisma.AdminLogListRelationFilter;
     notifications?: Prisma.NotificationListRelationFilter;
+    vouchers?: Prisma.UserVoucherListRelationFilter;
+    blogPosts?: Prisma.BlogPostListRelationFilter;
+    activityLogs?: Prisma.ActivityLogListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
-    name?: Prisma.SortOrder;
+    fullName?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
+    phone?: Prisma.SortOrder;
     passwordHash?: Prisma.SortOrder;
-    phone?: Prisma.SortOrderInput | Prisma.SortOrder;
     avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
-    country?: Prisma.SortOrderInput | Prisma.SortOrder;
-    language?: Prisma.SortOrderInput | Prisma.SortOrder;
+    gender?: Prisma.SortOrderInput | Prisma.SortOrder;
+    dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder;
     role?: Prisma.SortOrder;
+    verificationCode?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resetPasswordCode?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resetPasswordExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder;
+    refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder;
     isVerified?: Prisma.SortOrder;
-    resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder;
-    resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
-    tours?: Prisma.TourOrderByRelationAggregateInput;
-    wishlist?: Prisma.WishlistOrderByRelationAggregateInput;
+    addresses?: Prisma.UserAddressOrderByRelationAggregateInput;
+    memberships?: Prisma.MembershipOrderByRelationAggregateInput;
     bookings?: Prisma.BookingOrderByRelationAggregateInput;
     reviews?: Prisma.ReviewOrderByRelationAggregateInput;
-    adminLogs?: Prisma.AdminLogOrderByRelationAggregateInput;
     notifications?: Prisma.NotificationOrderByRelationAggregateInput;
+    vouchers?: Prisma.UserVoucherOrderByRelationAggregateInput;
+    blogPosts?: Prisma.BlogPostOrderByRelationAggregateInput;
+    activityLogs?: Prisma.ActivityLogOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
     email?: string;
+    phone?: string;
     AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
-    name?: Prisma.StringFilter<"User"> | string;
+    fullName?: Prisma.StringFilter<"User"> | string;
     passwordHash?: Prisma.StringFilter<"User"> | string;
-    phone?: Prisma.StringNullableFilter<"User"> | string | null;
     avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null;
-    country?: Prisma.StringNullableFilter<"User"> | string | null;
-    language?: Prisma.StringNullableFilter<"User"> | string | null;
+    gender?: Prisma.EnumGenderTypeNullableFilter<"User"> | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null;
     role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole;
+    verificationCode?: Prisma.StringNullableFilter<"User"> | string | null;
+    resetPasswordCode?: Prisma.StringNullableFilter<"User"> | string | null;
+    resetPasswordExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null;
+    refreshToken?: Prisma.StringNullableFilter<"User"> | string | null;
     isVerified?: Prisma.BoolFilter<"User"> | boolean;
-    resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null;
-    resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null;
+    isActive?: Prisma.BoolFilter<"User"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    tours?: Prisma.TourListRelationFilter;
-    wishlist?: Prisma.WishlistListRelationFilter;
+    addresses?: Prisma.UserAddressListRelationFilter;
+    memberships?: Prisma.MembershipListRelationFilter;
     bookings?: Prisma.BookingListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
-    adminLogs?: Prisma.AdminLogListRelationFilter;
     notifications?: Prisma.NotificationListRelationFilter;
-}, "id" | "email">;
+    vouchers?: Prisma.UserVoucherListRelationFilter;
+    blogPosts?: Prisma.BlogPostListRelationFilter;
+    activityLogs?: Prisma.ActivityLogListRelationFilter;
+}, "id" | "email" | "phone">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
-    name?: Prisma.SortOrder;
+    fullName?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
+    phone?: Prisma.SortOrder;
     passwordHash?: Prisma.SortOrder;
-    phone?: Prisma.SortOrderInput | Prisma.SortOrder;
     avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
-    country?: Prisma.SortOrderInput | Prisma.SortOrder;
-    language?: Prisma.SortOrderInput | Prisma.SortOrder;
+    gender?: Prisma.SortOrderInput | Prisma.SortOrder;
+    dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder;
     role?: Prisma.SortOrder;
+    verificationCode?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resetPasswordCode?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resetPasswordExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder;
+    refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder;
     isVerified?: Prisma.SortOrder;
-    resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder;
-    resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     _count?: Prisma.UserCountOrderByAggregateInput;
@@ -289,153 +328,185 @@ export type UserScalarWhereWithAggregatesInput = {
     OR?: Prisma.UserScalarWhereWithAggregatesInput[];
     NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[];
     id?: Prisma.StringWithAggregatesFilter<"User"> | string;
-    name?: Prisma.StringWithAggregatesFilter<"User"> | string;
+    fullName?: Prisma.StringWithAggregatesFilter<"User"> | string;
     email?: Prisma.StringWithAggregatesFilter<"User"> | string;
+    phone?: Prisma.StringWithAggregatesFilter<"User"> | string;
     passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string;
-    phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
-    country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
-    language?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    gender?: Prisma.EnumGenderTypeNullableWithAggregatesFilter<"User"> | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null;
     role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole;
+    verificationCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    resetPasswordCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    resetPasswordExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null;
+    refreshToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean;
-    resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
-    resetPasswordExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null;
+    isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
     updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
 };
 export type UserCreateInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourUncheckedCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUncheckedUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateManyInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
 };
 export type UserUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type UserUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -445,63 +516,84 @@ export type UserScalarRelationFilter = {
 };
 export type UserCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    name?: Prisma.SortOrder;
+    fullName?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
-    passwordHash?: Prisma.SortOrder;
     phone?: Prisma.SortOrder;
+    passwordHash?: Prisma.SortOrder;
     avatarUrl?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
-    language?: Prisma.SortOrder;
+    gender?: Prisma.SortOrder;
+    dateOfBirth?: Prisma.SortOrder;
     role?: Prisma.SortOrder;
+    verificationCode?: Prisma.SortOrder;
+    resetPasswordCode?: Prisma.SortOrder;
+    resetPasswordExpiresAt?: Prisma.SortOrder;
+    refreshToken?: Prisma.SortOrder;
     isVerified?: Prisma.SortOrder;
-    resetPasswordToken?: Prisma.SortOrder;
-    resetPasswordExpires?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
 export type UserMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    name?: Prisma.SortOrder;
+    fullName?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
-    passwordHash?: Prisma.SortOrder;
     phone?: Prisma.SortOrder;
+    passwordHash?: Prisma.SortOrder;
     avatarUrl?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
-    language?: Prisma.SortOrder;
+    gender?: Prisma.SortOrder;
+    dateOfBirth?: Prisma.SortOrder;
     role?: Prisma.SortOrder;
+    verificationCode?: Prisma.SortOrder;
+    resetPasswordCode?: Prisma.SortOrder;
+    resetPasswordExpiresAt?: Prisma.SortOrder;
+    refreshToken?: Prisma.SortOrder;
     isVerified?: Prisma.SortOrder;
-    resetPasswordToken?: Prisma.SortOrder;
-    resetPasswordExpires?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
 export type UserMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    name?: Prisma.SortOrder;
+    fullName?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
-    passwordHash?: Prisma.SortOrder;
     phone?: Prisma.SortOrder;
+    passwordHash?: Prisma.SortOrder;
     avatarUrl?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
-    language?: Prisma.SortOrder;
+    gender?: Prisma.SortOrder;
+    dateOfBirth?: Prisma.SortOrder;
     role?: Prisma.SortOrder;
+    verificationCode?: Prisma.SortOrder;
+    resetPasswordCode?: Prisma.SortOrder;
+    resetPasswordExpiresAt?: Prisma.SortOrder;
+    refreshToken?: Prisma.SortOrder;
     isVerified?: Prisma.SortOrder;
-    resetPasswordToken?: Prisma.SortOrder;
-    resetPasswordExpires?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
-export type UserCreateNestedOneWithoutAdminLogsInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutAdminLogsInput, Prisma.UserUncheckedCreateWithoutAdminLogsInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminLogsInput;
+export type UserCreateNestedOneWithoutActivityLogsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutActivityLogsInput, Prisma.UserUncheckedCreateWithoutActivityLogsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutActivityLogsInput;
     connect?: Prisma.UserWhereUniqueInput;
 };
-export type UserUpdateOneRequiredWithoutAdminLogsNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutAdminLogsInput, Prisma.UserUncheckedCreateWithoutAdminLogsInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminLogsInput;
-    upsert?: Prisma.UserUpsertWithoutAdminLogsInput;
+export type UserUpdateOneRequiredWithoutActivityLogsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutActivityLogsInput, Prisma.UserUncheckedCreateWithoutActivityLogsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutActivityLogsInput;
+    upsert?: Prisma.UserUpsertWithoutActivityLogsInput;
     connect?: Prisma.UserWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminLogsInput, Prisma.UserUpdateWithoutAdminLogsInput>, Prisma.UserUncheckedUpdateWithoutAdminLogsInput>;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutActivityLogsInput, Prisma.UserUpdateWithoutActivityLogsInput>, Prisma.UserUncheckedUpdateWithoutActivityLogsInput>;
+};
+export type UserCreateNestedOneWithoutBlogPostsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutBlogPostsInput, Prisma.UserUncheckedCreateWithoutBlogPostsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBlogPostsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutBlogPostsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutBlogPostsInput, Prisma.UserUncheckedCreateWithoutBlogPostsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBlogPostsInput;
+    upsert?: Prisma.UserUpsertWithoutBlogPostsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBlogPostsInput, Prisma.UserUpdateWithoutBlogPostsInput>, Prisma.UserUncheckedUpdateWithoutBlogPostsInput>;
 };
 export type UserCreateNestedOneWithoutBookingsInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>;
@@ -514,6 +606,18 @@ export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
     upsert?: Prisma.UserUpsertWithoutBookingsInput;
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBookingsInput, Prisma.UserUpdateWithoutBookingsInput>, Prisma.UserUncheckedUpdateWithoutBookingsInput>;
+};
+export type UserCreateNestedOneWithoutMembershipsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutMembershipsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutMembershipsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutMembershipsInput;
+    upsert?: Prisma.UserUpsertWithoutMembershipsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMembershipsInput, Prisma.UserUpdateWithoutMembershipsInput>, Prisma.UserUncheckedUpdateWithoutMembershipsInput>;
 };
 export type UserCreateNestedOneWithoutNotificationsInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>;
@@ -539,171 +643,321 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>;
 };
-export type UserCreateNestedOneWithoutToursInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutToursInput, Prisma.UserUncheckedCreateWithoutToursInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutToursInput;
-    connect?: Prisma.UserWhereUniqueInput;
-};
-export type UserUpdateOneRequiredWithoutToursNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutToursInput, Prisma.UserUncheckedCreateWithoutToursInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutToursInput;
-    upsert?: Prisma.UserUpsertWithoutToursInput;
-    connect?: Prisma.UserWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutToursInput, Prisma.UserUpdateWithoutToursInput>, Prisma.UserUncheckedUpdateWithoutToursInput>;
+export type NullableEnumGenderTypeFieldUpdateOperationsInput = {
+    set?: $Enums.GenderType | null;
 };
 export type EnumUserRoleFieldUpdateOperationsInput = {
     set?: $Enums.UserRole;
 };
-export type UserCreateNestedOneWithoutWishlistInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistInput, Prisma.UserUncheckedCreateWithoutWishlistInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistInput;
+export type UserCreateNestedOneWithoutAddressesInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput;
     connect?: Prisma.UserWhereUniqueInput;
 };
-export type UserUpdateOneRequiredWithoutWishlistNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistInput, Prisma.UserUncheckedCreateWithoutWishlistInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistInput;
-    upsert?: Prisma.UserUpsertWithoutWishlistInput;
+export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput;
+    upsert?: Prisma.UserUpsertWithoutAddressesInput;
     connect?: Prisma.UserWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWishlistInput, Prisma.UserUpdateWithoutWishlistInput>, Prisma.UserUncheckedUpdateWithoutWishlistInput>;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAddressesInput, Prisma.UserUpdateWithoutAddressesInput>, Prisma.UserUncheckedUpdateWithoutAddressesInput>;
 };
-export type UserCreateWithoutAdminLogsInput = {
+export type UserCreateNestedOneWithoutVouchersInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutVouchersInput, Prisma.UserUncheckedCreateWithoutVouchersInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutVouchersInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutVouchersNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutVouchersInput, Prisma.UserUncheckedCreateWithoutVouchersInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutVouchersInput;
+    upsert?: Prisma.UserUpsertWithoutVouchersInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVouchersInput, Prisma.UserUpdateWithoutVouchersInput>, Prisma.UserUncheckedUpdateWithoutVouchersInput>;
+};
+export type UserCreateWithoutActivityLogsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
     notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
 };
-export type UserUncheckedCreateWithoutAdminLogsInput = {
+export type UserUncheckedCreateWithoutActivityLogsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourUncheckedCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
     notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
 };
-export type UserCreateOrConnectWithoutAdminLogsInput = {
+export type UserCreateOrConnectWithoutActivityLogsInput = {
     where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutAdminLogsInput, Prisma.UserUncheckedCreateWithoutAdminLogsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutActivityLogsInput, Prisma.UserUncheckedCreateWithoutActivityLogsInput>;
 };
-export type UserUpsertWithoutAdminLogsInput = {
-    update: Prisma.XOR<Prisma.UserUpdateWithoutAdminLogsInput, Prisma.UserUncheckedUpdateWithoutAdminLogsInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutAdminLogsInput, Prisma.UserUncheckedCreateWithoutAdminLogsInput>;
+export type UserUpsertWithoutActivityLogsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutActivityLogsInput, Prisma.UserUncheckedUpdateWithoutActivityLogsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutActivityLogsInput, Prisma.UserUncheckedCreateWithoutActivityLogsInput>;
     where?: Prisma.UserWhereInput;
 };
-export type UserUpdateToOneWithWhereWithoutAdminLogsInput = {
+export type UserUpdateToOneWithWhereWithoutActivityLogsInput = {
     where?: Prisma.UserWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutAdminLogsInput, Prisma.UserUncheckedUpdateWithoutAdminLogsInput>;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutActivityLogsInput, Prisma.UserUncheckedUpdateWithoutActivityLogsInput>;
 };
-export type UserUpdateWithoutAdminLogsInput = {
+export type UserUpdateWithoutActivityLogsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
     notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
 };
-export type UserUncheckedUpdateWithoutAdminLogsInput = {
+export type UserUncheckedUpdateWithoutActivityLogsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUncheckedUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
     notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+};
+export type UserCreateWithoutBlogPostsInput = {
+    id?: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    passwordHash: string;
+    avatarUrl?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
+    role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
+    isVerified?: boolean;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
+    bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
+    reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
+};
+export type UserUncheckedCreateWithoutBlogPostsInput = {
+    id?: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    passwordHash: string;
+    avatarUrl?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
+    role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
+    isVerified?: boolean;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
+    bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
+    reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
+};
+export type UserCreateOrConnectWithoutBlogPostsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutBlogPostsInput, Prisma.UserUncheckedCreateWithoutBlogPostsInput>;
+};
+export type UserUpsertWithoutBlogPostsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutBlogPostsInput, Prisma.UserUncheckedUpdateWithoutBlogPostsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutBlogPostsInput, Prisma.UserUncheckedCreateWithoutBlogPostsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutBlogPostsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutBlogPostsInput, Prisma.UserUncheckedUpdateWithoutBlogPostsInput>;
+};
+export type UserUpdateWithoutBlogPostsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
+    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
+    bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
+    reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
+};
+export type UserUncheckedUpdateWithoutBlogPostsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
+    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
+    bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
+    reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutBookingsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutBookingsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourUncheckedCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutBookingsInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -720,87 +974,224 @@ export type UserUpdateToOneWithWhereWithoutBookingsInput = {
 };
 export type UserUpdateWithoutBookingsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutBookingsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUncheckedUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
+};
+export type UserCreateWithoutMembershipsInput = {
+    id?: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    passwordHash: string;
+    avatarUrl?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
+    role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
+    isVerified?: boolean;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
+    reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
+};
+export type UserUncheckedCreateWithoutMembershipsInput = {
+    id?: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    passwordHash: string;
+    avatarUrl?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
+    role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
+    isVerified?: boolean;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
+    reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
+};
+export type UserCreateOrConnectWithoutMembershipsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>;
+};
+export type UserUpsertWithoutMembershipsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutMembershipsInput, Prisma.UserUncheckedUpdateWithoutMembershipsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutMembershipsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutMembershipsInput, Prisma.UserUncheckedUpdateWithoutMembershipsInput>;
+};
+export type UserUpdateWithoutMembershipsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
+    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
+    reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
+};
+export type UserUncheckedUpdateWithoutMembershipsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
+    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
+    reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutNotificationsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogCreateNestedManyWithoutAdminInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutNotificationsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourUncheckedCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutAdminInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutNotificationsInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -817,87 +1208,107 @@ export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
 };
 export type UserUpdateWithoutNotificationsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUpdateManyWithoutAdminNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutNotificationsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUncheckedUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutAdminNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutReviewsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutReviewsInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourUncheckedCreateNestedManyWithoutGuideInput;
-    wishlist?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutReviewsInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -914,258 +1325,312 @@ export type UserUpdateToOneWithWhereWithoutReviewsInput = {
 };
 export type UserUpdateWithoutReviewsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutReviewsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUncheckedUpdateManyWithoutGuideNestedInput;
-    wishlist?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
-export type UserCreateWithoutToursInput = {
+export type UserCreateWithoutAddressesInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    wishlist?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
 };
-export type UserUncheckedCreateWithoutToursInput = {
+export type UserUncheckedCreateWithoutAddressesInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    wishlist?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    vouchers?: Prisma.UserVoucherUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
 };
-export type UserCreateOrConnectWithoutToursInput = {
+export type UserCreateOrConnectWithoutAddressesInput = {
     where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutToursInput, Prisma.UserUncheckedCreateWithoutToursInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>;
 };
-export type UserUpsertWithoutToursInput = {
-    update: Prisma.XOR<Prisma.UserUpdateWithoutToursInput, Prisma.UserUncheckedUpdateWithoutToursInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutToursInput, Prisma.UserUncheckedCreateWithoutToursInput>;
+export type UserUpsertWithoutAddressesInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutAddressesInput, Prisma.UserUncheckedUpdateWithoutAddressesInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>;
     where?: Prisma.UserWhereInput;
 };
-export type UserUpdateToOneWithWhereWithoutToursInput = {
+export type UserUpdateToOneWithWhereWithoutAddressesInput = {
     where?: Prisma.UserWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutToursInput, Prisma.UserUncheckedUpdateWithoutToursInput>;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutAddressesInput, Prisma.UserUncheckedUpdateWithoutAddressesInput>;
 };
-export type UserUpdateWithoutToursInput = {
+export type UserUpdateWithoutAddressesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    wishlist?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
 };
-export type UserUncheckedUpdateWithoutToursInput = {
+export type UserUncheckedUpdateWithoutAddressesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    wishlist?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    vouchers?: Prisma.UserVoucherUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
-export type UserCreateWithoutWishlistInput = {
+export type UserCreateWithoutVouchersInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourCreateNestedManyWithoutGuideInput;
+    addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
 };
-export type UserUncheckedCreateWithoutWishlistInput = {
+export type UserUncheckedCreateWithoutVouchersInput = {
     id?: string;
-    name: string;
+    fullName: string;
     email: string;
+    phone: string;
     passwordHash: string;
-    phone?: string | null;
     avatarUrl?: string | null;
-    country?: string | null;
-    language?: string | null;
+    gender?: $Enums.GenderType | null;
+    dateOfBirth?: Date | string | null;
     role?: $Enums.UserRole;
+    verificationCode?: string | null;
+    resetPasswordCode?: string | null;
+    resetPasswordExpiresAt?: Date | string | null;
+    refreshToken?: string | null;
     isVerified?: boolean;
-    resetPasswordToken?: string | null;
-    resetPasswordExpires?: Date | string | null;
+    isActive?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    tours?: Prisma.TourUncheckedCreateNestedManyWithoutGuideInput;
+    addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput;
+    memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
     bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
-    adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutAdminInput;
     notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutAuthorInput;
+    activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
 };
-export type UserCreateOrConnectWithoutWishlistInput = {
+export type UserCreateOrConnectWithoutVouchersInput = {
     where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutWishlistInput, Prisma.UserUncheckedCreateWithoutWishlistInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutVouchersInput, Prisma.UserUncheckedCreateWithoutVouchersInput>;
 };
-export type UserUpsertWithoutWishlistInput = {
-    update: Prisma.XOR<Prisma.UserUpdateWithoutWishlistInput, Prisma.UserUncheckedUpdateWithoutWishlistInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutWishlistInput, Prisma.UserUncheckedCreateWithoutWishlistInput>;
+export type UserUpsertWithoutVouchersInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutVouchersInput, Prisma.UserUncheckedUpdateWithoutVouchersInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutVouchersInput, Prisma.UserUncheckedCreateWithoutVouchersInput>;
     where?: Prisma.UserWhereInput;
 };
-export type UserUpdateToOneWithWhereWithoutWishlistInput = {
+export type UserUpdateToOneWithWhereWithoutVouchersInput = {
     where?: Prisma.UserWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutWishlistInput, Prisma.UserUncheckedUpdateWithoutWishlistInput>;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutVouchersInput, Prisma.UserUncheckedUpdateWithoutVouchersInput>;
 };
-export type UserUpdateWithoutWishlistInput = {
+export type UserUpdateWithoutVouchersInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUpdateManyWithoutGuideNestedInput;
+    addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
 };
-export type UserUncheckedUpdateWithoutWishlistInput = {
+export type UserUncheckedUpdateWithoutVouchersInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    fullName?: Prisma.StringFieldUpdateOperationsInput | string;
     email?: Prisma.StringFieldUpdateOperationsInput | string;
+    phone?: Prisma.StringFieldUpdateOperationsInput | string;
     passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    gender?: Prisma.NullableEnumGenderTypeFieldUpdateOperationsInput | $Enums.GenderType | null;
+    dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resetPasswordExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    tours?: Prisma.TourUncheckedUpdateManyWithoutGuideNestedInput;
+    addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput;
+    memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
     bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
-    adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutAdminNestedInput;
     notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutAuthorNestedInput;
+    activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
 };
 /**
  * Count Type UserCountOutputType
  */
 export type UserCountOutputType = {
-    tours: number;
-    wishlist: number;
+    addresses: number;
+    memberships: number;
     bookings: number;
     reviews: number;
-    adminLogs: number;
     notifications: number;
+    vouchers: number;
+    blogPosts: number;
+    activityLogs: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    tours?: boolean | UserCountOutputTypeCountToursArgs;
-    wishlist?: boolean | UserCountOutputTypeCountWishlistArgs;
+    addresses?: boolean | UserCountOutputTypeCountAddressesArgs;
+    memberships?: boolean | UserCountOutputTypeCountMembershipsArgs;
     bookings?: boolean | UserCountOutputTypeCountBookingsArgs;
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs;
-    adminLogs?: boolean | UserCountOutputTypeCountAdminLogsArgs;
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs;
+    vouchers?: boolean | UserCountOutputTypeCountVouchersArgs;
+    blogPosts?: boolean | UserCountOutputTypeCountBlogPostsArgs;
+    activityLogs?: boolean | UserCountOutputTypeCountActivityLogsArgs;
 };
 /**
  * UserCountOutputType without action
@@ -1179,14 +1644,14 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountToursArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.TourWhereInput;
+export type UserCountOutputTypeCountAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.UserAddressWhereInput;
 };
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountWishlistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.WishlistWhereInput;
+export type UserCountOutputTypeCountMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.MembershipWhereInput;
 };
 /**
  * UserCountOutputType without action
@@ -1203,94 +1668,122 @@ export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAdminLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.AdminLogWhereInput;
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.NotificationWhereInput;
 };
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.NotificationWhereInput;
+export type UserCountOutputTypeCountVouchersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.UserVoucherWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBlogPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.BlogPostWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountActivityLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.ActivityLogWhereInput;
 };
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
-    name?: boolean;
+    fullName?: boolean;
     email?: boolean;
-    passwordHash?: boolean;
     phone?: boolean;
+    passwordHash?: boolean;
     avatarUrl?: boolean;
-    country?: boolean;
-    language?: boolean;
+    gender?: boolean;
+    dateOfBirth?: boolean;
     role?: boolean;
+    verificationCode?: boolean;
+    resetPasswordCode?: boolean;
+    resetPasswordExpiresAt?: boolean;
+    refreshToken?: boolean;
     isVerified?: boolean;
-    resetPasswordToken?: boolean;
-    resetPasswordExpires?: boolean;
+    isActive?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    tours?: boolean | Prisma.User$toursArgs<ExtArgs>;
-    wishlist?: boolean | Prisma.User$wishlistArgs<ExtArgs>;
+    addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>;
+    memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>;
     bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>;
     reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>;
-    adminLogs?: boolean | Prisma.User$adminLogsArgs<ExtArgs>;
     notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
+    vouchers?: boolean | Prisma.User$vouchersArgs<ExtArgs>;
+    blogPosts?: boolean | Prisma.User$blogPostsArgs<ExtArgs>;
+    activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
-    name?: boolean;
+    fullName?: boolean;
     email?: boolean;
-    passwordHash?: boolean;
     phone?: boolean;
+    passwordHash?: boolean;
     avatarUrl?: boolean;
-    country?: boolean;
-    language?: boolean;
+    gender?: boolean;
+    dateOfBirth?: boolean;
     role?: boolean;
+    verificationCode?: boolean;
+    resetPasswordCode?: boolean;
+    resetPasswordExpiresAt?: boolean;
+    refreshToken?: boolean;
     isVerified?: boolean;
-    resetPasswordToken?: boolean;
-    resetPasswordExpires?: boolean;
+    isActive?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
-    name?: boolean;
+    fullName?: boolean;
     email?: boolean;
-    passwordHash?: boolean;
     phone?: boolean;
+    passwordHash?: boolean;
     avatarUrl?: boolean;
-    country?: boolean;
-    language?: boolean;
+    gender?: boolean;
+    dateOfBirth?: boolean;
     role?: boolean;
+    verificationCode?: boolean;
+    resetPasswordCode?: boolean;
+    resetPasswordExpiresAt?: boolean;
+    refreshToken?: boolean;
     isVerified?: boolean;
-    resetPasswordToken?: boolean;
-    resetPasswordExpires?: boolean;
+    isActive?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectScalar = {
     id?: boolean;
-    name?: boolean;
+    fullName?: boolean;
     email?: boolean;
-    passwordHash?: boolean;
     phone?: boolean;
+    passwordHash?: boolean;
     avatarUrl?: boolean;
-    country?: boolean;
-    language?: boolean;
+    gender?: boolean;
+    dateOfBirth?: boolean;
     role?: boolean;
+    verificationCode?: boolean;
+    resetPasswordCode?: boolean;
+    resetPasswordExpiresAt?: boolean;
+    refreshToken?: boolean;
     isVerified?: boolean;
-    resetPasswordToken?: boolean;
-    resetPasswordExpires?: boolean;
+    isActive?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 };
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "phone" | "avatarUrl" | "country" | "language" | "role" | "isVerified" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>;
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "passwordHash" | "avatarUrl" | "gender" | "dateOfBirth" | "role" | "verificationCode" | "resetPasswordCode" | "resetPasswordExpiresAt" | "refreshToken" | "isVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>;
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    tours?: boolean | Prisma.User$toursArgs<ExtArgs>;
-    wishlist?: boolean | Prisma.User$wishlistArgs<ExtArgs>;
+    addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>;
+    memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>;
     bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>;
     reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>;
-    adminLogs?: boolean | Prisma.User$adminLogsArgs<ExtArgs>;
     notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
+    vouchers?: boolean | Prisma.User$vouchersArgs<ExtArgs>;
+    blogPosts?: boolean | Prisma.User$blogPostsArgs<ExtArgs>;
+    activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -1298,26 +1791,31 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "User";
     objects: {
-        tours: Prisma.$TourPayload<ExtArgs>[];
-        wishlist: Prisma.$WishlistPayload<ExtArgs>[];
+        addresses: Prisma.$UserAddressPayload<ExtArgs>[];
+        memberships: Prisma.$MembershipPayload<ExtArgs>[];
         bookings: Prisma.$BookingPayload<ExtArgs>[];
         reviews: Prisma.$ReviewPayload<ExtArgs>[];
-        adminLogs: Prisma.$AdminLogPayload<ExtArgs>[];
         notifications: Prisma.$NotificationPayload<ExtArgs>[];
+        vouchers: Prisma.$UserVoucherPayload<ExtArgs>[];
+        blogPosts: Prisma.$BlogPostPayload<ExtArgs>[];
+        activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
-        name: string;
+        fullName: string;
         email: string;
+        phone: string;
         passwordHash: string;
-        phone: string | null;
         avatarUrl: string | null;
-        country: string | null;
-        language: string | null;
+        gender: $Enums.GenderType | null;
+        dateOfBirth: Date | null;
         role: $Enums.UserRole;
+        verificationCode: string | null;
+        resetPasswordCode: string | null;
+        resetPasswordExpiresAt: Date | null;
+        refreshToken: string | null;
         isVerified: boolean;
-        resetPasswordToken: string | null;
-        resetPasswordExpires: Date | null;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }, ExtArgs["result"]["user"]>;
@@ -1649,12 +2147,14 @@ export interface UserDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    tours<T extends Prisma.User$toursArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$toursArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    wishlist<T extends Prisma.User$wishlistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    addresses<T extends Prisma.User$addressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    memberships<T extends Prisma.User$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     bookings<T extends Prisma.User$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    adminLogs<T extends Prisma.User$adminLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    vouchers<T extends Prisma.User$vouchersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$vouchersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserVoucherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    blogPosts<T extends Prisma.User$blogPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$blogPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    activityLogs<T extends Prisma.User$activityLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1681,17 +2181,20 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
     readonly id: Prisma.FieldRef<"User", 'String'>;
-    readonly name: Prisma.FieldRef<"User", 'String'>;
+    readonly fullName: Prisma.FieldRef<"User", 'String'>;
     readonly email: Prisma.FieldRef<"User", 'String'>;
-    readonly passwordHash: Prisma.FieldRef<"User", 'String'>;
     readonly phone: Prisma.FieldRef<"User", 'String'>;
+    readonly passwordHash: Prisma.FieldRef<"User", 'String'>;
     readonly avatarUrl: Prisma.FieldRef<"User", 'String'>;
-    readonly country: Prisma.FieldRef<"User", 'String'>;
-    readonly language: Prisma.FieldRef<"User", 'String'>;
+    readonly gender: Prisma.FieldRef<"User", 'GenderType'>;
+    readonly dateOfBirth: Prisma.FieldRef<"User", 'DateTime'>;
     readonly role: Prisma.FieldRef<"User", 'UserRole'>;
+    readonly verificationCode: Prisma.FieldRef<"User", 'String'>;
+    readonly resetPasswordCode: Prisma.FieldRef<"User", 'String'>;
+    readonly resetPasswordExpiresAt: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly refreshToken: Prisma.FieldRef<"User", 'String'>;
     readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>;
-    readonly resetPasswordToken: Prisma.FieldRef<"User", 'String'>;
-    readonly resetPasswordExpires: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly isActive: Prisma.FieldRef<"User", 'Boolean'>;
     readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>;
     readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>;
 }
@@ -2070,50 +2573,50 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
     limit?: number;
 };
 /**
- * User.tours
+ * User.addresses
  */
-export type User$toursArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$addressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tour
+     * Select specific fields to fetch from the UserAddress
      */
-    select?: Prisma.TourSelect<ExtArgs> | null;
+    select?: Prisma.UserAddressSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the Tour
+     * Omit specific fields from the UserAddress
      */
-    omit?: Prisma.TourOmit<ExtArgs> | null;
+    omit?: Prisma.UserAddressOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.TourInclude<ExtArgs> | null;
-    where?: Prisma.TourWhereInput;
-    orderBy?: Prisma.TourOrderByWithRelationInput | Prisma.TourOrderByWithRelationInput[];
-    cursor?: Prisma.TourWhereUniqueInput;
+    include?: Prisma.UserAddressInclude<ExtArgs> | null;
+    where?: Prisma.UserAddressWhereInput;
+    orderBy?: Prisma.UserAddressOrderByWithRelationInput | Prisma.UserAddressOrderByWithRelationInput[];
+    cursor?: Prisma.UserAddressWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: Prisma.TourScalarFieldEnum | Prisma.TourScalarFieldEnum[];
+    distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[];
 };
 /**
- * User.wishlist
+ * User.memberships
  */
-export type User$wishlistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$membershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Wishlist
+     * Select specific fields to fetch from the Membership
      */
-    select?: Prisma.WishlistSelect<ExtArgs> | null;
+    select?: Prisma.MembershipSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the Wishlist
+     * Omit specific fields from the Membership
      */
-    omit?: Prisma.WishlistOmit<ExtArgs> | null;
+    omit?: Prisma.MembershipOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.WishlistInclude<ExtArgs> | null;
-    where?: Prisma.WishlistWhereInput;
-    orderBy?: Prisma.WishlistOrderByWithRelationInput | Prisma.WishlistOrderByWithRelationInput[];
-    cursor?: Prisma.WishlistWhereUniqueInput;
+    include?: Prisma.MembershipInclude<ExtArgs> | null;
+    where?: Prisma.MembershipWhereInput;
+    orderBy?: Prisma.MembershipOrderByWithRelationInput | Prisma.MembershipOrderByWithRelationInput[];
+    cursor?: Prisma.MembershipWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: Prisma.WishlistScalarFieldEnum | Prisma.WishlistScalarFieldEnum[];
+    distinct?: Prisma.MembershipScalarFieldEnum | Prisma.MembershipScalarFieldEnum[];
 };
 /**
  * User.bookings
@@ -2162,29 +2665,6 @@ export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
     distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[];
 };
 /**
- * User.adminLogs
- */
-export type User$adminLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AdminLog
-     */
-    select?: Prisma.AdminLogSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AdminLog
-     */
-    omit?: Prisma.AdminLogOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.AdminLogInclude<ExtArgs> | null;
-    where?: Prisma.AdminLogWhereInput;
-    orderBy?: Prisma.AdminLogOrderByWithRelationInput | Prisma.AdminLogOrderByWithRelationInput[];
-    cursor?: Prisma.AdminLogWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: Prisma.AdminLogScalarFieldEnum | Prisma.AdminLogScalarFieldEnum[];
-};
-/**
  * User.notifications
  */
 export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2206,6 +2686,75 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
     take?: number;
     skip?: number;
     distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[];
+};
+/**
+ * User.vouchers
+ */
+export type User$vouchersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserVoucher
+     */
+    select?: Prisma.UserVoucherSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the UserVoucher
+     */
+    omit?: Prisma.UserVoucherOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.UserVoucherInclude<ExtArgs> | null;
+    where?: Prisma.UserVoucherWhereInput;
+    orderBy?: Prisma.UserVoucherOrderByWithRelationInput | Prisma.UserVoucherOrderByWithRelationInput[];
+    cursor?: Prisma.UserVoucherWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.UserVoucherScalarFieldEnum | Prisma.UserVoucherScalarFieldEnum[];
+};
+/**
+ * User.blogPosts
+ */
+export type User$blogPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlogPost
+     */
+    select?: Prisma.BlogPostSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BlogPost
+     */
+    omit?: Prisma.BlogPostOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BlogPostInclude<ExtArgs> | null;
+    where?: Prisma.BlogPostWhereInput;
+    orderBy?: Prisma.BlogPostOrderByWithRelationInput | Prisma.BlogPostOrderByWithRelationInput[];
+    cursor?: Prisma.BlogPostWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.BlogPostScalarFieldEnum | Prisma.BlogPostScalarFieldEnum[];
+};
+/**
+ * User.activityLogs
+ */
+export type User$activityLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: Prisma.ActivityLogSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: Prisma.ActivityLogOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ActivityLogInclude<ExtArgs> | null;
+    where?: Prisma.ActivityLogWhereInput;
+    orderBy?: Prisma.ActivityLogOrderByWithRelationInput | Prisma.ActivityLogOrderByWithRelationInput[];
+    cursor?: Prisma.ActivityLogWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.ActivityLogScalarFieldEnum | Prisma.ActivityLogScalarFieldEnum[];
 };
 /**
  * User without action

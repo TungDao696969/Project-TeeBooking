@@ -348,6 +348,23 @@ export type EnumSeatStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumSeatStatusFilter<$PrismaModel>
 }
 
+export type EnumTrailerTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.TrailerType | Prisma.EnumTrailerTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTrailerTypeFilter<$PrismaModel> | $Enums.TrailerType
+}
+
+export type EnumTrailerTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TrailerType | Prisma.EnumTrailerTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTrailerTypeWithAggregatesFilter<$PrismaModel> | $Enums.TrailerType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTrailerTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTrailerTypeFilter<$PrismaModel>
+}
+
 export type EnumGenderTypeNullableFilter<$PrismaModel = never> = {
   equals?: $Enums.GenderType | Prisma.EnumGenderTypeFieldRefInput<$PrismaModel> | null
   in?: $Enums.GenderType[] | Prisma.ListEnumGenderTypeFieldRefInput<$PrismaModel> | null
@@ -733,6 +750,23 @@ export type NestedEnumSeatStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumSeatStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumSeatStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumTrailerTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.TrailerType | Prisma.EnumTrailerTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTrailerTypeFilter<$PrismaModel> | $Enums.TrailerType
+}
+
+export type NestedEnumTrailerTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TrailerType | Prisma.EnumTrailerTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TrailerType[] | Prisma.ListEnumTrailerTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTrailerTypeWithAggregatesFilter<$PrismaModel> | $Enums.TrailerType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTrailerTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTrailerTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumGenderTypeNullableFilter<$PrismaModel = never> = {

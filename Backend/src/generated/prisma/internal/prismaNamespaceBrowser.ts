@@ -59,6 +59,7 @@ export const ModelName = {
   BookingTicket: 'BookingTicket',
   Cinema: 'Cinema',
   CinemaRoom: 'CinemaRoom',
+  City: 'City',
   FoodCombo: 'FoodCombo',
   Genre: 'Genre',
   Membership: 'Membership',
@@ -74,6 +75,7 @@ export const ModelName = {
   Seat: 'Seat',
   Showtime: 'Showtime',
   ShowtimeSeat: 'ShowtimeSeat',
+  Trailer: 'Trailer',
   User: 'User',
   UserAddress: 'UserAddress',
   UserVoucher: 'UserVoucher',
@@ -185,6 +187,7 @@ export const CinemaScalarFieldEnum = {
   slug: 'slug',
   hotline: 'hotline',
   email: 'email',
+  cityId: 'cityId',
   province: 'province',
   district: 'district',
   ward: 'ward',
@@ -213,6 +216,18 @@ export const CinemaRoomScalarFieldEnum = {
 export type CinemaRoomScalarFieldEnum = (typeof CinemaRoomScalarFieldEnum)[keyof typeof CinemaRoomScalarFieldEnum]
 
 
+export const CityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
+
+
 export const FoodComboScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -230,7 +245,9 @@ export type FoodComboScalarFieldEnum = (typeof FoodComboScalarFieldEnum)[keyof t
 export const GenreScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  slug: 'slug'
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
@@ -369,7 +386,8 @@ export const ReviewScalarFieldEnum = {
   movieId: 'movieId',
   rating: 'rating',
   comment: 'comment',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -417,6 +435,22 @@ export const ShowtimeSeatScalarFieldEnum = {
 } as const
 
 export type ShowtimeSeatScalarFieldEnum = (typeof ShowtimeSeatScalarFieldEnum)[keyof typeof ShowtimeSeatScalarFieldEnum]
+
+
+export const TrailerScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  title: 'title',
+  videoUrl: 'videoUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  type: 'type',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrailerScalarFieldEnum = (typeof TrailerScalarFieldEnum)[keyof typeof TrailerScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

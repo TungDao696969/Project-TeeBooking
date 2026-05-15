@@ -3,30 +3,75 @@ export { Prisma };
 export * as $Enums from './enums';
 export * from './enums';
 /**
- * Model AdminLog
+ * Model ActivityLog
  *
  */
-export type AdminLog = Prisma.AdminLogModel;
+export type ActivityLog = Prisma.ActivityLogModel;
 /**
- * Model AnalyticsDaily
+ * Model Banner
  *
  */
-export type AnalyticsDaily = Prisma.AnalyticsDailyModel;
+export type Banner = Prisma.BannerModel;
+/**
+ * Model BlogPost
+ *
+ */
+export type BlogPost = Prisma.BlogPostModel;
 /**
  * Model Booking
  *
  */
 export type Booking = Prisma.BookingModel;
 /**
- * Model Category
+ * Model BookingCombo
  *
  */
-export type Category = Prisma.CategoryModel;
+export type BookingCombo = Prisma.BookingComboModel;
 /**
- * Model Coupon
+ * Model BookingTicket
  *
  */
-export type Coupon = Prisma.CouponModel;
+export type BookingTicket = Prisma.BookingTicketModel;
+/**
+ * Model Cinema
+ *
+ */
+export type Cinema = Prisma.CinemaModel;
+/**
+ * Model CinemaRoom
+ *
+ */
+export type CinemaRoom = Prisma.CinemaRoomModel;
+/**
+ * Model FoodCombo
+ *
+ */
+export type FoodCombo = Prisma.FoodComboModel;
+/**
+ * Model Genre
+ *
+ */
+export type Genre = Prisma.GenreModel;
+/**
+ * Model Membership
+ *
+ */
+export type Membership = Prisma.MembershipModel;
+/**
+ * Model Movie
+ *
+ */
+export type Movie = Prisma.MovieModel;
+/**
+ * Model MovieCast
+ *
+ */
+export type MovieCast = Prisma.MovieCastModel;
+/**
+ * Model MovieGenre
+ *
+ */
+export type MovieGenre = Prisma.MovieGenreModel;
 /**
  * Model Notification
  *
@@ -38,33 +83,58 @@ export type Notification = Prisma.NotificationModel;
  */
 export type Payment = Prisma.PaymentModel;
 /**
+ * Model Person
+ *
+ */
+export type Person = Prisma.PersonModel;
+/**
+ * Model Promotion
+ *
+ */
+export type Promotion = Prisma.PromotionModel;
+/**
+ * Model Refund
+ *
+ */
+export type Refund = Prisma.RefundModel;
+/**
  * Model Review
  *
  */
 export type Review = Prisma.ReviewModel;
 /**
- * Model Tour
+ * Model Seat
  *
  */
-export type Tour = Prisma.TourModel;
+export type Seat = Prisma.SeatModel;
 /**
- * Model TourAvailability
+ * Model Showtime
  *
  */
-export type TourAvailability = Prisma.TourAvailabilityModel;
+export type Showtime = Prisma.ShowtimeModel;
 /**
- * Model TourImage
+ * Model ShowtimeSeat
  *
  */
-export type TourImage = Prisma.TourImageModel;
+export type ShowtimeSeat = Prisma.ShowtimeSeatModel;
 /**
  * Model User
  *
  */
 export type User = Prisma.UserModel;
 /**
- * Model Wishlist
+ * Model UserAddress
  *
  */
-export type Wishlist = Prisma.WishlistModel;
+export type UserAddress = Prisma.UserAddressModel;
+/**
+ * Model UserVoucher
+ *
+ */
+export type UserVoucher = Prisma.UserVoucherModel;
+/**
+ * Model Voucher
+ *
+ */
+export type Voucher = Prisma.VoucherModel;
 //# sourceMappingURL=browser.d.ts.map

@@ -107,3 +107,14 @@ export const VoucherStatus = {
 } as const
 
 export type VoucherStatus = (typeof VoucherStatus)[keyof typeof VoucherStatus]
+
+
+export const TrailerType = {
+  teaser: 'teaser',
+  official: 'official',
+  final: 'final',
+  clip: 'clip',
+  behind_the_scenes: 'behind_the_scenes'
+} as const
+
+export type TrailerType = (typeof TrailerType)[keyof typeof TrailerType]

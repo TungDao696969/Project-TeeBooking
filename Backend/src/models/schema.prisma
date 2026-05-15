@@ -88,3 +88,11 @@ enum VoucherStatus {
   inactive
   expired
 }
+
+enum TrailerType {
+  teaser
+  official
+  final
+  clip
+  behind_the_scenes
+}

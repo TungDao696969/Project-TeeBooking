@@ -80,6 +80,11 @@ export type Cinema = Prisma.CinemaModel
  */
 export type CinemaRoom = Prisma.CinemaRoomModel
 /**
+ * Model City
+ * 
+ */
+export type City = Prisma.CityModel
+/**
  * Model FoodCombo
  * 
  */
@@ -154,6 +159,11 @@ export type Showtime = Prisma.ShowtimeModel
  * 
  */
 export type ShowtimeSeat = Prisma.ShowtimeSeatModel
+/**
+ * Model Trailer
+ * 
+ */
+export type Trailer = Prisma.TrailerModel
 /**
  * Model User
  * 

@@ -1,0 +1,1379 @@
+import type * as runtime from "@prisma/client/runtime/client";
+import type * as Prisma from "../internal/prismaNamespace";
+/**
+ * Model BookingCombo
+ *
+ */
+export type BookingComboModel = runtime.Types.Result.DefaultSelection<Prisma.$BookingComboPayload>;
+export type AggregateBookingCombo = {
+    _count: BookingComboCountAggregateOutputType | null;
+    _avg: BookingComboAvgAggregateOutputType | null;
+    _sum: BookingComboSumAggregateOutputType | null;
+    _min: BookingComboMinAggregateOutputType | null;
+    _max: BookingComboMaxAggregateOutputType | null;
+};
+export type BookingComboAvgAggregateOutputType = {
+    quantity: number | null;
+    unitPrice: number | null;
+    totalPrice: number | null;
+};
+export type BookingComboSumAggregateOutputType = {
+    quantity: number | null;
+    unitPrice: number | null;
+    totalPrice: number | null;
+};
+export type BookingComboMinAggregateOutputType = {
+    id: string | null;
+    bookingId: string | null;
+    comboId: string | null;
+    quantity: number | null;
+    unitPrice: number | null;
+    totalPrice: number | null;
+};
+export type BookingComboMaxAggregateOutputType = {
+    id: string | null;
+    bookingId: string | null;
+    comboId: string | null;
+    quantity: number | null;
+    unitPrice: number | null;
+    totalPrice: number | null;
+};
+export type BookingComboCountAggregateOutputType = {
+    id: number;
+    bookingId: number;
+    comboId: number;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    _all: number;
+};
+export type BookingComboAvgAggregateInputType = {
+    quantity?: true;
+    unitPrice?: true;
+    totalPrice?: true;
+};
+export type BookingComboSumAggregateInputType = {
+    quantity?: true;
+    unitPrice?: true;
+    totalPrice?: true;
+};
+export type BookingComboMinAggregateInputType = {
+    id?: true;
+    bookingId?: true;
+    comboId?: true;
+    quantity?: true;
+    unitPrice?: true;
+    totalPrice?: true;
+};
+export type BookingComboMaxAggregateInputType = {
+    id?: true;
+    bookingId?: true;
+    comboId?: true;
+    quantity?: true;
+    unitPrice?: true;
+    totalPrice?: true;
+};
+export type BookingComboCountAggregateInputType = {
+    id?: true;
+    bookingId?: true;
+    comboId?: true;
+    quantity?: true;
+    unitPrice?: true;
+    totalPrice?: true;
+    _all?: true;
+};
+export type BookingComboAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which BookingCombo to aggregate.
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of BookingCombos to fetch.
+     */
+    orderBy?: Prisma.BookingComboOrderByWithRelationInput | Prisma.BookingComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: Prisma.BookingComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` BookingCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` BookingCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned BookingCombos
+    **/
+    _count?: true | BookingComboCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+    **/
+    _avg?: BookingComboAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+    **/
+    _sum?: BookingComboSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+    **/
+    _min?: BookingComboMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+    **/
+    _max?: BookingComboMaxAggregateInputType;
+};
+export type GetBookingComboAggregateType<T extends BookingComboAggregateArgs> = {
+    [P in keyof T & keyof AggregateBookingCombo]: P extends '_count' | 'count' ? T[P] extends true ? number : Prisma.GetScalarType<T[P], AggregateBookingCombo[P]> : Prisma.GetScalarType<T[P], AggregateBookingCombo[P]>;
+};
+export type BookingComboGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.BookingComboWhereInput;
+    orderBy?: Prisma.BookingComboOrderByWithAggregationInput | Prisma.BookingComboOrderByWithAggregationInput[];
+    by: Prisma.BookingComboScalarFieldEnum[] | Prisma.BookingComboScalarFieldEnum;
+    having?: Prisma.BookingComboScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: BookingComboCountAggregateInputType | true;
+    _avg?: BookingComboAvgAggregateInputType;
+    _sum?: BookingComboSumAggregateInputType;
+    _min?: BookingComboMinAggregateInputType;
+    _max?: BookingComboMaxAggregateInputType;
+};
+export type BookingComboGroupByOutputType = {
+    id: string;
+    bookingId: string;
+    comboId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    _count: BookingComboCountAggregateOutputType | null;
+    _avg: BookingComboAvgAggregateOutputType | null;
+    _sum: BookingComboSumAggregateOutputType | null;
+    _min: BookingComboMinAggregateOutputType | null;
+    _max: BookingComboMaxAggregateOutputType | null;
+};
+export type GetBookingComboGroupByPayload<T extends BookingComboGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<BookingComboGroupByOutputType, T['by']> & {
+    [P in ((keyof T) & (keyof BookingComboGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], BookingComboGroupByOutputType[P]> : Prisma.GetScalarType<T[P], BookingComboGroupByOutputType[P]>;
+}>>;
+export type BookingComboWhereInput = {
+    AND?: Prisma.BookingComboWhereInput | Prisma.BookingComboWhereInput[];
+    OR?: Prisma.BookingComboWhereInput[];
+    NOT?: Prisma.BookingComboWhereInput | Prisma.BookingComboWhereInput[];
+    id?: Prisma.StringFilter<"BookingCombo"> | string;
+    bookingId?: Prisma.StringFilter<"BookingCombo"> | string;
+    comboId?: Prisma.StringFilter<"BookingCombo"> | string;
+    quantity?: Prisma.IntFilter<"BookingCombo"> | number;
+    unitPrice?: Prisma.FloatFilter<"BookingCombo"> | number;
+    totalPrice?: Prisma.FloatFilter<"BookingCombo"> | number;
+    booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>;
+    combo?: Prisma.XOR<Prisma.FoodComboScalarRelationFilter, Prisma.FoodComboWhereInput>;
+};
+export type BookingComboOrderByWithRelationInput = {
+    id?: Prisma.SortOrder;
+    bookingId?: Prisma.SortOrder;
+    comboId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+    booking?: Prisma.BookingOrderByWithRelationInput;
+    combo?: Prisma.FoodComboOrderByWithRelationInput;
+};
+export type BookingComboWhereUniqueInput = Prisma.AtLeast<{
+    id?: string;
+    AND?: Prisma.BookingComboWhereInput | Prisma.BookingComboWhereInput[];
+    OR?: Prisma.BookingComboWhereInput[];
+    NOT?: Prisma.BookingComboWhereInput | Prisma.BookingComboWhereInput[];
+    bookingId?: Prisma.StringFilter<"BookingCombo"> | string;
+    comboId?: Prisma.StringFilter<"BookingCombo"> | string;
+    quantity?: Prisma.IntFilter<"BookingCombo"> | number;
+    unitPrice?: Prisma.FloatFilter<"BookingCombo"> | number;
+    totalPrice?: Prisma.FloatFilter<"BookingCombo"> | number;
+    booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>;
+    combo?: Prisma.XOR<Prisma.FoodComboScalarRelationFilter, Prisma.FoodComboWhereInput>;
+}, "id">;
+export type BookingComboOrderByWithAggregationInput = {
+    id?: Prisma.SortOrder;
+    bookingId?: Prisma.SortOrder;
+    comboId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+    _count?: Prisma.BookingComboCountOrderByAggregateInput;
+    _avg?: Prisma.BookingComboAvgOrderByAggregateInput;
+    _max?: Prisma.BookingComboMaxOrderByAggregateInput;
+    _min?: Prisma.BookingComboMinOrderByAggregateInput;
+    _sum?: Prisma.BookingComboSumOrderByAggregateInput;
+};
+export type BookingComboScalarWhereWithAggregatesInput = {
+    AND?: Prisma.BookingComboScalarWhereWithAggregatesInput | Prisma.BookingComboScalarWhereWithAggregatesInput[];
+    OR?: Prisma.BookingComboScalarWhereWithAggregatesInput[];
+    NOT?: Prisma.BookingComboScalarWhereWithAggregatesInput | Prisma.BookingComboScalarWhereWithAggregatesInput[];
+    id?: Prisma.StringWithAggregatesFilter<"BookingCombo"> | string;
+    bookingId?: Prisma.StringWithAggregatesFilter<"BookingCombo"> | string;
+    comboId?: Prisma.StringWithAggregatesFilter<"BookingCombo"> | string;
+    quantity?: Prisma.IntWithAggregatesFilter<"BookingCombo"> | number;
+    unitPrice?: Prisma.FloatWithAggregatesFilter<"BookingCombo"> | number;
+    totalPrice?: Prisma.FloatWithAggregatesFilter<"BookingCombo"> | number;
+};
+export type BookingComboCreateInput = {
+    id?: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    booking: Prisma.BookingCreateNestedOneWithoutCombosInput;
+    combo: Prisma.FoodComboCreateNestedOneWithoutBookingsInput;
+};
+export type BookingComboUncheckedCreateInput = {
+    id?: string;
+    bookingId: string;
+    comboId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+};
+export type BookingComboUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    booking?: Prisma.BookingUpdateOneRequiredWithoutCombosNestedInput;
+    combo?: Prisma.FoodComboUpdateOneRequiredWithoutBookingsNestedInput;
+};
+export type BookingComboUncheckedUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    comboId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboCreateManyInput = {
+    id?: string;
+    bookingId: string;
+    comboId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+};
+export type BookingComboUpdateManyMutationInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboUncheckedUpdateManyInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    comboId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboListRelationFilter = {
+    every?: Prisma.BookingComboWhereInput;
+    some?: Prisma.BookingComboWhereInput;
+    none?: Prisma.BookingComboWhereInput;
+};
+export type BookingComboOrderByRelationAggregateInput = {
+    _count?: Prisma.SortOrder;
+};
+export type BookingComboCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    bookingId?: Prisma.SortOrder;
+    comboId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+};
+export type BookingComboAvgOrderByAggregateInput = {
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+};
+export type BookingComboMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    bookingId?: Prisma.SortOrder;
+    comboId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+};
+export type BookingComboMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    bookingId?: Prisma.SortOrder;
+    comboId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+};
+export type BookingComboSumOrderByAggregateInput = {
+    quantity?: Prisma.SortOrder;
+    unitPrice?: Prisma.SortOrder;
+    totalPrice?: Prisma.SortOrder;
+};
+export type BookingComboCreateNestedManyWithoutBookingInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutBookingInput, Prisma.BookingComboUncheckedCreateWithoutBookingInput> | Prisma.BookingComboCreateWithoutBookingInput[] | Prisma.BookingComboUncheckedCreateWithoutBookingInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutBookingInput | Prisma.BookingComboCreateOrConnectWithoutBookingInput[];
+    createMany?: Prisma.BookingComboCreateManyBookingInputEnvelope;
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+};
+export type BookingComboUncheckedCreateNestedManyWithoutBookingInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutBookingInput, Prisma.BookingComboUncheckedCreateWithoutBookingInput> | Prisma.BookingComboCreateWithoutBookingInput[] | Prisma.BookingComboUncheckedCreateWithoutBookingInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutBookingInput | Prisma.BookingComboCreateOrConnectWithoutBookingInput[];
+    createMany?: Prisma.BookingComboCreateManyBookingInputEnvelope;
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+};
+export type BookingComboUpdateManyWithoutBookingNestedInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutBookingInput, Prisma.BookingComboUncheckedCreateWithoutBookingInput> | Prisma.BookingComboCreateWithoutBookingInput[] | Prisma.BookingComboUncheckedCreateWithoutBookingInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutBookingInput | Prisma.BookingComboCreateOrConnectWithoutBookingInput[];
+    upsert?: Prisma.BookingComboUpsertWithWhereUniqueWithoutBookingInput | Prisma.BookingComboUpsertWithWhereUniqueWithoutBookingInput[];
+    createMany?: Prisma.BookingComboCreateManyBookingInputEnvelope;
+    set?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    disconnect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    delete?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    update?: Prisma.BookingComboUpdateWithWhereUniqueWithoutBookingInput | Prisma.BookingComboUpdateWithWhereUniqueWithoutBookingInput[];
+    updateMany?: Prisma.BookingComboUpdateManyWithWhereWithoutBookingInput | Prisma.BookingComboUpdateManyWithWhereWithoutBookingInput[];
+    deleteMany?: Prisma.BookingComboScalarWhereInput | Prisma.BookingComboScalarWhereInput[];
+};
+export type BookingComboUncheckedUpdateManyWithoutBookingNestedInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutBookingInput, Prisma.BookingComboUncheckedCreateWithoutBookingInput> | Prisma.BookingComboCreateWithoutBookingInput[] | Prisma.BookingComboUncheckedCreateWithoutBookingInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutBookingInput | Prisma.BookingComboCreateOrConnectWithoutBookingInput[];
+    upsert?: Prisma.BookingComboUpsertWithWhereUniqueWithoutBookingInput | Prisma.BookingComboUpsertWithWhereUniqueWithoutBookingInput[];
+    createMany?: Prisma.BookingComboCreateManyBookingInputEnvelope;
+    set?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    disconnect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    delete?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    update?: Prisma.BookingComboUpdateWithWhereUniqueWithoutBookingInput | Prisma.BookingComboUpdateWithWhereUniqueWithoutBookingInput[];
+    updateMany?: Prisma.BookingComboUpdateManyWithWhereWithoutBookingInput | Prisma.BookingComboUpdateManyWithWhereWithoutBookingInput[];
+    deleteMany?: Prisma.BookingComboScalarWhereInput | Prisma.BookingComboScalarWhereInput[];
+};
+export type IntFieldUpdateOperationsInput = {
+    set?: number;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+};
+export type BookingComboCreateNestedManyWithoutComboInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutComboInput, Prisma.BookingComboUncheckedCreateWithoutComboInput> | Prisma.BookingComboCreateWithoutComboInput[] | Prisma.BookingComboUncheckedCreateWithoutComboInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutComboInput | Prisma.BookingComboCreateOrConnectWithoutComboInput[];
+    createMany?: Prisma.BookingComboCreateManyComboInputEnvelope;
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+};
+export type BookingComboUncheckedCreateNestedManyWithoutComboInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutComboInput, Prisma.BookingComboUncheckedCreateWithoutComboInput> | Prisma.BookingComboCreateWithoutComboInput[] | Prisma.BookingComboUncheckedCreateWithoutComboInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutComboInput | Prisma.BookingComboCreateOrConnectWithoutComboInput[];
+    createMany?: Prisma.BookingComboCreateManyComboInputEnvelope;
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+};
+export type BookingComboUpdateManyWithoutComboNestedInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutComboInput, Prisma.BookingComboUncheckedCreateWithoutComboInput> | Prisma.BookingComboCreateWithoutComboInput[] | Prisma.BookingComboUncheckedCreateWithoutComboInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutComboInput | Prisma.BookingComboCreateOrConnectWithoutComboInput[];
+    upsert?: Prisma.BookingComboUpsertWithWhereUniqueWithoutComboInput | Prisma.BookingComboUpsertWithWhereUniqueWithoutComboInput[];
+    createMany?: Prisma.BookingComboCreateManyComboInputEnvelope;
+    set?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    disconnect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    delete?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    update?: Prisma.BookingComboUpdateWithWhereUniqueWithoutComboInput | Prisma.BookingComboUpdateWithWhereUniqueWithoutComboInput[];
+    updateMany?: Prisma.BookingComboUpdateManyWithWhereWithoutComboInput | Prisma.BookingComboUpdateManyWithWhereWithoutComboInput[];
+    deleteMany?: Prisma.BookingComboScalarWhereInput | Prisma.BookingComboScalarWhereInput[];
+};
+export type BookingComboUncheckedUpdateManyWithoutComboNestedInput = {
+    create?: Prisma.XOR<Prisma.BookingComboCreateWithoutComboInput, Prisma.BookingComboUncheckedCreateWithoutComboInput> | Prisma.BookingComboCreateWithoutComboInput[] | Prisma.BookingComboUncheckedCreateWithoutComboInput[];
+    connectOrCreate?: Prisma.BookingComboCreateOrConnectWithoutComboInput | Prisma.BookingComboCreateOrConnectWithoutComboInput[];
+    upsert?: Prisma.BookingComboUpsertWithWhereUniqueWithoutComboInput | Prisma.BookingComboUpsertWithWhereUniqueWithoutComboInput[];
+    createMany?: Prisma.BookingComboCreateManyComboInputEnvelope;
+    set?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    disconnect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    delete?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    connect?: Prisma.BookingComboWhereUniqueInput | Prisma.BookingComboWhereUniqueInput[];
+    update?: Prisma.BookingComboUpdateWithWhereUniqueWithoutComboInput | Prisma.BookingComboUpdateWithWhereUniqueWithoutComboInput[];
+    updateMany?: Prisma.BookingComboUpdateManyWithWhereWithoutComboInput | Prisma.BookingComboUpdateManyWithWhereWithoutComboInput[];
+    deleteMany?: Prisma.BookingComboScalarWhereInput | Prisma.BookingComboScalarWhereInput[];
+};
+export type BookingComboCreateWithoutBookingInput = {
+    id?: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    combo: Prisma.FoodComboCreateNestedOneWithoutBookingsInput;
+};
+export type BookingComboUncheckedCreateWithoutBookingInput = {
+    id?: string;
+    comboId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+};
+export type BookingComboCreateOrConnectWithoutBookingInput = {
+    where: Prisma.BookingComboWhereUniqueInput;
+    create: Prisma.XOR<Prisma.BookingComboCreateWithoutBookingInput, Prisma.BookingComboUncheckedCreateWithoutBookingInput>;
+};
+export type BookingComboCreateManyBookingInputEnvelope = {
+    data: Prisma.BookingComboCreateManyBookingInput | Prisma.BookingComboCreateManyBookingInput[];
+    skipDuplicates?: boolean;
+};
+export type BookingComboUpsertWithWhereUniqueWithoutBookingInput = {
+    where: Prisma.BookingComboWhereUniqueInput;
+    update: Prisma.XOR<Prisma.BookingComboUpdateWithoutBookingInput, Prisma.BookingComboUncheckedUpdateWithoutBookingInput>;
+    create: Prisma.XOR<Prisma.BookingComboCreateWithoutBookingInput, Prisma.BookingComboUncheckedCreateWithoutBookingInput>;
+};
+export type BookingComboUpdateWithWhereUniqueWithoutBookingInput = {
+    where: Prisma.BookingComboWhereUniqueInput;
+    data: Prisma.XOR<Prisma.BookingComboUpdateWithoutBookingInput, Prisma.BookingComboUncheckedUpdateWithoutBookingInput>;
+};
+export type BookingComboUpdateManyWithWhereWithoutBookingInput = {
+    where: Prisma.BookingComboScalarWhereInput;
+    data: Prisma.XOR<Prisma.BookingComboUpdateManyMutationInput, Prisma.BookingComboUncheckedUpdateManyWithoutBookingInput>;
+};
+export type BookingComboScalarWhereInput = {
+    AND?: Prisma.BookingComboScalarWhereInput | Prisma.BookingComboScalarWhereInput[];
+    OR?: Prisma.BookingComboScalarWhereInput[];
+    NOT?: Prisma.BookingComboScalarWhereInput | Prisma.BookingComboScalarWhereInput[];
+    id?: Prisma.StringFilter<"BookingCombo"> | string;
+    bookingId?: Prisma.StringFilter<"BookingCombo"> | string;
+    comboId?: Prisma.StringFilter<"BookingCombo"> | string;
+    quantity?: Prisma.IntFilter<"BookingCombo"> | number;
+    unitPrice?: Prisma.FloatFilter<"BookingCombo"> | number;
+    totalPrice?: Prisma.FloatFilter<"BookingCombo"> | number;
+};
+export type BookingComboCreateWithoutComboInput = {
+    id?: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    booking: Prisma.BookingCreateNestedOneWithoutCombosInput;
+};
+export type BookingComboUncheckedCreateWithoutComboInput = {
+    id?: string;
+    bookingId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+};
+export type BookingComboCreateOrConnectWithoutComboInput = {
+    where: Prisma.BookingComboWhereUniqueInput;
+    create: Prisma.XOR<Prisma.BookingComboCreateWithoutComboInput, Prisma.BookingComboUncheckedCreateWithoutComboInput>;
+};
+export type BookingComboCreateManyComboInputEnvelope = {
+    data: Prisma.BookingComboCreateManyComboInput | Prisma.BookingComboCreateManyComboInput[];
+    skipDuplicates?: boolean;
+};
+export type BookingComboUpsertWithWhereUniqueWithoutComboInput = {
+    where: Prisma.BookingComboWhereUniqueInput;
+    update: Prisma.XOR<Prisma.BookingComboUpdateWithoutComboInput, Prisma.BookingComboUncheckedUpdateWithoutComboInput>;
+    create: Prisma.XOR<Prisma.BookingComboCreateWithoutComboInput, Prisma.BookingComboUncheckedCreateWithoutComboInput>;
+};
+export type BookingComboUpdateWithWhereUniqueWithoutComboInput = {
+    where: Prisma.BookingComboWhereUniqueInput;
+    data: Prisma.XOR<Prisma.BookingComboUpdateWithoutComboInput, Prisma.BookingComboUncheckedUpdateWithoutComboInput>;
+};
+export type BookingComboUpdateManyWithWhereWithoutComboInput = {
+    where: Prisma.BookingComboScalarWhereInput;
+    data: Prisma.XOR<Prisma.BookingComboUpdateManyMutationInput, Prisma.BookingComboUncheckedUpdateManyWithoutComboInput>;
+};
+export type BookingComboCreateManyBookingInput = {
+    id?: string;
+    comboId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+};
+export type BookingComboUpdateWithoutBookingInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    combo?: Prisma.FoodComboUpdateOneRequiredWithoutBookingsNestedInput;
+};
+export type BookingComboUncheckedUpdateWithoutBookingInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    comboId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboUncheckedUpdateManyWithoutBookingInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    comboId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboCreateManyComboInput = {
+    id?: string;
+    bookingId: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+};
+export type BookingComboUpdateWithoutComboInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    booking?: Prisma.BookingUpdateOneRequiredWithoutCombosNestedInput;
+};
+export type BookingComboUncheckedUpdateWithoutComboInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboUncheckedUpdateManyWithoutComboInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    bookingId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+    totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number;
+};
+export type BookingComboSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    bookingId?: boolean;
+    comboId?: boolean;
+    quantity?: boolean;
+    unitPrice?: boolean;
+    totalPrice?: boolean;
+    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    combo?: boolean | Prisma.FoodComboDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["bookingCombo"]>;
+export type BookingComboSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    bookingId?: boolean;
+    comboId?: boolean;
+    quantity?: boolean;
+    unitPrice?: boolean;
+    totalPrice?: boolean;
+    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    combo?: boolean | Prisma.FoodComboDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["bookingCombo"]>;
+export type BookingComboSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    bookingId?: boolean;
+    comboId?: boolean;
+    quantity?: boolean;
+    unitPrice?: boolean;
+    totalPrice?: boolean;
+    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    combo?: boolean | Prisma.FoodComboDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["bookingCombo"]>;
+export type BookingComboSelectScalar = {
+    id?: boolean;
+    bookingId?: boolean;
+    comboId?: boolean;
+    quantity?: boolean;
+    unitPrice?: boolean;
+    totalPrice?: boolean;
+};
+export type BookingComboOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "comboId" | "quantity" | "unitPrice" | "totalPrice", ExtArgs["result"]["bookingCombo"]>;
+export type BookingComboInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    combo?: boolean | Prisma.FoodComboDefaultArgs<ExtArgs>;
+};
+export type BookingComboIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    combo?: boolean | Prisma.FoodComboDefaultArgs<ExtArgs>;
+};
+export type BookingComboIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>;
+    combo?: boolean | Prisma.FoodComboDefaultArgs<ExtArgs>;
+};
+export type $BookingComboPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    name: "BookingCombo";
+    objects: {
+        booking: Prisma.$BookingPayload<ExtArgs>;
+        combo: Prisma.$FoodComboPayload<ExtArgs>;
+    };
+    scalars: runtime.Types.Extensions.GetPayloadResult<{
+        id: string;
+        bookingId: string;
+        comboId: string;
+        quantity: number;
+        unitPrice: number;
+        totalPrice: number;
+    }, ExtArgs["result"]["bookingCombo"]>;
+    composites: {};
+};
+export type BookingComboGetPayload<S extends boolean | null | undefined | BookingComboDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$BookingComboPayload, S>;
+export type BookingComboCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = Omit<BookingComboFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: BookingComboCountAggregateInputType | true;
+};
+export interface BookingComboDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: {
+        types: Prisma.TypeMap<ExtArgs>['model']['BookingCombo'];
+        meta: {
+            name: 'BookingCombo';
+        };
+    };
+    /**
+     * Find zero or one BookingCombo that matches the filter.
+     * @param {BookingComboFindUniqueArgs} args - Arguments to find a BookingCombo
+     * @example
+     * // Get one BookingCombo
+     * const bookingCombo = await prisma.bookingCombo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BookingComboFindUniqueArgs>(args: Prisma.SelectSubset<T, BookingComboFindUniqueArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find one BookingCombo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BookingComboFindUniqueOrThrowArgs} args - Arguments to find a BookingCombo
+     * @example
+     * // Get one BookingCombo
+     * const bookingCombo = await prisma.bookingCombo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BookingComboFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, BookingComboFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first BookingCombo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboFindFirstArgs} args - Arguments to find a BookingCombo
+     * @example
+     * // Get one BookingCombo
+     * const bookingCombo = await prisma.bookingCombo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BookingComboFindFirstArgs>(args?: Prisma.SelectSubset<T, BookingComboFindFirstArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first BookingCombo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboFindFirstOrThrowArgs} args - Arguments to find a BookingCombo
+     * @example
+     * // Get one BookingCombo
+     * const bookingCombo = await prisma.bookingCombo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BookingComboFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, BookingComboFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find zero or more BookingCombos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BookingCombos
+     * const bookingCombos = await prisma.bookingCombo.findMany()
+     *
+     * // Get first 10 BookingCombos
+     * const bookingCombos = await prisma.bookingCombo.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const bookingComboWithIdOnly = await prisma.bookingCombo.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends BookingComboFindManyArgs>(args?: Prisma.SelectSubset<T, BookingComboFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>;
+    /**
+     * Create a BookingCombo.
+     * @param {BookingComboCreateArgs} args - Arguments to create a BookingCombo.
+     * @example
+     * // Create one BookingCombo
+     * const BookingCombo = await prisma.bookingCombo.create({
+     *   data: {
+     *     // ... data to create a BookingCombo
+     *   }
+     * })
+     *
+     */
+    create<T extends BookingComboCreateArgs>(args: Prisma.SelectSubset<T, BookingComboCreateArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Create many BookingCombos.
+     * @param {BookingComboCreateManyArgs} args - Arguments to create many BookingCombos.
+     * @example
+     * // Create many BookingCombos
+     * const bookingCombo = await prisma.bookingCombo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends BookingComboCreateManyArgs>(args?: Prisma.SelectSubset<T, BookingComboCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Create many BookingCombos and returns the data saved in the database.
+     * @param {BookingComboCreateManyAndReturnArgs} args - Arguments to create many BookingCombos.
+     * @example
+     * // Create many BookingCombos
+     * const bookingCombo = await prisma.bookingCombo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many BookingCombos and only return the `id`
+     * const bookingComboWithIdOnly = await prisma.bookingCombo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends BookingComboCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, BookingComboCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Delete a BookingCombo.
+     * @param {BookingComboDeleteArgs} args - Arguments to delete one BookingCombo.
+     * @example
+     * // Delete one BookingCombo
+     * const BookingCombo = await prisma.bookingCombo.delete({
+     *   where: {
+     *     // ... filter to delete one BookingCombo
+     *   }
+     * })
+     *
+     */
+    delete<T extends BookingComboDeleteArgs>(args: Prisma.SelectSubset<T, BookingComboDeleteArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Update one BookingCombo.
+     * @param {BookingComboUpdateArgs} args - Arguments to update one BookingCombo.
+     * @example
+     * // Update one BookingCombo
+     * const bookingCombo = await prisma.bookingCombo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends BookingComboUpdateArgs>(args: Prisma.SelectSubset<T, BookingComboUpdateArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Delete zero or more BookingCombos.
+     * @param {BookingComboDeleteManyArgs} args - Arguments to filter BookingCombos to delete.
+     * @example
+     * // Delete a few BookingCombos
+     * const { count } = await prisma.bookingCombo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends BookingComboDeleteManyArgs>(args?: Prisma.SelectSubset<T, BookingComboDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more BookingCombos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BookingCombos
+     * const bookingCombo = await prisma.bookingCombo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends BookingComboUpdateManyArgs>(args: Prisma.SelectSubset<T, BookingComboUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more BookingCombos and returns the data updated in the database.
+     * @param {BookingComboUpdateManyAndReturnArgs} args - Arguments to update many BookingCombos.
+     * @example
+     * // Update many BookingCombos
+     * const bookingCombo = await prisma.bookingCombo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more BookingCombos and only return the `id`
+     * const bookingComboWithIdOnly = await prisma.bookingCombo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends BookingComboUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, BookingComboUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Create or update one BookingCombo.
+     * @param {BookingComboUpsertArgs} args - Arguments to update or create a BookingCombo.
+     * @example
+     * // Update or create a BookingCombo
+     * const bookingCombo = await prisma.bookingCombo.upsert({
+     *   create: {
+     *     // ... data to create a BookingCombo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BookingCombo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BookingComboUpsertArgs>(args: Prisma.SelectSubset<T, BookingComboUpsertArgs<ExtArgs>>): Prisma.Prisma__BookingComboClient<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Count the number of BookingCombos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboCountArgs} args - Arguments to filter BookingCombos to count.
+     * @example
+     * // Count the number of BookingCombos
+     * const count = await prisma.bookingCombo.count({
+     *   where: {
+     *     // ... the filter for the BookingCombos we want to count
+     *   }
+     * })
+    **/
+    count<T extends BookingComboCountArgs>(args?: Prisma.Subset<T, BookingComboCountArgs>): Prisma.PrismaPromise<T extends runtime.Types.Utils.Record<'select', any> ? T['select'] extends true ? number : Prisma.GetScalarType<T['select'], BookingComboCountAggregateOutputType> : number>;
+    /**
+     * Allows you to perform aggregations operations on a BookingCombo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BookingComboAggregateArgs>(args: Prisma.Subset<T, BookingComboAggregateArgs>): Prisma.PrismaPromise<GetBookingComboAggregateType<T>>;
+    /**
+     * Group by BookingCombo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingComboGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+    **/
+    groupBy<T extends BookingComboGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? {
+        orderBy: BookingComboGroupByArgs['orderBy'];
+    } : {
+        orderBy?: BookingComboGroupByArgs['orderBy'];
+    }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<T['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<T['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True ? `Error: "by" must not be empty.` : HavingValid extends Prisma.False ? {
+        [P in HavingFields]: P extends ByFields ? never : P extends string ? `Error: Field "${P}" used in "having" needs to be provided in "by".` : [
+            Error,
+            'Field ',
+            P,
+            ` in "having" needs to be provided in "by"`
+        ];
+    }[HavingFields] : 'take' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "take", you also need to provide "orderBy"' : 'skip' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "skip", you also need to provide "orderBy"' : ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields]>(args: Prisma.SubsetIntersection<T, BookingComboGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBookingComboGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the BookingCombo model
+     */
+    readonly fields: BookingComboFieldRefs;
+}
+/**
+ * The delegate class that acts as a "Promise-like" for BookingCombo.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export interface Prisma__BookingComboClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    booking<T extends Prisma.BookingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookingDefaultArgs<ExtArgs>>): Prisma.Prisma__BookingClient<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    combo<T extends Prisma.FoodComboDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodComboDefaultArgs<ExtArgs>>): Prisma.Prisma__FoodComboClient<runtime.Types.Result.GetResult<Prisma.$FoodComboPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
+}
+/**
+ * Fields of the BookingCombo model
+ */
+export interface BookingComboFieldRefs {
+    readonly id: Prisma.FieldRef<"BookingCombo", 'String'>;
+    readonly bookingId: Prisma.FieldRef<"BookingCombo", 'String'>;
+    readonly comboId: Prisma.FieldRef<"BookingCombo", 'String'>;
+    readonly quantity: Prisma.FieldRef<"BookingCombo", 'Int'>;
+    readonly unitPrice: Prisma.FieldRef<"BookingCombo", 'Float'>;
+    readonly totalPrice: Prisma.FieldRef<"BookingCombo", 'Float'>;
+}
+/**
+ * BookingCombo findUnique
+ */
+export type BookingComboFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which BookingCombo to fetch.
+     */
+    where: Prisma.BookingComboWhereUniqueInput;
+};
+/**
+ * BookingCombo findUniqueOrThrow
+ */
+export type BookingComboFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which BookingCombo to fetch.
+     */
+    where: Prisma.BookingComboWhereUniqueInput;
+};
+/**
+ * BookingCombo findFirst
+ */
+export type BookingComboFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which BookingCombo to fetch.
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of BookingCombos to fetch.
+     */
+    orderBy?: Prisma.BookingComboOrderByWithRelationInput | Prisma.BookingComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for BookingCombos.
+     */
+    cursor?: Prisma.BookingComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` BookingCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` BookingCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of BookingCombos.
+     */
+    distinct?: Prisma.BookingComboScalarFieldEnum | Prisma.BookingComboScalarFieldEnum[];
+};
+/**
+ * BookingCombo findFirstOrThrow
+ */
+export type BookingComboFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which BookingCombo to fetch.
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of BookingCombos to fetch.
+     */
+    orderBy?: Prisma.BookingComboOrderByWithRelationInput | Prisma.BookingComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for BookingCombos.
+     */
+    cursor?: Prisma.BookingComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` BookingCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` BookingCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of BookingCombos.
+     */
+    distinct?: Prisma.BookingComboScalarFieldEnum | Prisma.BookingComboScalarFieldEnum[];
+};
+/**
+ * BookingCombo findMany
+ */
+export type BookingComboFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * Filter, which BookingCombos to fetch.
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of BookingCombos to fetch.
+     */
+    orderBy?: Prisma.BookingComboOrderByWithRelationInput | Prisma.BookingComboOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing BookingCombos.
+     */
+    cursor?: Prisma.BookingComboWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` BookingCombos from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` BookingCombos.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of BookingCombos.
+     */
+    distinct?: Prisma.BookingComboScalarFieldEnum | Prisma.BookingComboScalarFieldEnum[];
+};
+/**
+ * BookingCombo create
+ */
+export type BookingComboCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a BookingCombo.
+     */
+    data: Prisma.XOR<Prisma.BookingComboCreateInput, Prisma.BookingComboUncheckedCreateInput>;
+};
+/**
+ * BookingCombo createMany
+ */
+export type BookingComboCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BookingCombos.
+     */
+    data: Prisma.BookingComboCreateManyInput | Prisma.BookingComboCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+/**
+ * BookingCombo createManyAndReturn
+ */
+export type BookingComboCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * The data used to create many BookingCombos.
+     */
+    data: Prisma.BookingComboCreateManyInput | Prisma.BookingComboCreateManyInput[];
+    skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboIncludeCreateManyAndReturn<ExtArgs> | null;
+};
+/**
+ * BookingCombo update
+ */
+export type BookingComboUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a BookingCombo.
+     */
+    data: Prisma.XOR<Prisma.BookingComboUpdateInput, Prisma.BookingComboUncheckedUpdateInput>;
+    /**
+     * Choose, which BookingCombo to update.
+     */
+    where: Prisma.BookingComboWhereUniqueInput;
+};
+/**
+ * BookingCombo updateMany
+ */
+export type BookingComboUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BookingCombos.
+     */
+    data: Prisma.XOR<Prisma.BookingComboUpdateManyMutationInput, Prisma.BookingComboUncheckedUpdateManyInput>;
+    /**
+     * Filter which BookingCombos to update
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * Limit how many BookingCombos to update.
+     */
+    limit?: number;
+};
+/**
+ * BookingCombo updateManyAndReturn
+ */
+export type BookingComboUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * The data used to update BookingCombos.
+     */
+    data: Prisma.XOR<Prisma.BookingComboUpdateManyMutationInput, Prisma.BookingComboUncheckedUpdateManyInput>;
+    /**
+     * Filter which BookingCombos to update
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * Limit how many BookingCombos to update.
+     */
+    limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboIncludeUpdateManyAndReturn<ExtArgs> | null;
+};
+/**
+ * BookingCombo upsert
+ */
+export type BookingComboUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the BookingCombo to update in case it exists.
+     */
+    where: Prisma.BookingComboWhereUniqueInput;
+    /**
+     * In case the BookingCombo found by the `where` argument doesn't exist, create a new BookingCombo with this data.
+     */
+    create: Prisma.XOR<Prisma.BookingComboCreateInput, Prisma.BookingComboUncheckedCreateInput>;
+    /**
+     * In case the BookingCombo was found with the provided `where` argument, update it with this data.
+     */
+    update: Prisma.XOR<Prisma.BookingComboUpdateInput, Prisma.BookingComboUncheckedUpdateInput>;
+};
+/**
+ * BookingCombo delete
+ */
+export type BookingComboDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+    /**
+     * Filter which BookingCombo to delete.
+     */
+    where: Prisma.BookingComboWhereUniqueInput;
+};
+/**
+ * BookingCombo deleteMany
+ */
+export type BookingComboDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which BookingCombos to delete
+     */
+    where?: Prisma.BookingComboWhereInput;
+    /**
+     * Limit how many BookingCombos to delete.
+     */
+    limit?: number;
+};
+/**
+ * BookingCombo without action
+ */
+export type BookingComboDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingCombo
+     */
+    select?: Prisma.BookingComboSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the BookingCombo
+     */
+    omit?: Prisma.BookingComboOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BookingComboInclude<ExtArgs> | null;
+};
+//# sourceMappingURL=BookingCombo.d.ts.map

@@ -1,0 +1,100 @@
+export declare const createMovieService: (data: any) => Promise<{
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status: import("../generated/prisma/enums").MovieStatus;
+    title: string;
+    slug: string;
+    originalTitle: string | null;
+    description: string;
+    durationMinutes: number;
+    releaseDate: Date;
+    endDate: Date | null;
+    ageRating: string | null;
+    language: string | null;
+    subtitle: string | null;
+    trailerUrl: string | null;
+    posterUrl: string | null;
+    bannerUrl: string | null;
+    country: string | null;
+    producer: string | null;
+}>;
+export declare const getMoviesService: (page?: number, limit?: number, search?: string) => Promise<any>;
+export declare const getMovieByIdService: (id: string) => Promise<({
+    reviews: {
+        userId: string;
+        id: string;
+        createdAt: Date;
+        movieId: string;
+        rating: number;
+        comment: string | null;
+    }[];
+    genres: {
+        movieId: string;
+        genreId: string;
+    }[];
+    casts: {
+        id: string;
+        movieId: string;
+        characterName: string | null;
+        personId: string;
+        roleType: string;
+    }[];
+    showtimes: {
+        format: string | null;
+        id: string;
+        isActive: boolean;
+        createdAt: Date;
+        language: string | null;
+        subtitle: string | null;
+        movieId: string;
+        roomId: string;
+        showDate: Date;
+        startTime: Date;
+        endTime: Date;
+        basePrice: number;
+    }[];
+} & {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status: import("../generated/prisma/enums").MovieStatus;
+    title: string;
+    slug: string;
+    originalTitle: string | null;
+    description: string;
+    durationMinutes: number;
+    releaseDate: Date;
+    endDate: Date | null;
+    ageRating: string | null;
+    language: string | null;
+    subtitle: string | null;
+    trailerUrl: string | null;
+    posterUrl: string | null;
+    bannerUrl: string | null;
+    country: string | null;
+    producer: string | null;
+}) | null>;
+export declare const updateMovieService: (id: string, data: any) => Promise<{
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status: import("../generated/prisma/enums").MovieStatus;
+    title: string;
+    slug: string;
+    originalTitle: string | null;
+    description: string;
+    durationMinutes: number;
+    releaseDate: Date;
+    endDate: Date | null;
+    ageRating: string | null;
+    language: string | null;
+    subtitle: string | null;
+    trailerUrl: string | null;
+    posterUrl: string | null;
+    bannerUrl: string | null;
+    country: string | null;
+    producer: string | null;
+}>;
+export declare const deleteMovieService: (id: string) => Promise<boolean>;
+//# sourceMappingURL=movie.service.d.ts.map
