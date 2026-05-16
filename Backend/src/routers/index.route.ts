@@ -170,6 +170,18 @@ import {
   releaseShowtimeSeatController,
   reserveShowtimeSeatController,
 } from "../controllers/showtimeSeat.controller";
+import {
+  createMoMoController,
+  createVnpayPaymentController,
+  momoIPNController,
+  momoReturnController,
+  // createMomoPaymentController,
+  // createVnpayPaymentController,
+  // momoIpnController,
+  vnpayReturnController,
+} from "../controllers/payment.controller";
+// import { vnpayReturnController } from "../controllers/vnpay.controller";
+import { create } from "node:domain";
 const router = Router();
 
 router.post("/auth/register", registerController);
@@ -518,6 +530,13 @@ router.delete(
   deleteCityController,
 );
 
+// payment
+router.post("/payment/vnpay", createVnpayPaymentController);
+router.get("/payment/vnpay-return", vnpayReturnController);
+// momo
+router.post("/payment/momo/create", createMoMoController);
+router.post("/payment/momo/ipn", momoIPNController);
+router.get("/payment/momo/return", momoReturnController);
 // dashboard
 router.get(
   "/admin/dashboard",

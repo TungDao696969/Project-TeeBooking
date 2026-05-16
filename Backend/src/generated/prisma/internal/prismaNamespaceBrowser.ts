@@ -149,6 +149,7 @@ export const BookingScalarFieldEnum = {
   discountAmount: 'discountAmount',
   finalAmount: 'finalAmount',
   status: 'status',
+  paymentStatus: 'paymentStatus',
   bookedAt: 'bookedAt',
   expiresAt: 'expiresAt'
 } as const
@@ -333,6 +334,7 @@ export const PaymentScalarFieldEnum = {
   amount: 'amount',
   status: 'status',
   paidAt: 'paidAt',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 } as const
 

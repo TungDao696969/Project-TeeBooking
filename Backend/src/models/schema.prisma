@@ -64,6 +64,13 @@ enum PaymentStatus {
   refunded
 }
 
+enum BookingPaymentStatus {
+  pending
+  paid
+  failed
+  refunded
+}
+
 enum MovieStatus {
   coming_soon
   now_showing

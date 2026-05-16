@@ -1,6 +1,6 @@
 model Booking {
-    id               String        @id @default(uuid())
-    bookingCode      String        @unique
+    id               String               @id @default(uuid())
+    bookingCode      String               @unique
     userId           String
     showtimeId       String
     totalTicketPrice Float
@@ -8,7 +8,8 @@ model Booking {
     discountAmount   Float
     finalAmount      Float
     status           BookingStatus
-    bookedAt         DateTime      @default(now())
+    paymentStatus    BookingPaymentStatus @default(pending)
+    bookedAt         DateTime             @default(now())
     expiresAt        DateTime?
 
     user     User            @relation(fields: [userId], references: [id])

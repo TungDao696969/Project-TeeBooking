@@ -2668,6 +2668,7 @@ export const BookingScalarFieldEnum = {
   discountAmount: 'discountAmount',
   finalAmount: 'finalAmount',
   status: 'status',
+  paymentStatus: 'paymentStatus',
   bookedAt: 'bookedAt',
   expiresAt: 'expiresAt'
 } as const
@@ -2852,6 +2853,7 @@ export const PaymentScalarFieldEnum = {
   amount: 'amount',
   status: 'status',
   paidAt: 'paidAt',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 } as const
 
@@ -3122,6 +3124,20 @@ export type EnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'BookingStatus[]'
  */
 export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BookingPaymentStatus'
+ */
+export type EnumBookingPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingPaymentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BookingPaymentStatus[]'
+ */
+export type ListEnumBookingPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingPaymentStatus[]'>
     
 
 

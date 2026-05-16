@@ -4,6 +4,7 @@ export const createCinemaSchema = z.object({
   name: z.string().min(2).max(255),
   hotline: z.string().optional(),
   email: z.string().email().optional(),
+  cityId: z.string().uuid(),
   province: z.string().min(1),
   district: z.string().min(1),
   ward: z.string().min(1),
