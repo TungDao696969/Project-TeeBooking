@@ -48,7 +48,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.VoucherScalarFieldEnum = exports.UserVoucherScalarFieldEnum = exports.UserAddressScalarFieldEnum = exports.UserScalarFieldEnum = exports.ShowtimeSeatScalarFieldEnum = exports.ShowtimeScalarFieldEnum = exports.SeatScalarFieldEnum = exports.ReviewScalarFieldEnum = exports.RefundScalarFieldEnum = exports.PromotionScalarFieldEnum = exports.PersonScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.NotificationScalarFieldEnum = exports.MovieGenreScalarFieldEnum = exports.MovieCastScalarFieldEnum = exports.MovieScalarFieldEnum = exports.MembershipScalarFieldEnum = exports.GenreScalarFieldEnum = exports.FoodComboScalarFieldEnum = exports.CinemaRoomScalarFieldEnum = exports.CinemaScalarFieldEnum = exports.BookingTicketScalarFieldEnum = exports.BookingComboScalarFieldEnum = exports.BookingScalarFieldEnum = exports.BlogPostScalarFieldEnum = exports.BannerScalarFieldEnum = exports.ActivityLogScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.VoucherScalarFieldEnum = exports.UserVoucherScalarFieldEnum = exports.UserAddressScalarFieldEnum = exports.UserScalarFieldEnum = exports.TrailerScalarFieldEnum = exports.ShowtimeSeatScalarFieldEnum = exports.ShowtimeScalarFieldEnum = exports.SeatScalarFieldEnum = exports.ReviewScalarFieldEnum = exports.RefundScalarFieldEnum = exports.PromotionScalarFieldEnum = exports.PersonScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.NotificationScalarFieldEnum = exports.MovieGenreScalarFieldEnum = exports.MovieCastScalarFieldEnum = exports.MovieScalarFieldEnum = exports.MembershipScalarFieldEnum = exports.InvoiceScalarFieldEnum = exports.GenreScalarFieldEnum = exports.FoodComboScalarFieldEnum = exports.CityScalarFieldEnum = exports.CinemaRoomScalarFieldEnum = exports.CinemaScalarFieldEnum = exports.BookingTicketScalarFieldEnum = exports.BookingComboScalarFieldEnum = exports.BookingScalarFieldEnum = exports.BlogPostScalarFieldEnum = exports.BannerScalarFieldEnum = exports.ActivityLogScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -83,8 +83,10 @@ exports.ModelName = {
     BookingTicket: 'BookingTicket',
     Cinema: 'Cinema',
     CinemaRoom: 'CinemaRoom',
+    City: 'City',
     FoodCombo: 'FoodCombo',
     Genre: 'Genre',
+    Invoice: 'Invoice',
     Membership: 'Membership',
     Movie: 'Movie',
     MovieCast: 'MovieCast',
@@ -98,6 +100,7 @@ exports.ModelName = {
     Seat: 'Seat',
     Showtime: 'Showtime',
     ShowtimeSeat: 'ShowtimeSeat',
+    Trailer: 'Trailer',
     User: 'User',
     UserAddress: 'UserAddress',
     UserVoucher: 'UserVoucher',
@@ -151,6 +154,7 @@ exports.BookingScalarFieldEnum = {
     discountAmount: 'discountAmount',
     finalAmount: 'finalAmount',
     status: 'status',
+    paymentStatus: 'paymentStatus',
     bookedAt: 'bookedAt',
     expiresAt: 'expiresAt'
 };
@@ -177,6 +181,7 @@ exports.CinemaScalarFieldEnum = {
     slug: 'slug',
     hotline: 'hotline',
     email: 'email',
+    cityId: 'cityId',
     province: 'province',
     district: 'district',
     ward: 'ward',
@@ -197,6 +202,14 @@ exports.CinemaRoomScalarFieldEnum = {
     soundSystem: 'soundSystem',
     createdAt: 'createdAt'
 };
+exports.CityScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
 exports.FoodComboScalarFieldEnum = {
     id: 'id',
     name: 'name',
@@ -210,7 +223,19 @@ exports.FoodComboScalarFieldEnum = {
 exports.GenreScalarFieldEnum = {
     id: 'id',
     name: 'name',
-    slug: 'slug'
+    slug: 'slug',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+exports.InvoiceScalarFieldEnum = {
+    id: 'id',
+    bookingId: 'bookingId',
+    invoiceNumber: 'invoiceNumber',
+    subtotal: 'subtotal',
+    discount: 'discount',
+    total: 'total',
+    pdfUrl: 'pdfUrl',
+    issuedAt: 'issuedAt'
 };
 exports.MembershipScalarFieldEnum = {
     id: 'id',
@@ -272,6 +297,7 @@ exports.PaymentScalarFieldEnum = {
     amount: 'amount',
     status: 'status',
     paidAt: 'paidAt',
+    expiresAt: 'expiresAt',
     createdAt: 'createdAt'
 };
 exports.PersonScalarFieldEnum = {
@@ -309,7 +335,8 @@ exports.ReviewScalarFieldEnum = {
     movieId: 'movieId',
     rating: 'rating',
     comment: 'comment',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.SeatScalarFieldEnum = {
     id: 'id',
@@ -342,6 +369,18 @@ exports.ShowtimeSeatScalarFieldEnum = {
     status: 'status',
     finalPrice: 'finalPrice',
     lockedUntil: 'lockedUntil'
+};
+exports.TrailerScalarFieldEnum = {
+    id: 'id',
+    movieId: 'movieId',
+    title: 'title',
+    videoUrl: 'videoUrl',
+    thumbnailUrl: 'thumbnailUrl',
+    type: 'type',
+    isActive: 'isActive',
+    sortOrder: 'sortOrder',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.UserScalarFieldEnum = {
     id: 'id',

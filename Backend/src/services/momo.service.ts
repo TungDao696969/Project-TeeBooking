@@ -3,6 +3,9 @@ import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../utils/prisma";
 
 import { generateSignature } from "../utils/momo";
+import { enqueuePaymentSuccessJob } from "../queue/payment-success.queue";
+
+const MOMO_SUCCESS_CODE = 0;
 
 const getEnv = (name: string, fallbackName?: string) => {
   const value =
@@ -17,6 +20,56 @@ const getEnv = (name: string, fallbackName?: string) => {
   }
 
   return value;
+};
+
+const normalizeMoMoParams = (params: Record<string, any>) => {
+  return Object.fromEntries(
+    Object.entries(params || {}).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value[0] : value,
+    ]),
+  ) as Record<string, any>;
+};
+
+const buildMoMoCallbackSignature = (params: Record<string, any>) => {
+  const accessKey = getEnv("MOMO_ACCESS_KEY");
+
+  return (
+    `accessKey=${accessKey}` +
+    `&amount=${params.amount ?? ""}` +
+    `&extraData=${params.extraData ?? ""}` +
+    `&message=${params.message ?? ""}` +
+    `&orderId=${params.orderId ?? ""}` +
+    `&orderInfo=${params.orderInfo ?? ""}` +
+    `&orderType=${params.orderType ?? ""}` +
+    `&partnerCode=${params.partnerCode ?? ""}` +
+    `&payType=${params.payType ?? ""}` +
+    `&requestId=${params.requestId ?? ""}` +
+    `&responseTime=${params.responseTime ?? ""}` +
+    `&resultCode=${params.resultCode ?? ""}` +
+    `&transId=${params.transId ?? ""}`
+  );
+};
+
+const verifyMoMoCallbackSignature = (params: Record<string, any>) => {
+  const partnerCode = getEnv("MOMO_PARTNER_CODE");
+  const secretKey = getEnv("MOMO_SECRET_KEY");
+  const signature = params.signature;
+
+  if (params.partnerCode !== partnerCode) {
+    throw new Error("Invalid MoMo partnerCode");
+  }
+
+  if (!signature) {
+    throw new Error("Missing MoMo signature");
+  }
+
+  const rawSignature = buildMoMoCallbackSignature(params);
+  const checkSignature = generateSignature(rawSignature, secretKey);
+
+  if (String(signature).toLowerCase() !== checkSignature.toLowerCase()) {
+    throw new Error("Invalid MoMo signature");
+  }
 };
 
 export const createMoMoPayment = async (bookingId: string) => {
@@ -117,21 +170,44 @@ export const createMoMoPayment = async (bookingId: string) => {
 };
 
 export const handleMoMoIPN = async (body: any) => {
-  const { orderId, resultCode, transId } = body;
+  const params = normalizeMoMoParams(body);
+  verifyMoMoCallbackSignature(params);
+
+  const { orderId, transId } = params;
+  const resultCode = Number(params.resultCode);
+  const amount = Number(params.amount);
+
+  if (!orderId) {
+    throw new Error("Missing MoMo orderId");
+  }
+
+  if (!Number.isFinite(resultCode)) {
+    throw new Error("Invalid MoMo resultCode");
+  }
+
+  if (!Number.isFinite(amount)) {
+    throw new Error("Invalid MoMo amount");
+  }
 
   const payment = await prisma.payment.findUnique({
     where: { id: orderId },
   });
 
   if (!payment) {
-    return { message: "payment not found" };
+    throw new Error("MoMo payment not found");
+  }
+
+  if (Math.round(payment.amount) !== Math.round(amount)) {
+    throw new Error("MoMo amount mismatch");
   }
 
   if (payment.status === "paid") {
+    await enqueuePaymentSuccessJob(payment.bookingId);
+
     return { message: "already processed" };
   }
 
-  if (resultCode === 0) {
+  if (resultCode === MOMO_SUCCESS_CODE) {
     await prisma.$transaction(async (tx) => {
       await tx.payment.update({
         where: { id: orderId },
@@ -150,6 +226,8 @@ export const handleMoMoIPN = async (body: any) => {
         },
       });
     });
+
+    await enqueuePaymentSuccessJob(payment.bookingId);
   } else {
     await prisma.$transaction(async (tx) => {
       await tx.payment.update({
@@ -169,4 +247,13 @@ export const handleMoMoIPN = async (body: any) => {
   }
 
   return { message: "received" };
+};
+
+export const handleMoMoReturn = async (query: any) => {
+  const params = normalizeMoMoParams(query);
+  await handleMoMoIPN(params);
+
+  return Number(params.resultCode) === MOMO_SUCCESS_CODE
+    ? "success"
+    : "failed";
 };

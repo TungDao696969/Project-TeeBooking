@@ -1,13 +1,14 @@
+import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import path from "path";
 import indexRoute from "./routers/index.route";
-import dotenv from "dotenv";
 import { startSeatLockCleanupJob } from "./jobs/seatLockCleanup.job";
+import "./worker/payment-success.worker";
 const app = express();
-dotenv.config();
 app.use(helmet());
 app.use(
   cors({
@@ -17,6 +18,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 startSeatLockCleanupJob();
 app.use(
   rateLimit({

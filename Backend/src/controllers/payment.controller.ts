@@ -1,9 +1,20 @@
 import { Request, Response } from "express";
-import { createVNPayPayment } from "../services/payment.service";
+import {
+  createVNPayPayment,
+  handleVNPayIPN,
+  handleVNPayReturn,
+} from "../services/payment.service";
 import { createVnpayPaymentUrl } from "../services/vnpay.service";
-import { createSecureHash } from "../utils/vnpay";
-import { prisma } from "../utils/prisma";
-import { createMoMoPayment, handleMoMoIPN } from "../services/momo.service";
+import {
+  createMoMoPayment,
+  handleMoMoIPN,
+  handleMoMoReturn,
+} from "../services/momo.service";
+
+const getPaymentRedirectUrl = (status: "success" | "failed") => {
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  return `${frontendUrl}/payment-${status}`;
+};
 
 export const createVnpayPaymentController = async (
   req: Request,
@@ -52,68 +63,9 @@ export const createVnpayPaymentController = async (
 
 export const vnpayReturnController = async (req: Request, res: Response) => {
   try {
-    const secretKey = process.env.VNP_HASH_SECRET;
-    if (!secretKey) {
-      throw new Error("Missing VNPay hash secret configuration");
-    }
+    const status = await handleVNPayReturn(req.query);
 
-    const vnpParams = Object.fromEntries(
-      Object.entries(req.query || {}).map(([key, value]) => [
-        key,
-        Array.isArray(value) ? value[0] : value,
-      ]),
-    ) as Record<string, string | undefined>;
-
-    const secureHash = vnpParams.vnp_SecureHash;
-    delete vnpParams.vnp_SecureHash;
-    delete vnpParams.vnp_SecureHashType;
-
-    if (!secureHash) {
-      throw new Error("Missing vnp_SecureHash");
-    }
-
-    const checkHash = createSecureHash(vnpParams, secretKey);
-
-    if (secureHash.toLowerCase() !== checkHash.toLowerCase()) {
-      throw new Error("Invalid checksum");
-    }
-
-    const paymentId = vnpParams.vnp_TxnRef;
-    const responseCode = vnpParams.vnp_ResponseCode;
-    const transactionNo = vnpParams.vnp_TransactionNo;
-
-    if (!paymentId) {
-      throw new Error("Missing vnp_TxnRef");
-    }
-
-    if (responseCode === "00") {
-      const payment = await prisma.payment.update({
-        where: { id: paymentId },
-        data: {
-          status: "paid",
-          paidAt: new Date(),
-          transactionCode: transactionNo,
-        },
-      });
-
-      await prisma.booking.update({
-        where: { id: payment.bookingId },
-        data: {
-          paymentStatus: "paid",
-        },
-      });
-
-      return res.redirect("http://localhost:3000/payment-success");
-    }
-
-    await prisma.payment.update({
-      where: { id: paymentId },
-      data: {
-        status: "failed",
-      },
-    });
-
-    return res.redirect("http://localhost:3000/payment-failed");
+    return res.redirect(getPaymentRedirectUrl(status));
   } catch (error: any) {
     console.error("[VNPAY] return error", {
       message: error?.message,
@@ -121,7 +73,26 @@ export const vnpayReturnController = async (req: Request, res: Response) => {
       query: req.query,
     });
 
-    return res.redirect("http://localhost:3000/payment-failed");
+    return res.redirect(getPaymentRedirectUrl("failed"));
+  }
+};
+
+export const vnpayIPNController = async (req: Request, res: Response) => {
+  try {
+    const result = await handleVNPayIPN(req.query);
+
+    return res.json(result);
+  } catch (error: any) {
+    console.error("[VNPAY] IPN error", {
+      message: error?.message,
+      stack: error?.stack,
+      query: req.query,
+    });
+
+    return res.json({
+      RspCode: "99",
+      Message: "Unknown error",
+    });
   }
 };
 
@@ -145,11 +116,35 @@ export const createMoMoController = async (req: Request, res: Response) => {
 };
 
 export const momoIPNController = async (req: Request, res: Response) => {
-  const result = await handleMoMoIPN(req.body);
+  try {
+    const result = await handleMoMoIPN(req.body);
 
-  return res.json(result);
+    return res.json(result);
+  } catch (error: any) {
+    console.error("[MOMO] IPN error", {
+      message: error?.message,
+      stack: error?.stack,
+      body: req.body,
+    });
+
+    return res.status(400).json({
+      message: error.message || "Invalid MoMo IPN",
+    });
+  }
 };
 
 export const momoReturnController = async (req: Request, res: Response) => {
-  return res.send("Payment completed");
+  try {
+    const status = await handleMoMoReturn(req.query);
+
+    return res.redirect(getPaymentRedirectUrl(status));
+  } catch (error: any) {
+    console.error("[MOMO] return error", {
+      message: error?.message,
+      stack: error?.stack,
+      query: req.query,
+    });
+
+    return res.redirect(getPaymentRedirectUrl("failed"));
+  }
 };

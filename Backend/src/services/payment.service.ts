@@ -9,6 +9,7 @@ import {
   toVnpayTxnRef,
 } from "../utils/vnpay";
 import { PaymentMethod } from "../generated/prisma/enums";
+import { enqueuePaymentSuccessJob } from "../queue/payment-success.queue";
 
 export const createVNPayPayment = async (
   bookingId: string,
@@ -58,11 +59,11 @@ export const handleVNPayReturn = async (query: any) => {
 
   if (responseCode === "00") {
     await markPaymentPaid(paymentId, String(vnpParams.vnp_TransactionNo));
-    return "Thanh toan thanh cong";
+    return "success";
   }
 
   await markPaymentFailed(paymentId);
-  return "Thanh toan that bai";
+  return "failed";
 };
 
 export const handleVNPayIPN = async (query: any) => {
@@ -101,6 +102,8 @@ export const handleVNPayIPN = async (query: any) => {
   }
 
   if (payment.status === "paid") {
+    await enqueuePaymentSuccessJob(payment.bookingId);
+
     return {
       RspCode: "02",
       Message: "Already confirmed",
@@ -120,12 +123,16 @@ export const handleVNPayIPN = async (query: any) => {
 };
 
 const markPaymentPaid = async (paymentId: string, transactionCode: string) => {
-  await prisma.$transaction(async (tx) => {
+  const bookingId = await prisma.$transaction(async (tx) => {
     const payment = await tx.payment.findUnique({
       where: { id: paymentId },
     });
 
-    if (!payment || payment.status === "paid") return;
+    if (!payment) return null;
+
+    if (payment.status === "paid") {
+      return payment.bookingId;
+    }
 
     await tx.payment.update({
       where: { id: paymentId },
@@ -143,7 +150,13 @@ const markPaymentPaid = async (paymentId: string, transactionCode: string) => {
         paymentStatus: "paid",
       },
     });
+
+    return payment.bookingId;
   });
+
+  if (bookingId) {
+    await enqueuePaymentSuccessJob(bookingId);
+  }
 };
 
 const markPaymentFailed = async (paymentId: string) => {

@@ -170,11 +170,14 @@ import {
   releaseShowtimeSeatController,
   reserveShowtimeSeatController,
 } from "../controllers/showtimeSeat.controller";
+import { generateTicketQRController } from "../controllers/ticket-qr.controller";
+import { getCurrentBookingController } from "../controllers/booking.controller";
 import {
   createMoMoController,
   createVnpayPaymentController,
   momoIPNController,
   momoReturnController,
+  vnpayIPNController,
   // createMomoPaymentController,
   // createVnpayPaymentController,
   // momoIpnController,
@@ -182,6 +185,12 @@ import {
 } from "../controllers/payment.controller";
 // import { vnpayReturnController } from "../controllers/vnpay.controller";
 import { create } from "node:domain";
+import {
+  getBookingHistoryDetailController,
+  getPastBookingsController,
+} from "../controllers/booking-past.controller";
+import { cancelBookingController } from "../controllers/booking-cancel.controller";
+
 const router = Router();
 
 router.post("/auth/register", registerController);
@@ -533,11 +542,31 @@ router.delete(
 // payment
 router.post("/payment/vnpay", createVnpayPaymentController);
 router.get("/payment/vnpay-return", vnpayReturnController);
+router.get("/payment/vnpay-ipn", vnpayIPNController);
 // momo
 router.post("/payment/momo/create", createMoMoController);
 router.post("/payment/momo/ipn", momoIPNController);
 router.get("/payment/momo/return", momoReturnController);
-// dashboard
+
+// booking current
+router.get("/booking/current", authMiddleware, getCurrentBookingController);
+
+// ticket QR
+router.get(
+  "/booking/tickets/:ticketId/qr",
+  authMiddleware,
+  generateTicketQRController,
+);
+
+// booking past
+router.get("/booking/past", authMiddleware, getPastBookingsController);
+router.get(
+  "/booking/history/:id",
+  authMiddleware,
+  getBookingHistoryDetailController,
+);
+
+router.post("/booking/:id/cancel", authMiddleware, cancelBookingController);
 router.get(
   "/admin/dashboard",
   authMiddleware,

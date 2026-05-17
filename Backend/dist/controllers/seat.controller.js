@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSeat = exports.updateSeat = exports.getSeatById = exports.getSeatsByRoom = exports.getAllSeats = exports.generateSeats = exports.createSeat = void 0;
 const seat_service_1 = require("../services/seat.service");
+const errorHandler_1 = require("../utils/errorHandler");
 // CREATE
 const createSeat = async (req, res) => {
     try {
@@ -12,9 +13,10 @@ const createSeat = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };
@@ -31,9 +33,10 @@ const generateSeats = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };
@@ -49,9 +52,10 @@ const getAllSeats = async (_req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };
@@ -74,9 +78,10 @@ const getSeatsByRoom = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };
@@ -104,9 +109,10 @@ const getSeatById = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };
@@ -128,9 +134,10 @@ const updateSeat = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };
@@ -152,9 +159,10 @@ const deleteSeat = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch notifications",
         });
     }
 };

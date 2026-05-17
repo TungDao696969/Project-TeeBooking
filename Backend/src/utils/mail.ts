@@ -69,3 +69,32 @@ export const sendMailTemplate = async (
   const html = await ejs.renderFile(templatePath, context);
   return sendMail(to, subject, html);
 };
+
+// email invoice
+export const sendInvoiceEmail = async ({
+  to,
+  pdfPath,
+}: {
+  to: string;
+  pdfPath: string;
+}) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  await transporter.sendMail({
+    to,
+    subject: "Booking Confirmation Invoice",
+    text: "Booking confirmed successfully",
+    attachments: [
+      {
+        filename: "invoice.pdf",
+        path: pdfPath,
+      },
+    ],
+  });
+};

@@ -6,6 +6,7 @@ exports.createCinemaSchema = zod_1.z.object({
     name: zod_1.z.string().min(2).max(255),
     hotline: zod_1.z.string().optional(),
     email: zod_1.z.string().email().optional(),
+    cityId: zod_1.z.string().uuid(),
     province: zod_1.z.string().min(1),
     district: zod_1.z.string().min(1),
     ward: zod_1.z.string().min(1),

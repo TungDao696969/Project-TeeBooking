@@ -395,6 +395,7 @@ export const ModelName = {
   City: 'City',
   FoodCombo: 'FoodCombo',
   Genre: 'Genre',
+  Invoice: 'Invoice',
   Membership: 'Membership',
   Movie: 'Movie',
   MovieCast: 'MovieCast',
@@ -428,7 +429,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activityLog" | "banner" | "blogPost" | "booking" | "bookingCombo" | "bookingTicket" | "cinema" | "cinemaRoom" | "city" | "foodCombo" | "genre" | "membership" | "movie" | "movieCast" | "movieGenre" | "notification" | "payment" | "person" | "promotion" | "refund" | "review" | "seat" | "showtime" | "showtimeSeat" | "trailer" | "user" | "userAddress" | "userVoucher" | "voucher"
+    modelProps: "activityLog" | "banner" | "blogPost" | "booking" | "bookingCombo" | "bookingTicket" | "cinema" | "cinemaRoom" | "city" | "foodCombo" | "genre" | "invoice" | "membership" | "movie" | "movieCast" | "movieGenre" | "notification" | "payment" | "person" | "promotion" | "refund" | "review" | "seat" | "showtime" | "showtimeSeat" | "trailer" | "user" | "userAddress" | "userVoucher" | "voucher"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1243,6 +1244,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.GenreCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.GenreCountAggregateOutputType> | number
+        }
+      }
+    }
+    Invoice: {
+      payload: Prisma.$InvoicePayload<ExtArgs>
+      fields: Prisma.InvoiceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InvoiceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InvoiceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>
+        }
+        findFirst: {
+          args: Prisma.InvoiceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InvoiceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>
+        }
+        findMany: {
+          args: Prisma.InvoiceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+        }
+        create: {
+          args: Prisma.InvoiceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>
+        }
+        createMany: {
+          args: Prisma.InvoiceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InvoiceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+        }
+        delete: {
+          args: Prisma.InvoiceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>
+        }
+        update: {
+          args: Prisma.InvoiceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>
+        }
+        deleteMany: {
+          args: Prisma.InvoiceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InvoiceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InvoiceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+        }
+        upsert: {
+          args: Prisma.InvoiceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvoicePayload>
+        }
+        aggregate: {
+          args: Prisma.InvoiceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInvoice>
+        }
+        groupBy: {
+          args: Prisma.InvoiceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InvoiceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InvoiceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InvoiceCountAggregateOutputType> | number
         }
       }
     }
@@ -2773,6 +2848,20 @@ export const GenreScalarFieldEnum = {
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
 
 
+export const InvoiceScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  invoiceNumber: 'invoiceNumber',
+  subtotal: 'subtotal',
+  discount: 'discount',
+  total: 'total',
+  pdfUrl: 'pdfUrl',
+  issuedAt: 'issuedAt'
+} as const
+
+export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
 export const MembershipScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -3415,6 +3504,7 @@ export type GlobalOmitConfig = {
   city?: Prisma.CityOmit
   foodCombo?: Prisma.FoodComboOmit
   genre?: Prisma.GenreOmit
+  invoice?: Prisma.InvoiceOmit
   membership?: Prisma.MembershipOmit
   movie?: Prisma.MovieOmit
   movieCast?: Prisma.MovieCastOmit

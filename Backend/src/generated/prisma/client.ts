@@ -95,6 +95,11 @@ export type FoodCombo = Prisma.FoodComboModel
  */
 export type Genre = Prisma.GenreModel
 /**
+ * Model Invoice
+ * 
+ */
+export type Invoice = Prisma.InvoiceModel
+/**
  * Model Membership
  * 
  */

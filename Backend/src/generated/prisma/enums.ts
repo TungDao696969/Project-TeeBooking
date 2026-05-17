@@ -76,6 +76,7 @@ export const PaymentStatus = {
   pending: 'pending',
   paid: 'paid',
   failed: 'failed',
+  refund_pending: 'refund_pending',
   refunded: 'refunded'
 } as const
 

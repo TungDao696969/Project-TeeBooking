@@ -17,6 +17,7 @@ model Booking {
     tickets  BookingTicket[]
     combos   BookingCombo[]
     payments Payment[]
+    invoice  Invoice?
     refunds  Refund[]
 
     @@map("bookings")

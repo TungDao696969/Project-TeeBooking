@@ -57,6 +57,7 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
         totalComboPrice: number;
         discountAmount: number;
         finalAmount: number;
+        paymentStatus: import("../generated/prisma/enums").BookingPaymentStatus;
         bookedAt: Date;
         expiresAt: Date | null;
     }[];
@@ -84,10 +85,10 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
     seats: {
         id: string;
         status: import("../generated/prisma/enums").SeatStatus;
-        finalPrice: number;
-        lockedUntil: Date | null;
         showtimeId: string;
         seatId: string;
+        finalPrice: number;
+        lockedUntil: Date | null;
     }[];
     room: {
         id: string;

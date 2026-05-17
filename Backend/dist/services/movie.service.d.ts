@@ -25,6 +25,7 @@ export declare const getMovieByIdService: (id: string) => Promise<({
         userId: string;
         id: string;
         createdAt: Date;
+        updatedAt: Date;
         movieId: string;
         rating: number;
         comment: string | null;
@@ -36,9 +37,9 @@ export declare const getMovieByIdService: (id: string) => Promise<({
     casts: {
         id: string;
         movieId: string;
-        characterName: string | null;
         personId: string;
         roleType: string;
+        characterName: string | null;
     }[];
     showtimes: {
         format: string | null;

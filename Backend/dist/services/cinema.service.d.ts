@@ -10,6 +10,7 @@ export declare const createCinemaService: (data: CreateCinemaInput) => Promise<{
     ward: string;
     slug: string;
     hotline: string | null;
+    cityId: string;
     address: string;
     latitude: number | null;
     longitude: number | null;
@@ -28,6 +29,7 @@ export declare const updateCinemaService: (id: string, data: UpdateCinemaInput) 
     ward: string;
     slug: string;
     hotline: string | null;
+    cityId: string;
     address: string;
     latitude: number | null;
     longitude: number | null;

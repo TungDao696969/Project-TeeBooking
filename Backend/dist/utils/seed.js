@@ -53,6 +53,15 @@ async function main() {
         },
     });
     // =============================
+    // CITIES
+    // =============================
+    const hcmCity = await prisma_1.prisma.city.create({
+        data: {
+            name: "TP.HCM",
+            slug: "tp-hcm",
+        },
+    });
+    // =============================
     // CINEMAS
     // =============================
     const cinema1 = await prisma_1.prisma.cinema.create({
@@ -60,6 +69,7 @@ async function main() {
             name: "Cinestar Quốc Thanh",
             slug: "cinestar-quoc-thanh",
             hotline: "19006008",
+            cityId: hcmCity.id,
             province: "TP.HCM",
             district: "Quận 1",
             ward: "Bến Thành",
@@ -74,6 +84,7 @@ async function main() {
             name: "Cinestar Hai Bà Trưng",
             slug: "cinestar-hai-ba-trung",
             hotline: "19006009",
+            cityId: hcmCity.id,
             province: "TP.HCM",
             district: "Quận 3",
             ward: "Phường 6",
@@ -406,18 +417,76 @@ async function main() {
         },
     });
     // =============================
-    // ACTIVITY LOGS
+    // ADDITIONAL PAYMENTS FOR TESTING
     // =============================
-    await prisma_1.prisma.activityLog.create({
+    // Payment with pending status
+    const pendingPayment = await prisma_1.prisma.payment.create({
         data: {
-            userId: customer.id,
-            action: "BOOK_TICKET",
-            targetType: "Booking",
-            targetId: booking.id,
-            ipAddress: "127.0.0.1",
-            userAgent: "Mozilla/5.0",
+            bookingId: booking.id,
+            paymentMethod: enums_1.PaymentMethod.vnpay,
+            paymentGateway: "VNPay",
+            transactionCode: "VNPAY789012",
+            amount: booking.finalAmount,
+            status: enums_1.PaymentStatus.pending,
         },
     });
+    // Payment with failed status
+    const failedPayment = await prisma_1.prisma.payment.create({
+        data: {
+            bookingId: booking.id,
+            paymentMethod: enums_1.PaymentMethod.momo,
+            paymentGateway: "MoMo",
+            transactionCode: "MOMO987654",
+            amount: booking.finalAmount,
+            status: enums_1.PaymentStatus.failed,
+        },
+    });
+    // Another booking for testing
+    const selectedSeats2 = await prisma_1.prisma.showtimeSeat.findMany({
+        where: {
+            showtimeId: showtime.id,
+            status: enums_1.SeatStatus.available,
+        },
+        take: 1,
+    });
+    if (selectedSeats2.length > 0) {
+        const booking2 = await prisma_1.prisma.booking.create({
+            data: {
+                bookingCode: "BK000002",
+                userId: customer.id,
+                showtimeId: showtime.id,
+                totalTicketPrice: selectedSeats2[0].finalPrice,
+                totalComboPrice: 0,
+                discountAmount: 0,
+                finalAmount: selectedSeats2[0].finalPrice,
+                status: enums_1.BookingStatus.pending,
+            },
+        });
+        await prisma_1.prisma.bookingTicket.create({
+            data: {
+                bookingId: booking2.id,
+                showtimeSeatId: selectedSeats2[0].id,
+                ticketPrice: selectedSeats2[0].finalPrice,
+                qrCode: `QR-${selectedSeats2[0].id}`,
+            },
+        });
+        await prisma_1.prisma.showtimeSeat.update({
+            where: { id: selectedSeats2[0].id },
+            data: { status: enums_1.SeatStatus.booked },
+        });
+        // Payment for booking2 with paid status
+        const payment2 = await prisma_1.prisma.payment.create({
+            data: {
+                bookingId: booking2.id,
+                paymentMethod: enums_1.PaymentMethod.cash,
+                paymentGateway: "Cash",
+                transactionCode: "CASH345678",
+                amount: booking2.finalAmount,
+                status: enums_1.PaymentStatus.paid,
+                paidAt: new Date(),
+            },
+        });
+    }
     console.log("✅ Database seeded successfully!");
 }
 main()

@@ -1,3 +1,4 @@
+import { SeatType } from "../generated/prisma/enums";
 import { CreateSeatInput, UpdateSeatInput } from "../validations/seat.validation";
 export declare const createSeatService: (data: CreateSeatInput) => Promise<{
     room: {
@@ -17,10 +18,10 @@ export declare const createSeatService: (data: CreateSeatInput) => Promise<{
     seatRow: string;
     seatNumber: number;
     seatCode: string;
-    seatType: import("../generated/prisma/enums").SeatType;
+    seatType: SeatType;
     extraPrice: number;
 }>;
-export declare const generateSeatService: (roomId: string, rows: string[], seatsPerRow: number, seatType?: any) => Promise<any[]>;
+export declare const generateSeatService: (roomId: string, rows: string[], seatsPerRow: number, seatType?: SeatType) => Promise<any[]>;
 export declare const getAllSeatsService: () => Promise<any>;
 export declare const getSeatsByRoomService: (roomId: string) => Promise<any>;
 export declare const getSeatByIdService: (id: string) => Promise<({
@@ -37,10 +38,10 @@ export declare const getSeatByIdService: (id: string) => Promise<({
     showtimeSeats: {
         id: string;
         status: import("../generated/prisma/enums").SeatStatus;
-        finalPrice: number;
-        lockedUntil: Date | null;
         showtimeId: string;
         seatId: string;
+        finalPrice: number;
+        lockedUntil: Date | null;
     }[];
 } & {
     id: string;
@@ -49,7 +50,7 @@ export declare const getSeatByIdService: (id: string) => Promise<({
     seatRow: string;
     seatNumber: number;
     seatCode: string;
-    seatType: import("../generated/prisma/enums").SeatType;
+    seatType: SeatType;
     extraPrice: number;
 }) | null>;
 export declare const updateSeatService: (id: string, data: UpdateSeatInput) => Promise<{
@@ -70,8 +71,11 @@ export declare const updateSeatService: (id: string, data: UpdateSeatInput) => P
     seatRow: string;
     seatNumber: number;
     seatCode: string;
-    seatType: import("../generated/prisma/enums").SeatType;
+    seatType: SeatType;
     extraPrice: number;
 }>;
-export declare const deleteSeatService: (id: string) => Promise<boolean>;
+export declare const deleteSeatService: (id: string) => Promise<{
+    success: boolean;
+    message: string;
+}>;
 //# sourceMappingURL=seat.service.d.ts.map

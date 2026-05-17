@@ -43,6 +43,11 @@ export type Cinema = Prisma.CinemaModel;
  */
 export type CinemaRoom = Prisma.CinemaRoomModel;
 /**
+ * Model City
+ *
+ */
+export type City = Prisma.CityModel;
+/**
  * Model FoodCombo
  *
  */
@@ -52,6 +57,11 @@ export type FoodCombo = Prisma.FoodComboModel;
  *
  */
 export type Genre = Prisma.GenreModel;
+/**
+ * Model Invoice
+ *
+ */
+export type Invoice = Prisma.InvoiceModel;
 /**
  * Model Membership
  *
@@ -117,6 +127,11 @@ export type Showtime = Prisma.ShowtimeModel;
  *
  */
 export type ShowtimeSeat = Prisma.ShowtimeSeatModel;
+/**
+ * Model Trailer
+ *
+ */
+export type Trailer = Prisma.TrailerModel;
 /**
  * Model User
  *

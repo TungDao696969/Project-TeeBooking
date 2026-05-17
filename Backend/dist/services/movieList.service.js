@@ -72,8 +72,7 @@ const getMoviesListService = async (query) => {
     ]);
     const formattedMovies = movies.map((movie) => {
         const averageRating = movie.reviews.length > 0
-            ? movie.reviews.reduce((sum, r) => sum + r.rating, 0) /
-                movie.reviews.length
+            ? movie.reviews.reduce((sum, r) => sum + r.rating, 0) / movie.reviews.length
             : 0;
         return {
             id: movie.id,

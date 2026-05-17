@@ -5,11 +5,19 @@ const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
 const cache_ttl = Number(process.env.CACHE_TTL);
 const createCinemaRoomService = async (data) => {
-    const cinema = await prisma_1.prisma.cinemaRoom.create({
+    const cinema = await prisma_1.prisma.cinema.findUnique({
+        where: {
+            id: data.cinemaId,
+        },
+    });
+    if (!cinema) {
+        throw new Error("Cinema not found");
+    }
+    const room = await prisma_1.prisma.cinemaRoom.create({
         data,
     });
     await redis_1.redis.del(`cinemaRooms:${data.cinemaId}`);
-    return cinema;
+    return room;
 };
 exports.createCinemaRoomService = createCinemaRoomService;
 const getCinemaRoomService = async (cinemaId) => {
@@ -24,23 +32,32 @@ const getCinemaRoomService = async (cinemaId) => {
             seats: true,
             showtimes: true,
         },
+        orderBy: {
+            createdAt: "asc",
+        },
     });
     await redis_1.redis.set(cacheKey, JSON.stringify(rooms), "EX", cache_ttl);
     return rooms;
 };
 exports.getCinemaRoomService = getCinemaRoomService;
 const getCinemaRoomByIdService = async (id) => {
-    const cinemaRooms = await prisma_1.prisma.cinemaRoom.findUnique({
+    const rooms = await prisma_1.prisma.cinemaRoom.findUnique({
         where: { id },
         include: {
             seats: true,
             showtimes: true,
         },
     });
-    return cinemaRooms;
+    return rooms;
 };
 exports.getCinemaRoomByIdService = getCinemaRoomByIdService;
 const updateCinemaRoomService = async (id, data) => {
+    const existing = await prisma_1.prisma.cinemaRoom.findUnique({
+        where: { id },
+    });
+    if (!existing) {
+        throw new Error("Cinema room not found");
+    }
     const room = await prisma_1.prisma.cinemaRoom.update({
         where: { id },
         data,

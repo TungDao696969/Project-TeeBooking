@@ -62,6 +62,7 @@ export const ModelName = {
   City: 'City',
   FoodCombo: 'FoodCombo',
   Genre: 'Genre',
+  Invoice: 'Invoice',
   Membership: 'Membership',
   Movie: 'Movie',
   MovieCast: 'MovieCast',
@@ -252,6 +253,20 @@ export const GenreScalarFieldEnum = {
 } as const
 
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
+
+
+export const InvoiceScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  invoiceNumber: 'invoiceNumber',
+  subtotal: 'subtotal',
+  discount: 'discount',
+  total: 'total',
+  pdfUrl: 'pdfUrl',
+  issuedAt: 'issuedAt'
+} as const
+
+export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
 
 
 export const MembershipScalarFieldEnum = {

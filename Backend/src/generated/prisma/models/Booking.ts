@@ -289,6 +289,7 @@ export type BookingWhereInput = {
   tickets?: Prisma.BookingTicketListRelationFilter
   combos?: Prisma.BookingComboListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   refunds?: Prisma.RefundListRelationFilter
 }
 
@@ -310,6 +311,7 @@ export type BookingOrderByWithRelationInput = {
   tickets?: Prisma.BookingTicketOrderByRelationAggregateInput
   combos?: Prisma.BookingComboOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
+  invoice?: Prisma.InvoiceOrderByWithRelationInput
   refunds?: Prisma.RefundOrderByRelationAggregateInput
 }
 
@@ -334,6 +336,7 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   tickets?: Prisma.BookingTicketListRelationFilter
   combos?: Prisma.BookingComboListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   refunds?: Prisma.RefundListRelationFilter
 }, "id" | "bookingCode">
 
@@ -391,6 +394,7 @@ export type BookingCreateInput = {
   tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
 }
 
@@ -410,6 +414,7 @@ export type BookingUncheckedCreateInput = {
   tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -429,6 +434,7 @@ export type BookingUpdateInput = {
   tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
 }
 
@@ -448,6 +454,7 @@ export type BookingUncheckedUpdateInput = {
   tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
 }
 
@@ -612,6 +619,20 @@ export type BookingUpdateOneRequiredWithoutTicketsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutTicketsInput, Prisma.BookingUpdateWithoutTicketsInput>, Prisma.BookingUncheckedUpdateWithoutTicketsInput>
 }
 
+export type BookingCreateNestedOneWithoutInvoiceInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutInvoiceInput, Prisma.BookingUncheckedCreateWithoutInvoiceInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutInvoiceInput
+  connect?: Prisma.BookingWhereUniqueInput
+}
+
+export type BookingUpdateOneRequiredWithoutInvoiceNestedInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutInvoiceInput, Prisma.BookingUncheckedCreateWithoutInvoiceInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutInvoiceInput
+  upsert?: Prisma.BookingUpsertWithoutInvoiceInput
+  connect?: Prisma.BookingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutInvoiceInput, Prisma.BookingUpdateWithoutInvoiceInput>, Prisma.BookingUncheckedUpdateWithoutInvoiceInput>
+}
+
 export type BookingCreateNestedOneWithoutPaymentsInput = {
   create?: Prisma.XOR<Prisma.BookingCreateWithoutPaymentsInput, Prisma.BookingUncheckedCreateWithoutPaymentsInput>
   connectOrCreate?: Prisma.BookingCreateOrConnectWithoutPaymentsInput
@@ -739,6 +760,7 @@ export type BookingCreateWithoutCombosInput = {
   showtime: Prisma.ShowtimeCreateNestedOneWithoutBookingsInput
   tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
 }
 
@@ -757,6 +779,7 @@ export type BookingUncheckedCreateWithoutCombosInput = {
   expiresAt?: Date | string | null
   tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -791,6 +814,7 @@ export type BookingUpdateWithoutCombosInput = {
   showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutBookingsNestedInput
   tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
 }
 
@@ -809,6 +833,7 @@ export type BookingUncheckedUpdateWithoutCombosInput = {
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
 }
 
@@ -827,6 +852,7 @@ export type BookingCreateWithoutTicketsInput = {
   showtime: Prisma.ShowtimeCreateNestedOneWithoutBookingsInput
   combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
 }
 
@@ -845,6 +871,7 @@ export type BookingUncheckedCreateWithoutTicketsInput = {
   expiresAt?: Date | string | null
   combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -879,6 +906,7 @@ export type BookingUpdateWithoutTicketsInput = {
   showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutBookingsNestedInput
   combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
 }
 
@@ -895,6 +923,99 @@ export type BookingUncheckedUpdateWithoutTicketsInput = {
   paymentStatus?: Prisma.EnumBookingPaymentStatusFieldUpdateOperationsInput | $Enums.BookingPaymentStatus
   bookedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
+  refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
+}
+
+export type BookingCreateWithoutInvoiceInput = {
+  id?: string
+  bookingCode: string
+  totalTicketPrice: number
+  totalComboPrice: number
+  discountAmount: number
+  finalAmount: number
+  status: $Enums.BookingStatus
+  paymentStatus?: $Enums.BookingPaymentStatus
+  bookedAt?: Date | string
+  expiresAt?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutBookingsInput
+  showtime: Prisma.ShowtimeCreateNestedOneWithoutBookingsInput
+  tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
+  combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
+}
+
+export type BookingUncheckedCreateWithoutInvoiceInput = {
+  id?: string
+  bookingCode: string
+  userId: string
+  showtimeId: string
+  totalTicketPrice: number
+  totalComboPrice: number
+  discountAmount: number
+  finalAmount: number
+  status: $Enums.BookingStatus
+  paymentStatus?: $Enums.BookingPaymentStatus
+  bookedAt?: Date | string
+  expiresAt?: Date | string | null
+  tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
+  combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
+}
+
+export type BookingCreateOrConnectWithoutInvoiceInput = {
+  where: Prisma.BookingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookingCreateWithoutInvoiceInput, Prisma.BookingUncheckedCreateWithoutInvoiceInput>
+}
+
+export type BookingUpsertWithoutInvoiceInput = {
+  update: Prisma.XOR<Prisma.BookingUpdateWithoutInvoiceInput, Prisma.BookingUncheckedUpdateWithoutInvoiceInput>
+  create: Prisma.XOR<Prisma.BookingCreateWithoutInvoiceInput, Prisma.BookingUncheckedCreateWithoutInvoiceInput>
+  where?: Prisma.BookingWhereInput
+}
+
+export type BookingUpdateToOneWithWhereWithoutInvoiceInput = {
+  where?: Prisma.BookingWhereInput
+  data: Prisma.XOR<Prisma.BookingUpdateWithoutInvoiceInput, Prisma.BookingUncheckedUpdateWithoutInvoiceInput>
+}
+
+export type BookingUpdateWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
+  totalTicketPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalComboPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  discountAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  paymentStatus?: Prisma.EnumBookingPaymentStatusFieldUpdateOperationsInput | $Enums.BookingPaymentStatus
+  bookedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
+  showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutBookingsNestedInput
+  tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
+  combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
+}
+
+export type BookingUncheckedUpdateWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  showtimeId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalTicketPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalComboPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  discountAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  paymentStatus?: Prisma.EnumBookingPaymentStatusFieldUpdateOperationsInput | $Enums.BookingPaymentStatus
+  bookedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
@@ -915,6 +1036,7 @@ export type BookingCreateWithoutPaymentsInput = {
   showtime: Prisma.ShowtimeCreateNestedOneWithoutBookingsInput
   tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
 }
 
@@ -933,6 +1055,7 @@ export type BookingUncheckedCreateWithoutPaymentsInput = {
   expiresAt?: Date | string | null
   tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -967,6 +1090,7 @@ export type BookingUpdateWithoutPaymentsInput = {
   showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutBookingsNestedInput
   tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
 }
 
@@ -985,6 +1109,7 @@ export type BookingUncheckedUpdateWithoutPaymentsInput = {
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
 }
 
@@ -1004,6 +1129,7 @@ export type BookingCreateWithoutRefundsInput = {
   tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
 }
 
 export type BookingUncheckedCreateWithoutRefundsInput = {
@@ -1022,6 +1148,7 @@ export type BookingUncheckedCreateWithoutRefundsInput = {
   tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
 }
 
 export type BookingCreateOrConnectWithoutRefundsInput = {
@@ -1056,6 +1183,7 @@ export type BookingUpdateWithoutRefundsInput = {
   tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateWithoutRefundsInput = {
@@ -1074,6 +1202,7 @@ export type BookingUncheckedUpdateWithoutRefundsInput = {
   tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingCreateWithoutShowtimeInput = {
@@ -1091,6 +1220,7 @@ export type BookingCreateWithoutShowtimeInput = {
   tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
 }
 
@@ -1109,6 +1239,7 @@ export type BookingUncheckedCreateWithoutShowtimeInput = {
   tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -1171,6 +1302,7 @@ export type BookingCreateWithoutUserInput = {
   tickets?: Prisma.BookingTicketCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundCreateNestedManyWithoutBookingInput
 }
 
@@ -1189,6 +1321,7 @@ export type BookingUncheckedCreateWithoutUserInput = {
   tickets?: Prisma.BookingTicketUncheckedCreateNestedManyWithoutBookingInput
   combos?: Prisma.BookingComboUncheckedCreateNestedManyWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutBookingInput
   refunds?: Prisma.RefundUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -1247,6 +1380,7 @@ export type BookingUpdateWithoutShowtimeInput = {
   tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
 }
 
@@ -1265,6 +1399,7 @@ export type BookingUncheckedUpdateWithoutShowtimeInput = {
   tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
 }
 
@@ -1311,6 +1446,7 @@ export type BookingUpdateWithoutUserInput = {
   tickets?: Prisma.BookingTicketUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUpdateManyWithoutBookingNestedInput
 }
 
@@ -1329,6 +1465,7 @@ export type BookingUncheckedUpdateWithoutUserInput = {
   tickets?: Prisma.BookingTicketUncheckedUpdateManyWithoutBookingNestedInput
   combos?: Prisma.BookingComboUncheckedUpdateManyWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutBookingNestedInput
   refunds?: Prisma.RefundUncheckedUpdateManyWithoutBookingNestedInput
 }
 
@@ -1422,6 +1559,7 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tickets?: boolean | Prisma.Booking$ticketsArgs<ExtArgs>
   combos?: boolean | Prisma.Booking$combosArgs<ExtArgs>
   payments?: boolean | Prisma.Booking$paymentsArgs<ExtArgs>
+  invoice?: boolean | Prisma.Booking$invoiceArgs<ExtArgs>
   refunds?: boolean | Prisma.Booking$refundsArgs<ExtArgs>
   _count?: boolean | Prisma.BookingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["booking"]>
@@ -1482,6 +1620,7 @@ export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tickets?: boolean | Prisma.Booking$ticketsArgs<ExtArgs>
   combos?: boolean | Prisma.Booking$combosArgs<ExtArgs>
   payments?: boolean | Prisma.Booking$paymentsArgs<ExtArgs>
+  invoice?: boolean | Prisma.Booking$invoiceArgs<ExtArgs>
   refunds?: boolean | Prisma.Booking$refundsArgs<ExtArgs>
   _count?: boolean | Prisma.BookingCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1502,6 +1641,7 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tickets: Prisma.$BookingTicketPayload<ExtArgs>[]
     combos: Prisma.$BookingComboPayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
+    invoice: Prisma.$InvoicePayload<ExtArgs> | null
     refunds: Prisma.$RefundPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1916,6 +2056,7 @@ export interface Prisma__BookingClient<T, Null = never, ExtArgs extends runtime.
   tickets<T extends Prisma.Booking$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   combos<T extends Prisma.Booking$combosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$combosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingComboPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Booking$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invoice<T extends Prisma.Booking$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   refunds<T extends Prisma.Booking$refundsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2428,6 +2569,25 @@ export type Booking$paymentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
+ * Booking.invoice
+ */
+export type Booking$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invoice
+   */
+  select?: Prisma.InvoiceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invoice
+   */
+  omit?: Prisma.InvoiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoiceInclude<ExtArgs> | null
+  where?: Prisma.InvoiceWhereInput
 }
 
 /**

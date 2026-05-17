@@ -61,6 +61,7 @@ enum PaymentStatus {
   pending
   paid
   failed
+  refund_pending
   refunded
 }
 

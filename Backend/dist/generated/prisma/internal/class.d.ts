@@ -206,6 +206,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.city`: Exposes CRUD operations for the **City** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Cities
+      * const cities = await prisma.city.findMany()
+      * ```
+      */
+    get city(): Prisma.CityDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.foodCombo`: Exposes CRUD operations for the **FoodCombo** model.
       * Example usage:
       * ```ts
@@ -225,6 +236,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
       * ```
       */
     get genre(): Prisma.GenreDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.invoice`: Exposes CRUD operations for the **Invoice** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Invoices
+      * const invoices = await prisma.invoice.findMany()
+      * ```
+      */
+    get invoice(): Prisma.InvoiceDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
@@ -368,6 +390,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
       * ```
       */
     get showtimeSeat(): Prisma.ShowtimeSeatDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.trailer`: Exposes CRUD operations for the **Trailer** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Trailers
+      * const trailers = await prisma.trailer.findMany()
+      * ```
+      */
+    get trailer(): Prisma.TrailerDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**

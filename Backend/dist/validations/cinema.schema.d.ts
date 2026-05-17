@@ -3,6 +3,7 @@ export declare const createCinemaSchema: z.ZodObject<{
     name: z.ZodString;
     hotline: z.ZodOptional<z.ZodString>;
     email: z.ZodOptional<z.ZodString>;
+    cityId: z.ZodString;
     province: z.ZodString;
     district: z.ZodString;
     ward: z.ZodString;
@@ -15,6 +16,7 @@ export declare const updateCinemaSchema: z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
     hotline: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     email: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    cityId: z.ZodOptional<z.ZodString>;
     province: z.ZodOptional<z.ZodString>;
     district: z.ZodOptional<z.ZodString>;
     ward: z.ZodOptional<z.ZodString>;

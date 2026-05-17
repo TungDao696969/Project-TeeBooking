@@ -285,6 +285,7 @@ export type MovieWhereInput = {
     casts?: Prisma.MovieCastListRelationFilter;
     showtimes?: Prisma.ShowtimeListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
+    trailers?: Prisma.TrailerListRelationFilter;
 };
 export type MovieOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -310,6 +311,7 @@ export type MovieOrderByWithRelationInput = {
     casts?: Prisma.MovieCastOrderByRelationAggregateInput;
     showtimes?: Prisma.ShowtimeOrderByRelationAggregateInput;
     reviews?: Prisma.ReviewOrderByRelationAggregateInput;
+    trailers?: Prisma.TrailerOrderByRelationAggregateInput;
 };
 export type MovieWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -338,6 +340,7 @@ export type MovieWhereUniqueInput = Prisma.AtLeast<{
     casts?: Prisma.MovieCastListRelationFilter;
     showtimes?: Prisma.ShowtimeListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
+    trailers?: Prisma.TrailerListRelationFilter;
 }, "id" | "slug">;
 export type MovieOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -413,6 +416,7 @@ export type MovieCreateInput = {
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerCreateNestedManyWithoutMovieInput;
 };
 export type MovieUncheckedCreateInput = {
     id?: string;
@@ -438,6 +442,7 @@ export type MovieUncheckedCreateInput = {
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerUncheckedCreateNestedManyWithoutMovieInput;
 };
 export type MovieUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -463,6 +468,7 @@ export type MovieUpdateInput = {
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUpdateManyWithoutMovieNestedInput;
 };
 export type MovieUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -488,6 +494,7 @@ export type MovieUncheckedUpdateInput = {
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUncheckedUpdateManyWithoutMovieNestedInput;
 };
 export type MovieCreateManyInput = {
     id?: string;
@@ -676,6 +683,18 @@ export type MovieUpdateOneRequiredWithoutShowtimesNestedInput = {
     connect?: Prisma.MovieWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.MovieUpdateToOneWithWhereWithoutShowtimesInput, Prisma.MovieUpdateWithoutShowtimesInput>, Prisma.MovieUncheckedUpdateWithoutShowtimesInput>;
 };
+export type MovieCreateNestedOneWithoutTrailersInput = {
+    create?: Prisma.XOR<Prisma.MovieCreateWithoutTrailersInput, Prisma.MovieUncheckedCreateWithoutTrailersInput>;
+    connectOrCreate?: Prisma.MovieCreateOrConnectWithoutTrailersInput;
+    connect?: Prisma.MovieWhereUniqueInput;
+};
+export type MovieUpdateOneRequiredWithoutTrailersNestedInput = {
+    create?: Prisma.XOR<Prisma.MovieCreateWithoutTrailersInput, Prisma.MovieUncheckedCreateWithoutTrailersInput>;
+    connectOrCreate?: Prisma.MovieCreateOrConnectWithoutTrailersInput;
+    upsert?: Prisma.MovieUpsertWithoutTrailersInput;
+    connect?: Prisma.MovieWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.MovieUpdateToOneWithWhereWithoutTrailersInput, Prisma.MovieUpdateWithoutTrailersInput>, Prisma.MovieUncheckedUpdateWithoutTrailersInput>;
+};
 export type MovieCreateWithoutCastsInput = {
     id?: string;
     title: string;
@@ -699,6 +718,7 @@ export type MovieCreateWithoutCastsInput = {
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerCreateNestedManyWithoutMovieInput;
 };
 export type MovieUncheckedCreateWithoutCastsInput = {
     id?: string;
@@ -723,6 +743,7 @@ export type MovieUncheckedCreateWithoutCastsInput = {
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerUncheckedCreateNestedManyWithoutMovieInput;
 };
 export type MovieCreateOrConnectWithoutCastsInput = {
     where: Prisma.MovieWhereUniqueInput;
@@ -760,6 +781,7 @@ export type MovieUpdateWithoutCastsInput = {
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUpdateManyWithoutMovieNestedInput;
 };
 export type MovieUncheckedUpdateWithoutCastsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -784,6 +806,7 @@ export type MovieUncheckedUpdateWithoutCastsInput = {
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUncheckedUpdateManyWithoutMovieNestedInput;
 };
 export type MovieCreateWithoutGenresInput = {
     id?: string;
@@ -808,6 +831,7 @@ export type MovieCreateWithoutGenresInput = {
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerCreateNestedManyWithoutMovieInput;
 };
 export type MovieUncheckedCreateWithoutGenresInput = {
     id?: string;
@@ -832,6 +856,7 @@ export type MovieUncheckedCreateWithoutGenresInput = {
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerUncheckedCreateNestedManyWithoutMovieInput;
 };
 export type MovieCreateOrConnectWithoutGenresInput = {
     where: Prisma.MovieWhereUniqueInput;
@@ -869,6 +894,7 @@ export type MovieUpdateWithoutGenresInput = {
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUpdateManyWithoutMovieNestedInput;
 };
 export type MovieUncheckedUpdateWithoutGenresInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -893,6 +919,7 @@ export type MovieUncheckedUpdateWithoutGenresInput = {
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUncheckedUpdateManyWithoutMovieNestedInput;
 };
 export type MovieCreateWithoutReviewsInput = {
     id?: string;
@@ -917,6 +944,7 @@ export type MovieCreateWithoutReviewsInput = {
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerCreateNestedManyWithoutMovieInput;
 };
 export type MovieUncheckedCreateWithoutReviewsInput = {
     id?: string;
@@ -941,6 +969,7 @@ export type MovieUncheckedCreateWithoutReviewsInput = {
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerUncheckedCreateNestedManyWithoutMovieInput;
 };
 export type MovieCreateOrConnectWithoutReviewsInput = {
     where: Prisma.MovieWhereUniqueInput;
@@ -978,6 +1007,7 @@ export type MovieUpdateWithoutReviewsInput = {
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUpdateManyWithoutMovieNestedInput;
 };
 export type MovieUncheckedUpdateWithoutReviewsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1002,6 +1032,7 @@ export type MovieUncheckedUpdateWithoutReviewsInput = {
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUncheckedUpdateManyWithoutMovieNestedInput;
 };
 export type MovieCreateWithoutShowtimesInput = {
     id?: string;
@@ -1026,6 +1057,7 @@ export type MovieCreateWithoutShowtimesInput = {
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerCreateNestedManyWithoutMovieInput;
 };
 export type MovieUncheckedCreateWithoutShowtimesInput = {
     id?: string;
@@ -1050,6 +1082,7 @@ export type MovieUncheckedCreateWithoutShowtimesInput = {
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
+    trailers?: Prisma.TrailerUncheckedCreateNestedManyWithoutMovieInput;
 };
 export type MovieCreateOrConnectWithoutShowtimesInput = {
     where: Prisma.MovieWhereUniqueInput;
@@ -1087,6 +1120,7 @@ export type MovieUpdateWithoutShowtimesInput = {
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUpdateManyWithoutMovieNestedInput;
 };
 export type MovieUncheckedUpdateWithoutShowtimesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1111,6 +1145,120 @@ export type MovieUncheckedUpdateWithoutShowtimesInput = {
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
+    trailers?: Prisma.TrailerUncheckedUpdateManyWithoutMovieNestedInput;
+};
+export type MovieCreateWithoutTrailersInput = {
+    id?: string;
+    title: string;
+    slug: string;
+    originalTitle?: string | null;
+    description: string;
+    durationMinutes: number;
+    releaseDate: Date | string;
+    endDate?: Date | string | null;
+    ageRating?: string | null;
+    language?: string | null;
+    subtitle?: string | null;
+    trailerUrl?: string | null;
+    posterUrl?: string | null;
+    bannerUrl?: string | null;
+    status: $Enums.MovieStatus;
+    country?: string | null;
+    producer?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
+    casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
+    showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
+    reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
+};
+export type MovieUncheckedCreateWithoutTrailersInput = {
+    id?: string;
+    title: string;
+    slug: string;
+    originalTitle?: string | null;
+    description: string;
+    durationMinutes: number;
+    releaseDate: Date | string;
+    endDate?: Date | string | null;
+    ageRating?: string | null;
+    language?: string | null;
+    subtitle?: string | null;
+    trailerUrl?: string | null;
+    posterUrl?: string | null;
+    bannerUrl?: string | null;
+    status: $Enums.MovieStatus;
+    country?: string | null;
+    producer?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
+    casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
+    showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
+    reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
+};
+export type MovieCreateOrConnectWithoutTrailersInput = {
+    where: Prisma.MovieWhereUniqueInput;
+    create: Prisma.XOR<Prisma.MovieCreateWithoutTrailersInput, Prisma.MovieUncheckedCreateWithoutTrailersInput>;
+};
+export type MovieUpsertWithoutTrailersInput = {
+    update: Prisma.XOR<Prisma.MovieUpdateWithoutTrailersInput, Prisma.MovieUncheckedUpdateWithoutTrailersInput>;
+    create: Prisma.XOR<Prisma.MovieCreateWithoutTrailersInput, Prisma.MovieUncheckedCreateWithoutTrailersInput>;
+    where?: Prisma.MovieWhereInput;
+};
+export type MovieUpdateToOneWithWhereWithoutTrailersInput = {
+    where?: Prisma.MovieWhereInput;
+    data: Prisma.XOR<Prisma.MovieUpdateWithoutTrailersInput, Prisma.MovieUncheckedUpdateWithoutTrailersInput>;
+};
+export type MovieUpdateWithoutTrailersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    title?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    originalTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number;
+    releaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    ageRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    status?: Prisma.EnumMovieStatusFieldUpdateOperationsInput | $Enums.MovieStatus;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
+    casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
+    showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
+    reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
+};
+export type MovieUncheckedUpdateWithoutTrailersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    title?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    originalTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number;
+    releaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    ageRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    status?: Prisma.EnumMovieStatusFieldUpdateOperationsInput | $Enums.MovieStatus;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
+    casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
+    showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
+    reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
 };
 /**
  * Count Type MovieCountOutputType
@@ -1120,12 +1268,14 @@ export type MovieCountOutputType = {
     casts: number;
     showtimes: number;
     reviews: number;
+    trailers: number;
 };
 export type MovieCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     genres?: boolean | MovieCountOutputTypeCountGenresArgs;
     casts?: boolean | MovieCountOutputTypeCountCastsArgs;
     showtimes?: boolean | MovieCountOutputTypeCountShowtimesArgs;
     reviews?: boolean | MovieCountOutputTypeCountReviewsArgs;
+    trailers?: boolean | MovieCountOutputTypeCountTrailersArgs;
 };
 /**
  * MovieCountOutputType without action
@@ -1160,6 +1310,12 @@ export type MovieCountOutputTypeCountShowtimesArgs<ExtArgs extends runtime.Types
 export type MovieCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.ReviewWhereInput;
 };
+/**
+ * MovieCountOutputType without action
+ */
+export type MovieCountOutputTypeCountTrailersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.TrailerWhereInput;
+};
 export type MovieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     title?: boolean;
@@ -1184,6 +1340,7 @@ export type MovieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     casts?: boolean | Prisma.Movie$castsArgs<ExtArgs>;
     showtimes?: boolean | Prisma.Movie$showtimesArgs<ExtArgs>;
     reviews?: boolean | Prisma.Movie$reviewsArgs<ExtArgs>;
+    trailers?: boolean | Prisma.Movie$trailersArgs<ExtArgs>;
     _count?: boolean | Prisma.MovieCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["movie"]>;
 export type MovieSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1255,6 +1412,7 @@ export type MovieInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     casts?: boolean | Prisma.Movie$castsArgs<ExtArgs>;
     showtimes?: boolean | Prisma.Movie$showtimesArgs<ExtArgs>;
     reviews?: boolean | Prisma.Movie$reviewsArgs<ExtArgs>;
+    trailers?: boolean | Prisma.Movie$trailersArgs<ExtArgs>;
     _count?: boolean | Prisma.MovieCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type MovieIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -1266,6 +1424,7 @@ export type $MoviePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
         casts: Prisma.$MovieCastPayload<ExtArgs>[];
         showtimes: Prisma.$ShowtimePayload<ExtArgs>[];
         reviews: Prisma.$ReviewPayload<ExtArgs>[];
+        trailers: Prisma.$TrailerPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1620,6 +1779,7 @@ export interface Prisma__MovieClient<T, Null = never, ExtArgs extends runtime.Ty
     casts<T extends Prisma.Movie$castsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$castsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovieCastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     showtimes<T extends Prisma.Movie$showtimesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$showtimesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShowtimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     reviews<T extends Prisma.Movie$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    trailers<T extends Prisma.Movie$trailersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$trailersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrailerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2130,6 +2290,29 @@ export type Movie$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
     take?: number;
     skip?: number;
     distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[];
+};
+/**
+ * Movie.trailers
+ */
+export type Movie$trailersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trailer
+     */
+    select?: Prisma.TrailerSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Trailer
+     */
+    omit?: Prisma.TrailerOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.TrailerInclude<ExtArgs> | null;
+    where?: Prisma.TrailerWhereInput;
+    orderBy?: Prisma.TrailerOrderByWithRelationInput | Prisma.TrailerOrderByWithRelationInput[];
+    cursor?: Prisma.TrailerWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.TrailerScalarFieldEnum | Prisma.TrailerScalarFieldEnum[];
 };
 /**
  * Movie without action

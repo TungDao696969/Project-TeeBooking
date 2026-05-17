@@ -47,9 +47,17 @@ export declare const PaymentStatus: {
     readonly pending: "pending";
     readonly paid: "paid";
     readonly failed: "failed";
+    readonly refund_pending: "refund_pending";
     readonly refunded: "refunded";
 };
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
+export declare const BookingPaymentStatus: {
+    readonly pending: "pending";
+    readonly paid: "paid";
+    readonly failed: "failed";
+    readonly refunded: "refunded";
+};
+export type BookingPaymentStatus = (typeof BookingPaymentStatus)[keyof typeof BookingPaymentStatus];
 export declare const MovieStatus: {
     readonly coming_soon: "coming_soon";
     readonly now_showing: "now_showing";
@@ -68,4 +76,12 @@ export declare const VoucherStatus: {
     readonly expired: "expired";
 };
 export type VoucherStatus = (typeof VoucherStatus)[keyof typeof VoucherStatus];
+export declare const TrailerType: {
+    readonly teaser: "teaser";
+    readonly official: "official";
+    readonly final: "final";
+    readonly clip: "clip";
+    readonly behind_the_scenes: "behind_the_scenes";
+};
+export type TrailerType = (typeof TrailerType)[keyof typeof TrailerType];
 //# sourceMappingURL=enums.d.ts.map

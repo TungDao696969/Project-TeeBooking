@@ -34,8 +34,10 @@ export declare const ModelName: {
     readonly BookingTicket: "BookingTicket";
     readonly Cinema: "Cinema";
     readonly CinemaRoom: "CinemaRoom";
+    readonly City: "City";
     readonly FoodCombo: "FoodCombo";
     readonly Genre: "Genre";
+    readonly Invoice: "Invoice";
     readonly Membership: "Membership";
     readonly Movie: "Movie";
     readonly MovieCast: "MovieCast";
@@ -49,6 +51,7 @@ export declare const ModelName: {
     readonly Seat: "Seat";
     readonly Showtime: "Showtime";
     readonly ShowtimeSeat: "ShowtimeSeat";
+    readonly Trailer: "Trailer";
     readonly User: "User";
     readonly UserAddress: "UserAddress";
     readonly UserVoucher: "UserVoucher";
@@ -104,6 +107,7 @@ export declare const BookingScalarFieldEnum: {
     readonly discountAmount: "discountAmount";
     readonly finalAmount: "finalAmount";
     readonly status: "status";
+    readonly paymentStatus: "paymentStatus";
     readonly bookedAt: "bookedAt";
     readonly expiresAt: "expiresAt";
 };
@@ -133,6 +137,7 @@ export declare const CinemaScalarFieldEnum: {
     readonly slug: "slug";
     readonly hotline: "hotline";
     readonly email: "email";
+    readonly cityId: "cityId";
     readonly province: "province";
     readonly district: "district";
     readonly ward: "ward";
@@ -155,6 +160,15 @@ export declare const CinemaRoomScalarFieldEnum: {
     readonly createdAt: "createdAt";
 };
 export type CinemaRoomScalarFieldEnum = (typeof CinemaRoomScalarFieldEnum)[keyof typeof CinemaRoomScalarFieldEnum];
+export declare const CityScalarFieldEnum: {
+    readonly id: "id";
+    readonly name: "name";
+    readonly slug: "slug";
+    readonly isActive: "isActive";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum];
 export declare const FoodComboScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
@@ -170,8 +184,21 @@ export declare const GenreScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
     readonly slug: "slug";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
 };
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum];
+export declare const InvoiceScalarFieldEnum: {
+    readonly id: "id";
+    readonly bookingId: "bookingId";
+    readonly invoiceNumber: "invoiceNumber";
+    readonly subtotal: "subtotal";
+    readonly discount: "discount";
+    readonly total: "total";
+    readonly pdfUrl: "pdfUrl";
+    readonly issuedAt: "issuedAt";
+};
+export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum];
 export declare const MembershipScalarFieldEnum: {
     readonly id: "id";
     readonly userId: "userId";
@@ -237,6 +264,7 @@ export declare const PaymentScalarFieldEnum: {
     readonly amount: "amount";
     readonly status: "status";
     readonly paidAt: "paidAt";
+    readonly expiresAt: "expiresAt";
     readonly createdAt: "createdAt";
 };
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum];
@@ -279,6 +307,7 @@ export declare const ReviewScalarFieldEnum: {
     readonly rating: "rating";
     readonly comment: "comment";
     readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
 };
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum];
 export declare const SeatScalarFieldEnum: {
@@ -316,6 +345,19 @@ export declare const ShowtimeSeatScalarFieldEnum: {
     readonly lockedUntil: "lockedUntil";
 };
 export type ShowtimeSeatScalarFieldEnum = (typeof ShowtimeSeatScalarFieldEnum)[keyof typeof ShowtimeSeatScalarFieldEnum];
+export declare const TrailerScalarFieldEnum: {
+    readonly id: "id";
+    readonly movieId: "movieId";
+    readonly title: "title";
+    readonly videoUrl: "videoUrl";
+    readonly thumbnailUrl: "thumbnailUrl";
+    readonly type: "type";
+    readonly isActive: "isActive";
+    readonly sortOrder: "sortOrder";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type TrailerScalarFieldEnum = (typeof TrailerScalarFieldEnum)[keyof typeof TrailerScalarFieldEnum];
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
     readonly fullName: "fullName";

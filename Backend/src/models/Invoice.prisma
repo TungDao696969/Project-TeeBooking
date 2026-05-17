@@ -1,0 +1,14 @@
+model Invoice {
+    id            String   @id @default(uuid())
+    bookingId     String   @unique
+    invoiceNumber String   @unique
+    subtotal      Float
+    discount      Float
+    total         Float
+    pdfUrl        String?
+    issuedAt      DateTime @default(now())
+
+    booking Booking @relation(fields: [bookingId], references: [id])
+
+    @@map("invoices")
+}

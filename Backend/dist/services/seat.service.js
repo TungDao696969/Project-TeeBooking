@@ -120,6 +120,18 @@ const updateSeatService = async (id, data) => {
     if (!existing) {
         throw new Error("Seat not found");
     }
+    if (data.seatCode) {
+        const duplicate = await prisma_1.prisma.seat.findFirst({
+            where: {
+                roomId: existing.roomId,
+                seatCode: data.seatCode,
+                NOT: { id },
+            },
+        });
+        if (duplicate) {
+            throw new Error("Seat code already exists");
+        }
+    }
     const updated = await prisma_1.prisma.seat.update({
         where: { id },
         data,
@@ -134,18 +146,29 @@ const updateSeatService = async (id, data) => {
 exports.updateSeatService = updateSeatService;
 // DELETE
 const deleteSeatService = async (id) => {
-    const existing = await prisma_1.prisma.seat.findUnique({
+    const seat = await prisma_1.prisma.seat.findUnique({
         where: { id },
+        include: {
+            showtimeSeats: true,
+        },
     });
-    if (!existing) {
+    if (!seat) {
         throw new Error("Seat not found");
+    }
+    // Không cho xóa nếu ghế đã được dùng trong showtime/booking
+    if (seat.showtimeSeats.length > 0) {
+        throw new Error("Cannot delete seat because it is already used in showtimes/bookings");
     }
     await prisma_1.prisma.seat.delete({
         where: { id },
     });
-    await redis_1.redis.del(`seats:${existing.roomId}`);
+    // clear cache
+    await redis_1.redis.del(`seats:${seat.roomId}`);
     await redis_1.redis.del("seats:all");
-    return true;
+    return {
+        success: true,
+        message: "Seat deleted successfully",
+    };
 };
 exports.deleteSeatService = deleteSeatService;
 //# sourceMappingURL=seat.service.js.map

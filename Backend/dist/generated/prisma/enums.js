@@ -9,7 +9,7 @@
 * 🟢 You can import this file directly.
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VoucherStatus = exports.PromotionType = exports.MovieStatus = exports.PaymentStatus = exports.PaymentMethod = exports.BookingStatus = exports.SeatStatus = exports.SeatType = exports.GenderType = exports.UserRole = void 0;
+exports.TrailerType = exports.VoucherStatus = exports.PromotionType = exports.MovieStatus = exports.BookingPaymentStatus = exports.PaymentStatus = exports.PaymentMethod = exports.BookingStatus = exports.SeatStatus = exports.SeatType = exports.GenderType = exports.UserRole = void 0;
 exports.UserRole = {
     customer: 'customer',
     admin: 'admin',
@@ -53,6 +53,13 @@ exports.PaymentStatus = {
     pending: 'pending',
     paid: 'paid',
     failed: 'failed',
+    refund_pending: 'refund_pending',
+    refunded: 'refunded'
+};
+exports.BookingPaymentStatus = {
+    pending: 'pending',
+    paid: 'paid',
+    failed: 'failed',
     refunded: 'refunded'
 };
 exports.MovieStatus = {
@@ -69,5 +76,12 @@ exports.VoucherStatus = {
     active: 'active',
     inactive: 'inactive',
     expired: 'expired'
+};
+exports.TrailerType = {
+    teaser: 'teaser',
+    official: 'official',
+    final: 'final',
+    clip: 'clip',
+    behind_the_scenes: 'behind_the_scenes'
 };
 //# sourceMappingURL=enums.js.map
