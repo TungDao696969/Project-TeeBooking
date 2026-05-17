@@ -190,6 +190,7 @@ import {
   getPastBookingsController,
 } from "../controllers/booking-past.controller";
 import { cancelBookingController } from "../controllers/booking-cancel.controller";
+import { getDashboardStatsController } from "../controllers/admin/admin.controller";
 
 const router = Router();
 
@@ -567,10 +568,12 @@ router.get(
 );
 
 router.post("/booking/:id/cancel", authMiddleware, cancelBookingController);
+
+// admin
 router.get(
   "/admin/dashboard",
   authMiddleware,
   roleMiddleware(UserRole.admin),
-  // adminDashboardController,
+  getDashboardStatsController,
 );
 export default router;
