@@ -18,6 +18,8 @@ export type BannerMinAggregateOutputType = {
     startDate: Date | null;
     endDate: Date | null;
     isActive: boolean | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 };
 export type BannerMaxAggregateOutputType = {
     id: string | null;
@@ -27,6 +29,8 @@ export type BannerMaxAggregateOutputType = {
     startDate: Date | null;
     endDate: Date | null;
     isActive: boolean | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 };
 export type BannerCountAggregateOutputType = {
     id: number;
@@ -36,6 +40,8 @@ export type BannerCountAggregateOutputType = {
     startDate: number;
     endDate: number;
     isActive: number;
+    createdAt: number;
+    updatedAt: number;
     _all: number;
 };
 export type BannerMinAggregateInputType = {
@@ -46,6 +52,8 @@ export type BannerMinAggregateInputType = {
     startDate?: true;
     endDate?: true;
     isActive?: true;
+    createdAt?: true;
+    updatedAt?: true;
 };
 export type BannerMaxAggregateInputType = {
     id?: true;
@@ -55,6 +63,8 @@ export type BannerMaxAggregateInputType = {
     startDate?: true;
     endDate?: true;
     isActive?: true;
+    createdAt?: true;
+    updatedAt?: true;
 };
 export type BannerCountAggregateInputType = {
     id?: true;
@@ -64,6 +74,8 @@ export type BannerCountAggregateInputType = {
     startDate?: true;
     endDate?: true;
     isActive?: true;
+    createdAt?: true;
+    updatedAt?: true;
     _all?: true;
 };
 export type BannerAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -136,6 +148,8 @@ export type BannerGroupByOutputType = {
     startDate: Date;
     endDate: Date;
     isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
     _count: BannerCountAggregateOutputType | null;
     _min: BannerMinAggregateOutputType | null;
     _max: BannerMaxAggregateOutputType | null;
@@ -154,6 +168,8 @@ export type BannerWhereInput = {
     startDate?: Prisma.DateTimeFilter<"Banner"> | Date | string;
     endDate?: Prisma.DateTimeFilter<"Banner"> | Date | string;
     isActive?: Prisma.BoolFilter<"Banner"> | boolean;
+    createdAt?: Prisma.DateTimeFilter<"Banner"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Banner"> | Date | string;
 };
 export type BannerOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -163,6 +179,8 @@ export type BannerOrderByWithRelationInput = {
     startDate?: Prisma.SortOrder;
     endDate?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type BannerWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -175,6 +193,8 @@ export type BannerWhereUniqueInput = Prisma.AtLeast<{
     startDate?: Prisma.DateTimeFilter<"Banner"> | Date | string;
     endDate?: Prisma.DateTimeFilter<"Banner"> | Date | string;
     isActive?: Prisma.BoolFilter<"Banner"> | boolean;
+    createdAt?: Prisma.DateTimeFilter<"Banner"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Banner"> | Date | string;
 }, "id">;
 export type BannerOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -184,6 +204,8 @@ export type BannerOrderByWithAggregationInput = {
     startDate?: Prisma.SortOrder;
     endDate?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
     _count?: Prisma.BannerCountOrderByAggregateInput;
     _max?: Prisma.BannerMaxOrderByAggregateInput;
     _min?: Prisma.BannerMinOrderByAggregateInput;
@@ -199,6 +221,8 @@ export type BannerScalarWhereWithAggregatesInput = {
     startDate?: Prisma.DateTimeWithAggregatesFilter<"Banner"> | Date | string;
     endDate?: Prisma.DateTimeWithAggregatesFilter<"Banner"> | Date | string;
     isActive?: Prisma.BoolWithAggregatesFilter<"Banner"> | boolean;
+    createdAt?: Prisma.DateTimeWithAggregatesFilter<"Banner"> | Date | string;
+    updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Banner"> | Date | string;
 };
 export type BannerCreateInput = {
     id?: string;
@@ -208,6 +232,8 @@ export type BannerCreateInput = {
     startDate: Date | string;
     endDate: Date | string;
     isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 };
 export type BannerUncheckedCreateInput = {
     id?: string;
@@ -217,6 +243,8 @@ export type BannerUncheckedCreateInput = {
     startDate: Date | string;
     endDate: Date | string;
     isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 };
 export type BannerUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -226,6 +254,8 @@ export type BannerUpdateInput = {
     startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type BannerUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -235,6 +265,8 @@ export type BannerUncheckedUpdateInput = {
     startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type BannerCreateManyInput = {
     id?: string;
@@ -244,6 +276,8 @@ export type BannerCreateManyInput = {
     startDate: Date | string;
     endDate: Date | string;
     isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 };
 export type BannerUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -253,6 +287,8 @@ export type BannerUpdateManyMutationInput = {
     startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type BannerUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -262,6 +298,8 @@ export type BannerUncheckedUpdateManyInput = {
     startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type BannerCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -271,6 +309,8 @@ export type BannerCountOrderByAggregateInput = {
     startDate?: Prisma.SortOrder;
     endDate?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type BannerMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -280,6 +320,8 @@ export type BannerMaxOrderByAggregateInput = {
     startDate?: Prisma.SortOrder;
     endDate?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type BannerMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -289,6 +331,8 @@ export type BannerMinOrderByAggregateInput = {
     startDate?: Prisma.SortOrder;
     endDate?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type BoolFieldUpdateOperationsInput = {
     set?: boolean;
@@ -301,6 +345,8 @@ export type BannerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     startDate?: boolean;
     endDate?: boolean;
     isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 }, ExtArgs["result"]["banner"]>;
 export type BannerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -310,6 +356,8 @@ export type BannerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
     startDate?: boolean;
     endDate?: boolean;
     isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 }, ExtArgs["result"]["banner"]>;
 export type BannerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -319,6 +367,8 @@ export type BannerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
     startDate?: boolean;
     endDate?: boolean;
     isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 }, ExtArgs["result"]["banner"]>;
 export type BannerSelectScalar = {
     id?: boolean;
@@ -328,8 +378,10 @@ export type BannerSelectScalar = {
     startDate?: boolean;
     endDate?: boolean;
     isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 };
-export type BannerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "imageUrl" | "redirectUrl" | "startDate" | "endDate" | "isActive", ExtArgs["result"]["banner"]>;
+export type BannerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "imageUrl" | "redirectUrl" | "startDate" | "endDate" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["banner"]>;
 export type $BannerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Banner";
     objects: {};
@@ -341,6 +393,8 @@ export type $BannerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
         startDate: Date;
         endDate: Date;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
     }, ExtArgs["result"]["banner"]>;
     composites: {};
 };
@@ -702,6 +756,8 @@ export interface BannerFieldRefs {
     readonly startDate: Prisma.FieldRef<"Banner", 'DateTime'>;
     readonly endDate: Prisma.FieldRef<"Banner", 'DateTime'>;
     readonly isActive: Prisma.FieldRef<"Banner", 'Boolean'>;
+    readonly createdAt: Prisma.FieldRef<"Banner", 'DateTime'>;
+    readonly updatedAt: Prisma.FieldRef<"Banner", 'DateTime'>;
 }
 /**
  * Banner findUnique

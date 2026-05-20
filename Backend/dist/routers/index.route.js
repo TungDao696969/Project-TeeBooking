@@ -44,6 +44,10 @@ const booking_controller_1 = require("../controllers/booking.controller");
 const payment_controller_1 = require("../controllers/payment.controller");
 const booking_past_controller_1 = require("../controllers/booking-past.controller");
 const booking_cancel_controller_1 = require("../controllers/booking-cancel.controller");
+const admin_controller_1 = require("../controllers/admin/admin.controller");
+const banner_controller_1 = require("../controllers/banner.controller");
+const promotion_controller_1 = require("../controllers/promotion.controller");
+const home_controller_1 = require("../controllers/home/home.controller");
 const router = (0, express_1.Router)();
 router.post("/auth/register", auth_controller_1.registerController);
 router.post("/auth/login", rateLimit_1.loginLimiter, auth_controller_1.loginController);
@@ -67,6 +71,14 @@ router.get("/users/address/:addressId", auth_middleware_1.authMiddleware, addres
 router.put("/users/address/:addressId", auth_middleware_1.authMiddleware, address_controller_1.updateUserAddress);
 router.delete("/users/address/:addressId", auth_middleware_1.authMiddleware, address_controller_1.deleteAddressController);
 router.patch("/users/address/:addressId/default", auth_middleware_1.authMiddleware, address_controller_1.setDefaultAddressController);
+//home
+router.get("/home", home_controller_1.getHomeController);
+// banner
+router.post("/banner", banner_controller_1.createBannerController);
+router.get("/banner", banner_controller_1.getAllBannerController);
+router.get("/banner/:id", banner_controller_1.getBannerByIdController);
+router.patch("/banner/:id", banner_controller_1.updateBannerController);
+router.delete("/banner/:id", banner_controller_1.deleteBannerController);
 // membership
 router.get("/membership", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.customer, enums_1.UserRole.admin), membership_controller_1.getMembershipController);
 router.post("/membership", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.customer, enums_1.UserRole.admin), membership_controller_1.createMembershipController);
@@ -152,13 +164,13 @@ router.get("/review/:movieId", review_controller_1.getMovieReviewsController);
 router.put("/review/:id", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(review_validation_1.updateReviewSchema), review_controller_1.updateReviewController);
 router.delete("/review/:id", auth_middleware_1.authMiddleware, review_controller_1.deleteReviewController);
 // trailer
-router.post("/", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(trailer_validation_1.createTrailerSchema), trailer_controller_1.createTrailerController);
+router.post("/trailer", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(trailer_validation_1.createTrailerSchema), trailer_controller_1.createTrailerController);
 router.get("/movie/:movieId", trailer_controller_1.getTrailersByMovieController);
-router.get("/:id", trailer_controller_1.getTrailerByIdController);
-router.put("/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(trailer_validation_1.updateTrailerSchema), trailer_controller_1.updateTrailerController);
-router.delete("/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), trailer_controller_1.deleteTrailerController);
+router.get("/trailer/:id", trailer_controller_1.getTrailerByIdController);
+router.put("/trailer/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(trailer_validation_1.updateTrailerSchema), trailer_controller_1.updateTrailerController);
+router.delete("/trailer/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), trailer_controller_1.deleteTrailerController);
 // search
-router.get("/", (0, validation_middleware_1.validate)(movieSearch_validation_1.movieSearchSchema), movieSearch_controller_1.searchMoviesController);
+router.get("/search", (0, validation_middleware_1.validate)(movieSearch_validation_1.movieSearchSchema), movieSearch_controller_1.searchMoviesController);
 // city
 router.get("/city", city_controller_1.getCitiesController);
 router.get("/city/:id", city_controller_1.getCityByIdController);
@@ -181,6 +193,14 @@ router.get("/booking/tickets/:ticketId/qr", auth_middleware_1.authMiddleware, ti
 router.get("/booking/past", auth_middleware_1.authMiddleware, booking_past_controller_1.getPastBookingsController);
 router.get("/booking/history/:id", auth_middleware_1.authMiddleware, booking_past_controller_1.getBookingHistoryDetailController);
 router.post("/booking/:id/cancel", auth_middleware_1.authMiddleware, booking_cancel_controller_1.cancelBookingController);
-router.get("/admin/dashboard", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin));
+// promotion
+router.post("/promotion", promotion_controller_1.createPromotionController);
+router.get("/promotion/active", promotion_controller_1.getActivePromotionController);
+router.get("/promotion", promotion_controller_1.getAllPromotionController);
+router.get("/promotion/:id", promotion_controller_1.getPromotionByIdController);
+router.patch("/promotion/:id", promotion_controller_1.updatePromotionController);
+router.delete("/promotion/:id", promotion_controller_1.deletePromotionController);
+// admin
+router.get("/admin/dashboard", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), admin_controller_1.getDashboardStatsController);
 exports.default = router;
 //# sourceMappingURL=index.route.js.map

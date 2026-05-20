@@ -132,7 +132,9 @@ exports.BannerScalarFieldEnum = {
     redirectUrl: 'redirectUrl',
     startDate: 'startDate',
     endDate: 'endDate',
-    isActive: 'isActive'
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.BlogPostScalarFieldEnum = {
     id: 'id',
@@ -312,13 +314,16 @@ exports.PromotionScalarFieldEnum = {
     id: 'id',
     title: 'title',
     description: 'description',
+    imageUrl: 'imageUrl',
     type: 'type',
     discountValue: 'discountValue',
     minOrderValue: 'minOrderValue',
     maxDiscount: 'maxDiscount',
     startDate: 'startDate',
     endDate: 'endDate',
-    isActive: 'isActive'
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.RefundScalarFieldEnum = {
     id: 'id',

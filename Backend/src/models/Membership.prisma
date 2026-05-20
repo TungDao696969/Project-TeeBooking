@@ -1,14 +1,14 @@
 model Membership {
-    id             String    @id @default(uuid())
-    userId         String
-    membershipCode String    @unique
-    level          String
-    points         Int       @default(0)
-    lifetimePoints Int       @default(0)
-    joinedAt       DateTime  @default(now())
-    expiredAt      DateTime?
+  id             String    @id @default(uuid())
+  userId         String
+  membershipCode String    @unique
+  level          String
+  points         Int       @default(0)
+  lifetimePoints Int       @default(0)
+  joinedAt       DateTime  @default(now())
+  expiredAt      DateTime?
 
-    user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
-    @@map("memberships")
+  @@map("memberships")
 }

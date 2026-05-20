@@ -15,13 +15,16 @@ export declare const getVoucherByIdService: (id: string) => Promise<{
         type: import("../generated/prisma/enums").PromotionType;
         id: string;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         description: string | null;
         endDate: Date;
+        imageUrl: string | null;
+        startDate: Date;
         discountValue: number;
         minOrderValue: number | null;
         maxDiscount: number | null;
-        startDate: Date;
     };
     users: {
         userId: string;

@@ -1,11 +1,11 @@
 model UserVoucher {
-    id        String    @id @default(uuid())
-    userId    String
-    voucherId String
-    usedAt    DateTime?
+  id        String    @id @default(uuid())
+  userId    String
+  voucherId String
+  usedAt    DateTime?
 
-    user    User    @relation(fields: [userId], references: [id])
-    voucher Voucher @relation(fields: [voucherId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+  voucher Voucher @relation(fields: [voucherId], references: [id])
 
-    @@map("user_vouchers")
+  @@map("user_vouchers")
 }

@@ -1,12 +1,12 @@
 model MovieCast {
-    id            String  @id @default(uuid())
-    movieId       String
-    personId      String
-    roleType      String
-    characterName String?
+  id            String  @id @default(uuid())
+  movieId       String
+  personId      String
+  roleType      String
+  characterName String?
 
-    movie  Movie  @relation(fields: [movieId], references: [id])
-    person Person @relation(fields: [personId], references: [id])
+  movie  Movie  @relation(fields: [movieId], references: [id])
+  person Person @relation(fields: [personId], references: [id])
 
-    @@map("movie_casts")
+  @@map("movie_casts")
 }

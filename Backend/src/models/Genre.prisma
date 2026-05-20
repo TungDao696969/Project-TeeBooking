@@ -1,11 +1,11 @@
 model Genre {
-    id        String   @id @default(uuid())
-    name      String
-    slug      String   @unique
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-    movies MovieGenre[]
+  movies MovieGenre[]
 
-    @@map("genres")
+  @@map("genres")
 }

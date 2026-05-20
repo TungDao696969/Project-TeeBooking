@@ -1,12 +1,12 @@
 model Person {
-    id          String    @id @default(uuid())
-    fullName    String
-    avatarUrl   String?
-    bio         String?
-    birthDate   DateTime?
-    nationality String?
+  id          String    @id @default(uuid())
+  fullName    String
+  avatarUrl   String?
+  bio         String?
+  birthDate   DateTime?
+  nationality String?
 
-    movieCasts MovieCast[]
+  movieCasts MovieCast[]
 
-    @@map("people")
+  @@map("people")
 }

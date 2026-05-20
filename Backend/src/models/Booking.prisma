@@ -1,24 +1,24 @@
 model Booking {
-    id               String               @id @default(uuid())
-    bookingCode      String               @unique
-    userId           String
-    showtimeId       String
-    totalTicketPrice Float
-    totalComboPrice  Float
-    discountAmount   Float
-    finalAmount      Float
-    status           BookingStatus
-    paymentStatus    BookingPaymentStatus @default(pending)
-    bookedAt         DateTime             @default(now())
-    expiresAt        DateTime?
+  id               String               @id @default(uuid())
+  bookingCode      String               @unique
+  userId           String
+  showtimeId       String
+  totalTicketPrice Float
+  totalComboPrice  Float
+  discountAmount   Float
+  finalAmount      Float
+  status           BookingStatus
+  paymentStatus    BookingPaymentStatus @default(pending)
+  bookedAt         DateTime             @default(now())
+  expiresAt        DateTime?
 
-    user     User            @relation(fields: [userId], references: [id])
-    showtime Showtime        @relation(fields: [showtimeId], references: [id])
-    tickets  BookingTicket[]
-    combos   BookingCombo[]
-    payments Payment[]
-    invoice  Invoice?
-    refunds  Refund[]
+  user     User            @relation(fields: [userId], references: [id])
+  showtime Showtime        @relation(fields: [showtimeId], references: [id])
+  tickets  BookingTicket[]
+  combos   BookingCombo[]
+  payments Payment[]
+  invoice  Invoice?
+  refunds  Refund[]
 
-    @@map("bookings")
+  @@map("bookings")
 }

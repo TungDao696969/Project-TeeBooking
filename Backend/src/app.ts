@@ -10,12 +10,22 @@ import { startSeatLockCleanupJob } from "./jobs/seatLockCleanup.job";
 import "./worker/payment-success.worker";
 const app = express();
 app.use(helmet());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  }),
-);
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   }),
+// );
+
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -27,7 +37,7 @@ app.use(
     message: "Too many requests, please try again later.",
   }),
 );
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use("/api", indexRoute);
 app.listen(PORT, () => {
   console.log(`Server running with Port: ${PORT}`);

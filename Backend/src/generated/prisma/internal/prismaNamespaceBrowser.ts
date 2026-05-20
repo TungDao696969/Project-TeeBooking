@@ -120,7 +120,9 @@ export const BannerScalarFieldEnum = {
   redirectUrl: 'redirectUrl',
   startDate: 'startDate',
   endDate: 'endDate',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BannerScalarFieldEnum = (typeof BannerScalarFieldEnum)[keyof typeof BannerScalarFieldEnum]
@@ -372,13 +374,16 @@ export const PromotionScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  imageUrl: 'imageUrl',
   type: 'type',
   discountValue: 'discountValue',
   minOrderValue: 'minOrderValue',
   maxDiscount: 'maxDiscount',
   startDate: 'startDate',
   endDate: 'endDate',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type PromotionScalarFieldEnum = (typeof PromotionScalarFieldEnum)[keyof typeof PromotionScalarFieldEnum]

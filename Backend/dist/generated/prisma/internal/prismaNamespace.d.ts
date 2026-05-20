@@ -2550,6 +2550,8 @@ export declare const BannerScalarFieldEnum: {
     readonly startDate: "startDate";
     readonly endDate: "endDate";
     readonly isActive: "isActive";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
 };
 export type BannerScalarFieldEnum = (typeof BannerScalarFieldEnum)[keyof typeof BannerScalarFieldEnum];
 export declare const BlogPostScalarFieldEnum: {
@@ -2747,6 +2749,7 @@ export declare const PromotionScalarFieldEnum: {
     readonly id: "id";
     readonly title: "title";
     readonly description: "description";
+    readonly imageUrl: "imageUrl";
     readonly type: "type";
     readonly discountValue: "discountValue";
     readonly minOrderValue: "minOrderValue";
@@ -2754,6 +2757,8 @@ export declare const PromotionScalarFieldEnum: {
     readonly startDate: "startDate";
     readonly endDate: "endDate";
     readonly isActive: "isActive";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
 };
 export type PromotionScalarFieldEnum = (typeof PromotionScalarFieldEnum)[keyof typeof PromotionScalarFieldEnum];
 export declare const RefundScalarFieldEnum: {

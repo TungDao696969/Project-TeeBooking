@@ -191,6 +191,22 @@ import {
 } from "../controllers/booking-past.controller";
 import { cancelBookingController } from "../controllers/booking-cancel.controller";
 import { getDashboardStatsController } from "../controllers/admin/admin.controller";
+import {
+  createBannerController,
+  deleteBannerController,
+  getAllBannerController,
+  getBannerByIdController,
+  updateBannerController,
+} from "../controllers/banner.controller";
+import {
+  createPromotionController,
+  deletePromotionController,
+  getActivePromotionController,
+  getAllPromotionController,
+  getPromotionByIdController,
+  updatePromotionController,
+} from "../controllers/promotion.controller";
+import { getHomeController } from "../controllers/home/home.controller";
 
 const router = Router();
 
@@ -236,6 +252,20 @@ router.patch(
   authMiddleware,
   setDefaultAddressController,
 );
+
+//home
+router.get("/home", getHomeController);
+
+// banner
+router.post("/banner", createBannerController);
+
+router.get("/banner", getAllBannerController);
+
+router.get("/banner/:id", getBannerByIdController);
+
+router.patch("/banner/:id", updateBannerController);
+
+router.delete("/banner/:id", deleteBannerController);
 
 // membership
 router.get(
@@ -484,7 +514,7 @@ router.delete("/review/:id", authMiddleware, deleteReviewController);
 
 // trailer
 router.post(
-  "/",
+  "/trailer",
   authMiddleware,
   roleMiddleware(UserRole.admin),
   validate(createTrailerSchema),
@@ -493,10 +523,10 @@ router.post(
 
 router.get("/movie/:movieId", getTrailersByMovieController);
 
-router.get("/:id", getTrailerByIdController);
+router.get("/trailer/:id", getTrailerByIdController);
 
 router.put(
-  "/:id",
+  "/trailer/:id",
   authMiddleware,
   roleMiddleware(UserRole.admin),
   validate(updateTrailerSchema),
@@ -504,14 +534,14 @@ router.put(
 );
 
 router.delete(
-  "/:id",
+  "/trailer/:id",
   authMiddleware,
   roleMiddleware(UserRole.admin),
   deleteTrailerController,
 );
 
 // search
-router.get("/", validate(movieSearchSchema), searchMoviesController);
+router.get("/search", validate(movieSearchSchema), searchMoviesController);
 
 // city
 router.get("/city", getCitiesController);
@@ -568,6 +598,19 @@ router.get(
 );
 
 router.post("/booking/:id/cancel", authMiddleware, cancelBookingController);
+
+// promotion
+router.post("/promotion", createPromotionController);
+
+router.get("/promotion/active", getActivePromotionController);
+
+router.get("/promotion", getAllPromotionController);
+
+router.get("/promotion/:id", getPromotionByIdController);
+
+router.patch("/promotion/:id", updatePromotionController);
+
+router.delete("/promotion/:id", deletePromotionController);
 
 // admin
 router.get(

@@ -1,0 +1,110 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getHomeService = void 0;
+const prisma_1 = require("../../utils/prisma");
+const getHomeService = async () => {
+    const [banners, nowShowing, comingSoon, cinemas, promotions, blogs] = await Promise.all([
+        prisma_1.prisma.banner.findMany({
+            where: {
+                isActive: true,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            take: 5,
+        }),
+        prisma_1.prisma.movie.findMany({
+            where: {
+                status: "now_showing",
+            },
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                posterUrl: true,
+                durationMinutes: true,
+                ageRating: true,
+                status: true,
+            },
+            take: 8,
+            orderBy: {
+                releaseDate: "desc",
+            },
+        }),
+        prisma_1.prisma.movie.findMany({
+            where: {
+                status: "coming_soon",
+            },
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                posterUrl: true,
+                releaseDate: true,
+                status: true,
+            },
+            take: 8,
+            orderBy: {
+                releaseDate: "asc",
+            },
+        }),
+        prisma_1.prisma.cinema.findMany({
+            select: {
+                id: true,
+                name: true,
+                slug: true,
+                address: true,
+            },
+            take: 6,
+        }),
+        prisma_1.prisma.promotion.findMany({
+            where: {
+                isActive: true,
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                imageUrl: true,
+                type: true,
+                discountValue: true,
+                minOrderValue: true,
+                maxDiscount: true,
+                startDate: true,
+                endDate: true,
+            },
+            take: 6,
+            orderBy: {
+                createdAt: "desc",
+            },
+        }),
+        prisma_1.prisma.blogPost.findMany({
+            where: {
+                publishedAt: {
+                    not: null,
+                },
+            },
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                thumbnailUrl: true,
+                createdAt: true,
+            },
+            take: 4,
+            orderBy: {
+                createdAt: "desc",
+            },
+        }),
+    ]);
+    return {
+        banners,
+        nowShowing,
+        comingSoon,
+        cinemas,
+        promotions,
+        blogs,
+    };
+};
+exports.getHomeService = getHomeService;
+//# sourceMappingURL=home.service.js.map

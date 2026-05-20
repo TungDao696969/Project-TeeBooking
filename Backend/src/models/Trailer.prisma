@@ -1,14 +1,14 @@
 model Trailer {
-  id          String        @id @default(uuid())
+  id           String      @id @default(uuid())
   movieId      String
   title        String
   videoUrl     String
   thumbnailUrl String?
   type         TrailerType
-  isActive     Boolean      @default(true)
-  sortOrder    Int          @default(0)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  isActive     Boolean     @default(true)
+  sortOrder    Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 

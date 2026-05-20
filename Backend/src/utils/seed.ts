@@ -24,8 +24,12 @@ async function main() {
   // =============================
   // USERS
   // =============================
-  const admin = await prisma.user.create({
-    data: {
+  const admin = await prisma.user.upsert({
+    where: {
+      email: "admin@cinestar.vn",
+    },
+    update: {},
+    create: {
       fullName: "Admin Cinestar",
       email: "admin@cinestar.vn",
       phone: "0900000001",
@@ -36,8 +40,12 @@ async function main() {
     },
   });
 
-  const customer = await prisma.user.create({
-    data: {
+  const customer = await prisma.user.upsert({
+    where: {
+      email: "customer1@gmail.com",
+    },
+    update: {},
+    create: {
       fullName: "Nguyen Van A",
       email: "customer1@gmail.com",
       phone: "0900000002",
@@ -328,6 +336,7 @@ async function main() {
     data: {
       title: "Giảm giá mùa hè",
       description: "Giảm 20% tối đa 50k",
+      imageUrl: "https://example.com/promotion-summer.jpg",
       type: PromotionType.percentage,
       discountValue: 20,
       minOrderValue: 100000,
@@ -473,6 +482,41 @@ async function main() {
       isActive: true,
     },
   });
+  // Banner 2
+  await prisma.banner.create({
+    data: {
+      title: "Mua 1 tặng 1 vé xem phim",
+      imageUrl: "https://example.com/banner-buy1get1.jpg",
+      redirectUrl: "https://cinestar.vn/promotions/buy1get1",
+      startDate: new Date(),
+      endDate: new Date("2026-07-01"),
+      isActive: true,
+    },
+  });
+
+  // Banner 3
+  await prisma.banner.create({
+    data: {
+      title: "Trải nghiệm phòng chiếu IMAX",
+      imageUrl: "https://example.com/banner-imax.jpg",
+      redirectUrl: "https://cinestar.vn/imax",
+      startDate: new Date(),
+      endDate: new Date("2026-08-01"),
+      isActive: true,
+    },
+  });
+
+  // Banner
+  await prisma.banner.create({
+    data: {
+      title: "Combo bắp nước giảm 30%",
+      imageUrl: "https://example.com/banner-combo.jpg",
+      redirectUrl: "https://cinestar.vn/food-combo",
+      startDate: new Date(),
+      endDate: new Date("2026-09-01"),
+      isActive: true,
+    },
+  });
 
   // =============================
   // ADDITIONAL PAYMENTS FOR TESTING
@@ -510,16 +554,18 @@ async function main() {
     take: 1,
   });
 
-  if (selectedSeats2.length > 0) {
+  const selectedSeat2 = selectedSeats2[0];
+
+  if (selectedSeat2) {
     const booking2 = await prisma.booking.create({
       data: {
         bookingCode: "BK000002",
         userId: customer.id,
         showtimeId: showtime.id,
-        totalTicketPrice: selectedSeats2[0].finalPrice,
+        totalTicketPrice: selectedSeat2.finalPrice,
         totalComboPrice: 0,
         discountAmount: 0,
-        finalAmount: selectedSeats2[0].finalPrice,
+        finalAmount: selectedSeat2.finalPrice,
         status: BookingStatus.pending,
       },
     });
@@ -527,14 +573,14 @@ async function main() {
     await prisma.bookingTicket.create({
       data: {
         bookingId: booking2.id,
-        showtimeSeatId: selectedSeats2[0].id,
-        ticketPrice: selectedSeats2[0].finalPrice,
-        qrCode: `QR-${selectedSeats2[0].id}`,
+        showtimeSeatId: selectedSeat2.id,
+        ticketPrice: selectedSeat2.finalPrice,
+        qrCode: `QR-${selectedSeat2.id}`,
       },
     });
 
     await prisma.showtimeSeat.update({
-      where: { id: selectedSeats2[0].id },
+      where: { id: selectedSeat2.id },
       data: { status: SeatStatus.booked },
     });
 

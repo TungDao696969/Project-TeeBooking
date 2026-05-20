@@ -1,14 +1,14 @@
 model FoodCombo {
-    id            String   @id @default(uuid())
-    name          String
-    description   String?
-    imageUrl      String?
-    price         Float
-    stockQuantity Int
-    isActive      Boolean  @default(true)
-    createdAt     DateTime @default(now())
+  id            String   @id @default(uuid())
+  name          String
+  description   String?
+  imageUrl      String?
+  price         Float
+  stockQuantity Int
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
 
-    bookings BookingCombo[]
+  bookings BookingCombo[]
 
-    @@map("food_combos")
+  @@map("food_combos")
 }

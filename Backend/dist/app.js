@@ -15,10 +15,20 @@ const seatLockCleanup_job_1 = require("./jobs/seatLockCleanup.job");
 require("./worker/payment-success.worker");
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
-app.use((0, cors_1.default)({
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   }),
+// );
+const corsOptions = {
     origin: process.env.CLIENT_URL,
     credentials: true,
-}));
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use((0, cors_1.default)(corsOptions));
+app.options(/.*/, (0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use("/uploads", express_1.default.static(path_1.default.join(process.cwd(), "uploads")));
@@ -28,7 +38,7 @@ app.use((0, express_rate_limit_1.default)({
     max: 100,
     message: "Too many requests, please try again later.",
 }));
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use("/api", index_route_1.default);
 app.listen(PORT, () => {
     console.log(`Server running with Port: ${PORT}`);

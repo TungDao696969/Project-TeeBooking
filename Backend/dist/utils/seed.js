@@ -284,6 +284,7 @@ async function main() {
         data: {
             title: "Giảm giá mùa hè",
             description: "Giảm 20% tối đa 50k",
+            imageUrl: "https://example.com/promotion-summer.jpg",
             type: enums_1.PromotionType.percentage,
             discountValue: 20,
             minOrderValue: 100000,
@@ -449,29 +450,30 @@ async function main() {
         },
         take: 1,
     });
-    if (selectedSeats2.length > 0) {
+    const selectedSeat2 = selectedSeats2[0];
+    if (selectedSeat2) {
         const booking2 = await prisma_1.prisma.booking.create({
             data: {
                 bookingCode: "BK000002",
                 userId: customer.id,
                 showtimeId: showtime.id,
-                totalTicketPrice: selectedSeats2[0].finalPrice,
+                totalTicketPrice: selectedSeat2.finalPrice,
                 totalComboPrice: 0,
                 discountAmount: 0,
-                finalAmount: selectedSeats2[0].finalPrice,
+                finalAmount: selectedSeat2.finalPrice,
                 status: enums_1.BookingStatus.pending,
             },
         });
         await prisma_1.prisma.bookingTicket.create({
             data: {
                 bookingId: booking2.id,
-                showtimeSeatId: selectedSeats2[0].id,
-                ticketPrice: selectedSeats2[0].finalPrice,
-                qrCode: `QR-${selectedSeats2[0].id}`,
+                showtimeSeatId: selectedSeat2.id,
+                ticketPrice: selectedSeat2.finalPrice,
+                qrCode: `QR-${selectedSeat2.id}`,
             },
         });
         await prisma_1.prisma.showtimeSeat.update({
-            where: { id: selectedSeats2[0].id },
+            where: { id: selectedSeat2.id },
             data: { status: enums_1.SeatStatus.booked },
         });
         // Payment for booking2 with paid status
