@@ -41,21 +41,11 @@ export default function HomePage() {
       <Header />
 
       <main className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
-        <HeroBanner banners={data.banners || []} />
-
         <QuickBooking />
 
         <MovieSection title="Phim đang chiếu" movies={data.nowShowing || []} />
 
         <MovieSection title="Phim sắp chiếu" movies={data.comingSoon || []} />
-
-        <CinemaSection cinemas={data.cinemas || []} />
-
-        <PromotionSection promotions={data.promotions || []} />
-
-        <BlogSection blogs={data.blogs || []} />
-
-        <ContactSection />
       </main>
       <Footer />
     </>

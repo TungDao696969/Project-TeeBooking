@@ -13,8 +13,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const router = useRouter();
   return (
     <header className="w-full bg-[#0b1633] text-white  border-white/10 sticky top-0 z-50">
       {/* Top Header */}
@@ -34,7 +36,10 @@ export default function Header() {
 
         {/* Action Buttons */}
         <div className="hidden lg:flex items-center gap-4">
-          <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-md px-2 py-5 text-base">
+          <Button
+            className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-md px-2 py-5 text-base"
+            onClick={() => router.push("/movies")}
+          >
             <Ticket className="mr-2 h-5 w-5" />
             <p className="text-sm">ĐẶT VÉ NGAY</p>
           </Button>

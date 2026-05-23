@@ -1,93 +1,123 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import { Promotion } from "@/types/home.type";
 import { getImageUrl } from "@/lib/image";
 import { Button } from "@/components/ui/button";
 
-export default function PromotionSection({
-  promotions,
-}: {
+interface Props {
   promotions: Promotion[];
-}) {
-  const [current, setCurrent] = useState(0);
+}
 
-  // Mỗi trang hiện 3 ảnh
-  const itemsPerPage = 3;
-  const totalPages = Math.ceil(promotions.length / itemsPerPage);
+export default function PromotionSection({ promotions }: Props) {
+  const ITEMS_PER_PAGE = 3;
 
-  const prev = () => setCurrent((p) => Math.max(p - 1, 0));
-  const next = () => setCurrent((p) => Math.min(p + 1, totalPages - 1));
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const visible = promotions.slice(
-    current * itemsPerPage,
-    current * itemsPerPage + itemsPerPage,
+  // Total pages
+  const totalPages = Math.ceil(promotions.length / ITEMS_PER_PAGE);
+
+  // Promotions hiện tại
+  const visiblePromotions = promotions.slice(
+    currentIndex * ITEMS_PER_PAGE,
+    currentIndex * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
   );
 
+  // Next
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  };
+
+  // Prev
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+  };
+
   return (
-    <section className="py-10">
+    <section className="py-12">
       {/* Title */}
-      <h2 className="mb-8 text-2xl font-extrabold uppercase italic text-white md:text-4xl">
-        Khuyến Mãi
-      </h2>
+      <div className="mb-10 flex items-center justify-center">
+        <h2 className="text-center text-3xl font-extrabold uppercase italic text-white md:text-4xl">
+          Khuyến Mãi
+        </h2>
+      </div>
 
       {/* Slider */}
-      <div className="relative flex items-center gap-3">
-        {/* Prev */}
-        <button
-          onClick={prev}
-          disabled={current === 0}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 disabled:opacity-30"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
+      <div className="relative">
+        {/* Grid */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {visiblePromotions.map((promo) => (
+            <div key={promo.id} className="group overflow-hidden rounded-2xl">
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-2xl">
+                <Image
+                  src={getImageUrl(promo.imageUrl ?? "")}
+                  alt={promo.title}
+                  width={600}
+                  height={350}
+                  className="aspect-video w-full object-cover transition duration-500 group-hover:scale-105"
+                />
 
-        {/* Cards */}
-        <div className="grid flex-1 grid-cols-3 gap-4">
-          {visible.map((promo) => (
-            <div
-              key={promo.id}
-              className="overflow-hidden rounded-2xl cursor-pointer"
-            >
-              <img
-                src={encodeURI(getImageUrl(promo.imageUrl ?? ""))}
-                alt={promo.title}
-                className="aspect-video w-full object-cover transition duration-300 hover:scale-105"
-              />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/10 transition group-hover:bg-black/20" />
+              </div>
+
+              {/* Content */}
+              <div className="mt-4">
+                <h3 className="line-clamp-2 text-lg font-extrabold uppercase text-white">
+                  {promo.title}
+                </h3>
+
+                {promo.description && (
+                  <p className="mt-2 line-clamp-2 text-sm text-white/70">
+                    {promo.description}
+                  </p>
+                )}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Next */}
+        {/* Left Arrow */}
         <button
-          onClick={next}
-          disabled={current === totalPages - 1}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 disabled:opacity-30"
+          onClick={handlePrev}
+          className="absolute -left-10 top-1/2 z-10 -translate-y-1/2 text-white transition hover:scale-110"
         >
-          <ChevronRight className="h-6 w-6" />
+          <ChevronLeft className="h-10 w-10" />
+        </button>
+
+        {/* Right Arrow */}
+        <button
+          onClick={handleNext}
+          className="absolute -right-10 top-1/2 z-10 -translate-y-1/2 text-white transition hover:scale-110"
+        >
+          <ChevronRight className="h-10 w-10" />
         </button>
       </div>
 
       {/* Dots */}
-      {totalPages > 1 && (
-        <div className="mt-6 flex items-center justify-center gap-2">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`h-3 w-3 rounded-full transition-all ${
-                i === current ? "bg-white scale-110" : "bg-white/40"
-              }`}
-            />
-          ))}
-        </div>
-      )}
+      <div className="mt-8 flex items-center justify-center gap-2">
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`h-3 w-3 rounded-full transition ${
+              currentIndex === index ? "bg-white" : "bg-white/40"
+            }`}
+          />
+        ))}
+      </div>
 
-      {/* CTA Button */}
-      <div className="mt-6 flex justify-center">
-        <Button className="rounded-md bg-yellow-400 px-16 py-5 text-base font-extrabold uppercase tracking-widest text-black hover:bg-yellow-300">
-          Tất Cả Ưu Đãi
+      {/* View More */}
+      <div className="mt-6 flex items-center justify-center">
+        <Button
+          variant="outline"
+          className="rounded-md border-2 border-yellow-400 bg-transparent px-16 py-5 text-base font-extrabold uppercase tracking-widest text-yellow-400 hover:bg-yellow-400/10 hover:text-yellow-300"
+        >
+          Xem Thêm
         </Button>
       </div>
     </section>
