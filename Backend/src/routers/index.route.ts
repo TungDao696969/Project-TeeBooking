@@ -66,7 +66,8 @@ import {
   createCinema,
   deleteCinema,
   getAllCinemas,
-  getCinemaById,
+  getCinemaBySlug,
+  getCinemaShowtimes,
   updateCinema,
 } from "../controllers/cinema.controller";
 import {
@@ -371,11 +372,21 @@ router.patch("/movie/:id", updateMovie);
 router.delete("/movie/:id", deleteMovie);
 
 // cinema
-router.post("/cinema", validate(createCinemaSchema), createCinema);
+router.post(
+  "/cinema",
+  authMiddleware,
+  validate(createCinemaSchema),
+  createCinema,
+);
 router.get("/cinema", getAllCinemas);
-router.get("/cinema/:id", getCinemaById);
-router.put("/cinema/:id", validate(updateCinemaSchema), updateCinema);
-router.delete("/cinema/:id", deleteCinema);
+router.get("/cinema/:slug", getCinemaBySlug);
+router.put(
+  "/cinema/:id",
+  authMiddleware,
+  validate(updateCinemaSchema),
+  updateCinema,
+);
+router.delete("/cinema/:id", authMiddleware, deleteCinema);
 
 // cinema room
 router.post(
@@ -395,6 +406,8 @@ router.put(
 );
 
 router.delete("/cinema-rooms/:id", deleteCinemaRoom);
+
+router.get("/cinema/:slug/showtimes", getCinemaShowtimes);
 
 // showtime
 router.post("/showtime", validate(createShowtimeSchema), createShowtime);

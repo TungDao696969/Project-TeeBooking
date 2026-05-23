@@ -3,6 +3,7 @@ import * as cinemaService from "../services/cinema.service";
 import { getCinemaService } from "../services/cinema.service";
 import { success } from "zod";
 import { errorHandler } from "../utils/errorHandler";
+import { sl } from "zod/locales";
 export const createCinema = async (
   req: Request,
   res: Response,
@@ -46,20 +47,20 @@ export const getAllCinemas = async (
   }
 };
 
-export const getCinemaById = async (
+export const getCinemaBySlug = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const { cinemaId } = req.params;
-    if (!cinemaId || Array.isArray(cinemaId)) {
+    const { slug } = req.params;
+    if (!slug || Array.isArray(slug)) {
       return res.status(400).json({
         success: false,
         message: "Invaid cinema Id",
       });
     }
-    const cinema = await cinemaService.getCinemaByIdService(cinemaId);
+    const cinema = await cinemaService.getCinemaBySlugService(slug);
 
     res.status(200).json({
       success: true,
@@ -129,6 +130,31 @@ export const deleteCinema = async (
       error,
       res,
       defaultMessage: "Failed to fetch cinema",
+    });
+  }
+};
+
+export const getCinemaShowtimes = async (req: Request, res: Response) => {
+  try {
+    const { slug } = req.params;
+    if (!slug || Array.isArray(slug)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invaid cinema showtime slug",
+      });
+    }
+    const data = await cinemaService.getCinemaShowtimesService(slug);
+
+    return res.status(200).json({
+      success: true,
+      count: data.length,
+      data,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch cinema showtimes",
     });
   }
 };

@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Promotion } from "@/types/home.type";
 import { getImageUrl } from "@/lib/image";
 import { Button } from "@/components/ui/button";
-
+import Link from "next/link";
 interface Props {
   promotions: Promotion[];
 }
@@ -52,7 +52,10 @@ export default function PromotionSection({ promotions }: Props) {
           {visiblePromotions.map((promo) => (
             <div key={promo.id} className="group overflow-hidden rounded-2xl">
               {/* Image */}
-              <div className="relative overflow-hidden rounded-2xl">
+              <Link
+                href={`/promotions/${promo.id}`}
+                className="relative block overflow-hidden rounded-2xl"
+              >
                 <Image
                   src={getImageUrl(promo.imageUrl ?? "")}
                   alt={promo.title}
@@ -63,13 +66,16 @@ export default function PromotionSection({ promotions }: Props) {
 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/10 transition group-hover:bg-black/20" />
-              </div>
+              </Link>
 
               {/* Content */}
               <div className="mt-4">
-                <h3 className="line-clamp-2 text-lg font-extrabold uppercase text-white">
+                <Link
+                  href={`/promotions/${promo.id}`}
+                  className="line-clamp-2 text-lg font-extrabold uppercase text-white transition hover:text-yellow-400"
+                >
                   {promo.title}
-                </h3>
+                </Link>
 
                 {promo.description && (
                   <p className="mt-2 line-clamp-2 text-sm text-white/70">

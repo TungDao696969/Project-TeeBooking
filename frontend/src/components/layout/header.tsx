@@ -14,9 +14,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { useCinemaDropdown } from "@/store/cinema.store";
+import Navbar from "./navbar";
 
 export default function Header() {
   const router = useRouter();
+  const { open, setOpen } = useCinemaDropdown();
   return (
     <header className="w-full bg-[#0b1633] text-white  border-white/10 sticky top-0 z-50">
       {/* Top Header */}
@@ -83,59 +86,7 @@ export default function Header() {
       </div>
 
       {/* Navbar */}
-      <nav className="border-t border-white/10">
-        <div className="mx-auto flex max-w-[1320px] items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Left */}
-          <div className="flex items-center gap-10 py-4">
-            <Link
-              href="/cinemas"
-              className="flex items-center gap-2 hover:text-yellow-400 transition font-medium"
-            >
-              <MapPin className="w-5 h-5" />
-              Chọn rạp
-            </Link>
-
-            <Link
-              href="/showtimes"
-              className="flex items-center gap-2 hover:text-yellow-400 transition font-medium"
-            >
-              <CalendarDays className="w-5 h-5" />
-              Lịch chiếu
-            </Link>
-          </div>
-
-          {/* Right */}
-          <div className="hidden lg:flex items-center gap-10 py-4">
-            <Link
-              href="/promotions"
-              className="hover:text-yellow-400 transition font-medium"
-            >
-              Khuyến mãi
-            </Link>
-
-            <Link
-              href="/events"
-              className="hover:text-yellow-400 transition font-medium"
-            >
-              Tổ chức sự kiện
-            </Link>
-
-            <Link
-              href="/entertainment"
-              className="hover:text-yellow-400 transition font-medium"
-            >
-              Dịch vụ giải trí khác
-            </Link>
-
-            <Link
-              href="/about"
-              className="hover:text-yellow-400 transition font-medium"
-            >
-              Giới thiệu
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
     </header>
   );
 }

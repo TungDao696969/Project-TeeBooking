@@ -1,15 +1,16 @@
 import { create } from "zustand";
 
 interface BookingState {
-  selectedMovieId: string | null;
-  setSelectedMovieId: (id: string) => void;
+  selectedShowtimeId: string | null;
+
+  setSelectedShowtime: (id: string) => void;
 }
 
 export const useBookingStore = create<BookingState>((set) => ({
-  selectedMovieId: null,
+  selectedShowtimeId: null,
 
-  setSelectedMovieId: (id) =>
+  setSelectedShowtime: (id) =>
     set({
-      selectedMovieId: id,
+      selectedShowtimeId: id,
     }),
 }));
