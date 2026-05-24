@@ -1,6 +1,6 @@
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
-
+import { Toaster } from "sonner";
 export default function RootLayout({
   children,
 }: {
@@ -9,7 +9,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#0b1633] text-white min-h-screen">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          {children}
+          <Toaster richColors position="top-right" />
+        </QueryProvider>
       </body>
     </html>
   );

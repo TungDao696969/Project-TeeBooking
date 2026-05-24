@@ -1,5 +1,17 @@
 import type { Request, Response } from "express";
 import { prisma } from "../utils/prisma";
+import { redis } from "../utils/redis";
+
+type RegisterCacheData = {
+  fullName: string;
+  email: string;
+  phone: string;
+  passwordHash: string;
+  gender: string;
+  dateOfBirth: string;
+  role: string;
+  otp: string;
+};
 
 export const verifyEmailController = async (
   req: Request,
@@ -8,11 +20,28 @@ export const verifyEmailController = async (
   try {
     const { email, otp } = req.body;
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    if (!email || !otp) {
+      res.status(400).json({
+        success: false,
+        message: "Email and OTP are required",
+      });
+      return;
+    }
 
-    if (!user || user.verificationCode !== otp) {
+    const redisKey = `register:${email}`;
+    const cachedRegisterData = await redis.get(redisKey);
+
+    if (!cachedRegisterData) {
+      res.status(400).json({
+        success: false,
+        message: "OTP không hợp lệ hoặc đã hết hạn",
+      });
+      return;
+    }
+
+    const registerData = JSON.parse(cachedRegisterData) as RegisterCacheData;
+
+    if (registerData.otp !== otp) {
       res.status(400).json({
         success: false,
         message: "Invalid verification code",
@@ -20,13 +49,33 @@ export const verifyEmailController = async (
       return;
     }
 
-    await prisma.user.update({
+    const existingUser = await prisma.user.findUnique({
       where: { email },
+    });
+
+    if (existingUser) {
+      await redis.del(redisKey);
+      res.status(400).json({
+        success: false,
+        message: "Email đã tồn tại",
+      });
+      return;
+    }
+
+    await prisma.user.create({
       data: {
+        fullName: registerData.fullName,
+        email: registerData.email,
+        phone: registerData.phone,
+        passwordHash: registerData.passwordHash,
+        gender: registerData.gender as "male" | "female",
+        dateOfBirth: new Date(registerData.dateOfBirth),
+        role: registerData.role as "customer",
         isVerified: true,
-        verificationCode: null,
       },
     });
+
+    await redis.del(redisKey);
 
     res.status(200).json({
       success: true,

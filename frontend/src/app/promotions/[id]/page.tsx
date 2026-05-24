@@ -8,7 +8,7 @@ import Footer from "@/components/layout/footer";
 import PromotionHero from "@/components/promotion/promotion-hero";
 import PromotionInfo from "@/components/promotion/promotion-info";
 
-import { usePromotionDetail } from "@/hooks/use-promotion-detail";
+import { usePromotionDetail } from "@/hooks/promotion/use-promotion-detail";
 
 export default function PromotionDetailPage() {
   const params = useParams();

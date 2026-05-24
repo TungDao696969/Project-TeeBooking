@@ -5,11 +5,11 @@ import { useParams } from "next/navigation";
 import CinemaHero from "@/components/cinema/cinema-hero";
 import CinemaTabs from "@/components/cinema/cinema-tabs";
 
-import { useCinemaDetail } from "@/hooks/use-cinema-detail";
+import { useCinemaDetail } from "@/hooks/cinema/use-cinema-detail";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import MovieCard from "@/components/cinema/movie-card";
-import { useCinemaShowtimes } from "@/hooks/use-cinema-showtimes";
+import { useCinemaShowtimes } from "@/hooks/cinema/use-cinema-showtimes";
 import { useMemo, useState } from "react";
 import CinemaMovieNavbar from "./CinemaMovieNavbar";
 

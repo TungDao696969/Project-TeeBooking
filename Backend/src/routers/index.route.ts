@@ -2,11 +2,14 @@ import { Router } from "express";
 import {
   changePasswordController,
   forgotPasswordController,
+  googleCallback,
+  googleRedirect,
   loginController,
   logoutController,
   registerController,
   resetPasswordController,
 } from "../controllers/auth.controller";
+import { verifyEmailController } from "../controllers/verifyEmail.controller";
 import { refreshTokenController } from "../controllers/refreshToken.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { loginLimiter } from "../utils/rateLimit";
@@ -212,10 +215,14 @@ import { getHomeController } from "../controllers/home/home.controller";
 const router = Router();
 
 router.post("/auth/register", registerController);
+router.post("/auth/verify-otp", verifyEmailController);
 router.post("/auth/login", loginLimiter, loginController);
 router.post("/auth/refresh-token", refreshTokenController);
 router.post("/auth/logout", logoutController);
 router.post("/logout", logoutController);
+
+router.get("/auth/google", googleRedirect);
+router.get("/auth/google/callback", googleCallback);
 
 router.post("/forgot-password", forgotPasswordController);
 router.post("/reset-password", resetPasswordController);

@@ -7,7 +7,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 import { getImageUrl } from "@/lib/image";
-import { usePromotions } from "@/hooks/use-promotion";
+import { usePromotions } from "@/hooks/promotion/use-promotion";
 
 const formatCurrency = (value: number | null) => {
   if (value == null) return "Không giới hạn";
@@ -73,7 +73,7 @@ export default function PromotionPage() {
             </div>
 
             {/* CONTENT */}
-            <div className="w-full lg:w-[38%] ml-5">
+            <div className="w-full lg:w-[38%] ml-5 px-5">
               {/* BADGE */}
               <div className="mb-6 inline-flex rounded-full bg-yellow-400 px-5 py-3 text-sm font-extrabold uppercase tracking-wide text-black">
                 Ưu đãi hot
@@ -149,7 +149,7 @@ export default function PromotionPage() {
               </div>
 
               {/* BUTTONS */}
-              <div className="mt-12 flex flex-wrap gap-5">
+              <div className="mt-12 flex flex-wrap gap-5 mt-5">
                 <Link
                   href={`/promotions/${promotion.id}`}
                   className="inline-flex h-14 items-center justify-center bg-yellow-400 px-10 text-sm font-extrabold uppercase tracking-wide text-black transition hover:scale-105 hover:bg-yellow-300"

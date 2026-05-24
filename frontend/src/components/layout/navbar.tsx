@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CalendarDays, ChevronDown, MapPin } from "lucide-react";
 
 import { useCinemaDropdown } from "@/store/cinema.store";
-import { useCinemas } from "@/hooks/use-cinema";
+import { useCinemas } from "@/hooks/cinema/use-cinema";
 
 export default function Navbar() {
   const { open, setOpen } = useCinemaDropdown();
@@ -24,7 +24,10 @@ export default function Navbar() {
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
           >
-            <button className="flex items-center gap-2 font-medium transition hover:text-yellow-400">
+            <button
+              suppressHydrationWarning
+              className="flex items-center gap-2 font-medium transition hover:text-yellow-400"
+            >
               <MapPin className="h-5 w-5" />
               Chọn rạp
               <ChevronDown

@@ -8,6 +8,7 @@ import { redis } from "../utils/redis";
 
 import { LoginInput, RegisterInput } from "../validations/auth.validation";
 import bcrypt from "bcryptjs";
+
 export const registerUserService = async (data: RegisterInput) => {
   // Kiểm tra email hoặc phone đã tồn tại
   const existingUser = await prisma.user.findFirst({

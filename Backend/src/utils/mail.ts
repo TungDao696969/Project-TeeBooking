@@ -4,6 +4,7 @@ import ejs from "ejs";
 import path from "path";
 
 let mailTransporter: nodemailer.Transporter | null = null;
+let transporterVerified = false;
 
 const requiredEnv = (name: string) => {
   const value = process.env[name];
@@ -41,12 +42,40 @@ export const sendMail = async (
   message: string,
 ) => {
   try {
-    const info = await getMailTransporter().sendMail({
+    const transporter = getMailTransporter();
+
+    if (!transporterVerified) {
+      await transporter.verify();
+      transporterVerified = true;
+      console.log("SMTP connection verified");
+    }
+
+    const info = await transporter.sendMail({
       from: `"${requiredEnv("SMTP_FROM_NAME")}" <${requiredEnv("SMTP_FROM_EMAIL")}>`,
       to,
       subject,
       html: message,
     });
+
+    const accepted = Array.isArray(info.accepted) ? info.accepted : [];
+    const rejected = Array.isArray(info.rejected) ? info.rejected : [];
+
+    console.log("Mail sent:", {
+      messageId: info.messageId,
+      accepted,
+      rejected,
+      response: info.response,
+    });
+
+    if (!accepted.length || rejected.includes(to)) {
+      console.error("Mail was not accepted by SMTP server:", {
+        to,
+        accepted,
+        rejected,
+      });
+      return false;
+    }
+
     return info;
   } catch (error) {
     console.error("Send mail failed:", error);
