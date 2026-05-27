@@ -7,7 +7,7 @@ import { Star, MessageSquarePlus, X, Send } from "lucide-react";
 import { Review, Ratings } from "@/types/movie.type";
 
 interface ReviewSectionProps {
-  ratings: Ratings;
+  ratings?: Ratings;
   reviews: Review[];
 }
 
@@ -31,7 +31,8 @@ function StarRating({
   );
 }
 
-function getInitials(name: string) {
+function getInitials(name: string | undefined) {
+  if (!name) return "?";
   return name
     .split(" ")
     .map((w) => w[0])
@@ -78,6 +79,15 @@ export default function ReviewSection({
   const [comment, setComment] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  // Calculate ratings from reviews if not provided
+  const calculatedRatings = ratings || {
+    totalReviews: reviews.length,
+    averageRating:
+      reviews.length > 0
+        ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+        : 0,
+  };
+
   const handleSubmit = () => {
     if (!selectedStar || !comment.trim()) return;
     // TODO: gọi API POST /reviews
@@ -99,7 +109,7 @@ export default function ReviewSection({
           Đánh Giá
         </h2>
         <span className="ml-auto text-xs text-white/40">
-          {ratings.totalReviews} đánh giá
+          {calculatedRatings.totalReviews} đánh giá
         </span>
       </div>
 
@@ -108,11 +118,11 @@ export default function ReviewSection({
         {/* Điểm to */}
         <div className="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-4">
           <span className="text-5xl font-black text-white leading-none">
-            {ratings.averageRating.toFixed(1)}
+            {calculatedRatings.averageRating.toFixed(1)}
           </span>
-          <StarRating rating={Math.round(ratings.averageRating)} />
+          <StarRating rating={Math.round(calculatedRatings.averageRating)} />
           <span className="mt-1 text-xs text-white/40">
-            {ratings.totalReviews} lượt
+            {calculatedRatings.totalReviews} lượt
           </span>
         </div>
 
@@ -231,11 +241,11 @@ export default function ReviewSection({
             >
               <div className="mb-2 flex items-start gap-3">
                 {/* Avatar */}
-                {review.user.avatarUrl ? (
+                {review.user?.avatarUrl ? (
                   <div className="h-9 w-9 flex-shrink-0 overflow-hidden rounded-full ring-1 ring-white/10">
                     <Image
                       src={review.user.avatarUrl}
-                      alt={review.user.fullName}
+                      alt={review.user.fullName || "User"}
                       width={36}
                       height={36}
                       className="h-full w-full object-cover"
@@ -243,14 +253,14 @@ export default function ReviewSection({
                   </div>
                 ) : (
                   <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-purple-500/30 text-xs font-bold text-purple-300 ring-1 ring-white/10">
-                    {getInitials(review.user.fullName)}
+                    {getInitials(review.user?.fullName)}
                   </div>
                 )}
 
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate text-sm font-semibold text-white">
-                      {review.user.fullName}
+                      {review.user?.fullName || "Anonymous"}
                     </p>
                     <time className="flex-shrink-0 text-xs text-white/35">
                       {formatDate(review.createdAt)}

@@ -78,17 +78,17 @@ export const getMoviesService = async (
   return result;
 };
 
-export const getMovieByIdService = async (id: string) => {
-  return prisma.movie.findUnique({
-    where: { id },
-    include: {
-      genres: true,
-      casts: true,
-      showtimes: true,
-      reviews: true,
-    },
-  });
-};
+// export const getMovieByIdService = async (slug: string) => {
+//   return prisma.movie.findUnique({
+//     where: { slug },
+//     include: {
+//       genres: true,
+//       casts: true,
+//       showtimes: true,
+//       reviews: true,
+//     },
+//   });
+// };
 
 export const updateMovieService = async (id: string, data: any) => {
   if (data.title) {

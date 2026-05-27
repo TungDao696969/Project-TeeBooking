@@ -61,7 +61,6 @@ import {
 import {
   createMovie,
   deleteMovie,
-  getMovieById,
   getMovies,
   updateMovie,
 } from "../controllers/movie.controller";
@@ -230,11 +229,11 @@ router.post("/change-password", authMiddleware, changePasswordController);
 
 // user profile
 router.get("/users/profile", authMiddleware, getUserProfileController);
-router.put("/users/profile", authMiddleware, updateUserController);
+router.patch("/users/profile", authMiddleware, updateUserController);
 /**
  * Upload avatar
  */
-router.put(
+router.patch(
   "/users/profile/avatar",
   authMiddleware,
   upload.single("avatar"),
@@ -372,7 +371,7 @@ router.post("/movie", createMovie);
 
 router.get("/movie", getMovies);
 
-router.get("/movie/:id", getMovieById);
+// router.get("/movie/:slug", getMovieById);
 
 router.patch("/movie/:id", updateMovie);
 

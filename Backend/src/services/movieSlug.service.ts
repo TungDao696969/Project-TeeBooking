@@ -1,6 +1,19 @@
 import { prisma } from "../utils/prisma";
 import { redis } from "../utils/redis";
 
+// default seat lock duration (milliseconds) — keep in sync with showtimeSeat.service LOCK_DURATION
+const SEAT_LOCK_DURATION_MS = 5 * 60 * 1000;
+
+const extractCinemaBrand = (slug?: string, name?: string) => {
+  if (!slug && !name) return null;
+  const s = (slug || name || "").toLowerCase();
+  if (s.includes("cinestar")) return "Cinestar";
+  if (s.includes("cgv")) return "CGV";
+  if (s.includes("lotte")) return "Lotte";
+  if (s.includes("bhd")) return "BHD";
+  return null;
+};
+
 export const getMovieDetailService = async (slug: string) => {
   const cacheKey = `movie:detail:${slug}`;
 
@@ -43,9 +56,9 @@ export const getMovieDetailService = async (slug: string) => {
       showtimes: {
         where: {
           isActive: true,
-          startTime: {
-            gte: new Date(),
-          },
+          // startTime: {
+          //   gte: new Date(),
+          // },
         },
         include: {
           room: {
@@ -163,15 +176,91 @@ export const getMovieDetailService = async (slug: string) => {
           province: showtime.room.cinema.province,
         },
 
+        // basic room info
         room: {
           id: showtime.room.id,
           name: showtime.room.roomName,
         },
+
+        // derived cinema brand (e.g., Cinestar, CGV)
+        cinemaBrand: extractCinemaBrand(
+          showtime.room.cinema.slug,
+          showtime.room.cinema.name,
+        ),
+
+        // booking metadata to support a professional booking flow on frontend
+        booking: {
+          seatLockDurationSeconds: Math.floor(SEAT_LOCK_DURATION_MS / 1000),
+          paymentMethods: ["card", "momo", "vnpay", "cash"],
+          cancellationPolicy:
+            "Tickets can be refunded up to 2 hours before showtime depending on policy",
+          bookingUrl: `/booking/showtime/${showtime.id}`,
+          // default ticket tiers — frontend may override per-cinema pricing
+          ticketTiers: [
+            { key: "standard", name: "Standard", extraPrice: 0 },
+            { key: "vip", name: "VIP", extraPrice: 20000 },
+            { key: "couple", name: "Couple", extraPrice: 30000 },
+          ],
+        },
+
+        // seat map and availability for this showtime — will be populated below
+        seats: [],
       })),
 
       relatedMovies,
     },
   };
+
+  // cache 5 minutes
+  // enrich showtimes with seat maps (showtime-specific pricing & availability)
+  const enrichedShowtimes = await Promise.all(
+    result.data.showtimes.map(async (s: any) => {
+      const showtimeSeats = await prisma.showtimeSeat.findMany({
+        where: { showtimeId: s.id },
+        include: { seat: true },
+        orderBy: [{ finalPrice: "asc" }],
+      });
+
+      const seats = showtimeSeats.map((ss) => ({
+        id: ss.id,
+        seatId: ss.seatId,
+        seatCode: ss.seat?.seatCode,
+        seatRow: ss.seat?.seatRow,
+        seatNumber: ss.seat?.seatNumber,
+        seatType: ss.seat?.seatType,
+        status: ss.status,
+        finalPrice: ss.finalPrice ?? s.basePrice,
+        extraPrice: ss.seat?.extraPrice ?? 0,
+        lockedUntil: ss.lockedUntil,
+      }));
+
+      // build rows map for UI convenience
+      const seatRows: any[] = [];
+      const rowsMap: Record<string, any[]> = {};
+      for (const seat of seats) {
+        const row = seat.seatRow || "";
+        if (!rowsMap[row]) rowsMap[row] = [];
+        rowsMap[row].push(seat);
+      }
+      for (const row of Object.keys(rowsMap).sort()) {
+        const rowSeats = rowsMap[row] ?? [];
+        seatRows.push({
+          row,
+          seats: rowSeats.sort(
+            (a, b) => Number(a.seatNumber) - Number(b.seatNumber),
+          ),
+        });
+      }
+
+      return {
+        ...s,
+        seats,
+        seatRows,
+      };
+    }),
+  );
+
+  result.data.showtimes = enrichedShowtimes;
 
   // cache 5 minutes
   await redis.set(cacheKey, JSON.stringify(result), "EX", 300);

@@ -9,7 +9,8 @@ interface CastSectionProps {
   casts: Cast[];
 }
 
-function getInitials(name: string) {
+function getInitials(name: string | undefined) {
+  if (!name) return "?";
   return name
     .split(" ")
     .map((w) => w[0])
@@ -29,8 +30,15 @@ const AVATAR_COLORS = [
 ];
 
 export default function CastSection({ casts }: CastSectionProps) {
-  const directors = casts.filter((c) => c.roleType === "director");
-  const actors = casts.filter((c) => c.roleType === "actor");
+  // Filter casts that have fullName (populated from person table)
+  const validCasts = casts.filter((c) => c.fullName && c.fullName.trim());
+  const directors = validCasts.filter((c) => c.roleType === "director");
+  const actors = validCasts.filter((c) => c.roleType === "actor");
+
+  // If no valid casts, show empty state
+  if (validCasts.length === 0) {
+    return null;
+  }
 
   const CastCard = ({ cast, index }: { cast: Cast; index: number }) => (
     <div className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center transition hover:border-yellow-400/25 hover:bg-white/8">
@@ -40,7 +48,7 @@ export default function CastSection({ casts }: CastSectionProps) {
           <div className="h-16 w-16 overflow-hidden rounded-full ring-2 ring-white/10">
             <Image
               src={cast.avatarUrl}
-              alt={cast.fullName}
+              alt={cast.fullName || "Cast member"}
               width={64}
               height={64}
               className="h-full w-full object-cover"
@@ -64,14 +72,16 @@ export default function CastSection({ casts }: CastSectionProps) {
       {/* Tên */}
       <div className="mt-1 space-y-0.5">
         <p className="text-sm font-semibold leading-tight text-white">
-          {cast.fullName}
+          {cast.fullName || "Unknown"}
         </p>
         {cast.characterName && (
           <p className="text-xs italic text-yellow-300/80">
             {cast.characterName}
           </p>
         )}
-        <p className="text-xs text-white/40">{cast.nationality}</p>
+        {cast.nationality && (
+          <p className="text-xs text-white/40">{cast.nationality}</p>
+        )}
       </div>
     </div>
   );
@@ -84,7 +94,7 @@ export default function CastSection({ casts }: CastSectionProps) {
           Diễn Viên &amp; Đạo Diễn
         </h2>
         <span className="ml-auto text-xs text-white/40">
-          {casts.length} người
+          {validCasts.length} người
         </span>
       </div>
 

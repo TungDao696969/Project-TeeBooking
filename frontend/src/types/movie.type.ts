@@ -6,22 +6,29 @@ export interface Genre {
 
 export interface Cast {
   id: string;
-  fullName: string;
-  avatarUrl: string | null;
-  nationality: string;
-  roleType: string;
+  movieId: string;
+  personId: string;
+  roleType: string; // "director" | "actor"
   characterName: string | null;
+  // Optional fields from person table (if populated)
+  fullName?: string;
+  avatarUrl?: string | null;
+  nationality?: string;
 }
 
 export interface Review {
   id: string;
+  userId: string;
+  movieId: string;
   rating: number;
   comment: string;
   createdAt: string;
-  user: {
+  updatedAt: string;
+  // Optional user details (if populated)
+  user?: {
     id: string;
-    fullName: string;
-    avatarUrl: string | null;
+    fullName?: string;
+    avatarUrl?: string | null;
   };
 }
 
@@ -49,7 +56,7 @@ export interface Movie {
     totalReviews: number;
   };
   reviews: Review[];
-  showTimes: Showtime[];
+  showtimes: Showtime[];
   relatedMovies: Movie[];
 }
 
@@ -60,18 +67,29 @@ export interface Ratings {
 
 export interface Showtime {
   id: string;
-  date: string; // "2025-06-01T00:00:00.000Z"
-  startTime: string; // "14:30"
-  endTime: string; // "17:00"
-  hall: string; // "Hall 1"
-  cinema: {
+  movieId: string;
+  roomId: string;
+  showDate: string; // "2026-05-20T07:27:11.913Z"
+  startTime: string; // "2026-05-08T12:00:00.000Z"
+  endTime: string; // "2026-05-08T14:30:00.000Z"
+  basePrice: number;
+  format: string; // "2D" | "3D"
+  language: string;
+  subtitle: string;
+  isActive: boolean;
+  createdAt: string;
+  // Optional fields if available from API
+  cinema?: {
     id: string;
     name: string;
     address: string;
   };
-  availableSeats: number;
-  totalSeats: number;
-  price: number;
+  room?: {
+    id: string;
+    name: string;
+    totalSeats: number;
+  };
+  availableSeats?: number;
 }
 
 export interface ShowtimeSectionProps {

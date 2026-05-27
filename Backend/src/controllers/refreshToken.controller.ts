@@ -75,25 +75,33 @@ export const refreshTokenController = async (
     }
 
     const newAccessToken = generateAccessToken(user.id);
-    const newRefreshToken = generateRefreshToken(user.id);
 
+    const newRefreshToken = generateRefreshToken(user.id);
+    // update redis
+    await redis.set(
+      `refresh:${user.id}`,
+      newRefreshToken,
+      "EX",
+      7 * 24 * 60 * 60,
+    );
     res.cookie("access_token", newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 15 * 60 * 1000,
     });
 
     res.cookie("refresh_token", newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
       success: true,
       message: "Token refreshed successfully",
+      accessToken: newAccessToken,
     });
   } catch {
     return res.status(401).json({

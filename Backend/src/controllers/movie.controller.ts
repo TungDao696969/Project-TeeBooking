@@ -26,21 +26,21 @@ export const getMovies = async (req: Request, res: Response) => {
   });
 };
 
-export const getMovieById = async (req: Request, res: Response) => {
-  const { movieId } = req.params;
-  if (!movieId || Array.isArray(movieId)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invaid movie Id",
-    });
-  }
-  const movie = await movieService.getMovieByIdService(movieId);
+// export const getMovieById = async (req: Request, res: Response) => {
+//   const { slug } = req.params;
+//   if (!slug || Array.isArray(slug)) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Invaid movie Id",
+//     });
+//   }
+//   const movie = await movieService.getMovieByIdService(slug);
 
-  return res.json({
-    success: true,
-    data: movie,
-  });
-};
+//   return res.json({
+//     success: true,
+//     data: movie,
+//   });
+// };
 
 export const updateMovie = async (req: Request, res: Response) => {
   const { movieId } = req.params;

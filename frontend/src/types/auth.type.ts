@@ -31,11 +31,15 @@ export interface AuthState {
   user: User | null;
   accessToken: string | null;
   isAuthenticated: boolean;
+  forgotEmail: string;
+  setForgotEmail: (email: string) => void;
+  setAuthenticated: (value: boolean) => void;
 
   setAuth: (user: User, token: string) => void;
   setUser: (user: User) => void;
   logout: () => void;
   updateUser: (user: User) => void;
+  updateUserAvatar: (avatar: string) => void;
 }
 
 export interface VerifyOtpBody {
@@ -46,4 +50,14 @@ export interface VerifyOtpBody {
 export interface VerifyOtpResponse {
   success: boolean;
   message: string;
+}
+
+export interface ForgotPasswordPayload {
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  email: string;
+  otp: string;
+  password: string;
 }

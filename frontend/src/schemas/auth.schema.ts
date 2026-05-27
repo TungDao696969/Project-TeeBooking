@@ -43,3 +43,14 @@ export const loginSchema = z.object({
 });
 
 export type LoginSchemaType = z.infer<typeof loginSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Email không hợp lệ"),
+});
+
+export const resetPasswordSchema = z.object({
+  email: z.string().email(),
+  otp: z.string().min(6, "OTP gồm 6 số"),
+
+  password: z.string().min(6, "Mật khẩu tối thiểu 6 ký tự"),
+});

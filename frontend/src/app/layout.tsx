@@ -1,3 +1,4 @@
+import AuthProvider from "@/providers/auth-provider";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
 import { Toaster } from "sonner";
@@ -10,8 +11,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-[#0b1633] text-white min-h-screen">
         <QueryProvider>
-          {children}
-          <Toaster richColors position="top-right" />
+          <AuthProvider>
+            {children}
+            <Toaster richColors position="top-right" />
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

@@ -9,7 +9,14 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       accessToken: null,
       isAuthenticated: false,
+      forgotEmail: "",
 
+      setForgotEmail: (email) => set({ forgotEmail: email }),
+
+      setAuthenticated: (value) =>
+        set({
+          isAuthenticated: value,
+        }),
       setAuth: (user, token) =>
         set({
           user,
@@ -34,6 +41,17 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           isAuthenticated: false,
         }),
+
+      updateUserAvatar: (avatar) =>
+        set((state) => ({
+          user: state.user
+            ? {
+                ...state.user,
+                avatar,
+                avatarUrl: avatar,
+              }
+            : null,
+        })),
     }),
     {
       name: "auth-storage",

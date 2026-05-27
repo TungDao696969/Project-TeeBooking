@@ -157,6 +157,16 @@ export const forgotPasswordService = async (email: string) => {
   }
 
   const otp = generateOtp();
+  const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 phút
+
+  // Lưu OTP vào database
+  await prisma.user.update({
+    where: { email },
+    data: {
+      resetPasswordCode: otp,
+      resetPasswordExpiresAt: expiresAt,
+    },
+  });
 
   await redis.set(`forgot:${email}`, otp, "EX", 300);
 
@@ -172,6 +182,14 @@ export const forgotPasswordService = async (email: string) => {
 
   if (!mailInfo) {
     await redis.del(`forgot:${email}`);
+    // Xóa OTP khỏi database nếu gửi mail thất bại
+    await prisma.user.update({
+      where: { email },
+      data: {
+        resetPasswordCode: null,
+        resetPasswordExpiresAt: null,
+      },
+    });
     throw new Error("Failed to send reset email");
   }
   return true;

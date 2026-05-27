@@ -62,7 +62,7 @@ export const loginController = async (
     res.cookie("access_token", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 15 * 60 * 1000, // 15 phút
     });
 
@@ -74,7 +74,7 @@ export const loginController = async (
     res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
     });
 
@@ -96,7 +96,7 @@ export const logoutController = async (_req: Request, res: Response) => {
   const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict" as const,
+    sameSite: "lax" as const,
   };
 
   res.clearCookie("access_token", cookieOptions);
@@ -128,9 +128,9 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
 
 export const resetPasswordController = async (req: Request, res: Response) => {
   try {
-    const { email, otp, newPassword } = req.body;
+    const { email, otp, password } = req.body;
 
-    await resetPasswordService(email, otp, newPassword);
+    await resetPasswordService(email, otp, password);
 
     return res.status(200).json({
       success: true,
@@ -269,14 +269,14 @@ export const googleCallback = async (req: Request, res: Response) => {
     res.cookie("access_token", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 15 * 60 * 1000,
     });
 
     res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

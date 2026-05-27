@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import GoogleLoginButton from "./google-login-button";
 import { FaFacebookF } from "react-icons/fa";
-
+import Link from "next/link";
 interface LoginFormProps {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -137,12 +137,12 @@ export default function LoginForm({ setIsRegister }: LoginFormProps) {
             </label>
           </div>
 
-          <button
-            type="button"
-            className="text-sm text-blue-500 font-medium underline"
+          <Link
+            href="/forgot-password"
+            className="text-sm font-medium text-blue-500 underline"
           >
             Quên mật khẩu?
-          </button>
+          </Link>
         </div>
 
         {/* Submit */}
