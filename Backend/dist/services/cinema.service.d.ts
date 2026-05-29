@@ -17,7 +17,7 @@ export declare const createCinemaService: (data: CreateCinemaInput) => Promise<{
     openingHours: string | null;
 }>;
 export declare const getCinemaService: () => Promise<any>;
-export declare const getCinemaByIdService: (id: string) => Promise<any>;
+export declare const getCinemaBySlugService: (slug: string) => Promise<any>;
 export declare const updateCinemaService: (id: string, data: UpdateCinemaInput) => Promise<{
     name: string;
     email: string | null;
@@ -36,4 +36,5 @@ export declare const updateCinemaService: (id: string, data: UpdateCinemaInput) 
     openingHours: string | null;
 }>;
 export declare const deleteCinemaService: (id: string) => Promise<boolean>;
+export declare const getCinemaShowtimesService: (slug: string) => Promise<any[]>;
 //# sourceMappingURL=cinema.service.d.ts.map

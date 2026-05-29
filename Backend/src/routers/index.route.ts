@@ -62,6 +62,7 @@ import {
   createMovie,
   deleteMovie,
   getMovies,
+  getMovieShowtimes,
   updateMovie,
 } from "../controllers/movie.controller";
 import {
@@ -97,6 +98,7 @@ import {
   deleteShowtime,
   getAllShowtimes,
   getShowtimeById,
+  getShowtimeTicketTypes,
   updateShowtime,
 } from "../controllers/showtime.controller";
 import {
@@ -210,6 +212,26 @@ import {
   updatePromotionController,
 } from "../controllers/promotion.controller";
 import { getHomeController } from "../controllers/home/home.controller";
+import { getMovieShowtimesSchema } from "../validations/movie.validation";
+import {
+  createTicketTypeSchema,
+  updateTicketTypeSchema,
+} from "../validations/ticket-type.validation";
+import {
+  createTicketType,
+  deleteTicketType,
+  getAllTicketTypes,
+  getTicketTypeById,
+  updateTicketType,
+} from "../controllers/ticket-type.controller";
+import { getShowtimeSeatsController } from "../controllers/get-showtime-seats.controller";
+import {
+  createFoodComboController,
+  deleteFoodComboController,
+  getAllFoodCombosController,
+  getFoodComboByIdController,
+  updateFoodComboController,
+} from "../controllers/foodCombo.controller";
 
 const router = Router();
 
@@ -377,6 +399,12 @@ router.patch("/movie/:id", updateMovie);
 
 router.delete("/movie/:id", deleteMovie);
 
+router.get(
+  "/movie/:slug/showtimes",
+  validate(getMovieShowtimesSchema),
+  getMovieShowtimes,
+);
+
 // cinema
 router.post(
   "/cinema",
@@ -428,19 +456,19 @@ router.delete("/showtime/:id", deleteShowtime);
 
 // showtime seat
 router.post(
-  "/showtime-seat/:id/reserve",
+  "/showtime-seat/:id/reserve-seats",
   authMiddleware,
   reserveShowtimeSeatController,
 );
 
 router.post(
-  "/showtime-seat/:id/release",
+  "/showtime-seat/:id/release-seats",
   authMiddleware,
   releaseShowtimeSeatController,
 );
 
 router.post(
-  "/showtime-seat/:id/confirm",
+  "/showtime/:id/confirm-seats",
   authMiddleware,
   confirmBookingShowtimeSeatController,
 );
@@ -482,7 +510,7 @@ router.get(
 
 // movie detail by slug
 router.get("/movies/detail/:slug", getMovieDetailController);
-
+router.get("/showtime/:id/ticket-types", getShowtimeTicketTypes);
 // genre
 router.get("/genre", getGenresController);
 router.get("/genre/:id", getGenreByIdController);
@@ -540,7 +568,7 @@ router.post(
   createTrailerController,
 );
 
-router.get("/movie/:movieId", getTrailersByMovieController);
+router.get("/trailer/:movieId", getTrailersByMovieController);
 
 router.get("/trailer/:id", getTrailerByIdController);
 
@@ -631,6 +659,47 @@ router.patch("/promotion/:id", updatePromotionController);
 
 router.delete("/promotion/:id", deletePromotionController);
 
+// ticket type
+router.post(
+  "/ticket-types",
+  validate(createTicketTypeSchema),
+  createTicketType,
+);
+
+router.get("/ticket-types", getAllTicketTypes);
+
+router.get("/ticket-types/:id", getTicketTypeById);
+
+router.put(
+  "/ticket-types/:id",
+  validate(updateTicketTypeSchema),
+  updateTicketType,
+);
+
+router.delete("/ticket-types/:id", deleteTicketType);
+
+router.get("/showtimes/:id/seats", getShowtimeSeatsController);
+
+// food
+router.get("/food", getAllFoodCombosController);
+
+router.get("/food/:id", getFoodComboByIdController);
+
+router.post(
+  "/food",
+  authMiddleware,
+  upload.single("image"),
+  createFoodComboController,
+);
+
+router.put(
+  "/food/:id",
+  authMiddleware,
+  upload.single("image"),
+  updateFoodComboController,
+);
+
+router.delete("/food/:id", authMiddleware, deleteFoodComboController);
 // admin
 router.get(
   "/admin/dashboard",

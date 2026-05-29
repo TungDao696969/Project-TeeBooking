@@ -128,6 +128,15 @@ const forgotPasswordService = async (email) => {
         throw new Error("Email not found");
     }
     const otp = (0, generateOtp_1.generateOtp)();
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 phút
+    // Lưu OTP vào database
+    await prisma_1.prisma.user.update({
+        where: { email },
+        data: {
+            resetPasswordCode: otp,
+            resetPasswordExpiresAt: expiresAt,
+        },
+    });
     await redis_1.redis.set(`forgot:${email}`, otp, "EX", 300);
     const mailInfo = await (0, mail_1.sendMailTemplate)(email, "Reset Password OTP", "forgot-password", {
         fullName: user.fullName,
@@ -135,6 +144,14 @@ const forgotPasswordService = async (email) => {
     });
     if (!mailInfo) {
         await redis_1.redis.del(`forgot:${email}`);
+        // Xóa OTP khỏi database nếu gửi mail thất bại
+        await prisma_1.prisma.user.update({
+            where: { email },
+            data: {
+                resetPasswordCode: null,
+                resetPasswordExpiresAt: null,
+            },
+        });
         throw new Error("Failed to send reset email");
     }
     return true;

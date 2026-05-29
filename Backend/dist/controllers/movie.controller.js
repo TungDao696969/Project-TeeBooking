@@ -33,9 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMovie = exports.updateMovie = exports.getMovieById = exports.getMovies = exports.createMovie = void 0;
+exports.getMovieShowtimes = exports.deleteMovie = exports.updateMovie = exports.getMovies = exports.createMovie = void 0;
 const movieService = __importStar(require("../services/movie.service"));
 const movie_validation_1 = require("../validations/movie.validation");
+const errorHandler_1 = require("../utils/errorHandler");
 const createMovie = async (req, res) => {
     const validateData = movie_validation_1.createMovieSchema.parse(req.body);
     const movie = await movieService.createMovieService(validateData);
@@ -56,21 +57,20 @@ const getMovies = async (req, res) => {
     });
 };
 exports.getMovies = getMovies;
-const getMovieById = async (req, res) => {
-    const { movieId } = req.params;
-    if (!movieId || Array.isArray(movieId)) {
-        return res.status(400).json({
-            success: false,
-            message: "Invaid movie Id",
-        });
-    }
-    const movie = await movieService.getMovieByIdService(movieId);
-    return res.json({
-        success: true,
-        data: movie,
-    });
-};
-exports.getMovieById = getMovieById;
+// export const getMovieById = async (req: Request, res: Response) => {
+//   const { slug } = req.params;
+//   if (!slug || Array.isArray(slug)) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Invaid movie Id",
+//     });
+//   }
+//   const movie = await movieService.getMovieByIdService(slug);
+//   return res.json({
+//     success: true,
+//     data: movie,
+//   });
+// };
 const updateMovie = async (req, res) => {
     const { movieId } = req.params;
     if (!movieId || Array.isArray(movieId)) {
@@ -102,4 +102,28 @@ const deleteMovie = async (req, res) => {
     });
 };
 exports.deleteMovie = deleteMovie;
+const getMovieShowtimes = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        if (!slug || Array.isArray(slug)) {
+            return res.status(400).json({
+                success: false,
+                message: "Movie slug is required",
+            });
+        }
+        const result = await movieService.getMovieShowtimesService(slug);
+        return res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch movie showtimes",
+        });
+    }
+};
+exports.getMovieShowtimes = getMovieShowtimes;
 //# sourceMappingURL=movie.controller.js.map

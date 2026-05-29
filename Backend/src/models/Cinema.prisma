@@ -18,8 +18,9 @@ model Cinema {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  city  City         @relation(fields: [cityId], references: [id])
-  rooms CinemaRoom[]
+  city        City         @relation(fields: [cityId], references: [id])
+  rooms       CinemaRoom[]
+  ticketTypes TicketType[]
 
   @@map("cinemas")
 }

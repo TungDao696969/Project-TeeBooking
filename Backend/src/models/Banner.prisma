@@ -1,14 +1,14 @@
 model Banner {
-    id          String   @id @default(uuid())
-    title       String
-    imageUrl    String
-    redirectUrl String?
-    startDate   DateTime
-    endDate     DateTime
-    isActive    Boolean  @default(true)
+  id          String   @id @default(uuid())
+  title       String
+  imageUrl    String
+  redirectUrl String?
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-    @@map("banners")
+  @@map("banners")
 }

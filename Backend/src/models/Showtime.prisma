@@ -12,10 +12,11 @@ model Showtime {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 
-  movie    Movie          @relation(fields: [movieId], references: [id])
-  room     CinemaRoom     @relation(fields: [roomId], references: [id])
-  seats    ShowtimeSeat[]
-  bookings Booking[]
+  movie               Movie                @relation(fields: [movieId], references: [id])
+  room                CinemaRoom           @relation(fields: [roomId], references: [id])
+  seats               ShowtimeSeat[]
+  bookings            Booking[]
+  showtimeTicketTypes ShowtimeTicketType[]
 
   @@map("showtimes")
 }

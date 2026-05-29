@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMovieSchema = exports.createMovieSchema = void 0;
+exports.getMovieShowtimesSchema = exports.updateMovieSchema = exports.createMovieSchema = void 0;
 const zod_1 = require("zod");
 exports.createMovieSchema = zod_1.z.object({
     title: zod_1.z.string().min(2).max(255),
@@ -35,5 +35,10 @@ exports.updateMovieSchema = zod_1.z.object({
     status: zod_1.z.enum(["coming_soon", "now_showing", "ended"]).optional(),
     country: zod_1.z.string().optional(),
     producer: zod_1.z.string().optional(),
+});
+exports.getMovieShowtimesSchema = zod_1.z.object({
+    params: zod_1.z.object({
+        slug: zod_1.z.string().min(1),
+    }),
 });
 //# sourceMappingURL=movie.validation.js.map

@@ -409,6 +409,8 @@ export const ModelName = {
   Seat: 'Seat',
   Showtime: 'Showtime',
   ShowtimeSeat: 'ShowtimeSeat',
+  ShowtimeTicketType: 'ShowtimeTicketType',
+  TicketType: 'TicketType',
   Trailer: 'Trailer',
   User: 'User',
   UserAddress: 'UserAddress',
@@ -429,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activityLog" | "banner" | "blogPost" | "booking" | "bookingCombo" | "bookingTicket" | "cinema" | "cinemaRoom" | "city" | "foodCombo" | "genre" | "invoice" | "membership" | "movie" | "movieCast" | "movieGenre" | "notification" | "payment" | "person" | "promotion" | "refund" | "review" | "seat" | "showtime" | "showtimeSeat" | "trailer" | "user" | "userAddress" | "userVoucher" | "voucher"
+    modelProps: "activityLog" | "banner" | "blogPost" | "booking" | "bookingCombo" | "bookingTicket" | "cinema" | "cinemaRoom" | "city" | "foodCombo" | "genre" | "invoice" | "membership" | "movie" | "movieCast" | "movieGenre" | "notification" | "payment" | "person" | "promotion" | "refund" | "review" | "seat" | "showtime" | "showtimeSeat" | "showtimeTicketType" | "ticketType" | "trailer" | "user" | "userAddress" | "userVoucher" | "voucher"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2283,6 +2285,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ShowtimeTicketType: {
+      payload: Prisma.$ShowtimeTicketTypePayload<ExtArgs>
+      fields: Prisma.ShowtimeTicketTypeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ShowtimeTicketTypeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ShowtimeTicketTypeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>
+        }
+        findFirst: {
+          args: Prisma.ShowtimeTicketTypeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ShowtimeTicketTypeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>
+        }
+        findMany: {
+          args: Prisma.ShowtimeTicketTypeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>[]
+        }
+        create: {
+          args: Prisma.ShowtimeTicketTypeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>
+        }
+        createMany: {
+          args: Prisma.ShowtimeTicketTypeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ShowtimeTicketTypeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>[]
+        }
+        delete: {
+          args: Prisma.ShowtimeTicketTypeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>
+        }
+        update: {
+          args: Prisma.ShowtimeTicketTypeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>
+        }
+        deleteMany: {
+          args: Prisma.ShowtimeTicketTypeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ShowtimeTicketTypeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ShowtimeTicketTypeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>[]
+        }
+        upsert: {
+          args: Prisma.ShowtimeTicketTypeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShowtimeTicketTypePayload>
+        }
+        aggregate: {
+          args: Prisma.ShowtimeTicketTypeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShowtimeTicketType>
+        }
+        groupBy: {
+          args: Prisma.ShowtimeTicketTypeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShowtimeTicketTypeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ShowtimeTicketTypeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShowtimeTicketTypeCountAggregateOutputType> | number
+        }
+      }
+    }
+    TicketType: {
+      payload: Prisma.$TicketTypePayload<ExtArgs>
+      fields: Prisma.TicketTypeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TicketTypeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TicketTypeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>
+        }
+        findFirst: {
+          args: Prisma.TicketTypeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TicketTypeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>
+        }
+        findMany: {
+          args: Prisma.TicketTypeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>[]
+        }
+        create: {
+          args: Prisma.TicketTypeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>
+        }
+        createMany: {
+          args: Prisma.TicketTypeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TicketTypeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>[]
+        }
+        delete: {
+          args: Prisma.TicketTypeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>
+        }
+        update: {
+          args: Prisma.TicketTypeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>
+        }
+        deleteMany: {
+          args: Prisma.TicketTypeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TicketTypeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TicketTypeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>[]
+        }
+        upsert: {
+          args: Prisma.TicketTypeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketTypePayload>
+        }
+        aggregate: {
+          args: Prisma.TicketTypeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTicketType>
+        }
+        groupBy: {
+          args: Prisma.TicketTypeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TicketTypeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TicketTypeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TicketTypeCountAggregateOutputType> | number
+        }
+      }
+    }
     Trailer: {
       payload: Prisma.$TrailerPayload<ExtArgs>
       fields: Prisma.TrailerFieldRefs
@@ -3052,6 +3202,33 @@ export const ShowtimeSeatScalarFieldEnum = {
 export type ShowtimeSeatScalarFieldEnum = (typeof ShowtimeSeatScalarFieldEnum)[keyof typeof ShowtimeSeatScalarFieldEnum]
 
 
+export const ShowtimeTicketTypeScalarFieldEnum = {
+  id: 'id',
+  showtimeId: 'showtimeId',
+  ticketTypeId: 'ticketTypeId',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type ShowtimeTicketTypeScalarFieldEnum = (typeof ShowtimeTicketTypeScalarFieldEnum)[keyof typeof ShowtimeTicketTypeScalarFieldEnum]
+
+
+export const TicketTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  type: 'type',
+  price: 'price',
+  cinemaId: 'cinemaId',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type TicketTypeScalarFieldEnum = (typeof TicketTypeScalarFieldEnum)[keyof typeof TicketTypeScalarFieldEnum]
+
+
 export const TrailerScalarFieldEnum = {
   id: 'id',
   movieId: 'movieId',
@@ -3334,6 +3511,20 @@ export type ListEnumSeatStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
  * Reference to a field of type 'TrailerType'
  */
 export type EnumTrailerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrailerType'>
@@ -3523,6 +3714,8 @@ export type GlobalOmitConfig = {
   seat?: Prisma.SeatOmit
   showtime?: Prisma.ShowtimeOmit
   showtimeSeat?: Prisma.ShowtimeSeatOmit
+  showtimeTicketType?: Prisma.ShowtimeTicketTypeOmit
+  ticketType?: Prisma.TicketTypeOmit
   trailer?: Prisma.TrailerOmit
   user?: Prisma.UserOmit
   userAddress?: Prisma.UserAddressOmit

@@ -39,78 +39,37 @@ const getMovieDetailService = async (slug) => {
                 },
                 take: 10,
             },
-            showtimes: {
-                where: {
-                    isActive: true,
-                    startTime: {
-                        gte: new Date(),
-                    },
-                },
-                include: {
-                    room: {
-                        include: {
-                            cinema: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    startTime: "asc",
-                },
-            },
         },
     });
     if (!movie) {
         throw new Error("Movie not found");
     }
-    // calculate average rating
     const averageRating = movie.reviews.length > 0
         ? movie.reviews.reduce((sum, review) => sum + review.rating, 0) /
             movie.reviews.length
         : 0;
-    // related movies
-    const relatedMovies = await prisma_1.prisma.movie.findMany({
-        where: {
-            id: {
-                not: movie.id,
-            },
-            genres: {
-                some: {
-                    genreId: {
-                        in: movie.genres.map((genre) => genre.genreId),
-                    },
-                },
-            },
-            status: "now_showing",
-        },
-        take: 6,
-        select: {
-            id: true,
-            title: true,
-            slug: true,
-            posterUrl: true,
-            releaseDate: true,
-        },
-    });
     const result = {
         success: true,
         data: {
-            id: movie.id,
-            title: movie.title,
-            slug: movie.slug,
-            originalTitle: movie.originalTitle,
-            description: movie.description,
-            durationMinutes: movie.durationMinutes,
-            releaseDate: movie.releaseDate,
-            endDate: movie.endDate,
-            ageRating: movie.ageRating,
-            language: movie.language,
-            subtitle: movie.subtitle,
-            trailerUrl: movie.trailerUrl,
-            posterUrl: movie.posterUrl,
-            bannerUrl: movie.bannerUrl,
-            status: movie.status,
-            country: movie.country,
-            producer: movie.producer,
+            movie: {
+                id: movie.id,
+                title: movie.title,
+                slug: movie.slug,
+                originalTitle: movie.originalTitle,
+                description: movie.description,
+                durationMinutes: movie.durationMinutes,
+                releaseDate: movie.releaseDate,
+                endDate: movie.endDate,
+                ageRating: movie.ageRating,
+                language: movie.language,
+                subtitle: movie.subtitle,
+                trailerUrl: movie.trailerUrl,
+                posterUrl: movie.posterUrl,
+                bannerUrl: movie.bannerUrl,
+                status: movie.status,
+                country: movie.country,
+                producer: movie.producer,
+            },
             genres: movie.genres.map((genre) => ({
                 id: genre.genre.id,
                 name: genre.genre.name,
@@ -133,32 +92,14 @@ const getMovieDetailService = async (slug) => {
                 rating: review.rating,
                 comment: review.comment,
                 createdAt: review.createdAt,
-                user: review.user,
-            })),
-            showtimes: movie.showtimes.map((showtime) => ({
-                id: showtime.id,
-                showDate: showtime.showDate,
-                startTime: showtime.startTime,
-                endTime: showtime.endTime,
-                basePrice: showtime.basePrice,
-                format: showtime.format,
-                language: showtime.language,
-                subtitle: showtime.subtitle,
-                cinema: {
-                    id: showtime.room.cinema.id,
-                    name: showtime.room.cinema.name,
-                    address: showtime.room.cinema.address,
-                    province: showtime.room.cinema.province,
-                },
-                room: {
-                    id: showtime.room.id,
-                    name: showtime.room.roomName,
+                user: {
+                    id: review.user.id,
+                    fullName: review.user.fullName,
+                    avatarUrl: review.user.avatarUrl,
                 },
             })),
-            relatedMovies,
         },
     };
-    // cache 5 minutes
     await redis_1.redis.set(cacheKey, JSON.stringify(result), "EX", 300);
     return result;
 };

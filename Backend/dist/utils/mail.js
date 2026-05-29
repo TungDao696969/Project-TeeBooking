@@ -9,6 +9,7 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
 const ejs_1 = __importDefault(require("ejs"));
 const path_1 = __importDefault(require("path"));
 let mailTransporter = null;
+let transporterVerified = false;
 const requiredEnv = (name) => {
     const value = process.env[name];
     if (!value) {
@@ -34,12 +35,34 @@ const getMailTransporter = () => {
 };
 const sendMail = async (to, subject, message) => {
     try {
-        const info = await getMailTransporter().sendMail({
+        const transporter = getMailTransporter();
+        if (!transporterVerified) {
+            await transporter.verify();
+            transporterVerified = true;
+            console.log("SMTP connection verified");
+        }
+        const info = await transporter.sendMail({
             from: `"${requiredEnv("SMTP_FROM_NAME")}" <${requiredEnv("SMTP_FROM_EMAIL")}>`,
             to,
             subject,
             html: message,
         });
+        const accepted = Array.isArray(info.accepted) ? info.accepted : [];
+        const rejected = Array.isArray(info.rejected) ? info.rejected : [];
+        console.log("Mail sent:", {
+            messageId: info.messageId,
+            accepted,
+            rejected,
+            response: info.response,
+        });
+        if (!accepted.length || rejected.includes(to)) {
+            console.error("Mail was not accepted by SMTP server:", {
+                to,
+                accepted,
+                rejected,
+            });
+            return false;
+        }
         return info;
     }
     catch (error) {

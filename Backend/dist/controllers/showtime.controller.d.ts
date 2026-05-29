@@ -4,4 +4,5 @@ export declare const getAllShowtimes: (req: Request, res: Response) => Promise<R
 export declare const getShowtimeById: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const updateShowtime: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const deleteShowtime: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const getShowtimeTicketTypes: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 //# sourceMappingURL=showtime.controller.d.ts.map

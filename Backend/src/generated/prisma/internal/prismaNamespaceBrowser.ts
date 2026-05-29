@@ -76,6 +76,8 @@ export const ModelName = {
   Seat: 'Seat',
   Showtime: 'Showtime',
   ShowtimeSeat: 'ShowtimeSeat',
+  ShowtimeTicketType: 'ShowtimeTicketType',
+  TicketType: 'TicketType',
   Trailer: 'Trailer',
   User: 'User',
   UserAddress: 'UserAddress',
@@ -457,6 +459,33 @@ export const ShowtimeSeatScalarFieldEnum = {
 } as const
 
 export type ShowtimeSeatScalarFieldEnum = (typeof ShowtimeSeatScalarFieldEnum)[keyof typeof ShowtimeSeatScalarFieldEnum]
+
+
+export const ShowtimeTicketTypeScalarFieldEnum = {
+  id: 'id',
+  showtimeId: 'showtimeId',
+  ticketTypeId: 'ticketTypeId',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type ShowtimeTicketTypeScalarFieldEnum = (typeof ShowtimeTicketTypeScalarFieldEnum)[keyof typeof ShowtimeTicketTypeScalarFieldEnum]
+
+
+export const TicketTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  type: 'type',
+  price: 'price',
+  cinemaId: 'cinemaId',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type TicketTypeScalarFieldEnum = (typeof TicketTypeScalarFieldEnum)[keyof typeof TicketTypeScalarFieldEnum]
 
 
 export const TrailerScalarFieldEnum = {

@@ -143,6 +143,16 @@ export type Showtime = Prisma.ShowtimeModel
  */
 export type ShowtimeSeat = Prisma.ShowtimeSeatModel
 /**
+ * Model ShowtimeTicketType
+ * 
+ */
+export type ShowtimeTicketType = Prisma.ShowtimeTicketTypeModel
+/**
+ * Model TicketType
+ * 
+ */
+export type TicketType = Prisma.TicketTypeModel
+/**
  * Model Trailer
  * 
  */

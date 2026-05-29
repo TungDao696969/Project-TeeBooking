@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as movieService from "../services/movie.service";
 import { success } from "zod";
 import { createMovieSchema } from "../validations/movie.validation";
-
+import { errorHandler } from "../utils/errorHandler";
 export const createMovie = async (req: Request, res: Response) => {
   const validateData = createMovieSchema.parse(req.body);
   const movie = await movieService.createMovieService(validateData);
@@ -74,4 +74,30 @@ export const deleteMovie = async (req: Request, res: Response) => {
     success: true,
     message: "Delete success",
   });
+};
+
+export const getMovieShowtimes = async (req: Request, res: Response) => {
+  try {
+    const { slug } = req.params;
+
+    if (!slug || Array.isArray(slug)) {
+      return res.status(400).json({
+        success: false,
+        message: "Movie slug is required",
+      });
+    }
+
+    const result = await movieService.getMovieShowtimesService(slug);
+
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch movie showtimes",
+    });
+  }
 };

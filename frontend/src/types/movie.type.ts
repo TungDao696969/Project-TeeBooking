@@ -10,7 +10,6 @@ export interface Cast {
   personId: string;
   roleType: string; // "director" | "actor"
   characterName: string | null;
-  // Optional fields from person table (if populated)
   fullName?: string;
   avatarUrl?: string | null;
   nationality?: string;
@@ -107,4 +106,21 @@ export interface RelatedMovie {
   genres: { id: string; name: string }[];
   ratings?: { averageRating: number };
   status: "now_showing" | "coming_soon" | "ended";
+}
+
+export interface MovieDetailResponse {
+  success: boolean;
+
+  data: {
+    movie: Movie;
+    genres: Genre[];
+    casts: Cast[];
+
+    ratings: {
+      averageRating: number;
+      totalReviews: number;
+    };
+
+    reviews: Review[];
+  };
 }

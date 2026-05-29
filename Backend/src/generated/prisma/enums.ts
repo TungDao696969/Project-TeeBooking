@@ -42,7 +42,8 @@ export const SeatStatus = {
   available: 'available',
   reserved: 'reserved',
   booked: 'booked',
-  maintenance: 'maintenance'
+  maintenance: 'maintenance',
+  locked: 'locked'
 } as const
 
 export type SeatStatus = (typeof SeatStatus)[keyof typeof SeatStatus]

@@ -37,6 +37,7 @@ enum SeatStatus {
   reserved
   booked
   maintenance
+  locked
 }
 
 enum BookingStatus {

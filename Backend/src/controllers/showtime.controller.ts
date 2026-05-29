@@ -5,6 +5,7 @@ import {
   updateShowtimeService,
   deleteShowtimeService,
   getAllShowtimesService,
+  getShowtimeTicketTypesService,
 } from "../services/showtime.service";
 import { errorHandler } from "../utils/errorHandler";
 export const createShowtime = async (req: Request, res: Response) => {
@@ -117,6 +118,31 @@ export const deleteShowtime = async (req: Request, res: Response) => {
       error,
       res,
       defaultMessage: "Failed to fetch cinema",
+    });
+  }
+};
+
+export const getShowtimeTicketTypes = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Showtime ID is required",
+      });
+    }
+
+    const result = await getShowtimeTicketTypesService(id);
+
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch ticket types",
     });
   }
 };

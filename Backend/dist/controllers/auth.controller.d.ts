@@ -6,4 +6,6 @@ export declare const logoutController: (_req: Request, res: Response) => Promise
 export declare const forgotPasswordController: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 export declare const resetPasswordController: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 export declare const changePasswordController: (req: AuthRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const googleRedirect: (req: Request, res: Response) => void;
+export declare const googleCallback: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 //# sourceMappingURL=auth.controller.d.ts.map

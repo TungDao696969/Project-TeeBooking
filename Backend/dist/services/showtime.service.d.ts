@@ -82,14 +82,6 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
         country: string | null;
         producer: string | null;
     };
-    seats: {
-        id: string;
-        status: import("../generated/prisma/enums").SeatStatus;
-        showtimeId: string;
-        seatId: string;
-        finalPrice: number;
-        lockedUntil: Date | null;
-    }[];
     room: {
         id: string;
         createdAt: Date;
@@ -100,6 +92,14 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
         screenType: string | null;
         soundSystem: string | null;
     };
+    seats: {
+        id: string;
+        status: import("../generated/prisma/enums").SeatStatus;
+        showtimeId: string;
+        seatId: string;
+        finalPrice: number;
+        lockedUntil: Date | null;
+    }[];
 } & {
     format: string | null;
     id: string;
@@ -161,4 +161,5 @@ export declare const updateShowtimeService: (id: string, data: UpdateShowtimeInp
     basePrice: number;
 }>;
 export declare const deleteShowtimeService: (id: string) => Promise<boolean>;
+export declare const getShowtimeTicketTypesService: (showtimeId: string) => Promise<any>;
 //# sourceMappingURL=showtime.service.d.ts.map

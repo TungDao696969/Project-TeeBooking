@@ -50,3 +50,9 @@ export const updateMovieSchema = z.object({
 });
 
 export type UpdateMoviesInput = z.infer<typeof updateMovieSchema>;
+
+export const getMovieShowtimesSchema = z.object({
+  params: z.object({
+    slug: z.string().min(1),
+  }),
+});

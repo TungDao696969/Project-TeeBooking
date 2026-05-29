@@ -1,5 +1,3 @@
-// prisma/seed.ts
-
 import {
   UserRole,
   GenderType,
@@ -17,6 +15,223 @@ import { prisma } from "./prisma";
 type SeedRoom = {
   id: string;
 };
+
+const SHOWTIME_SLOTS = [
+  { hour: 10, minute: 0, format: "2D", basePrice: 75000 },
+  { hour: 13, minute: 30, format: "2D", basePrice: 85000 },
+  { hour: 16, minute: 0, format: "2D", basePrice: 90000 },
+  { hour: 19, minute: 0, format: "2D", basePrice: 95000 },
+  { hour: 21, minute: 30, format: "IMAX", basePrice: 120000 },
+] as const;
+
+const SHOWTIME_DAYS_AHEAD = 7;
+
+function startOfDay(date = new Date()) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function addDays(date: Date, days: number) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function setTimeOnDate(day: Date, hours: number, minutes = 0) {
+  const d = new Date(day);
+  d.setHours(hours, minutes, 0, 0);
+  return d;
+}
+
+async function ensureShowtimeSeats(
+  showtimeId: string,
+  roomId: string,
+  basePrice: number,
+) {
+  const existing = await prisma.showtimeSeat.count({
+    where: { showtimeId },
+  });
+
+  if (existing > 0) return;
+
+  const roomSeats = await prisma.seat.findMany({
+    where: { roomId },
+  });
+
+  await prisma.showtimeSeat.createMany({
+    data: roomSeats.map((seat) => ({
+      showtimeId,
+      seatId: seat.id,
+      status: SeatStatus.available,
+      finalPrice: basePrice + seat.extraPrice,
+    })),
+  });
+}
+
+async function seedShowtimesForAllMovies(rooms: SeedRoom[]) {
+  if (rooms.length === 0) {
+    throw new Error("No cinema room was created");
+  }
+
+  const movies = await prisma.movie.findMany({
+    select: { id: true, slug: true, durationMinutes: true },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const today = startOfDay();
+  let created = 0;
+  let skippedPast = 0;
+
+  for (let movieIndex = 0; movieIndex < movies.length; movieIndex++) {
+    const movie = movies[movieIndex]!;
+
+    for (let dayOffset = 0; dayOffset < SHOWTIME_DAYS_AHEAD; dayOffset++) {
+      const showDate = addDays(today, dayOffset);
+
+      for (let slotIndex = 0; slotIndex < SHOWTIME_SLOTS.length; slotIndex++) {
+        const slot = SHOWTIME_SLOTS[slotIndex]!;
+        const room =
+          rooms[(movieIndex + dayOffset + slotIndex) % rooms.length]!;
+
+        const startTime = setTimeOnDate(showDate, slot.hour, slot.minute);
+
+        if (startTime.getTime() <= Date.now()) {
+          skippedPast++;
+          continue;
+        }
+
+        const endTime = new Date(
+          startTime.getTime() + movie.durationMinutes * 60 * 1000,
+        );
+
+        const existing = await prisma.showtime.findFirst({
+          where: { movieId: movie.id, roomId: room.id, startTime },
+        });
+
+        const showtime =
+          existing ??
+          (await prisma.showtime.create({
+            data: {
+              movieId: movie.id,
+              roomId: room.id,
+              showDate,
+              startTime,
+              endTime,
+              basePrice: slot.basePrice,
+              format: slot.format,
+              language: "Vietnamese",
+              subtitle: "Vietnamese",
+              isActive: true,
+            },
+          }));
+
+        if (!existing) created++;
+
+        await ensureShowtimeSeats(showtime.id, room.id, slot.basePrice);
+      }
+    }
+  }
+
+  const primaryShowtime = await prisma.showtime.findFirst({
+    where: {
+      movie: { slug: "inception" },
+      isActive: true,
+      startTime: { gte: new Date() },
+    },
+    orderBy: { startTime: "asc" },
+  });
+
+  if (!primaryShowtime) {
+    throw new Error("No future showtime found for booking seed");
+  }
+
+  console.log(
+    `🎬 Showtimes: ${created} created for ${movies.length} movies (${SHOWTIME_DAYS_AHEAD} days, ${skippedPast} past slots skipped)`,
+  );
+
+  return primaryShowtime;
+}
+
+const TICKET_TYPE_SEEDS = [
+  {
+    name: "Người lớn",
+    code: "adult",
+    description: "Vé người lớn",
+    type: "single",
+    price: 69000,
+  },
+  {
+    name: "Học sinh - Sinh viên",
+    code: "student",
+    description: "Vé dành cho học sinh sinh viên",
+    type: "single",
+    price: 49000,
+  },
+  {
+    name: "Trẻ em",
+    code: "child",
+    description: "Vé trẻ em dưới 12 tuổi",
+    type: "single",
+    price: 45000,
+  },
+  {
+    name: "Người cao tuổi",
+    code: "senior",
+    description: "Vé người cao tuổi",
+    type: "single",
+    price: 55000,
+  },
+  {
+    name: "VIP",
+    code: "vip",
+    description: "Ghế VIP",
+    type: "single",
+    price: 99000,
+  },
+  {
+    name: "Couple",
+    code: "couple",
+    description: "Ghế đôi couple",
+    type: "couple",
+    price: 148000,
+  },
+  {
+    name: "IMAX",
+    code: "imax",
+    description: "Suất chiếu IMAX",
+    type: "single",
+    price: 129000,
+  },
+  {
+    name: "4DX",
+    code: "4dx",
+    description: "Suất chiếu 4DX",
+    type: "single",
+    price: 139000,
+  },
+] as const;
+
+async function seedTicketTypes() {
+  for (const ticketType of TICKET_TYPE_SEEDS) {
+    await prisma.ticketType.upsert({
+      where: { code: ticketType.code },
+      update: {
+        name: ticketType.name,
+        description: ticketType.description,
+        type: ticketType.type,
+        price: ticketType.price,
+        isActive: true,
+      },
+      create: {
+        ...ticketType,
+        isActive: true,
+      },
+    });
+  }
+
+  console.log(`🎫 Seeded ${TICKET_TYPE_SEEDS.length} ticket types`);
+}
 
 async function main() {
   console.log("🌱 Start seeding database...");
@@ -56,8 +271,15 @@ async function main() {
     },
   });
 
-  await prisma.membership.create({
-    data: {
+  await prisma.membership.upsert({
+    where: { membershipCode: "CNS001" },
+    update: {
+      userId: customer.id,
+      level: "Gold",
+      points: 1500,
+      lifetimePoints: 5000,
+    },
+    create: {
       userId: customer.id,
       membershipCode: "CNS001",
       level: "Gold",
@@ -69,32 +291,53 @@ async function main() {
   // =============================
   // USER ADDRESS
   // =============================
-  await prisma.userAddress.create({
-    data: {
+  const existingDefaultAddress = await prisma.userAddress.findFirst({
+    where: {
       userId: customer.id,
-      province: "TP.HCM",
-      district: "Quận 1",
-      ward: "Bến Nghé",
-      addressDetail: "123 Nguyễn Huệ",
       isDefault: true,
     },
   });
 
+  if (!existingDefaultAddress) {
+    await prisma.userAddress.create({
+      data: {
+        userId: customer.id,
+        province: "TP.HCM",
+        district: "Quận 1",
+        ward: "Bến Nghé",
+        addressDetail: "123 Nguyễn Huệ",
+        isDefault: true,
+      },
+    });
+  }
+
   // =============================
   // CITIES
   // =============================
-  const hcmCity = await prisma.city.create({
-    data: {
-      name: "TP.HCM",
-      slug: "tp-hcm",
-    },
+  const hcmCity = await prisma.city.upsert({
+    where: { slug: "tp-hcm" },
+    update: { name: "TP.HCM", isActive: true },
+    create: { name: "TP.HCM", slug: "tp-hcm" },
   });
 
   // =============================
   // CINEMAS
   // =============================
-  const cinema1 = await prisma.cinema.create({
-    data: {
+  const cinema1 = await prisma.cinema.upsert({
+    where: { slug: "cinestar-quoc-thanh" },
+    update: {
+      name: "Cinestar Quốc Thanh",
+      hotline: "19006008",
+      cityId: hcmCity.id,
+      province: "TP.HCM",
+      district: "Quận 1",
+      ward: "Bến Thành",
+      address: "271 Nguyễn Trãi",
+      latitude: 10.762622,
+      longitude: 106.660172,
+      openingHours: "08:00 - 23:00",
+    },
+    create: {
       name: "Cinestar Quốc Thanh",
       slug: "cinestar-quoc-thanh",
       hotline: "19006008",
@@ -109,8 +352,21 @@ async function main() {
     },
   });
 
-  const cinema2 = await prisma.cinema.create({
-    data: {
+  const cinema2 = await prisma.cinema.upsert({
+    where: { slug: "cinestar-hai-ba-trung" },
+    update: {
+      name: "Cinestar Hai Bà Trưng",
+      hotline: "19006009",
+      cityId: hcmCity.id,
+      province: "TP.HCM",
+      district: "Quận 3",
+      ward: "Phường 6",
+      address: "135 Hai Bà Trưng",
+      latitude: 10.7829,
+      longitude: 106.695,
+      openingHours: "08:00 - 23:30",
+    },
+    create: {
       name: "Cinestar Hai Bà Trưng",
       slug: "cinestar-hai-ba-trung",
       hotline: "19006009",
@@ -132,20 +388,43 @@ async function main() {
 
   for (const cinema of [cinema1, cinema2]) {
     for (let r = 1; r <= 3; r++) {
-      const room = await prisma.cinemaRoom.create({
-        data: {
-          cinemaId: cinema.id,
-          roomName: `Phòng ${r}`,
-          roomType: r === 3 ? "IMAX" : "2D",
-          totalSeats: 50,
-          screenType: r === 3 ? "IMAX Laser" : "Standard",
-          soundSystem: "Dolby Atmos",
-        },
-      });
+      const roomName = `Phòng ${r}`;
+
+      const room =
+        (await prisma.cinemaRoom.findFirst({
+          where: { cinemaId: cinema.id, roomName },
+        })) ??
+        (await prisma.cinemaRoom.create({
+          data: {
+            cinemaId: cinema.id,
+            roomName,
+            roomType: r === 3 ? "IMAX" : "2D",
+            totalSeats: 50,
+            screenType: r === 3 ? "IMAX Laser" : "Standard",
+            soundSystem: "Dolby Atmos",
+          },
+        }));
 
       rooms.push(room);
 
       const rows = ["A", "B", "C", "D", "E"];
+      const seatData: {
+        roomId: string;
+        seatRow: string;
+        seatNumber: number;
+        seatCode: string;
+        seatType: SeatType;
+        extraPrice: number;
+      }[] = [];
+
+      const existingSeatCount = await prisma.seat.count({
+        where: { roomId: room.id },
+      });
+
+      if (existingSeatCount > 0) {
+        continue;
+      }
+
       for (const row of rows) {
         for (let num = 1; num <= 10; num++) {
           let seatType: SeatType = SeatType.standard;
@@ -161,18 +440,18 @@ async function main() {
             extraPrice = 50000;
           }
 
-          await prisma.seat.create({
-            data: {
-              roomId: room.id,
-              seatRow: row,
-              seatNumber: num,
-              seatCode: `${row}${num}`,
-              seatType,
-              extraPrice,
-            },
+          seatData.push({
+            roomId: room.id,
+            seatRow: row,
+            seatNumber: num,
+            seatCode: `${row}${num}`,
+            seatType,
+            extraPrice,
           });
         }
       }
+
+      await prisma.seat.createMany({ data: seatData });
     }
   }
 
@@ -180,37 +459,83 @@ async function main() {
   // GENRES
   // =============================
   const genres = await Promise.all([
-    prisma.genre.create({ data: { name: "Hành động", slug: "hanh-dong" } }),
-    prisma.genre.create({ data: { name: "Kinh dị", slug: "kinh-di" } }),
-    prisma.genre.create({ data: { name: "Hoạt hình", slug: "hoat-hinh" } }),
-    prisma.genre.create({ data: { name: "Tình cảm", slug: "tinh-cam" } }),
-    prisma.genre.create({ data: { name: "Hài", slug: "hai" } }),
+    prisma.genre.upsert({
+      where: { slug: "hanh-dong" },
+      update: { name: "Hành động" },
+      create: { name: "Hành động", slug: "hanh-dong" },
+    }),
+    prisma.genre.upsert({
+      where: { slug: "kinh-di" },
+      update: { name: "Kinh dị" },
+      create: { name: "Kinh dị", slug: "kinh-di" },
+    }),
+    prisma.genre.upsert({
+      where: { slug: "hoat-hinh" },
+      update: { name: "Hoạt hình" },
+      create: { name: "Hoạt hình", slug: "hoat-hinh" },
+    }),
+    prisma.genre.upsert({
+      where: { slug: "tinh-cam" },
+      update: { name: "Tình cảm" },
+      create: { name: "Tình cảm", slug: "tinh-cam" },
+    }),
+    prisma.genre.upsert({
+      where: { slug: "hai" },
+      update: { name: "Hài" },
+      create: { name: "Hài", slug: "hai" },
+    }),
   ]);
 
   // =============================
   // PERSONS
   // =============================
-  const director = await prisma.person.create({
-    data: {
-      fullName: "Christopher Nolan",
-      nationality: "UK",
-      bio: "Famous movie director",
-    },
-  });
+  const director =
+    (await prisma.person.findFirst({
+      where: { fullName: "Christopher Nolan" },
+    })) ??
+    (await prisma.person.create({
+      data: {
+        fullName: "Christopher Nolan",
+        nationality: "UK",
+        bio: "Famous movie director",
+      },
+    }));
 
-  const actor = await prisma.person.create({
-    data: {
-      fullName: "Leonardo DiCaprio",
-      nationality: "USA",
-      bio: "Hollywood actor",
-    },
-  });
+  const actor =
+    (await prisma.person.findFirst({
+      where: { fullName: "Leonardo DiCaprio" },
+    })) ??
+    (await prisma.person.create({
+      data: {
+        fullName: "Leonardo DiCaprio",
+        nationality: "USA",
+        bio: "Hollywood actor",
+      },
+    }));
 
   // =============================
   // MOVIES
   // =============================
-  const movie1 = await prisma.movie.create({
-    data: {
+  const movie1 = await prisma.movie.upsert({
+    where: { slug: "inception" },
+    update: {
+      title: "Inception",
+      originalTitle: "Inception",
+      description: "A mind-bending thriller.",
+      durationMinutes: 148,
+      releaseDate: new Date("2025-01-01"),
+      endDate: new Date("2025-12-31"),
+      ageRating: "13+",
+      language: "English",
+      subtitle: "Vietnamese",
+      trailerUrl: "https://youtube.com/inception",
+      posterUrl: "https://example.com/poster1.jpg",
+      bannerUrl: "https://example.com/banner1.jpg",
+      status: MovieStatus.now_showing,
+      country: "USA",
+      producer: "Warner Bros",
+    },
+    create: {
       title: "Inception",
       slug: "inception",
       originalTitle: "Inception",
@@ -230,8 +555,18 @@ async function main() {
     },
   });
 
-  const movie2 = await prisma.movie.create({
-    data: {
+  const movie2 = await prisma.movie.upsert({
+    where: { slug: "frozen-3" },
+    update: {
+      title: "Frozen 3",
+      description: "Animated fantasy film.",
+      durationMinutes: 110,
+      releaseDate: new Date("2025-05-01"),
+      status: MovieStatus.coming_soon,
+      country: "USA",
+      producer: "Disney",
+    },
+    create: {
       title: "Frozen 3",
       slug: "frozen-3",
       description: "Animated fantasy film.",
@@ -414,8 +749,24 @@ async function main() {
   ];
 
   for (const movie of [...nowShowingMovies, ...comingSoonMovies]) {
-    await prisma.movie.create({
-      data: {
+    await prisma.movie.upsert({
+      where: { slug: movie.slug },
+      update: {
+        title: movie.title,
+        description: movie.description,
+        durationMinutes: movie.durationMinutes,
+        releaseDate: movie.releaseDate,
+        ageRating: "13+",
+        language: "English",
+        subtitle: "Vietnamese",
+        trailerUrl: "https://youtube.com/trailer",
+        posterUrl: "https://example.com/poster.jpg",
+        bannerUrl: "https://example.com/banner.jpg",
+        status: movie.status,
+        country: movie.country,
+        producer: movie.producer,
+      },
+      create: {
         title: movie.title,
         slug: movie.slug,
         description: movie.description,
@@ -440,9 +791,11 @@ async function main() {
       { movieId: movie1.id, genreId: genres[3].id },
       { movieId: movie2.id, genreId: genres[2].id },
     ],
+    skipDuplicates: true,
   });
 
   // Cast
+  await prisma.movieCast.deleteMany({ where: { movieId: movie1.id } });
   await prisma.movieCast.createMany({
     data: [
       {
@@ -460,85 +813,72 @@ async function main() {
   });
 
   // =============================
-  // SHOWTIMES
+  // TICKET TYPES
   // =============================
-  const room = rooms[0];
+  await seedTicketTypes();
 
-  if (!room) {
-    throw new Error("No cinema room was created");
-  }
-
-  const showtime = await prisma.showtime.create({
-    data: {
-      movieId: movie1.id,
-      roomId: room.id,
-      showDate: new Date(),
-      startTime: new Date("2026-05-08T19:00:00"),
-      endTime: new Date("2026-05-08T21:30:00"),
-      basePrice: 90000,
-      format: "2D",
-      language: "English",
-      subtitle: "Vietnamese",
-    },
-  });
-
-  const roomSeats = await prisma.seat.findMany({
-    where: { roomId: room.id },
-  });
-
-  for (const seat of roomSeats) {
-    await prisma.showtimeSeat.create({
-      data: {
-        showtimeId: showtime.id,
-        seatId: seat.id,
-        status: SeatStatus.available,
-        finalPrice: 90000 + seat.extraPrice,
-      },
-    });
-  }
+  // =============================
+  // SHOWTIMES (all movies)
+  // =============================
+  const showtime = await seedShowtimesForAllMovies(rooms);
 
   // =============================
   // FOOD COMBOS
   // =============================
-  const combo1 = await prisma.foodCombo.create({
-    data: {
-      name: "Combo Solo",
-      description: "1 bắp + 1 nước",
-      price: 89000,
-      stockQuantity: 500,
-      imageUrl: "https://example.com/combo1.jpg",
-    },
-  });
+  const combo1 =
+    (await prisma.foodCombo.findFirst({ where: { name: "Combo Solo" } })) ??
+    (await prisma.foodCombo.create({
+      data: {
+        name: "Combo Solo",
+        description: "1 bắp + 1 nước",
+        price: 89000,
+        stockQuantity: 500,
+        imageUrl: "https://example.com/combo1.jpg",
+      },
+    }));
 
-  const combo2 = await prisma.foodCombo.create({
-    data: {
-      name: "Combo Couple",
-      description: "2 bắp + 2 nước",
-      price: 159000,
-      stockQuantity: 300,
-    },
-  });
+  const combo2 =
+    (await prisma.foodCombo.findFirst({ where: { name: "Combo Couple" } })) ??
+    (await prisma.foodCombo.create({
+      data: {
+        name: "Combo Couple",
+        description: "2 bắp + 2 nước",
+        price: 159000,
+        stockQuantity: 300,
+      },
+    }));
 
   // =============================
   // PROMOTIONS + VOUCHERS
   // =============================
-  const promotion = await prisma.promotion.create({
-    data: {
-      title: "Giảm giá mùa hè",
-      description: "Giảm 20% tối đa 50k",
-      imageUrl: "https://example.com/promotion-summer.jpg",
-      type: PromotionType.percentage,
-      discountValue: 20,
-      minOrderValue: 100000,
-      maxDiscount: 50000,
-      startDate: new Date("2026-05-01"),
-      endDate: new Date("2026-06-01"),
-      isActive: true,
-    },
-  });
+  const promotion =
+    (await prisma.promotion.findFirst({
+      where: { title: "Giảm giá mùa hè", type: PromotionType.percentage },
+    })) ??
+    (await prisma.promotion.create({
+      data: {
+        title: "Giảm giá mùa hè",
+        description: "Giảm 20% tối đa 50k",
+        imageUrl: "https://example.com/promotion-summer.jpg",
+        type: PromotionType.percentage,
+        discountValue: 20,
+        minOrderValue: 100000,
+        maxDiscount: 50000,
+        startDate: new Date("2026-05-01"),
+        endDate: new Date("2026-06-01"),
+        isActive: true,
+      },
+    }));
 
-  const voucher = await prisma.voucher.create({
-    data: {
+  const voucher = await prisma.voucher.upsert({
+    where: { code: "SUMMER20" },
+    update: {
+      promotionId: promotion.id,
+      usageLimit: 1000,
+      usedCount: 0,
+      status: VoucherStatus.active,
+    },
+    create: {
       promotionId: promotion.id,
       code: "SUMMER20",
       usageLimit: 1000,
@@ -547,12 +887,18 @@ async function main() {
     },
   });
 
-  await prisma.userVoucher.create({
-    data: {
-      userId: customer.id,
-      voucherId: voucher.id,
-    },
+  const existingUserVoucher = await prisma.userVoucher.findFirst({
+    where: { userId: customer.id, voucherId: voucher.id },
   });
+
+  if (!existingUserVoucher) {
+    await prisma.userVoucher.create({
+      data: {
+        userId: customer.id,
+        voucherId: voucher.id,
+      },
+    });
+  }
 
   // =============================
   // BOOKING
@@ -564,21 +910,38 @@ async function main() {
     take: 2,
   });
 
-  const booking = await prisma.booking.create({
-    data: {
+  const bookingTotals = {
+    totalTicketPrice: selectedSeats.reduce((sum, s) => sum + s.finalPrice, 0),
+    totalComboPrice: combo1.price,
+    discountAmount: 20000,
+  };
+
+  const booking = await prisma.booking.upsert({
+    where: { bookingCode: "BK000001" },
+    update: {
+      userId: customer.id,
+      showtimeId: showtime.id,
+      ...bookingTotals,
+      finalAmount:
+        bookingTotals.totalTicketPrice +
+        bookingTotals.totalComboPrice -
+        bookingTotals.discountAmount,
+      status: BookingStatus.confirmed,
+    },
+    create: {
       bookingCode: "BK000001",
       userId: customer.id,
       showtimeId: showtime.id,
-      totalTicketPrice: selectedSeats.reduce((sum, s) => sum + s.finalPrice, 0),
-      totalComboPrice: combo1.price,
-      discountAmount: 20000,
+      ...bookingTotals,
       finalAmount:
-        selectedSeats.reduce((sum, s) => sum + s.finalPrice, 0) +
-        combo1.price -
-        20000,
+        bookingTotals.totalTicketPrice +
+        bookingTotals.totalComboPrice -
+        bookingTotals.discountAmount,
       status: BookingStatus.confirmed,
     },
   });
+
+  await prisma.bookingTicket.deleteMany({ where: { bookingId: booking.id } });
 
   for (const seat of selectedSeats) {
     await prisma.bookingTicket.create({
@@ -596,6 +959,7 @@ async function main() {
     });
   }
 
+  await prisma.bookingCombo.deleteMany({ where: { bookingId: booking.id } });
   await prisma.bookingCombo.create({
     data: {
       bookingId: booking.id,
@@ -609,47 +973,77 @@ async function main() {
   // =============================
   // PAYMENT
   // =============================
-  const payment = await prisma.payment.create({
-    data: {
-      bookingId: booking.id,
-      paymentMethod: PaymentMethod.momo,
-      paymentGateway: "MoMo",
-      transactionCode: "MOMO123456",
-      amount: booking.finalAmount,
-      status: PaymentStatus.paid,
-      paidAt: new Date(),
-    },
+  const existingPayment = await prisma.payment.findFirst({
+    where: { transactionCode: "MOMO123456" },
   });
+
+  if (!existingPayment) {
+    await prisma.payment.create({
+      data: {
+        bookingId: booking.id,
+        paymentMethod: PaymentMethod.momo,
+        paymentGateway: "MoMo",
+        transactionCode: "MOMO123456",
+        amount: booking.finalAmount,
+        status: PaymentStatus.paid,
+        paidAt: new Date(),
+      },
+    });
+  }
 
   // =============================
   // REVIEW
   // =============================
-  await prisma.review.create({
-    data: {
-      userId: customer.id,
-      movieId: movie1.id,
-      rating: 5,
-      comment: "Phim cực kỳ hay!",
-    },
+  const existingReview = await prisma.review.findFirst({
+    where: { userId: customer.id, movieId: movie1.id },
   });
+
+  if (!existingReview) {
+    await prisma.review.create({
+      data: {
+        userId: customer.id,
+        movieId: movie1.id,
+        rating: 5,
+        comment: "Phim cực kỳ hay!",
+      },
+    });
+  }
 
   // =============================
   // NOTIFICATIONS
   // =============================
-  await prisma.notification.create({
-    data: {
+  const existingNotification = await prisma.notification.findFirst({
+    where: {
       userId: customer.id,
       title: "Đặt vé thành công",
       content: `Bạn đã đặt vé thành công với mã ${booking.bookingCode}`,
-      type: "booking",
     },
   });
+
+  if (!existingNotification) {
+    await prisma.notification.create({
+      data: {
+        userId: customer.id,
+        title: "Đặt vé thành công",
+        content: `Bạn đã đặt vé thành công với mã ${booking.bookingCode}`,
+        type: "booking",
+      },
+    });
+  }
 
   // =============================
   // BLOG POSTS
   // =============================
-  await prisma.blogPost.create({
-    data: {
+  await prisma.blogPost.upsert({
+    where: { slug: "top-phim-hot-thang-nay" },
+    update: {
+      title: "Top phim hot tháng này",
+      thumbnailUrl: "https://example.com/blog1.jpg",
+      content: "Danh sách các phim hot nhất tại Cinestar...",
+      authorId: admin.id,
+      publishedAt: new Date(),
+    },
+    create: {
       title: "Top phim hot tháng này",
       slug: "top-phim-hot-thang-nay",
       thumbnailUrl: "https://example.com/blog1.jpg",
@@ -747,8 +1141,18 @@ async function main() {
   const selectedSeat2 = selectedSeats2[0];
 
   if (selectedSeat2) {
-    const booking2 = await prisma.booking.create({
-      data: {
+    const booking2 = await prisma.booking.upsert({
+      where: { bookingCode: "BK000002" },
+      update: {
+        userId: customer.id,
+        showtimeId: showtime.id,
+        totalTicketPrice: selectedSeat2.finalPrice,
+        totalComboPrice: 0,
+        discountAmount: 0,
+        finalAmount: selectedSeat2.finalPrice,
+        status: BookingStatus.pending,
+      },
+      create: {
         bookingCode: "BK000002",
         userId: customer.id,
         showtimeId: showtime.id,
@@ -758,6 +1162,10 @@ async function main() {
         finalAmount: selectedSeat2.finalPrice,
         status: BookingStatus.pending,
       },
+    });
+
+    await prisma.bookingTicket.deleteMany({
+      where: { bookingId: booking2.id },
     });
 
     await prisma.bookingTicket.create({
@@ -775,17 +1183,23 @@ async function main() {
     });
 
     // Payment for booking2 with paid status
-    const payment2 = await prisma.payment.create({
-      data: {
-        bookingId: booking2.id,
-        paymentMethod: PaymentMethod.cash,
-        paymentGateway: "Cash",
-        transactionCode: "CASH345678",
-        amount: booking2.finalAmount,
-        status: PaymentStatus.paid,
-        paidAt: new Date(),
-      },
+    const existingPayment2 = await prisma.payment.findFirst({
+      where: { transactionCode: "CASH345678" },
     });
+
+    if (!existingPayment2) {
+      await prisma.payment.create({
+        data: {
+          bookingId: booking2.id,
+          paymentMethod: PaymentMethod.cash,
+          paymentGateway: "Cash",
+          transactionCode: "CASH345678",
+          amount: booking2.finalAmount,
+          status: PaymentStatus.paid,
+          paidAt: new Date(),
+        },
+      });
+    }
   }
 
   console.log("✅ Database seeded successfully!");

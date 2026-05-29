@@ -43,4 +43,9 @@ export declare const updateMovieSchema: z.ZodObject<{
     producer: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type UpdateMoviesInput = z.infer<typeof updateMovieSchema>;
+export declare const getMovieShowtimesSchema: z.ZodObject<{
+    params: z.ZodObject<{
+        slug: z.ZodString;
+    }, z.core.$strip>;
+}, z.core.$strip>;
 //# sourceMappingURL=movie.validation.d.ts.map

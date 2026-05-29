@@ -4,6 +4,7 @@ import { redis } from "../utils/redis";
 import { generateSlug } from "../utils/slug";
 
 const cache_ttl = Number(process.env.CACHE_TTL);
+const CACHE_TTL = 60;
 
 export const createMovieService = async (data: any) => {
   const slug = generateSlug(data.title);
@@ -113,4 +114,128 @@ export const deleteMovieService = async (id: string) => {
   await redis.flushall();
 
   return true;
+};
+
+export const getMovieShowtimesService = async (slug: string) => {
+  const cacheKey = `movie:${slug}:showtimes`;
+
+  // cache
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  // find movie
+  const movie = await prisma.movie.findUnique({
+    where: {
+      slug,
+    },
+
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+    },
+  });
+
+  if (!movie) {
+    throw new Error("Movie not found");
+  }
+
+  // get showtimes
+  const showtimes = await prisma.showtime.findMany({
+    where: {
+      movieId: movie.id,
+
+      isActive: true,
+
+      startTime: {
+        gte: new Date(),
+      },
+    },
+
+    include: {
+      room: {
+        include: {
+          cinema: true,
+        },
+      },
+    },
+
+    orderBy: [
+      {
+        showDate: "asc",
+      },
+      {
+        startTime: "asc",
+      },
+    ],
+  });
+
+  // group by cinema + date
+  const cinemaMap: Record<string, any> = {};
+
+  for (const showtime of showtimes) {
+    const cinema = showtime.room.cinema;
+
+    const cinemaId = cinema.id;
+
+    if (!cinemaMap[cinemaId]) {
+      cinemaMap[cinemaId] = {
+        cinema: {
+          id: cinema.id,
+          name: cinema.name,
+          slug: cinema.slug,
+          address: cinema.address,
+          province: cinema.province,
+        },
+
+        dates: {},
+      };
+    }
+
+    const dateKey = new Date(showtime.showDate)
+      .toISOString()
+      .split("T")[0] as string;
+
+    if (!cinemaMap[cinemaId].dates[dateKey]) {
+      cinemaMap[cinemaId].dates[dateKey] = {
+        date: dateKey,
+
+        showtimes: [],
+      };
+    }
+
+    cinemaMap[cinemaId].dates[dateKey].showtimes.push({
+      id: showtime.id,
+
+      startTime: showtime.startTime,
+      endTime: showtime.endTime,
+
+      format: showtime.format,
+
+      language: showtime.language,
+      subtitle: showtime.subtitle,
+
+      basePrice: showtime.basePrice,
+
+      room: {
+        id: showtime.room.id,
+        name: showtime.room.roomName,
+      },
+    });
+  }
+
+  // transform
+  const result = Object.values(cinemaMap).map((item: any) => ({
+    cinema: item.cinema,
+
+    dates: Object.values(item.dates),
+  }));
+
+  // cache redis
+  await redis.set(cacheKey, JSON.stringify(result), "EX", CACHE_TTL);
+
+  return result;
 };

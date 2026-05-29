@@ -35,7 +35,7 @@ app.use("/uploads", express_1.default.static(path_1.default.join(process.cwd(), 
 (0, seatLockCleanup_job_1.startSeatLockCleanupJob)();
 app.use((0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 1000,
     message: "Too many requests, please try again later.",
 }));
 const PORT = process.env.PORT || 3000;

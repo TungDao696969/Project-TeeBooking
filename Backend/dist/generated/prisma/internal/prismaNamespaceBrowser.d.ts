@@ -51,6 +51,8 @@ export declare const ModelName: {
     readonly Seat: "Seat";
     readonly Showtime: "Showtime";
     readonly ShowtimeSeat: "ShowtimeSeat";
+    readonly ShowtimeTicketType: "ShowtimeTicketType";
+    readonly TicketType: "TicketType";
     readonly Trailer: "Trailer";
     readonly User: "User";
     readonly UserAddress: "UserAddress";
@@ -350,6 +352,27 @@ export declare const ShowtimeSeatScalarFieldEnum: {
     readonly lockedUntil: "lockedUntil";
 };
 export type ShowtimeSeatScalarFieldEnum = (typeof ShowtimeSeatScalarFieldEnum)[keyof typeof ShowtimeSeatScalarFieldEnum];
+export declare const ShowtimeTicketTypeScalarFieldEnum: {
+    readonly id: "id";
+    readonly showtimeId: "showtimeId";
+    readonly ticketTypeId: "ticketTypeId";
+    readonly price: "price";
+    readonly isActive: "isActive";
+    readonly createdAt: "createdAt";
+};
+export type ShowtimeTicketTypeScalarFieldEnum = (typeof ShowtimeTicketTypeScalarFieldEnum)[keyof typeof ShowtimeTicketTypeScalarFieldEnum];
+export declare const TicketTypeScalarFieldEnum: {
+    readonly id: "id";
+    readonly name: "name";
+    readonly code: "code";
+    readonly description: "description";
+    readonly type: "type";
+    readonly price: "price";
+    readonly cinemaId: "cinemaId";
+    readonly isActive: "isActive";
+    readonly createdAt: "createdAt";
+};
+export type TicketTypeScalarFieldEnum = (typeof TicketTypeScalarFieldEnum)[keyof typeof TicketTypeScalarFieldEnum];
 export declare const TrailerScalarFieldEnum: {
     readonly id: "id";
     readonly movieId: "movieId";

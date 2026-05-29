@@ -393,6 +393,28 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.showtimeTicketType`: Exposes CRUD operations for the **ShowtimeTicketType** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more ShowtimeTicketTypes
+      * const showtimeTicketTypes = await prisma.showtimeTicketType.findMany()
+      * ```
+      */
+    get showtimeTicketType(): Prisma.ShowtimeTicketTypeDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.ticketType`: Exposes CRUD operations for the **TicketType** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more TicketTypes
+      * const ticketTypes = await prisma.ticketType.findMany()
+      * ```
+      */
+    get ticketType(): Prisma.TicketTypeDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.trailer`: Exposes CRUD operations for the **Trailer** model.
       * Example usage:
       * ```ts

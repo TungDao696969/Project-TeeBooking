@@ -1,0 +1,17 @@
+model ShowtimeTicketType {
+  id String @id @default(uuid())
+
+  showtimeId   String
+  ticketTypeId String
+
+  price Decimal @db.Decimal(10, 2)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+
+  showtime   Showtime   @relation(fields: [showtimeId], references: [id])
+  ticketType TicketType @relation(fields: [ticketTypeId], references: [id])
+
+  @@map("showtime_ticket_types")
+}

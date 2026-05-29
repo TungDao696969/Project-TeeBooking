@@ -61,21 +61,24 @@ const refreshTokenController = async (req, res) => {
         }
         const newAccessToken = (0, jwt_1.generateAccessToken)(user.id);
         const newRefreshToken = (0, jwt_1.generateRefreshToken)(user.id);
+        // update redis
+        await redis_1.redis.set(`refresh:${user.id}`, newRefreshToken, "EX", 7 * 24 * 60 * 60);
         res.cookie("access_token", newAccessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 15 * 60 * 1000,
         });
         res.cookie("refresh_token", newRefreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return res.status(200).json({
             success: true,
             message: "Token refreshed successfully",
+            accessToken: newAccessToken,
         });
     }
     catch {

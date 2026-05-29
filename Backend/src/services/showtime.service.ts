@@ -1,4 +1,3 @@
-import { da } from "zod/locales";
 import { prisma } from "../utils/prisma";
 import { redis } from "../utils/redis";
 import {
@@ -126,4 +125,117 @@ export const deleteShowtimeService = async (id: string) => {
   await redis.del(`showtimes:${existing.roomId}`);
 
   return true;
+};
+
+export const getShowtimeTicketTypesService = async (showtimeId: string) => {
+  const cacheKey = `showtime:${showtimeId}:ticket-types`;
+
+  // cache
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  // find showtime
+  const showtime = await prisma.showtime.findUnique({
+    where: {
+      id: showtimeId,
+    },
+
+    include: {
+      movie: true,
+      showtimeTicketTypes: {
+        where: { isActive: true },
+        include: { ticketType: true },
+        orderBy: { createdAt: "asc" },
+      },
+      room: {
+        include: {
+          cinema: true,
+        },
+      },
+    },
+  });
+
+  if (!showtime) {
+    throw new Error("Showtime not found");
+  }
+
+  const cinemaId = showtime.room.cinema.id;
+
+  let ticketTypes: {
+    id: string;
+    name: string;
+    type: string;
+    price: number;
+    description: string;
+  }[];
+
+  if (showtime.showtimeTicketTypes.length > 0) {
+    ticketTypes = showtime.showtimeTicketTypes
+      .filter((item) => item.ticketType.isActive)
+      .map((item) => ({
+        id: item.ticketType.id,
+        name: item.ticketType.name,
+        type: item.ticketType.type,
+        price: Number(item.price),
+        description: item.ticketType.description ?? "",
+      }));
+  } else {
+    const globalTicketTypes = await prisma.ticketType.findMany({
+      where: {
+        isActive: true,
+        OR: [{ cinemaId: null }, { cinemaId }],
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    ticketTypes = globalTicketTypes.map((item) => ({
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      price: Number(item.price),
+      description: item.description ?? "",
+    }));
+  }
+
+  const result = {
+    showtime: {
+      id: showtime.id,
+
+      startTime: showtime.startTime,
+      endTime: showtime.endTime,
+
+      format: showtime.format,
+
+      language: showtime.language,
+      subtitle: showtime.subtitle,
+
+      cinema: {
+        id: showtime.room.cinema.id,
+        name: showtime.room.cinema.name,
+        address: showtime.room.cinema.address,
+      },
+
+      room: {
+        id: showtime.room.id,
+        name: showtime.room.roomName,
+      },
+
+      movie: {
+        id: showtime.movie.id,
+        title: showtime.movie.title,
+        posterUrl: showtime.movie.posterUrl,
+        ageRating: showtime.movie.ageRating,
+      },
+    },
+
+    ticketTypes,
+  };
+
+  // cache redis
+  await redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
+
+  return result;
 };

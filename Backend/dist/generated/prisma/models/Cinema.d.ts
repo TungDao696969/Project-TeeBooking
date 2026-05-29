@@ -254,6 +254,7 @@ export type CinemaWhereInput = {
     updatedAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string;
     city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>;
     rooms?: Prisma.CinemaRoomListRelationFilter;
+    ticketTypes?: Prisma.TicketTypeListRelationFilter;
 };
 export type CinemaOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -273,6 +274,7 @@ export type CinemaOrderByWithRelationInput = {
     updatedAt?: Prisma.SortOrder;
     city?: Prisma.CityOrderByWithRelationInput;
     rooms?: Prisma.CinemaRoomOrderByRelationAggregateInput;
+    ticketTypes?: Prisma.TicketTypeOrderByRelationAggregateInput;
 };
 export type CinemaWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -295,6 +297,7 @@ export type CinemaWhereUniqueInput = Prisma.AtLeast<{
     updatedAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string;
     city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>;
     rooms?: Prisma.CinemaRoomListRelationFilter;
+    ticketTypes?: Prisma.TicketTypeListRelationFilter;
 }, "id" | "slug">;
 export type CinemaOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -355,6 +358,7 @@ export type CinemaCreateInput = {
     updatedAt?: Date | string;
     city: Prisma.CityCreateNestedOneWithoutCinemasInput;
     rooms?: Prisma.CinemaRoomCreateNestedManyWithoutCinemaInput;
+    ticketTypes?: Prisma.TicketTypeCreateNestedManyWithoutCinemaInput;
 };
 export type CinemaUncheckedCreateInput = {
     id?: string;
@@ -373,6 +377,7 @@ export type CinemaUncheckedCreateInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     rooms?: Prisma.CinemaRoomUncheckedCreateNestedManyWithoutCinemaInput;
+    ticketTypes?: Prisma.TicketTypeUncheckedCreateNestedManyWithoutCinemaInput;
 };
 export type CinemaUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -391,6 +396,7 @@ export type CinemaUpdateInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     city?: Prisma.CityUpdateOneRequiredWithoutCinemasNestedInput;
     rooms?: Prisma.CinemaRoomUpdateManyWithoutCinemaNestedInput;
+    ticketTypes?: Prisma.TicketTypeUpdateManyWithoutCinemaNestedInput;
 };
 export type CinemaUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -409,6 +415,7 @@ export type CinemaUncheckedUpdateInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     rooms?: Prisma.CinemaRoomUncheckedUpdateManyWithoutCinemaNestedInput;
+    ticketTypes?: Prisma.TicketTypeUncheckedUpdateManyWithoutCinemaNestedInput;
 };
 export type CinemaCreateManyInput = {
     id?: string;
@@ -531,6 +538,10 @@ export type CinemaListRelationFilter = {
 export type CinemaOrderByRelationAggregateInput = {
     _count?: Prisma.SortOrder;
 };
+export type CinemaNullableScalarRelationFilter = {
+    is?: Prisma.CinemaWhereInput | null;
+    isNot?: Prisma.CinemaWhereInput | null;
+};
 export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null;
     increment?: number;
@@ -588,6 +599,20 @@ export type CinemaUncheckedUpdateManyWithoutCityNestedInput = {
     updateMany?: Prisma.CinemaUpdateManyWithWhereWithoutCityInput | Prisma.CinemaUpdateManyWithWhereWithoutCityInput[];
     deleteMany?: Prisma.CinemaScalarWhereInput | Prisma.CinemaScalarWhereInput[];
 };
+export type CinemaCreateNestedOneWithoutTicketTypesInput = {
+    create?: Prisma.XOR<Prisma.CinemaCreateWithoutTicketTypesInput, Prisma.CinemaUncheckedCreateWithoutTicketTypesInput>;
+    connectOrCreate?: Prisma.CinemaCreateOrConnectWithoutTicketTypesInput;
+    connect?: Prisma.CinemaWhereUniqueInput;
+};
+export type CinemaUpdateOneWithoutTicketTypesNestedInput = {
+    create?: Prisma.XOR<Prisma.CinemaCreateWithoutTicketTypesInput, Prisma.CinemaUncheckedCreateWithoutTicketTypesInput>;
+    connectOrCreate?: Prisma.CinemaCreateOrConnectWithoutTicketTypesInput;
+    upsert?: Prisma.CinemaUpsertWithoutTicketTypesInput;
+    disconnect?: Prisma.CinemaWhereInput | boolean;
+    delete?: Prisma.CinemaWhereInput | boolean;
+    connect?: Prisma.CinemaWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.CinemaUpdateToOneWithWhereWithoutTicketTypesInput, Prisma.CinemaUpdateWithoutTicketTypesInput>, Prisma.CinemaUncheckedUpdateWithoutTicketTypesInput>;
+};
 export type CinemaCreateWithoutRoomsInput = {
     id?: string;
     name: string;
@@ -604,6 +629,7 @@ export type CinemaCreateWithoutRoomsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     city: Prisma.CityCreateNestedOneWithoutCinemasInput;
+    ticketTypes?: Prisma.TicketTypeCreateNestedManyWithoutCinemaInput;
 };
 export type CinemaUncheckedCreateWithoutRoomsInput = {
     id?: string;
@@ -621,6 +647,7 @@ export type CinemaUncheckedCreateWithoutRoomsInput = {
     openingHours?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    ticketTypes?: Prisma.TicketTypeUncheckedCreateNestedManyWithoutCinemaInput;
 };
 export type CinemaCreateOrConnectWithoutRoomsInput = {
     where: Prisma.CinemaWhereUniqueInput;
@@ -651,6 +678,7 @@ export type CinemaUpdateWithoutRoomsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     city?: Prisma.CityUpdateOneRequiredWithoutCinemasNestedInput;
+    ticketTypes?: Prisma.TicketTypeUpdateManyWithoutCinemaNestedInput;
 };
 export type CinemaUncheckedUpdateWithoutRoomsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -668,6 +696,7 @@ export type CinemaUncheckedUpdateWithoutRoomsInput = {
     openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    ticketTypes?: Prisma.TicketTypeUncheckedUpdateManyWithoutCinemaNestedInput;
 };
 export type CinemaCreateWithoutCityInput = {
     id?: string;
@@ -685,6 +714,7 @@ export type CinemaCreateWithoutCityInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     rooms?: Prisma.CinemaRoomCreateNestedManyWithoutCinemaInput;
+    ticketTypes?: Prisma.TicketTypeCreateNestedManyWithoutCinemaInput;
 };
 export type CinemaUncheckedCreateWithoutCityInput = {
     id?: string;
@@ -702,6 +732,7 @@ export type CinemaUncheckedCreateWithoutCityInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     rooms?: Prisma.CinemaRoomUncheckedCreateNestedManyWithoutCinemaInput;
+    ticketTypes?: Prisma.TicketTypeUncheckedCreateNestedManyWithoutCinemaInput;
 };
 export type CinemaCreateOrConnectWithoutCityInput = {
     where: Prisma.CinemaWhereUniqueInput;
@@ -744,6 +775,91 @@ export type CinemaScalarWhereInput = {
     createdAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string;
 };
+export type CinemaCreateWithoutTicketTypesInput = {
+    id?: string;
+    name: string;
+    slug: string;
+    hotline?: string | null;
+    email?: string | null;
+    province: string;
+    district: string;
+    ward: string;
+    address: string;
+    latitude?: number | null;
+    longitude?: number | null;
+    openingHours?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    city: Prisma.CityCreateNestedOneWithoutCinemasInput;
+    rooms?: Prisma.CinemaRoomCreateNestedManyWithoutCinemaInput;
+};
+export type CinemaUncheckedCreateWithoutTicketTypesInput = {
+    id?: string;
+    name: string;
+    slug: string;
+    hotline?: string | null;
+    email?: string | null;
+    cityId: string;
+    province: string;
+    district: string;
+    ward: string;
+    address: string;
+    latitude?: number | null;
+    longitude?: number | null;
+    openingHours?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    rooms?: Prisma.CinemaRoomUncheckedCreateNestedManyWithoutCinemaInput;
+};
+export type CinemaCreateOrConnectWithoutTicketTypesInput = {
+    where: Prisma.CinemaWhereUniqueInput;
+    create: Prisma.XOR<Prisma.CinemaCreateWithoutTicketTypesInput, Prisma.CinemaUncheckedCreateWithoutTicketTypesInput>;
+};
+export type CinemaUpsertWithoutTicketTypesInput = {
+    update: Prisma.XOR<Prisma.CinemaUpdateWithoutTicketTypesInput, Prisma.CinemaUncheckedUpdateWithoutTicketTypesInput>;
+    create: Prisma.XOR<Prisma.CinemaCreateWithoutTicketTypesInput, Prisma.CinemaUncheckedCreateWithoutTicketTypesInput>;
+    where?: Prisma.CinemaWhereInput;
+};
+export type CinemaUpdateToOneWithWhereWithoutTicketTypesInput = {
+    where?: Prisma.CinemaWhereInput;
+    data: Prisma.XOR<Prisma.CinemaUpdateWithoutTicketTypesInput, Prisma.CinemaUncheckedUpdateWithoutTicketTypesInput>;
+};
+export type CinemaUpdateWithoutTicketTypesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    hotline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    province?: Prisma.StringFieldUpdateOperationsInput | string;
+    district?: Prisma.StringFieldUpdateOperationsInput | string;
+    ward?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null;
+    longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null;
+    openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    city?: Prisma.CityUpdateOneRequiredWithoutCinemasNestedInput;
+    rooms?: Prisma.CinemaRoomUpdateManyWithoutCinemaNestedInput;
+};
+export type CinemaUncheckedUpdateWithoutTicketTypesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    hotline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    cityId?: Prisma.StringFieldUpdateOperationsInput | string;
+    province?: Prisma.StringFieldUpdateOperationsInput | string;
+    district?: Prisma.StringFieldUpdateOperationsInput | string;
+    ward?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null;
+    longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null;
+    openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    rooms?: Prisma.CinemaRoomUncheckedUpdateManyWithoutCinemaNestedInput;
+};
 export type CinemaCreateManyCityInput = {
     id?: string;
     name: string;
@@ -776,6 +892,7 @@ export type CinemaUpdateWithoutCityInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     rooms?: Prisma.CinemaRoomUpdateManyWithoutCinemaNestedInput;
+    ticketTypes?: Prisma.TicketTypeUpdateManyWithoutCinemaNestedInput;
 };
 export type CinemaUncheckedUpdateWithoutCityInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -793,6 +910,7 @@ export type CinemaUncheckedUpdateWithoutCityInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     rooms?: Prisma.CinemaRoomUncheckedUpdateManyWithoutCinemaNestedInput;
+    ticketTypes?: Prisma.TicketTypeUncheckedUpdateManyWithoutCinemaNestedInput;
 };
 export type CinemaUncheckedUpdateManyWithoutCityInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -815,9 +933,11 @@ export type CinemaUncheckedUpdateManyWithoutCityInput = {
  */
 export type CinemaCountOutputType = {
     rooms: number;
+    ticketTypes: number;
 };
 export type CinemaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     rooms?: boolean | CinemaCountOutputTypeCountRoomsArgs;
+    ticketTypes?: boolean | CinemaCountOutputTypeCountTicketTypesArgs;
 };
 /**
  * CinemaCountOutputType without action
@@ -833,6 +953,12 @@ export type CinemaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type CinemaCountOutputTypeCountRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.CinemaRoomWhereInput;
+};
+/**
+ * CinemaCountOutputType without action
+ */
+export type CinemaCountOutputTypeCountTicketTypesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.TicketTypeWhereInput;
 };
 export type CinemaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -852,6 +978,7 @@ export type CinemaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     updatedAt?: boolean;
     city?: boolean | Prisma.CityDefaultArgs<ExtArgs>;
     rooms?: boolean | Prisma.Cinema$roomsArgs<ExtArgs>;
+    ticketTypes?: boolean | Prisma.Cinema$ticketTypesArgs<ExtArgs>;
     _count?: boolean | Prisma.CinemaCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["cinema"]>;
 export type CinemaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -911,6 +1038,7 @@ export type CinemaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type CinemaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     city?: boolean | Prisma.CityDefaultArgs<ExtArgs>;
     rooms?: boolean | Prisma.Cinema$roomsArgs<ExtArgs>;
+    ticketTypes?: boolean | Prisma.Cinema$ticketTypesArgs<ExtArgs>;
     _count?: boolean | Prisma.CinemaCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type CinemaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -924,6 +1052,7 @@ export type $CinemaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     objects: {
         city: Prisma.$CityPayload<ExtArgs>;
         rooms: Prisma.$CinemaRoomPayload<ExtArgs>[];
+        ticketTypes: Prisma.$TicketTypePayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1272,6 +1401,7 @@ export interface Prisma__CinemaClient<T, Null = never, ExtArgs extends runtime.T
     readonly [Symbol.toStringTag]: "PrismaPromise";
     city<T extends Prisma.CityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CityDefaultArgs<ExtArgs>>): Prisma.Prisma__CityClient<runtime.Types.Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     rooms<T extends Prisma.Cinema$roomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cinema$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CinemaRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    ticketTypes<T extends Prisma.Cinema$ticketTypesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cinema$ticketTypesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1717,6 +1847,29 @@ export type Cinema$roomsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
     take?: number;
     skip?: number;
     distinct?: Prisma.CinemaRoomScalarFieldEnum | Prisma.CinemaRoomScalarFieldEnum[];
+};
+/**
+ * Cinema.ticketTypes
+ */
+export type Cinema$ticketTypesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketType
+     */
+    select?: Prisma.TicketTypeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the TicketType
+     */
+    omit?: Prisma.TicketTypeOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.TicketTypeInclude<ExtArgs> | null;
+    where?: Prisma.TicketTypeWhereInput;
+    orderBy?: Prisma.TicketTypeOrderByWithRelationInput | Prisma.TicketTypeOrderByWithRelationInput[];
+    cursor?: Prisma.TicketTypeWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.TicketTypeScalarFieldEnum | Prisma.TicketTypeScalarFieldEnum[];
 };
 /**
  * Cinema without action

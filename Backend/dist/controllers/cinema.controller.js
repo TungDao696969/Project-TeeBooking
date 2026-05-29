@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCinema = exports.updateCinema = exports.getCinemaById = exports.getAllCinemas = exports.createCinema = void 0;
+exports.getCinemaShowtimes = exports.deleteCinema = exports.updateCinema = exports.getCinemaBySlug = exports.getAllCinemas = exports.createCinema = void 0;
 const cinemaService = __importStar(require("../services/cinema.service"));
 const errorHandler_1 = require("../utils/errorHandler");
 const createCinema = async (req, res, next) => {
@@ -71,16 +71,16 @@ const getAllCinemas = async (_req, res, next) => {
     }
 };
 exports.getAllCinemas = getAllCinemas;
-const getCinemaById = async (req, res, next) => {
+const getCinemaBySlug = async (req, res, next) => {
     try {
-        const { cinemaId } = req.params;
-        if (!cinemaId || Array.isArray(cinemaId)) {
+        const { slug } = req.params;
+        if (!slug || Array.isArray(slug)) {
             return res.status(400).json({
                 success: false,
                 message: "Invaid cinema Id",
             });
         }
-        const cinema = await cinemaService.getCinemaByIdService(cinemaId);
+        const cinema = await cinemaService.getCinemaBySlugService(slug);
         res.status(200).json({
             success: true,
             data: cinema,
@@ -94,7 +94,7 @@ const getCinemaById = async (req, res, next) => {
         });
     }
 };
-exports.getCinemaById = getCinemaById;
+exports.getCinemaBySlug = getCinemaBySlug;
 const updateCinema = async (req, res, next) => {
     try {
         const { cinemaId } = req.params;
@@ -144,4 +144,29 @@ const deleteCinema = async (req, res, next) => {
     }
 };
 exports.deleteCinema = deleteCinema;
+const getCinemaShowtimes = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        if (!slug || Array.isArray(slug)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invaid cinema showtime slug",
+            });
+        }
+        const data = await cinemaService.getCinemaShowtimesService(slug);
+        return res.status(200).json({
+            success: true,
+            count: data.length,
+            data,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch cinema showtimes",
+        });
+    }
+};
+exports.getCinemaShowtimes = getCinemaShowtimes;
 //# sourceMappingURL=cinema.controller.js.map

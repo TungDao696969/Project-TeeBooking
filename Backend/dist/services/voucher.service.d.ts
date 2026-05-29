@@ -3,8 +3,8 @@ import type { CreateVoucherInput, UpdateVoucherInput } from "../validations/vouc
 export declare const createVoucherService: (data: CreateVoucherInput) => Promise<{
     id: string;
     createdAt: Date;
-    promotionId: string;
     code: string;
+    promotionId: string;
     usageLimit: number;
     status: VoucherStatus;
     usedCount: number;
@@ -35,8 +35,8 @@ export declare const getVoucherByIdService: (id: string) => Promise<{
 } & {
     id: string;
     createdAt: Date;
-    promotionId: string;
     code: string;
+    promotionId: string;
     usageLimit: number;
     status: VoucherStatus;
     usedCount: number;
@@ -44,8 +44,8 @@ export declare const getVoucherByIdService: (id: string) => Promise<{
 export declare const updateVoucherService: (id: string, data: UpdateVoucherInput) => Promise<{
     id: string;
     createdAt: Date;
-    promotionId: string;
     code: string;
+    promotionId: string;
     usageLimit: number;
     status: VoucherStatus;
     usedCount: number;
