@@ -252,8 +252,18 @@ export const handleMoMoIPN = async (body: any) => {
 export const handleMoMoReturn = async (query: any) => {
   const params = normalizeMoMoParams(query);
   await handleMoMoIPN(params);
+  const payment = params.orderId
+    ? await prisma.payment.findUnique({
+        where: { id: String(params.orderId) },
+        select: { bookingId: true },
+      })
+    : null;
 
-  return Number(params.resultCode) === MOMO_SUCCESS_CODE
-    ? "success"
-    : "failed";
+  return {
+    status:
+      Number(params.resultCode) === MOMO_SUCCESS_CODE
+        ? ("success" as const)
+        : ("failed" as const),
+    bookingId: payment?.bookingId ?? null,
+  };
 };

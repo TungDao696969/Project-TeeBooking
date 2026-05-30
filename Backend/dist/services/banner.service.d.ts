@@ -13,8 +13,8 @@ export declare const createBannerService: (data: CreateBannerInput) => Promise<{
     title: string;
     endDate: Date;
     imageUrl: string;
-    redirectUrl: string | null;
     startDate: Date;
+    redirectUrl: string | null;
 }>;
 export declare const getAllBannerService: () => Promise<any>;
 export declare const getBannerById: (id: string) => Promise<{
@@ -25,8 +25,8 @@ export declare const getBannerById: (id: string) => Promise<{
     title: string;
     endDate: Date;
     imageUrl: string;
-    redirectUrl: string | null;
     startDate: Date;
+    redirectUrl: string | null;
 } | null>;
 export declare const updateBannerService: (id: string, data: Partial<CreateBannerInput>) => Promise<{
     id: string;
@@ -36,8 +36,8 @@ export declare const updateBannerService: (id: string, data: Partial<CreateBanne
     title: string;
     endDate: Date;
     imageUrl: string;
-    redirectUrl: string | null;
     startDate: Date;
+    redirectUrl: string | null;
 }>;
 export declare const deleteBannerService: (id: string) => Promise<void>;
 export {};

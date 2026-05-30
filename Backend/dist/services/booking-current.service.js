@@ -1,25 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrentBookingService = void 0;
+exports.getBookingDetailService = void 0;
 const prisma_1 = require("../utils/prisma");
-const getCurrentBookingService = async (userId) => {
+const getBookingDetailService = async (bookingId, userId) => {
+    console.log("bookingId", bookingId);
+    console.log("userId", userId);
     const booking = await prisma_1.prisma.booking.findFirst({
         where: {
+            id: bookingId,
             userId,
-            OR: [
-                {
-                    status: "pending",
-                },
-                {
-                    status: "confirmed",
-                },
-            ],
         },
         include: {
             showtime: {
                 include: {
                     movie: true,
-                    room: true,
+                    room: {
+                        include: {
+                            cinema: true,
+                        },
+                    },
                 },
             },
             tickets: {
@@ -31,14 +30,18 @@ const getCurrentBookingService = async (userId) => {
                     },
                 },
             },
-            combos: true,
+            combos: {
+                include: {
+                    combo: true,
+                },
+            },
             payments: true,
         },
-        orderBy: {
-            bookedAt: "desc",
-        },
     });
+    if (!booking) {
+        throw new Error("Booking not found");
+    }
     return booking;
 };
-exports.getCurrentBookingService = getCurrentBookingService;
+exports.getBookingDetailService = getBookingDetailService;
 //# sourceMappingURL=booking-current.service.js.map

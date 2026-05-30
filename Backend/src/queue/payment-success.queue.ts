@@ -10,7 +10,7 @@ export const enqueuePaymentSuccessJob = async (bookingId: string) => {
     "confirm-booking-and-generate-invoice",
     { bookingId },
     {
-      jobId: `payment-success:${bookingId}`,
+      jobId: `payment-success-${bookingId}`,
       attempts: 3,
       backoff: {
         type: "exponential",

@@ -7,8 +7,8 @@ export declare const getHomeService: () => Promise<{
         title: string;
         endDate: Date;
         imageUrl: string;
-        redirectUrl: string | null;
         startDate: Date;
+        redirectUrl: string | null;
     }[];
     nowShowing: {
         id: string;
@@ -40,10 +40,10 @@ export declare const getHomeService: () => Promise<{
         description: string | null;
         endDate: Date;
         imageUrl: string | null;
-        startDate: Date;
         discountValue: number;
         minOrderValue: number | null;
         maxDiscount: number | null;
+        startDate: Date;
     }[];
     blogs: {
         id: string;

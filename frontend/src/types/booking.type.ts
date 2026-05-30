@@ -4,6 +4,14 @@ export interface TicketType {
   type: string;
   price: number | string;
   description: string;
+  showtimeSeat: {
+    id: string;
+    seatId: string;
+    status: string;
+    seat: {
+      seatCode: string;
+    };
+  };
 }
 
 export interface ShowtimeDetail {
@@ -41,3 +49,39 @@ export interface TicketTypeResponse {
     ticketTypes: TicketType[];
   };
 }
+
+export type Payment = {
+  id: string;
+  paymentMethod: string;
+  paymentGateway: string;
+  transactionCode: string;
+  amount: number;
+  status: string;
+  paidAt: string | null;
+};
+
+export type ShowTime = {
+  id: string;
+
+  movie: {
+    id: string;
+    title: string;
+    posterUrl: string;
+    durationMinutes: number;
+  };
+
+  room: {
+    id: string;
+    roomName: string;
+
+    cinema: {
+      id: string;
+      name: string;
+      address: string;
+    };
+  };
+
+  showDate: string;
+  startTime: string;
+  endTime: string;
+};

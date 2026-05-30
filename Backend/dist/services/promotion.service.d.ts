@@ -20,10 +20,10 @@ export declare const createPromotionService: (data: CreatePromotionInput) => Pro
     description: string | null;
     endDate: Date;
     imageUrl: string | null;
-    startDate: Date;
     discountValue: number;
     minOrderValue: number | null;
     maxDiscount: number | null;
+    startDate: Date;
 }>;
 export declare const getAllPromotionService: (page?: number, limit?: number) => Promise<any>;
 export declare const getPromotionByIdService: (id: string) => Promise<{
@@ -36,10 +36,10 @@ export declare const getPromotionByIdService: (id: string) => Promise<{
     description: string | null;
     endDate: Date;
     imageUrl: string | null;
-    startDate: Date;
     discountValue: number;
     minOrderValue: number | null;
     maxDiscount: number | null;
+    startDate: Date;
 } | null>;
 export declare const updatePromotionService: (id: string, data: Partial<CreatePromotionInput>) => Promise<{
     type: import("../generated/prisma/enums").PromotionType;
@@ -51,10 +51,10 @@ export declare const updatePromotionService: (id: string, data: Partial<CreatePr
     description: string | null;
     endDate: Date;
     imageUrl: string | null;
-    startDate: Date;
     discountValue: number;
     minOrderValue: number | null;
     maxDiscount: number | null;
+    startDate: Date;
 }>;
 export declare const deletePromotionService: (id: string) => Promise<void>;
 export declare const getActivePromotionService: () => Promise<{
@@ -67,10 +67,10 @@ export declare const getActivePromotionService: () => Promise<{
     description: string | null;
     endDate: Date;
     imageUrl: string | null;
-    startDate: Date;
     discountValue: number;
     minOrderValue: number | null;
     maxDiscount: number | null;
+    startDate: Date;
 }[]>;
 export {};
 //# sourceMappingURL=promotion.service.d.ts.map

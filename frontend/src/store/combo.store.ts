@@ -100,6 +100,8 @@ export const useComboStore = create<ComboStore>()(
         set({
           selectedCombos: [],
         });
+
+        void useComboStore.persist.clearStorage();
       },
     }),
     {

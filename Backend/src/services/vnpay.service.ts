@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import dayjs from "dayjs";
-import { buildVnpaySignData } from "../utils/vnpay";
+import { buildVnpaySignData, toVnpayTxnRef } from "../utils/vnpay";
 
 export const createVnpayPaymentUrl = (
   paymentId: string,
@@ -20,7 +20,7 @@ export const createVnpayPaymentUrl = (
     vnp_TmnCode: tmnCode,
     vnp_Locale: "vn",
     vnp_CurrCode: "VND",
-    vnp_TxnRef: paymentId,
+    vnp_TxnRef: toVnpayTxnRef(paymentId),
     vnp_OrderInfo: `Thanh toan booking ${paymentId}`,
     vnp_OrderType: "other",
     vnp_Amount: amount * 100,

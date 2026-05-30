@@ -8,7 +8,7 @@ exports.paymentSuccessQueue = new bullmq_1.Queue("payment-success", {
 });
 const enqueuePaymentSuccessJob = async (bookingId) => {
     await exports.paymentSuccessQueue.add("confirm-booking-and-generate-invoice", { bookingId }, {
-        jobId: `payment-success:${bookingId}`,
+        jobId: `payment-success-${bookingId}`,
         attempts: 3,
         backoff: {
             type: "exponential",

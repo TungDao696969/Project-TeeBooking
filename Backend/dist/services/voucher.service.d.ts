@@ -21,10 +21,10 @@ export declare const getVoucherByIdService: (id: string) => Promise<{
         description: string | null;
         endDate: Date;
         imageUrl: string | null;
-        startDate: Date;
         discountValue: number;
         minOrderValue: number | null;
         maxDiscount: number | null;
+        startDate: Date;
     };
     users: {
         userId: string;

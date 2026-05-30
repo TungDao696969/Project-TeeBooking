@@ -23,6 +23,7 @@ export declare const SeatStatus: {
     readonly reserved: "reserved";
     readonly booked: "booked";
     readonly maintenance: "maintenance";
+    readonly locked: "locked";
 };
 export type SeatStatus = (typeof SeatStatus)[keyof typeof SeatStatus];
 export declare const BookingStatus: {

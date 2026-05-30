@@ -41,7 +41,6 @@ const city_controller_1 = require("../controllers/city.controller");
 const city_validation_1 = require("../validations/city.validation");
 const showtimeSeat_controller_1 = require("../controllers/showtimeSeat.controller");
 const ticket_qr_controller_1 = require("../controllers/ticket-qr.controller");
-const booking_controller_1 = require("../controllers/booking.controller");
 const payment_controller_1 = require("../controllers/payment.controller");
 const booking_past_controller_1 = require("../controllers/booking-past.controller");
 const booking_cancel_controller_1 = require("../controllers/booking-cancel.controller");
@@ -52,6 +51,9 @@ const home_controller_1 = require("../controllers/home/home.controller");
 const movie_validation_1 = require("../validations/movie.validation");
 const ticket_type_validation_1 = require("../validations/ticket-type.validation");
 const ticket_type_controller_1 = require("../controllers/ticket-type.controller");
+const get_showtime_seats_controller_1 = require("../controllers/get-showtime-seats.controller");
+const foodCombo_controller_1 = require("../controllers/foodCombo.controller");
+const booking_controller_1 = require("../controllers/booking.controller");
 const router = (0, express_1.Router)();
 router.post("/auth/register", auth_controller_1.registerController);
 router.post("/auth/verify-otp", verifyEmail_controller_1.verifyEmailController);
@@ -136,7 +138,7 @@ router.get("/showtime/:id", showtime_controller_1.getShowtimeById);
 router.put("/showtime/:id", (0, validation_middleware_1.validate)(showtime_validation_1.updateShowtimeSchema), showtime_controller_1.updateShowtime);
 router.delete("/showtime/:id", showtime_controller_1.deleteShowtime);
 // showtime seat
-router.post("/showtime/:id/reserve-seats", auth_middleware_1.authMiddleware, showtimeSeat_controller_1.reserveShowtimeSeatController);
+router.post("/showtime-seat/:id/reserve-seats", auth_middleware_1.authMiddleware, showtimeSeat_controller_1.reserveShowtimeSeatController);
 router.post("/showtime-seat/:id/release-seats", auth_middleware_1.authMiddleware, showtimeSeat_controller_1.releaseShowtimeSeatController);
 router.post("/showtime/:id/confirm-seats", auth_middleware_1.authMiddleware, showtimeSeat_controller_1.confirmBookingShowtimeSeatController);
 // blog
@@ -188,15 +190,17 @@ router.post("/city", auth_middleware_1.authMiddleware, (0, role_middleware_1.rol
 router.put("/city/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(city_validation_1.updateCitySchema), city_controller_1.updateCityController);
 router.delete("/city/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), city_controller_1.deleteCityController);
 // payment
-router.post("/payment/vnpay", payment_controller_1.createVnpayPaymentController);
+router.post("/payment/vnpay", auth_middleware_1.authMiddleware, payment_controller_1.createVnpayPaymentController);
 router.get("/payment/vnpay-return", payment_controller_1.vnpayReturnController);
+// Alias route kept for backwards compatibility or external return URLs
+router.get("/payment/vnpay/return", payment_controller_1.vnpayReturnController);
 router.get("/payment/vnpay-ipn", payment_controller_1.vnpayIPNController);
 // momo
-router.post("/payment/momo/create", payment_controller_1.createMoMoController);
+router.post("/payment/momo/create", auth_middleware_1.authMiddleware, payment_controller_1.createMoMoController);
 router.post("/payment/momo/ipn", payment_controller_1.momoIPNController);
 router.get("/payment/momo/return", payment_controller_1.momoReturnController);
 // booking current
-router.get("/booking/current", auth_middleware_1.authMiddleware, booking_controller_1.getCurrentBookingController);
+router.get("/booking/:bookingId", auth_middleware_1.authMiddleware, booking_controller_1.getBookingDetailController);
 // ticket QR
 router.get("/booking/tickets/:ticketId/qr", auth_middleware_1.authMiddleware, ticket_qr_controller_1.generateTicketQRController);
 // booking past
@@ -216,6 +220,13 @@ router.get("/ticket-types", ticket_type_controller_1.getAllTicketTypes);
 router.get("/ticket-types/:id", ticket_type_controller_1.getTicketTypeById);
 router.put("/ticket-types/:id", (0, validation_middleware_1.validate)(ticket_type_validation_1.updateTicketTypeSchema), ticket_type_controller_1.updateTicketType);
 router.delete("/ticket-types/:id", ticket_type_controller_1.deleteTicketType);
+router.get("/showtimes/:id/seats", get_showtime_seats_controller_1.getShowtimeSeatsController);
+// food
+router.get("/food", foodCombo_controller_1.getAllFoodCombosController);
+router.get("/food/:id", foodCombo_controller_1.getFoodComboByIdController);
+router.post("/food", auth_middleware_1.authMiddleware, upload_middleware_1.upload.single("image"), foodCombo_controller_1.createFoodComboController);
+router.put("/food/:id", auth_middleware_1.authMiddleware, upload_middleware_1.upload.single("image"), foodCombo_controller_1.updateFoodComboController);
+router.delete("/food/:id", auth_middleware_1.authMiddleware, foodCombo_controller_1.deleteFoodComboController);
 // admin
 router.get("/admin/dashboard", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), admin_controller_1.getDashboardStatsController);
 exports.default = router;

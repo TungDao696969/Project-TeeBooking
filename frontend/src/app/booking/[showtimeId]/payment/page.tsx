@@ -6,11 +6,13 @@ import { useForm, useWatch } from "react-hook-form";
 
 import { useParams } from "next/navigation";
 
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 import PaymentMethods from "@/components/payment/payment-methods";
+import PaymentQRCode from "@/components/payment/payment-qr";
 import PaymentSummary from "@/components/payment/payment-summary";
 import VoucherForm from "@/components/voucher/voucher-form";
 
@@ -48,10 +50,29 @@ export default function PaymentPage() {
     },
   });
 
-  const paymentMethod = form.watch("paymentMethod");
+  const [momoPayUrl, setMomoPayUrl] = useState<string | null>(null);
+
+  const paymentMethod =
+    (useWatch({
+      control: form.control,
+      name: "paymentMethod",
+    }) as "vnpay" | "momo") ?? "vnpay";
+
+  const voucherCode =
+    (useWatch({
+      control: form.control,
+      name: "voucherCode",
+    }) as string) ?? "";
+
+  const handlePaymentMethodChange = (value: "vnpay" | "momo") => {
+    setMomoPayUrl(null);
+    form.setValue("paymentMethod", value);
+  };
 
   const onSubmit = async (values: PaymentSchema) => {
     if (!showtimeId) return;
+
+    setMomoPayUrl(null);
 
     const payload = {
       showtimeId,
@@ -73,20 +94,45 @@ export default function PaymentPage() {
       })),
     };
 
+    console.log("[PAYMENT_SUBMIT] start", {
+      showtimeId,
+      paymentMethod: values.paymentMethod,
+      voucherCode: values.voucherCode,
+      selectedSeats: selectedSeats.map((seat) => ({
+        id: seat.id,
+        seatId: seat.seatId,
+        seatCode: seat.seatCode,
+      })),
+      selectedCombos: selectedCombos.map((item) => ({
+        comboId: item.combo.id,
+        name: item.combo.name,
+        quantity: item.quantity,
+      })),
+      tickets: tickets.map((ticket) => ({
+        ticketTypeId: ticket.ticketTypeId,
+        quantity: ticket.quantity,
+      })),
+      payload,
+    });
+
     try {
       if (values.paymentMethod === "vnpay") {
         const response = await vnpayMutation.mutateAsync(payload);
 
-        window.location.href = response.paymentUrl;
+        console.log("[PAYMENT_SUBMIT] vnpay response", response);
+
+        window.location.assign(response.paymentUrl);
 
         return;
       }
 
       const response = await momoMutation.mutateAsync(payload);
 
-      window.location.href = response.payUrl;
+      console.log("[PAYMENT_SUBMIT] momo response", response);
+
+      setMomoPayUrl(response.payUrl);
     } catch (error) {
-      console.log(error);
+      console.error("[PAYMENT_SUBMIT] error", error);
     }
   };
 
@@ -108,13 +154,11 @@ export default function PaymentPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <PaymentMethods
               value={paymentMethod}
-              onChange={(value) =>
-                form.setValue("paymentMethod", value as "vnpay" | "momo")
-              }
+              onChange={handlePaymentMethodChange}
             />
 
             <VoucherForm
-              value={form.watch("voucherCode") || ""}
+              value={voucherCode}
               onChange={(value) => form.setValue("voucherCode", value)}
             />
 
@@ -133,6 +177,35 @@ export default function PaymentPage() {
               )}
             </Button>
           </form>
+
+          {paymentMethod === "momo" && momoPayUrl ? (
+            <div className="mt-6 space-y-4">
+              <PaymentQRCode value={momoPayUrl} />
+
+              <div className="rounded-2xl border border-white/10 bg-white/3 p-4 text-sm text-white/70">
+                <p className="mb-2 font-semibold text-white">
+                  Hướng dẫn thanh toán MoMo
+                </p>
+                <ol className="list-decimal space-y-2 pl-5">
+                  <li>Mở app MoMo trên điện thoại.</li>
+                  <li>Chọn chức năng quét mã QR.</li>
+                  <li>Quét mã QR hiển thị và xác nhận thanh toán.</li>
+                </ol>
+                <p className="mt-3 text-xs text-white/60">
+                  Nếu không quét được, bạn có thể nhấn nút bên dưới để mở đường
+                  dẫn MoMo.
+                </p>
+                <a
+                  href={momoPayUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex w-full justify-center rounded-xl bg-pink-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-pink-400"
+                >
+                  Mở MoMo
+                </a>
+              </div>
+            </div>
+          ) : null}
         </div>
 
         {/* RIGHT */}

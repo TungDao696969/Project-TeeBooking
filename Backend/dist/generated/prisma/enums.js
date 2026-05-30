@@ -31,7 +31,8 @@ exports.SeatStatus = {
     available: 'available',
     reserved: 'reserved',
     booked: 'booked',
-    maintenance: 'maintenance'
+    maintenance: 'maintenance',
+    locked: 'locked'
 };
 exports.BookingStatus = {
     pending: 'pending',

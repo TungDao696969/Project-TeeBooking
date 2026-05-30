@@ -27,6 +27,9 @@ interface BookingState {
   clearSeats: () => void;
   resetBooking: () => void;
   totalPrice: number;
+
+  selectedTab: "detail" | "ticket" | "payment";
+  setTab: (tab: BookingState["selectedTab"]) => void;
 }
 
 export const useBookingStore = create<BookingState>()(
@@ -140,6 +143,9 @@ export const useBookingStore = create<BookingState>()(
           totalPrice: 0,
         });
       },
+
+      selectedTab: "detail",
+      setTab: (tab) => set({ selectedTab: tab }),
     }),
     {
       name: "booking-storage",

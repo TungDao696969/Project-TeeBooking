@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import {
+  createBookingFromPaymentPayload,
   createVNPayPayment,
   handleVNPayIPN,
   handleVNPayReturn,
+  type PaymentBookingPayload,
 } from "../services/payment.service";
 import { createVnpayPaymentUrl } from "../services/vnpay.service";
 import {
@@ -11,23 +13,45 @@ import {
   handleMoMoReturn,
 } from "../services/momo.service";
 
-const getPaymentRedirectUrl = (status: "success" | "failed") => {
+const getPaymentRedirectUrl = (
+  status: "success" | "failed",
+  bookingId?: string | null,
+) => {
   const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
-  return `${frontendUrl}/payment-${status}`;
+  const url = new URL(`/payment-${status}`, frontendUrl);
+
+  if (bookingId) {
+    url.searchParams.set("bookingId", bookingId);
+  }
+
+  return url.toString();
 };
 
 export const createVnpayPaymentController = async (
-  req: Request,
+  req: Request & { user?: { id: string } },
   res: Response,
 ) => {
   try {
-    const { bookingId } = req.body;
+    const { bookingId, ...payload } = req.body as {
+      bookingId?: string;
+    } & PaymentBookingPayload;
 
-    if (!bookingId) {
-      throw new Error("Missing bookingId");
+    let resolvedBookingId = bookingId;
+
+    if (!resolvedBookingId) {
+      if (!req.user?.id) {
+        throw new Error("Unauthorized");
+      }
+
+      const booking = await createBookingFromPaymentPayload(
+        req.user.id,
+        payload as PaymentBookingPayload,
+      );
+
+      resolvedBookingId = booking.id;
     }
 
-    const payment = await createVNPayPayment(bookingId);
+    const payment = await createVNPayPayment(resolvedBookingId);
     const amount = Number(payment.amount);
     const ipAddr =
       (req.headers["x-forwarded-for"] as string | undefined) ||
@@ -63,9 +87,9 @@ export const createVnpayPaymentController = async (
 
 export const vnpayReturnController = async (req: Request, res: Response) => {
   try {
-    const status = await handleVNPayReturn(req.query);
+    const { status, bookingId } = await handleVNPayReturn(req.query);
 
-    return res.redirect(getPaymentRedirectUrl(status));
+    return res.redirect(getPaymentRedirectUrl(status, bookingId));
   } catch (error: any) {
     console.error("[VNPAY] return error", {
       message: error?.message,
@@ -97,11 +121,31 @@ export const vnpayIPNController = async (req: Request, res: Response) => {
 };
 
 // MOMO
-export const createMoMoController = async (req: Request, res: Response) => {
+export const createMoMoController = async (
+  req: Request & { user?: { id: string } },
+  res: Response,
+) => {
   try {
-    const { bookingId } = req.body;
+    const { bookingId, ...payload } = req.body as {
+      bookingId?: string;
+    } & PaymentBookingPayload;
 
-    const payUrl = await createMoMoPayment(bookingId);
+    let resolvedBookingId = bookingId;
+
+    if (!resolvedBookingId) {
+      if (!req.user?.id) {
+        throw new Error("Unauthorized");
+      }
+
+      const booking = await createBookingFromPaymentPayload(
+        req.user.id,
+        payload as PaymentBookingPayload,
+      );
+
+      resolvedBookingId = booking.id;
+    }
+
+    const payUrl = await createMoMoPayment(resolvedBookingId);
 
     return res.json({
       success: true,
@@ -135,9 +179,9 @@ export const momoIPNController = async (req: Request, res: Response) => {
 
 export const momoReturnController = async (req: Request, res: Response) => {
   try {
-    const status = await handleMoMoReturn(req.query);
+    const { status, bookingId } = await handleMoMoReturn(req.query);
 
-    return res.redirect(getPaymentRedirectUrl(status));
+    return res.redirect(getPaymentRedirectUrl(status, bookingId));
   } catch (error: any) {
     console.error("[MOMO] return error", {
       message: error?.message,

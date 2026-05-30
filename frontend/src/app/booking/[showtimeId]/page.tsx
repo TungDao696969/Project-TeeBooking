@@ -1,3 +1,4 @@
+import BookingComboReset from "@/components/booking/booking-combo-reset";
 import BookingSeatSection from "@/components/booking/booking-seat-section";
 import BookingSummary from "@/components/booking/booking-summary";
 import BookingTicketTypes from "@/components/booking/booking-ticket-types";
@@ -7,7 +8,6 @@ import Header from "@/components/layout/header";
 
 import ComboList from "@/components/combos/combo-list";
 
-import { Button } from "@/components/ui/button";
 interface Props {
   params: Promise<{
     showtimeId: string;
@@ -19,9 +19,10 @@ export default async function BookingPage({ params }: Props) {
 
   return (
     <>
+      <BookingComboReset showtimeId={showtimeId} />
       <Header />
 
-      <main className="py-10">
+      <main className="">
         <BookingTicketTypes showtimeId={showtimeId} />
 
         <div className="mt-10">

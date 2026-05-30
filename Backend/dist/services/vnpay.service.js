@@ -19,7 +19,7 @@ const createVnpayPaymentUrl = (paymentId, amount, ipAddr) => {
         vnp_TmnCode: tmnCode,
         vnp_Locale: "vn",
         vnp_CurrCode: "VND",
-        vnp_TxnRef: paymentId,
+        vnp_TxnRef: (0, vnpay_1.toVnpayTxnRef)(paymentId),
         vnp_OrderInfo: `Thanh toan booking ${paymentId}`,
         vnp_OrderType: "other",
         vnp_Amount: amount * 100,

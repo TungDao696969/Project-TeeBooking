@@ -1,25 +1,30 @@
 import { prisma } from "../utils/prisma";
 
-export const getCurrentBookingService = async (userId: string) => {
+export const getBookingDetailService = async (
+  bookingId: string,
+  userId: string,
+) => {
+  console.log("bookingId", bookingId);
+  console.log("userId", userId);
   const booking = await prisma.booking.findFirst({
     where: {
+      id: bookingId,
       userId,
-      OR: [
-        {
-          status: "pending",
-        },
-        {
-          status: "confirmed",
-        },
-      ],
     },
+
     include: {
       showtime: {
         include: {
           movie: true,
-          room: true,
+
+          room: {
+            include: {
+              cinema: true,
+            },
+          },
         },
       },
+
       tickets: {
         include: {
           showtimeSeat: {
@@ -29,13 +34,20 @@ export const getCurrentBookingService = async (userId: string) => {
           },
         },
       },
-      combos: true,
+
+      combos: {
+        include: {
+          combo: true,
+        },
+      },
+
       payments: true,
     },
-    orderBy: {
-      bookedAt: "desc",
-    },
   });
+
+  if (!booking) {
+    throw new Error("Booking not found");
+  }
 
   return booking;
 };

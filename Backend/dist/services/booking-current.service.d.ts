@@ -1,4 +1,4 @@
-export declare const getCurrentBookingService: (userId: string) => Promise<({
+export declare const getBookingDetailService: (bookingId: string, userId: string) => Promise<{
     showtime: {
         movie: {
             id: string;
@@ -22,6 +22,24 @@ export declare const getCurrentBookingService: (userId: string) => Promise<({
             producer: string | null;
         };
         room: {
+            cinema: {
+                name: string;
+                email: string | null;
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                province: string;
+                district: string;
+                ward: string;
+                slug: string;
+                hotline: string | null;
+                cityId: string;
+                address: string;
+                latitude: number | null;
+                longitude: number | null;
+                openingHours: string | null;
+            };
+        } & {
             id: string;
             createdAt: Date;
             cinemaId: string;
@@ -74,14 +92,25 @@ export declare const getCurrentBookingService: (userId: string) => Promise<({
         checkinStatus: boolean;
         checkedInAt: Date | null;
     })[];
-    combos: {
+    combos: ({
+        combo: {
+            name: string;
+            id: string;
+            isActive: boolean;
+            createdAt: Date;
+            description: string | null;
+            price: number;
+            imageUrl: string | null;
+            stockQuantity: number;
+        };
+    } & {
         id: string;
         bookingId: string;
         quantity: number;
         unitPrice: number;
         totalPrice: number;
         comboId: string;
-    }[];
+    })[];
     payments: {
         id: string;
         createdAt: Date;
@@ -107,5 +136,5 @@ export declare const getCurrentBookingService: (userId: string) => Promise<({
     paymentStatus: import("../generated/prisma/enums").BookingPaymentStatus;
     bookedAt: Date;
     expiresAt: Date | null;
-}) | null>;
+}>;
 //# sourceMappingURL=booking-current.service.d.ts.map

@@ -207,9 +207,18 @@ exports.handleMoMoIPN = handleMoMoIPN;
 const handleMoMoReturn = async (query) => {
     const params = normalizeMoMoParams(query);
     await (0, exports.handleMoMoIPN)(params);
-    return Number(params.resultCode) === MOMO_SUCCESS_CODE
-        ? "success"
-        : "failed";
+    const payment = params.orderId
+        ? await prisma_1.prisma.payment.findUnique({
+            where: { id: String(params.orderId) },
+            select: { bookingId: true },
+        })
+        : null;
+    return {
+        status: Number(params.resultCode) === MOMO_SUCCESS_CODE
+            ? "success"
+            : "failed",
+        bookingId: payment?.bookingId ?? null,
+    };
 };
 exports.handleMoMoReturn = handleMoMoReturn;
 //# sourceMappingURL=momo.service.js.map
