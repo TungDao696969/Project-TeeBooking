@@ -6,10 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadToCloudinary = void 0;
 const streamifier_1 = __importDefault(require("streamifier"));
 const cloudinary_1 = __importDefault(require("./cloudinary"));
-const uploadToCloudinary = (buffer) => {
+const uploadToCloudinary = (buffer, folder = "banners") => {
     return new Promise((resolve, reject) => {
         const stream = cloudinary_1.default.uploader.upload_stream({
-            folder: "banners",
+            folder,
+            resource_type: "image",
         }, (error, result) => {
             if (error || !result) {
                 reject(error);

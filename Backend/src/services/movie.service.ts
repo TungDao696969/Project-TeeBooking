@@ -3,8 +3,16 @@ import { prisma } from "../utils/prisma";
 import { redis } from "../utils/redis";
 import { generateSlug } from "../utils/slug";
 
-const cache_ttl = Number(process.env.CACHE_TTL);
 const CACHE_TTL = 60;
+const cache_ttl = Number(process.env.CACHE_TTL) || CACHE_TTL;
+
+const clearMovieListCache = async () => {
+  const keys = await redis.keys("movies:*");
+
+  if (keys.length > 0) {
+    await redis.del(...keys);
+  }
+};
 
 export const createMovieService = async (data: any) => {
   const slug = generateSlug(data.title);
@@ -18,7 +26,7 @@ export const createMovieService = async (data: any) => {
     },
   });
 
-  await redis.del("movies:list");
+  await clearMovieListCache();
 
   return movie;
 };
@@ -79,21 +87,26 @@ export const getMoviesService = async (
   return result;
 };
 
-// export const getMovieByIdService = async (slug: string) => {
-//   return prisma.movie.findUnique({
-//     where: { slug },
-//     include: {
-//       genres: true,
-//       casts: true,
-//       showtimes: true,
-//       reviews: true,
-//     },
-//   });
-// };
+export const getMovieByIdService = async (id: string) => {
+  return prisma.movie.findUnique({
+    where: { id },
+    include: {
+      genres: true,
+    },
+  });
+};
 
 export const updateMovieService = async (id: string, data: any) => {
   if (data.title) {
     data.slug = generateSlug(data.title);
+  }
+
+  if (data.releaseDate) {
+    data.releaseDate = new Date(data.releaseDate);
+  }
+
+  if (data.endDate) {
+    data.endDate = new Date(data.endDate);
   }
 
   const movie = await prisma.movie.update({
@@ -101,7 +114,7 @@ export const updateMovieService = async (id: string, data: any) => {
     data,
   });
 
-  await redis.flushall();
+  await clearMovieListCache();
 
   return movie;
 };
@@ -111,7 +124,7 @@ export const deleteMovieService = async (id: string) => {
     where: { id },
   });
 
-  await redis.flushall();
+  await clearMovieListCache();
 
   return true;
 };

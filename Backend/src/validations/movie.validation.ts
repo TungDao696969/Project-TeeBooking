@@ -2,25 +2,29 @@ import { z } from "zod";
 
 export const createMovieSchema = z.object({
   title: z.string().min(2).max(255),
+
   originalTitle: z.string().optional(),
+
   description: z.string().min(10),
 
-  durationMinutes: z.number().min(1),
+  durationMinutes: z.coerce.number().min(1),
 
   releaseDate: z.string(),
+
   endDate: z.string().optional(),
 
   ageRating: z.string().optional(),
+
   language: z.string().optional(),
+
   subtitle: z.string().optional(),
 
-  trailerUrl: z.string().url().optional(),
-  posterUrl: z.string().url().optional(),
-  bannerUrl: z.string().url().optional(),
+  trailerUrl: z.string().optional(),
 
   status: z.enum(["coming_soon", "now_showing", "ended"]),
 
   country: z.string().optional(),
+
   producer: z.string().optional(),
 });
 export type CreateMoviesInput = z.infer<typeof createMovieSchema>;
@@ -30,7 +34,7 @@ export const updateMovieSchema = z.object({
   originalTitle: z.string().optional(),
   description: z.string().min(10).optional(),
 
-  durationMinutes: z.number().min(1).optional(),
+  durationMinutes: z.coerce.number().min(1).optional(),
 
   releaseDate: z.string().optional(),
   endDate: z.string().optional(),

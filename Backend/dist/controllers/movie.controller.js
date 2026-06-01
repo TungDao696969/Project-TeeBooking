@@ -33,17 +33,42 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMovieShowtimes = exports.deleteMovie = exports.updateMovie = exports.getMovies = exports.createMovie = void 0;
+exports.getMovieShowtimes = exports.deleteMovie = exports.updateMovie = exports.getMovieById = exports.getMovies = exports.createMovie = void 0;
 const movieService = __importStar(require("../services/movie.service"));
 const movie_validation_1 = require("../validations/movie.validation");
 const errorHandler_1 = require("../utils/errorHandler");
+const upload_cloudinary_1 = require("../configs/upload-cloudinary");
 const createMovie = async (req, res) => {
-    const validateData = movie_validation_1.createMovieSchema.parse(req.body);
-    const movie = await movieService.createMovieService(validateData);
-    return res.status(201).json({
-        success: true,
-        data: movie,
-    });
+    try {
+        const validateData = movie_validation_1.createMovieSchema.parse(req.body);
+        const files = req.files;
+        const poster = files?.poster?.[0];
+        const banner = files?.banner?.[0];
+        const [posterUrl, bannerUrl] = await Promise.all([
+            poster
+                ? (0, upload_cloudinary_1.uploadToCloudinary)(poster.buffer, "booking/movies/posters")
+                : Promise.resolve(undefined),
+            banner
+                ? (0, upload_cloudinary_1.uploadToCloudinary)(banner.buffer, "booking/movies/banners")
+                : Promise.resolve(undefined),
+        ]);
+        const movie = await movieService.createMovieService({
+            ...validateData,
+            posterUrl,
+            bannerUrl,
+        });
+        return res.status(201).json({
+            success: true,
+            data: movie,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to create movie",
+        });
+    }
 };
 exports.createMovie = createMovie;
 const getMovies = async (req, res) => {
@@ -57,45 +82,76 @@ const getMovies = async (req, res) => {
     });
 };
 exports.getMovies = getMovies;
-// export const getMovieById = async (req: Request, res: Response) => {
-//   const { slug } = req.params;
-//   if (!slug || Array.isArray(slug)) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Invaid movie Id",
-//     });
-//   }
-//   const movie = await movieService.getMovieByIdService(slug);
-//   return res.json({
-//     success: true,
-//     data: movie,
-//   });
-// };
-const updateMovie = async (req, res) => {
-    const { movieId } = req.params;
-    if (!movieId || Array.isArray(movieId)) {
+const getMovieById = async (req, res) => {
+    const { id } = req.params;
+    if (!id || Array.isArray(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invaid movie Id",
+            message: "Invalid movie Id",
         });
     }
-    const validateData = movie_validation_1.createMovieSchema.parse(req.body);
-    const movie = await movieService.updateMovieService(movieId, validateData);
+    const movie = await movieService.getMovieByIdService(id);
+    if (!movie) {
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found",
+        });
+    }
     return res.json({
         success: true,
         data: movie,
     });
 };
-exports.updateMovie = updateMovie;
-const deleteMovie = async (req, res) => {
-    const { movieId } = req.params;
-    if (!movieId || Array.isArray(movieId)) {
-        return res.status(400).json({
-            success: false,
-            message: "Invaid movie Id",
+exports.getMovieById = getMovieById;
+const updateMovie = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid movie Id",
+            });
+        }
+        const validateData = movie_validation_1.updateMovieSchema.parse(req.body);
+        const files = req.files;
+        const poster = files?.poster?.[0];
+        const banner = files?.banner?.[0];
+        const [posterUrl, bannerUrl] = await Promise.all([
+            poster
+                ? (0, upload_cloudinary_1.uploadToCloudinary)(poster.buffer, "booking/movies/posters")
+                : Promise.resolve(undefined),
+            banner
+                ? (0, upload_cloudinary_1.uploadToCloudinary)(banner.buffer, "booking/movies/banners")
+                : Promise.resolve(undefined),
+        ]);
+        const movie = await movieService.updateMovieService(id, {
+            ...validateData,
+            ...(posterUrl && { posterUrl }),
+            ...(bannerUrl && { bannerUrl }),
+        });
+        return res.json({
+            success: true,
+            data: movie,
         });
     }
-    await movieService.deleteMovieService(movieId);
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to update movie",
+        });
+    }
+};
+exports.updateMovie = updateMovie;
+const deleteMovie = async (req, res) => {
+    const { id } = req.params;
+    if (!id || Array.isArray(id)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid movie Id",
+        });
+    }
+    await movieService.deleteMovieService(id);
     return res.json({
         success: true,
         message: "Delete success",

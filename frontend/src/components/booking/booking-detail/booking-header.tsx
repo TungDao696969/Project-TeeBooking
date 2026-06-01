@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { Booking } from "@/types/booking-detail";
 
 type Props = {

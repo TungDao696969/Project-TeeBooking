@@ -42,6 +42,7 @@ export interface Movie {
   ageRating: string;
   language: string;
   subtitle: string;
+  endDate: string | null;
   trailerUrl: string;
   posterUrl: string;
   bannerUrl: string;

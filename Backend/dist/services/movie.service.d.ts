@@ -20,6 +20,32 @@ export declare const createMovieService: (data: any) => Promise<{
     producer: string | null;
 }>;
 export declare const getMoviesService: (page?: number, limit?: number, search?: string) => Promise<any>;
+export declare const getMovieByIdService: (id: string) => Promise<({
+    genres: {
+        movieId: string;
+        genreId: string;
+    }[];
+} & {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status: import("../generated/prisma/enums").MovieStatus;
+    title: string;
+    slug: string;
+    originalTitle: string | null;
+    description: string;
+    durationMinutes: number;
+    releaseDate: Date;
+    endDate: Date | null;
+    ageRating: string | null;
+    language: string | null;
+    subtitle: string | null;
+    trailerUrl: string | null;
+    posterUrl: string | null;
+    bannerUrl: string | null;
+    country: string | null;
+    producer: string | null;
+}) | null>;
 export declare const updateMovieService: (id: string, data: any) => Promise<{
     id: string;
     createdAt: Date;

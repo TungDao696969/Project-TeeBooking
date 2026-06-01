@@ -1,16 +1,52 @@
 import { Request, Response } from "express";
 import * as movieService from "../services/movie.service";
-import { success } from "zod";
-import { createMovieSchema } from "../validations/movie.validation";
+import {
+  createMovieSchema,
+  updateMovieSchema,
+} from "../validations/movie.validation";
 import { errorHandler } from "../utils/errorHandler";
-export const createMovie = async (req: Request, res: Response) => {
-  const validateData = createMovieSchema.parse(req.body);
-  const movie = await movieService.createMovieService(validateData);
+import { uploadToCloudinary } from "../configs/upload-cloudinary";
 
-  return res.status(201).json({
-    success: true,
-    data: movie,
-  });
+export const createMovie = async (req: Request, res: Response) => {
+  try {
+    const validateData = createMovieSchema.parse(req.body);
+
+    const files = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+
+    const poster = files?.poster?.[0];
+
+    const banner = files?.banner?.[0];
+
+    const [posterUrl, bannerUrl] = await Promise.all([
+      poster
+        ? uploadToCloudinary(poster.buffer, "booking/movies/posters")
+        : Promise.resolve(undefined),
+      banner
+        ? uploadToCloudinary(banner.buffer, "booking/movies/banners")
+        : Promise.resolve(undefined),
+    ]);
+
+    const movie = await movieService.createMovieService({
+      ...validateData,
+
+      posterUrl,
+
+      bannerUrl,
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: movie,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to create movie",
+    });
+  }
 };
 
 export const getMovies = async (req: Request, res: Response) => {
@@ -26,33 +62,24 @@ export const getMovies = async (req: Request, res: Response) => {
   });
 };
 
-// export const getMovieById = async (req: Request, res: Response) => {
-//   const { slug } = req.params;
-//   if (!slug || Array.isArray(slug)) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Invaid movie Id",
-//     });
-//   }
-//   const movie = await movieService.getMovieByIdService(slug);
+export const getMovieById = async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-//   return res.json({
-//     success: true,
-//     data: movie,
-//   });
-// };
-
-export const updateMovie = async (req: Request, res: Response) => {
-  const { movieId } = req.params;
-  if (!movieId || Array.isArray(movieId)) {
+  if (!id || Array.isArray(id)) {
     return res.status(400).json({
       success: false,
-      message: "Invaid movie Id",
+      message: "Invalid movie Id",
     });
   }
-  const validateData = createMovieSchema.parse(req.body);
 
-  const movie = await movieService.updateMovieService(movieId, validateData);
+  const movie = await movieService.getMovieByIdService(id);
+
+  if (!movie) {
+    return res.status(404).json({
+      success: false,
+      message: "Movie not found",
+    });
+  }
 
   return res.json({
     success: true,
@@ -60,15 +87,68 @@ export const updateMovie = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteMovie = async (req: Request, res: Response) => {
-  const { movieId } = req.params;
-  if (!movieId || Array.isArray(movieId)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invaid movie Id",
+export const updateMovie = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid movie Id",
+      });
+    }
+
+    const validateData = updateMovieSchema.parse(req.body);
+
+    const files = req.files as
+      | {
+          [fieldname: string]: Express.Multer.File[];
+        }
+      | undefined;
+
+    const poster = files?.poster?.[0];
+
+    const banner = files?.banner?.[0];
+
+    const [posterUrl, bannerUrl] = await Promise.all([
+      poster
+        ? uploadToCloudinary(poster.buffer, "booking/movies/posters")
+        : Promise.resolve(undefined),
+      banner
+        ? uploadToCloudinary(banner.buffer, "booking/movies/banners")
+        : Promise.resolve(undefined),
+    ]);
+
+    const movie = await movieService.updateMovieService(id, {
+      ...validateData,
+      ...(posterUrl && { posterUrl }),
+      ...(bannerUrl && { bannerUrl }),
+    });
+
+    return res.json({
+      success: true,
+      data: movie,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to update movie",
     });
   }
-  await movieService.deleteMovieService(movieId);
+};
+
+export const deleteMovie = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!id || Array.isArray(id)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid movie Id",
+    });
+  }
+
+  await movieService.deleteMovieService(id);
 
   return res.json({
     success: true,

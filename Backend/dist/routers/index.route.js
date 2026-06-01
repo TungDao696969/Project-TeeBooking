@@ -112,10 +112,28 @@ router.get("/activityLog/:id", auth_middleware_1.authMiddleware, activityLog_con
 router.delete("/activityLog/:id", auth_middleware_1.authMiddleware, activityLog_controller_1.deleteActivityLogController);
 router.delete("/activityLog/clear/all", auth_middleware_1.authMiddleware, activityLog_controller_1.clearUserActivityLogsController);
 // movie
-router.post("/movie", movie_controller_1.createMovie);
+router.post("/movie", upload_middleware_1.upload.fields([
+    {
+        name: "poster",
+        maxCount: 1,
+    },
+    {
+        name: "banner",
+        maxCount: 1,
+    },
+]), movie_controller_1.createMovie);
 router.get("/movie", movie_controller_1.getMovies);
-// router.get("/movie/:slug", getMovieById);
-router.patch("/movie/:id", movie_controller_1.updateMovie);
+router.get("/movie/:id", movie_controller_1.getMovieById);
+router.patch("/movie/:id", upload_middleware_1.upload.fields([
+    {
+        name: "poster",
+        maxCount: 1,
+    },
+    {
+        name: "banner",
+        maxCount: 1,
+    },
+]), movie_controller_1.updateMovie);
 router.delete("/movie/:id", movie_controller_1.deleteMovie);
 router.get("/movie/:slug/showtimes", (0, validation_middleware_1.validate)(movie_validation_1.getMovieShowtimesSchema), movie_controller_1.getMovieShowtimes);
 // cinema

@@ -3,15 +3,13 @@ export declare const createMovieSchema: z.ZodObject<{
     title: z.ZodString;
     originalTitle: z.ZodOptional<z.ZodString>;
     description: z.ZodString;
-    durationMinutes: z.ZodNumber;
+    durationMinutes: z.ZodCoercedNumber<unknown>;
     releaseDate: z.ZodString;
     endDate: z.ZodOptional<z.ZodString>;
     ageRating: z.ZodOptional<z.ZodString>;
     language: z.ZodOptional<z.ZodString>;
     subtitle: z.ZodOptional<z.ZodString>;
     trailerUrl: z.ZodOptional<z.ZodString>;
-    posterUrl: z.ZodOptional<z.ZodString>;
-    bannerUrl: z.ZodOptional<z.ZodString>;
     status: z.ZodEnum<{
         ended: "ended";
         coming_soon: "coming_soon";
@@ -25,7 +23,7 @@ export declare const updateMovieSchema: z.ZodObject<{
     title: z.ZodOptional<z.ZodString>;
     originalTitle: z.ZodOptional<z.ZodString>;
     description: z.ZodOptional<z.ZodString>;
-    durationMinutes: z.ZodOptional<z.ZodNumber>;
+    durationMinutes: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     releaseDate: z.ZodOptional<z.ZodString>;
     endDate: z.ZodOptional<z.ZodString>;
     ageRating: z.ZodOptional<z.ZodString>;

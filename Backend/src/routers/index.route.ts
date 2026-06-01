@@ -61,6 +61,7 @@ import {
 import {
   createMovie,
   deleteMovie,
+  getMovieById,
   getMovies,
   getMovieShowtimes,
   updateMovie,
@@ -389,13 +390,39 @@ router.delete(
 );
 
 // movie
-router.post("/movie", createMovie);
+router.post(
+  "/movie",
+  upload.fields([
+    {
+      name: "poster",
+      maxCount: 1,
+    },
+    {
+      name: "banner",
+      maxCount: 1,
+    },
+  ]),
+  createMovie,
+);
 
 router.get("/movie", getMovies);
 
-// router.get("/movie/:slug", getMovieById);
+router.get("/movie/:id", getMovieById);
 
-router.patch("/movie/:id", updateMovie);
+router.patch(
+  "/movie/:id",
+  upload.fields([
+    {
+      name: "poster",
+      maxCount: 1,
+    },
+    {
+      name: "banner",
+      maxCount: 1,
+    },
+  ]),
+  updateMovie,
+);
 
 router.delete("/movie/:id", deleteMovie);
 
