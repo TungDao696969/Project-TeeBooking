@@ -24,26 +24,11 @@ export const createCinemaService = async (data: CreateCinemaInput) => {
   return cinema;
 };
 
-export const getCinemaService = async () => {
-  const cached = await redis.get("cinemas:all");
-
-  if (cached) {
-    return JSON.parse(cached);
-  }
-
-  const cinema = await prisma.cinema.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  await redis.set("cinemas:all", JSON.stringify(cinema), "EX", cache_ttl);
-
-  return cinema;
-};
-
-export const getCinemaBySlugService = async (slug: string) => {
-  const cacheKey = `cinema: ${slug}`;
+export const getCinemaService = async (
+  page: number = 1,
+  limit: number = 10,
+) => {
+  const cacheKey = `cinemas:${page}:${limit}`;
 
   const cached = await redis.get(cacheKey);
 
@@ -51,14 +36,61 @@ export const getCinemaBySlugService = async (slug: string) => {
     return JSON.parse(cached);
   }
 
+  const skip = (page - 1) * limit;
+
+  const [cinemas, total] = await Promise.all([
+    prisma.cinema.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.cinema.count(),
+  ]);
+
+  const result = {
+    data: cinemas,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+
+  await redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
+
+  return result;
+};
+
+// export const getCinemaBySlugService = async (slug: string) => {
+//   const cacheKey = `cinema: ${slug}`;
+
+//   const cached = await redis.get(cacheKey);
+
+//   if (cached) {
+//     return JSON.parse(cached);
+//   }
+
+//   const cinema = await prisma.cinema.findUnique({
+//     where: { slug },
+//     include: { rooms: true },
+//   });
+
+//   if (!cinema) throw new Error("Cinema not found");
+
+//   await redis.set(cacheKey, JSON.stringify(cinema), "EX", cache_ttl);
+
+//   return cinema;
+// };
+
+export const getCinemaByIdService = async (id: string) => {
   const cinema = await prisma.cinema.findUnique({
-    where: { slug },
-    include: { rooms: true },
+    where: { id },
   });
 
   if (!cinema) throw new Error("Cinema not found");
-
-  await redis.set(cacheKey, JSON.stringify(cinema), "EX", cache_ttl);
 
   return cinema;
 };

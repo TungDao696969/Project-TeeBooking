@@ -41,27 +41,56 @@ export const createShowtimeService = async (data: CreateShowtimeInput) => {
   return showTime;
 };
 
-export const getAllShowtimesService = async () => {
-  const cacheKey = "showtimes:all";
+export const getAllShowtimesService = async (
+  page: number = 1,
+  limit: number = 10,
+) => {
+  const cacheKey = `showtimes:${page}:${limit}`;
 
   const cached = await redis.get(cacheKey);
-  if (cached) return JSON.parse(cached);
 
-  const showtimes = await prisma.showtime.findMany({
-    include: {
-      movie: true,
-      room: true,
-      seats: true,
-      bookings: true,
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
+  const skip = (page - 1) * limit;
+
+  const [showtimes, total] = await Promise.all([
+    prisma.showtime.findMany({
+      skip,
+      take: limit,
+
+      include: {
+        movie: true,
+        room: true,
+        seats: true,
+        bookings: true,
+      },
+
+      orderBy: {
+        startTime: "asc",
+      },
+    }),
+
+    prisma.showtime.count(),
+  ]);
+
+  const result = {
+    count: showtimes.length,
+
+    data: showtimes,
+
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
     },
-    orderBy: {
-      startTime: "asc",
-    },
-  });
+  };
 
-  await redis.set(cacheKey, JSON.stringify(showtimes), "EX", cache_ttl);
+  await redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
 
-  return showtimes;
+  return result;
 };
 
 export const getShowtimeByIdService = async (id: string) => {

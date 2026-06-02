@@ -8,7 +8,6 @@ import { useMovieStore } from "@/store/admin/movie.store";
 import { useState } from "react";
 
 export default function MoviePage() {
-  // const page = useMovieStore((state) => state.page);
   const [page, setPage] = useState(1);
   const { data, isLoading } = useMovies(page);
 

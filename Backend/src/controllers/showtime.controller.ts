@@ -27,18 +27,20 @@ export const createShowtime = async (req: Request, res: Response) => {
 
 export const getAllShowtimes = async (req: Request, res: Response) => {
   try {
-    const showtimes = await getAllShowtimesService();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await getAllShowtimesService(page, limit);
 
     return res.status(200).json({
       success: true,
-      count: showtimes.length,
-      data: showtimes,
+      ...result,
     });
   } catch (error: any) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch cinema",
+      defaultMessage: "Failed to fetch showtimes",
     });
   }
 };

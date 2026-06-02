@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCinemaShowtimes = exports.deleteCinema = exports.updateCinema = exports.getCinemaBySlug = exports.getAllCinemas = exports.createCinema = void 0;
+exports.getCinemaShowtimes = exports.deleteCinema = exports.updateCinema = exports.getCinemaById = exports.getCinemaBySlug = exports.getAllCinemas = exports.createCinema = void 0;
 const cinemaService = __importStar(require("../services/cinema.service"));
 const errorHandler_1 = require("../utils/errorHandler");
 const createCinema = async (req, res, next) => {
@@ -95,16 +95,40 @@ const getCinemaBySlug = async (req, res, next) => {
     }
 };
 exports.getCinemaBySlug = getCinemaBySlug;
-const updateCinema = async (req, res, next) => {
+const getCinemaById = async (req, res, next) => {
     try {
-        const { cinemaId } = req.params;
-        if (!cinemaId || Array.isArray(cinemaId)) {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
             return res.status(400).json({
                 success: false,
                 message: "Invaid cinema Id",
             });
         }
-        const cinema = await cinemaService.updateCinemaService(cinemaId, req.body);
+        const cinema = await cinemaService.getCinemaByIdService(id);
+        res.status(200).json({
+            success: true,
+            data: cinema,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch cinema",
+        });
+    }
+};
+exports.getCinemaById = getCinemaById;
+const updateCinema = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invaid cinema Id",
+            });
+        }
+        const cinema = await cinemaService.updateCinemaService(id, req.body);
         res.status(200).json({
             success: true,
             message: "Cinema updated successfully",
@@ -122,14 +146,14 @@ const updateCinema = async (req, res, next) => {
 exports.updateCinema = updateCinema;
 const deleteCinema = async (req, res, next) => {
     try {
-        const { cinemaId } = req.params;
-        if (!cinemaId || Array.isArray(cinemaId)) {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
             return res.status(400).json({
                 success: false,
                 message: "Invaid cinema Id",
             });
         }
-        await cinemaService.deleteCinemaService(cinemaId);
+        await cinemaService.deleteCinemaService(id);
         res.status(200).json({
             success: true,
             message: "Cinema deleted successfully",

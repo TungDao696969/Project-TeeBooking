@@ -2,11 +2,17 @@ export interface Cinema {
   id: string;
   name: string;
   slug: string;
-}
-
-export interface CinemaResponse {
-  success: boolean;
-  data: Cinema[];
+  hotline: string;
+  cityId: string;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  openingHours: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Room {
@@ -29,14 +35,32 @@ export interface CinemaDetail {
   address: string;
   openingHours: string;
   rooms: Room[];
+  createdAt: string;
+  latitude: string;
+  longitude: string;
 }
 
+export interface CinemaPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+/* LIST RESPONSE */
 export interface CinemasResponse {
+  success: boolean;
+  data: Cinema[];
+  pagination: CinemaPagination;
+}
+
+/* DETAIL RESPONSE */
+export interface CinemaDetailResponse {
   success: boolean;
   data: CinemaDetail;
 }
 
-export interface ShowtimeItem {
+export interface ShowtimeSummary {
   id: string;
   time: string;
   endTime: string;
@@ -46,7 +70,7 @@ export interface ShowtimeItem {
 
 export interface FormatGroup {
   type: string;
-  showtimes: ShowtimeItem[];
+  showtimes: ShowtimeSummary[];
 }
 
 export interface DateGroup {
@@ -54,20 +78,18 @@ export interface DateGroup {
   formats: FormatGroup[];
 }
 
-export interface Movie {
-  id: string;
-  title: string;
-  slug: string;
-  posterUrl: string;
-  durationMinutes: number;
-  ageRating: string;
-  status: string;
-  country: string;
-  genres: string[];
-}
-
 export interface CinemaMovie {
-  movie: Movie;
+  movie: {
+    id: string;
+    title: string;
+    slug: string;
+    posterUrl: string;
+    durationMinutes: number;
+    ageRating: string;
+    status: "now_showing" | "coming_soon" | "ended" | string;
+    country: string;
+    genres: string[];
+  };
   dates: DateGroup[];
 }
 

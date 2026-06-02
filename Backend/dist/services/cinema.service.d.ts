@@ -18,6 +18,23 @@ export declare const createCinemaService: (data: CreateCinemaInput) => Promise<{
 }>;
 export declare const getCinemaService: () => Promise<any>;
 export declare const getCinemaBySlugService: (slug: string) => Promise<any>;
+export declare const getCinemaByIdService: (id: string) => Promise<{
+    name: string;
+    email: string | null;
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    province: string;
+    district: string;
+    ward: string;
+    slug: string;
+    hotline: string | null;
+    cityId: string;
+    address: string;
+    latitude: number | null;
+    longitude: number | null;
+    openingHours: string | null;
+}>;
 export declare const updateCinemaService: (id: string, data: UpdateCinemaInput) => Promise<{
     name: string;
     email: string | null;

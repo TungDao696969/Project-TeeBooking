@@ -1,20 +1,20 @@
 import api from "@/lib/axios";
 import {
   CinemaDetail,
+  CinemaDetailResponse,
   CinemaMovie,
-  CinemaResponse,
   CinemaShowtimeResponse,
   CinemasResponse,
 } from "@/types/cinema.type";
 import { Cinema } from "@/types/cinema.type";
 export const getCinemas = async (): Promise<Cinema[]> => {
-  const response = await api.get<CinemaResponse>("/cinema");
+  const response = await api.get<CinemasResponse>("/cinema");
 
   return response.data.data;
 };
 
 export const getCinemaDetail = async (slug: string): Promise<CinemaDetail> => {
-  const response = await api.get<CinemasResponse>(`/cinema/${slug}`);
+  const response = await api.get<CinemaDetailResponse>(`/cinema/${slug}`);
 
   return response.data.data;
 };

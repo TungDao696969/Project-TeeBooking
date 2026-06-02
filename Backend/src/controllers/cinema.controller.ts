@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as cinemaService from "../services/cinema.service";
 import { getCinemaService } from "../services/cinema.service";
-import { success } from "zod";
 import { errorHandler } from "../utils/errorHandler";
-import { sl } from "zod/locales";
 export const createCinema = async (
   req: Request,
   res: Response,
@@ -27,16 +25,19 @@ export const createCinema = async (
 };
 
 export const getAllCinemas = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const cinemas = await cinemaService.getCinemaService();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const cinemas = await cinemaService.getCinemaService(page, limit);
 
     res.status(200).json({
       success: true,
-      data: cinemas,
+      ...cinemas,
     });
   } catch (error) {
     errorHandler({
@@ -47,20 +48,48 @@ export const getAllCinemas = async (
   }
 };
 
-export const getCinemaBySlug = async (
+// export const getCinemaBySlug = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction,
+// ) => {
+//   try {
+//     const { slug } = req.params;
+//     if (!slug || Array.isArray(slug)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invaid cinema Id",
+//       });
+//     }
+//     const cinema = await cinemaService.getCinemaBySlugService(slug);
+
+//     res.status(200).json({
+//       success: true,
+//       data: cinema,
+//     });
+//   } catch (error) {
+//     errorHandler({
+//       error,
+//       res,
+//       defaultMessage: "Failed to fetch cinema",
+//     });
+//   }
+// };
+
+export const getCinemaById = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const { slug } = req.params;
-    if (!slug || Array.isArray(slug)) {
+    const { id } = req.params;
+    if (!id || Array.isArray(id)) {
       return res.status(400).json({
         success: false,
         message: "Invaid cinema Id",
       });
     }
-    const cinema = await cinemaService.getCinemaBySlugService(slug);
+    const cinema = await cinemaService.getCinemaByIdService(id);
 
     res.status(200).json({
       success: true,
@@ -81,14 +110,14 @@ export const updateCinema = async (
   next: NextFunction,
 ) => {
   try {
-    const { cinemaId } = req.params;
-    if (!cinemaId || Array.isArray(cinemaId)) {
+    const { id } = req.params;
+    if (!id || Array.isArray(id)) {
       return res.status(400).json({
         success: false,
         message: "Invaid cinema Id",
       });
     }
-    const cinema = await cinemaService.updateCinemaService(cinemaId, req.body);
+    const cinema = await cinemaService.updateCinemaService(id, req.body);
 
     res.status(200).json({
       success: true,
@@ -110,16 +139,16 @@ export const deleteCinema = async (
   next: NextFunction,
 ) => {
   try {
-    const { cinemaId } = req.params;
+    const { id } = req.params;
 
-    if (!cinemaId || Array.isArray(cinemaId)) {
+    if (!id || Array.isArray(id)) {
       return res.status(400).json({
         success: false,
         message: "Invaid cinema Id",
       });
     }
 
-    await cinemaService.deleteCinemaService(cinemaId);
+    await cinemaService.deleteCinemaService(id);
 
     res.status(200).json({
       success: true,

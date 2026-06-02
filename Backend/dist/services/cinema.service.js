@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCinemaShowtimesService = exports.deleteCinemaService = exports.updateCinemaService = exports.getCinemaBySlugService = exports.getCinemaService = exports.createCinemaService = void 0;
+exports.getCinemaShowtimesService = exports.deleteCinemaService = exports.updateCinemaService = exports.getCinemaByIdService = exports.getCinemaBySlugService = exports.getCinemaService = exports.createCinemaService = void 0;
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
 const slug_1 = require("../utils/slug");
@@ -51,6 +51,15 @@ const getCinemaBySlugService = async (slug) => {
     return cinema;
 };
 exports.getCinemaBySlugService = getCinemaBySlugService;
+const getCinemaByIdService = async (id) => {
+    const cinema = await prisma_1.prisma.cinema.findUnique({
+        where: { id },
+    });
+    if (!cinema)
+        throw new Error("Cinema not found");
+    return cinema;
+};
+exports.getCinemaByIdService = getCinemaByIdService;
 const updateCinemaService = async (id, data) => {
     const updatedData = { ...data };
     if (data.name) {

@@ -70,7 +70,7 @@ import {
   createCinema,
   deleteCinema,
   getAllCinemas,
-  getCinemaBySlug,
+  getCinemaById,
   getCinemaShowtimes,
   updateCinema,
 } from "../controllers/cinema.controller";
@@ -440,7 +440,8 @@ router.post(
   createCinema,
 );
 router.get("/cinema", getAllCinemas);
-router.get("/cinema/:slug", getCinemaBySlug);
+router.get("/cinema/:id", getCinemaById);
+// router.get("/cinema/:slug", getCinemaBySlug);
 router.put(
   "/cinema/:id",
   authMiddleware,

@@ -139,6 +139,7 @@ router.get("/movie/:slug/showtimes", (0, validation_middleware_1.validate)(movie
 // cinema
 router.post("/cinema", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(cinema_schema_1.createCinemaSchema), cinema_controller_1.createCinema);
 router.get("/cinema", cinema_controller_1.getAllCinemas);
+router.get("/cinema/detail/:id", cinema_controller_1.getCinemaById);
 router.get("/cinema/:slug", cinema_controller_1.getCinemaBySlug);
 router.put("/cinema/:id", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(cinema_schema_1.updateCinemaSchema), cinema_controller_1.updateCinema);
 router.delete("/cinema/:id", auth_middleware_1.authMiddleware, cinema_controller_1.deleteCinema);
