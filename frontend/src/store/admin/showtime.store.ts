@@ -1,18 +1,18 @@
 import { create } from "zustand";
 
 interface ShowtimeStore {
-  page: number;
-  limit: number;
+  movieId: string;
+  roomId: string;
 
-  setPage: (page: number) => void;
+  setMovieId: (id: string) => void;
+  setRoomId: (id: string) => void;
 }
 
 export const useShowtimeStore = create<ShowtimeStore>((set) => ({
-  page: 1,
-  limit: 10,
+  movieId: "",
+  roomId: "",
 
-  setPage: (page) =>
-    set({
-      page,
-    }),
+  setMovieId: (movieId) => set({ movieId }),
+
+  setRoomId: (roomId) => set({ roomId }),
 }));

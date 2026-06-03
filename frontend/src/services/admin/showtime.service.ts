@@ -1,34 +1,41 @@
-import axiosClient from "@/lib/axios";
 import { ShowtimePayload, ShowtimeResponse } from "@/types/admin/showtime.type";
+import api from "@/lib/axios";
 
-export const showtimeService = {
-  getAll: async (page = 1, limit = 10): Promise<ShowtimeResponse> => {
-    const res = await axiosClient.get(`/showtime?page=${page}&limit=${limit}`);
+export const getAllShowtime = async (
+  page = 1,
+  limit = 10,
+): Promise<ShowtimeResponse> => {
+  const res = await api.get(`/showtime?page=${page}&limit=${limit}`);
 
-    return res.data;
-  },
+  return res.data;
+};
 
-  getById: async (id: string) => {
-    const res = await axiosClient.get(`/showtime/${id}`);
+export const createShowtime = async (payload: ShowtimePayload) => {
+  const res = await api.post("/showtime", payload);
 
-    return res.data;
-  },
+  return res.data;
+};
 
-  create: async (payload: ShowtimePayload) => {
-    const res = await axiosClient.post("/showtime", payload);
+export const getShowtimeByIdApi = async (id: string) => {
+  const { data } = await api.get(`/showtime/${id}`);
 
-    return res.data;
-  },
+  return data.data;
+};
 
-  update: async (id: string, payload: ShowtimePayload) => {
-    const res = await axiosClient.put(`/showtime/${id}`, payload);
+export const updateShowtimeApi = async ({
+  id,
+  payload,
+}: {
+  id: string;
+  payload: ShowtimePayload;
+}) => {
+  const { data } = await api.put(`/showtime/${id}`, payload);
 
-    return res.data;
-  },
+  return data;
+};
 
-  delete: async (id: string) => {
-    const res = await axiosClient.delete(`/showtime/${id}`);
+export const deleteShowtimeApi = async (id: string) => {
+  const { data } = await api.delete(`/showtime/${id}`);
 
-    return res.data;
-  },
+  return data;
 };

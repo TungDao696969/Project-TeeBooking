@@ -14,6 +14,7 @@ import { Eye, Pencil, Trash2, Plus, Search, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Showtime } from "@/types/admin/showtime.type";
+import DeleteShowtimeButton from "./delete-showtime-dialog";
 
 interface Pagination {
   page: number;
@@ -144,6 +145,19 @@ export default function ShowtimeTable({
 
               <TableCell>
                 <div className=" gap-2">
+                  <Link href={`/admin/showtime/${showtime.id}`}>
+                    <Button
+                      size="sm"
+                      className="
+                  bg-yellow-600
+                  text-white
+                  hover:bg-red-700
+                "
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  </Link>
+
                   <Link href={`/admin/showtime/${showtime.id}/edit`}>
                     <Button
                       size="sm"
@@ -156,20 +170,11 @@ export default function ShowtimeTable({
                     hover:text-white
                   "
                     >
-                      Edit
+                      <Pencil className="h-4 w-4" />
                     </Button>
                   </Link>
 
-                  <Button
-                    size="sm"
-                    className="
-                  bg-red-600
-                  text-white
-                  hover:bg-red-700
-                "
-                  >
-                    Delete
-                  </Button>
+                  <DeleteShowtimeButton id={showtime.id} />
                 </div>
               </TableCell>
             </TableRow>

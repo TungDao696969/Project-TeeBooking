@@ -70,6 +70,10 @@ export const errorHandler = ({
       statusCode = 400;
       break;
 
+    case "Cannot delete showtime with existing bookings":
+      statusCode = 409;
+      break;
+
     default:
       statusCode = 400;
       break;

@@ -8,6 +8,8 @@ import {
   getShowtimeTicketTypesService,
 } from "../services/showtime.service";
 import { errorHandler } from "../utils/errorHandler";
+
+
 export const createShowtime = async (req: Request, res: Response) => {
   try {
     const showtime = await createShowtimeService(req.body);

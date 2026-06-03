@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-import { showtimeService } from "@/services/admin/showtime.service";
-
 import { useShowtimes } from "@/hooks/admin/showtime/use-showtimes";
 import ShowtimeTable from "@/components/admin/showtime/showtime-table";
 

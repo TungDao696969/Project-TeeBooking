@@ -140,15 +140,32 @@ export const updateShowtimeService = async (
 export const deleteShowtimeService = async (id: string) => {
   const existing = await prisma.showtime.findUnique({
     where: { id },
+    include: {
+      bookings: {
+        select: { id: true },
+      },
+    },
   });
 
   if (!existing) {
     throw new Error("Showtime not found");
   }
 
-  await prisma.showtime.delete({
-    where: { id },
-  });
+  if (existing.bookings.length > 0) {
+    throw new Error("Cannot delete showtime with existing bookings");
+  }
+
+  await prisma.$transaction([
+    prisma.showtimeTicketType.deleteMany({
+      where: { showtimeId: id },
+    }),
+    prisma.showtimeSeat.deleteMany({
+      where: { showtimeId: id },
+    }),
+    prisma.showtime.delete({
+      where: { id },
+    }),
+  ]);
 
   await redis.del("showtimes:all");
   await redis.del(`showtimes:${existing.roomId}`);
