@@ -457,10 +457,16 @@ router.post(
   createCinemaRoom,
 );
 
+router.get("/cinema-rooms", getAllCinemaRooms);
+
 router.get("/cinema-rooms/detail/:id", getCinemaRoomById);
 
 router.get("/cinema-rooms/:cinemaId", getAllCinemaRooms);
-
+router.post(
+  "/cinema-rooms",
+  validate(createCinemaRoomSchema),
+  createCinemaRoom,
+);
 router.put(
   "/cinema-rooms/:id",
   validate(updateCinemaRoomSchema),

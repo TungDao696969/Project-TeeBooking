@@ -2957,6 +2957,8 @@ export const CinemaRoomScalarFieldEnum = {
   totalSeats: 'totalSeats',
   screenType: 'screenType',
   soundSystem: 'soundSystem',
+  isActive: 'isActive',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt'
 } as const
 

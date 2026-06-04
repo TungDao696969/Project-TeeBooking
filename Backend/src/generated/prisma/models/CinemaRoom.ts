@@ -42,6 +42,8 @@ export type CinemaRoomMinAggregateOutputType = {
   totalSeats: number | null
   screenType: string | null
   soundSystem: string | null
+  isActive: boolean | null
+  deletedAt: Date | null
   createdAt: Date | null
 }
 
@@ -53,6 +55,8 @@ export type CinemaRoomMaxAggregateOutputType = {
   totalSeats: number | null
   screenType: string | null
   soundSystem: string | null
+  isActive: boolean | null
+  deletedAt: Date | null
   createdAt: Date | null
 }
 
@@ -64,6 +68,8 @@ export type CinemaRoomCountAggregateOutputType = {
   totalSeats: number
   screenType: number
   soundSystem: number
+  isActive: number
+  deletedAt: number
   createdAt: number
   _all: number
 }
@@ -85,6 +91,8 @@ export type CinemaRoomMinAggregateInputType = {
   totalSeats?: true
   screenType?: true
   soundSystem?: true
+  isActive?: true
+  deletedAt?: true
   createdAt?: true
 }
 
@@ -96,6 +104,8 @@ export type CinemaRoomMaxAggregateInputType = {
   totalSeats?: true
   screenType?: true
   soundSystem?: true
+  isActive?: true
+  deletedAt?: true
   createdAt?: true
 }
 
@@ -107,6 +117,8 @@ export type CinemaRoomCountAggregateInputType = {
   totalSeats?: true
   screenType?: true
   soundSystem?: true
+  isActive?: true
+  deletedAt?: true
   createdAt?: true
   _all?: true
 }
@@ -205,6 +217,8 @@ export type CinemaRoomGroupByOutputType = {
   totalSeats: number
   screenType: string | null
   soundSystem: string | null
+  isActive: boolean
+  deletedAt: Date | null
   createdAt: Date
   _count: CinemaRoomCountAggregateOutputType | null
   _avg: CinemaRoomAvgAggregateOutputType | null
@@ -239,6 +253,8 @@ export type CinemaRoomWhereInput = {
   totalSeats?: Prisma.IntFilter<"CinemaRoom"> | number
   screenType?: Prisma.StringNullableFilter<"CinemaRoom"> | string | null
   soundSystem?: Prisma.StringNullableFilter<"CinemaRoom"> | string | null
+  isActive?: Prisma.BoolFilter<"CinemaRoom"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"CinemaRoom"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CinemaRoom"> | Date | string
   cinema?: Prisma.XOR<Prisma.CinemaScalarRelationFilter, Prisma.CinemaWhereInput>
   seats?: Prisma.SeatListRelationFilter
@@ -253,6 +269,8 @@ export type CinemaRoomOrderByWithRelationInput = {
   totalSeats?: Prisma.SortOrder
   screenType?: Prisma.SortOrderInput | Prisma.SortOrder
   soundSystem?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   cinema?: Prisma.CinemaOrderByWithRelationInput
   seats?: Prisma.SeatOrderByRelationAggregateInput
@@ -270,6 +288,8 @@ export type CinemaRoomWhereUniqueInput = Prisma.AtLeast<{
   totalSeats?: Prisma.IntFilter<"CinemaRoom"> | number
   screenType?: Prisma.StringNullableFilter<"CinemaRoom"> | string | null
   soundSystem?: Prisma.StringNullableFilter<"CinemaRoom"> | string | null
+  isActive?: Prisma.BoolFilter<"CinemaRoom"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"CinemaRoom"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CinemaRoom"> | Date | string
   cinema?: Prisma.XOR<Prisma.CinemaScalarRelationFilter, Prisma.CinemaWhereInput>
   seats?: Prisma.SeatListRelationFilter
@@ -284,6 +304,8 @@ export type CinemaRoomOrderByWithAggregationInput = {
   totalSeats?: Prisma.SortOrder
   screenType?: Prisma.SortOrderInput | Prisma.SortOrder
   soundSystem?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CinemaRoomCountOrderByAggregateInput
   _avg?: Prisma.CinemaRoomAvgOrderByAggregateInput
@@ -303,6 +325,8 @@ export type CinemaRoomScalarWhereWithAggregatesInput = {
   totalSeats?: Prisma.IntWithAggregatesFilter<"CinemaRoom"> | number
   screenType?: Prisma.StringNullableWithAggregatesFilter<"CinemaRoom"> | string | null
   soundSystem?: Prisma.StringNullableWithAggregatesFilter<"CinemaRoom"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"CinemaRoom"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CinemaRoom"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CinemaRoom"> | Date | string
 }
 
@@ -313,6 +337,8 @@ export type CinemaRoomCreateInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
   seats?: Prisma.SeatCreateNestedManyWithoutRoomInput
@@ -327,6 +353,8 @@ export type CinemaRoomUncheckedCreateInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   seats?: Prisma.SeatUncheckedCreateNestedManyWithoutRoomInput
   showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutRoomInput
@@ -339,6 +367,8 @@ export type CinemaRoomUpdateInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
   seats?: Prisma.SeatUpdateManyWithoutRoomNestedInput
@@ -353,6 +383,8 @@ export type CinemaRoomUncheckedUpdateInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seats?: Prisma.SeatUncheckedUpdateManyWithoutRoomNestedInput
   showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutRoomNestedInput
@@ -366,6 +398,8 @@ export type CinemaRoomCreateManyInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -376,6 +410,8 @@ export type CinemaRoomUpdateManyMutationInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -387,6 +423,8 @@ export type CinemaRoomUncheckedUpdateManyInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -408,6 +446,8 @@ export type CinemaRoomCountOrderByAggregateInput = {
   totalSeats?: Prisma.SortOrder
   screenType?: Prisma.SortOrder
   soundSystem?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -423,6 +463,8 @@ export type CinemaRoomMaxOrderByAggregateInput = {
   totalSeats?: Prisma.SortOrder
   screenType?: Prisma.SortOrder
   soundSystem?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -434,6 +476,8 @@ export type CinemaRoomMinOrderByAggregateInput = {
   totalSeats?: Prisma.SortOrder
   screenType?: Prisma.SortOrder
   soundSystem?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -523,6 +567,8 @@ export type CinemaRoomCreateWithoutCinemaInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   seats?: Prisma.SeatCreateNestedManyWithoutRoomInput
   showtimes?: Prisma.ShowtimeCreateNestedManyWithoutRoomInput
@@ -535,6 +581,8 @@ export type CinemaRoomUncheckedCreateWithoutCinemaInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   seats?: Prisma.SeatUncheckedCreateNestedManyWithoutRoomInput
   showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutRoomInput
@@ -577,6 +625,8 @@ export type CinemaRoomScalarWhereInput = {
   totalSeats?: Prisma.IntFilter<"CinemaRoom"> | number
   screenType?: Prisma.StringNullableFilter<"CinemaRoom"> | string | null
   soundSystem?: Prisma.StringNullableFilter<"CinemaRoom"> | string | null
+  isActive?: Prisma.BoolFilter<"CinemaRoom"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"CinemaRoom"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CinemaRoom"> | Date | string
 }
 
@@ -587,6 +637,8 @@ export type CinemaRoomCreateWithoutSeatsInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
   showtimes?: Prisma.ShowtimeCreateNestedManyWithoutRoomInput
@@ -600,6 +652,8 @@ export type CinemaRoomUncheckedCreateWithoutSeatsInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutRoomInput
 }
@@ -627,6 +681,8 @@ export type CinemaRoomUpdateWithoutSeatsInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
   showtimes?: Prisma.ShowtimeUpdateManyWithoutRoomNestedInput
@@ -640,6 +696,8 @@ export type CinemaRoomUncheckedUpdateWithoutSeatsInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutRoomNestedInput
 }
@@ -651,6 +709,8 @@ export type CinemaRoomCreateWithoutShowtimesInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
   seats?: Prisma.SeatCreateNestedManyWithoutRoomInput
@@ -664,6 +724,8 @@ export type CinemaRoomUncheckedCreateWithoutShowtimesInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   seats?: Prisma.SeatUncheckedCreateNestedManyWithoutRoomInput
 }
@@ -691,6 +753,8 @@ export type CinemaRoomUpdateWithoutShowtimesInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
   seats?: Prisma.SeatUpdateManyWithoutRoomNestedInput
@@ -704,6 +768,8 @@ export type CinemaRoomUncheckedUpdateWithoutShowtimesInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seats?: Prisma.SeatUncheckedUpdateManyWithoutRoomNestedInput
 }
@@ -715,6 +781,8 @@ export type CinemaRoomCreateManyCinemaInput = {
   totalSeats: number
   screenType?: string | null
   soundSystem?: string | null
+  isActive?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -725,6 +793,8 @@ export type CinemaRoomUpdateWithoutCinemaInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seats?: Prisma.SeatUpdateManyWithoutRoomNestedInput
   showtimes?: Prisma.ShowtimeUpdateManyWithoutRoomNestedInput
@@ -737,6 +807,8 @@ export type CinemaRoomUncheckedUpdateWithoutCinemaInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seats?: Prisma.SeatUncheckedUpdateManyWithoutRoomNestedInput
   showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutRoomNestedInput
@@ -749,6 +821,8 @@ export type CinemaRoomUncheckedUpdateManyWithoutCinemaInput = {
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   screenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soundSystem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -800,6 +874,8 @@ export type CinemaRoomSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   totalSeats?: boolean
   screenType?: boolean
   soundSystem?: boolean
+  isActive?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
   seats?: boolean | Prisma.CinemaRoom$seatsArgs<ExtArgs>
@@ -815,6 +891,8 @@ export type CinemaRoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   totalSeats?: boolean
   screenType?: boolean
   soundSystem?: boolean
+  isActive?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cinemaRoom"]>
@@ -827,6 +905,8 @@ export type CinemaRoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   totalSeats?: boolean
   screenType?: boolean
   soundSystem?: boolean
+  isActive?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cinemaRoom"]>
@@ -839,10 +919,12 @@ export type CinemaRoomSelectScalar = {
   totalSeats?: boolean
   screenType?: boolean
   soundSystem?: boolean
+  isActive?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
 }
 
-export type CinemaRoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cinemaId" | "roomName" | "roomType" | "totalSeats" | "screenType" | "soundSystem" | "createdAt", ExtArgs["result"]["cinemaRoom"]>
+export type CinemaRoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cinemaId" | "roomName" | "roomType" | "totalSeats" | "screenType" | "soundSystem" | "isActive" | "deletedAt" | "createdAt", ExtArgs["result"]["cinemaRoom"]>
 export type CinemaRoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
   seats?: boolean | Prisma.CinemaRoom$seatsArgs<ExtArgs>
@@ -871,6 +953,8 @@ export type $CinemaRoomPayload<ExtArgs extends runtime.Types.Extensions.Internal
     totalSeats: number
     screenType: string | null
     soundSystem: string | null
+    isActive: boolean
+    deletedAt: Date | null
     createdAt: Date
   }, ExtArgs["result"]["cinemaRoom"]>
   composites: {}
@@ -1305,6 +1389,8 @@ export interface CinemaRoomFieldRefs {
   readonly totalSeats: Prisma.FieldRef<"CinemaRoom", 'Int'>
   readonly screenType: Prisma.FieldRef<"CinemaRoom", 'String'>
   readonly soundSystem: Prisma.FieldRef<"CinemaRoom", 'String'>
+  readonly isActive: Prisma.FieldRef<"CinemaRoom", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"CinemaRoom", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"CinemaRoom", 'DateTime'>
 }
     

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createCinemaRoomService,
   getCinemaRoomService,
+  getAllCinemaRoomsService,
   getCinemaRoomByIdService,
   updateCinemaRoomService,
   deleteCinemaRoomService,
@@ -30,24 +31,30 @@ export const getAllCinemaRooms = async (req: Request, res: Response) => {
   try {
     const { cinemaId } = req.params;
 
-    if (!cinemaId || Array.isArray(cinemaId)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid cinema ID",
+    if (cinemaId && !Array.isArray(cinemaId)) {
+      const room = await getCinemaRoomService(cinemaId);
+
+      return res.status(200).json({
+        success: true,
+        data: room,
       });
     }
 
-    const rooms = await getCinemaRoomService(cinemaId);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await getAllCinemaRoomsService(page, limit);
 
     return res.status(200).json({
       success: true,
-      data: rooms,
+      data: result.data,
+      pagination: result.pagination,
     });
   } catch (error: any) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch cinema",
+      defaultMessage: "Failed to fetch rooms",
     });
   }
 };

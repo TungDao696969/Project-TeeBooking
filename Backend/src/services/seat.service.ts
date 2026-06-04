@@ -19,6 +19,10 @@ export const createSeatService = async (data: CreateSeatInput) => {
     throw new Error("Cinema room not found");
   }
 
+  if (!room.isActive) {
+    throw new Error("Cinema room is disabled");
+  }
+
   const existingSeat = await prisma.seat.findFirst({
     where: {
       roomId: data.roomId,
@@ -59,6 +63,10 @@ export const generateSeatService = async (
     throw new Error("Cinema room not found");
   }
 
+  if (!room.isActive) {
+    throw new Error("Cinema room is disabled");
+  }
+
   const seatData: any[] = [];
 
   for (const row of rows) {
@@ -85,29 +93,39 @@ export const generateSeatService = async (
   return seatData;
 };
 
-export const getAllSeatsService = async () => {
-  const cacheKey = "seats:all";
+export const getAllSeatsService = async (
+  page: number = 1,
+  limit: number = 10,
+) => {
+  const skip = (page - 1) * limit;
 
-  const cached = await redis.get(cacheKey);
-  if (cached) {
-    return JSON.parse(cached);
-  }
-
-  const seats = await prisma.seat.findMany({
-    include: {
-      room: {
-        include: {
-          cinema: true,
+  const [seats, total] = await Promise.all([
+    prisma.seat.findMany({
+      include: {
+        room: {
+          include: {
+            cinema: true,
+          },
         },
+        showtimeSeats: true,
       },
-      showtimeSeats: true,
+      orderBy: [{ seatRow: "asc" }, { seatNumber: "asc" }],
+      skip,
+      take: limit,
+    }),
+
+    prisma.seat.count(),
+  ]);
+
+  return {
+    seats,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
     },
-    orderBy: [{ seatRow: "asc" }, { seatNumber: "asc" }],
-  });
-
-  await redis.set(cacheKey, JSON.stringify(seats), "EX", cache_ttl);
-
-  return seats;
+  };
 };
 
 export const getSeatsByRoomService = async (roomId: string) => {

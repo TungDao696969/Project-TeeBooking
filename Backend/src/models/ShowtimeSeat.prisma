@@ -7,7 +7,7 @@ model ShowtimeSeat {
   lockedUntil DateTime?
 
   showtime Showtime        @relation(fields: [showtimeId], references: [id])
-  seat     Seat            @relation(fields: [seatId], references: [id])
+  seat     Seat            @relation(fields: [seatId], references: [id], onDelete: Cascade)
   tickets  BookingTicket[]
 
   @@map("showtime_seats")

@@ -54,20 +54,23 @@ export const generateSeats = async (req: Request, res: Response) => {
 };
 
 // GET ALL
-export const getAllSeats = async (_req: Request, res: Response) => {
+export const getAllSeats = async (req: Request, res: Response) => {
   try {
-    const seats = await getAllSeatsService();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await getAllSeatsService(page, limit);
 
     return res.status(200).json({
       success: true,
-      count: seats.length,
-      data: seats,
+      data: result.seats,
+      pagination: result.pagination,
     });
   } catch (error: any) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch notifications",
+      defaultMessage: "Failed to fetch seats",
     });
   }
 };

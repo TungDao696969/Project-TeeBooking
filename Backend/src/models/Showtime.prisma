@@ -13,7 +13,7 @@ model Showtime {
   createdAt DateTime @default(now())
 
   movie               Movie                @relation(fields: [movieId], references: [id])
-  room                CinemaRoom           @relation(fields: [roomId], references: [id])
+  room                CinemaRoom           @relation(fields: [roomId], references: [id], onDelete: Cascade)
   seats               ShowtimeSeat[]
   bookings            Booking[]
   showtimeTicketTypes ShowtimeTicketType[]

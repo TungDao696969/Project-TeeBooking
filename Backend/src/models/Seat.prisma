@@ -8,7 +8,7 @@ model Seat {
   extraPrice Float    @default(0)
   createdAt  DateTime @default(now())
 
-  room          CinemaRoom     @relation(fields: [roomId], references: [id])
+  room          CinemaRoom     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   showtimeSeats ShowtimeSeat[]
 
   @@map("seats")

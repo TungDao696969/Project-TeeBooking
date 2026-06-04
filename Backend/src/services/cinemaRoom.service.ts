@@ -36,7 +36,7 @@ export const getCinemaRoomService = async (cinemaId: string) => {
   }
 
   const rooms = await prisma.cinemaRoom.findMany({
-    where: { cinemaId },
+    where: { cinemaId, isActive: true },
     include: {
       seats: true,
       showtimes: true,
@@ -48,6 +48,39 @@ export const getCinemaRoomService = async (cinemaId: string) => {
 
   await redis.set(cacheKey, JSON.stringify(rooms), "EX", cache_ttl);
   return rooms;
+};
+
+export const getAllCinemaRoomsService = async (
+  page: number = 1,
+  limit: number = 10,
+) => {
+  const skip = (page - 1) * limit;
+
+  const [rooms, total] = await Promise.all([
+    prisma.cinemaRoom.findMany({
+      include: {
+        seats: true,
+        showtimes: true,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+      skip,
+      take: limit,
+    }),
+
+    prisma.cinemaRoom.count(),
+  ]);
+
+  return {
+    data: rooms,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 export const getCinemaRoomByIdService = async (id: string) => {
@@ -83,8 +116,24 @@ export const updateCinemaRoomService = async (
 };
 
 export const deleteCinemaRoomService = async (id: string) => {
-  const room = await prisma.cinemaRoom.delete({
+  const existing = await prisma.cinemaRoom.findUnique({
     where: { id },
+  });
+
+  if (!existing) {
+    throw new Error("Cinema room not found");
+  }
+
+  if (!existing.isActive) {
+    throw new Error("Cinema room is already disabled");
+  }
+
+  const room = await prisma.cinemaRoom.update({
+    where: { id },
+    data: {
+      isActive: false,
+      deletedAt: new Date(),
+    },
   });
 
   await redis.del(`cinemaRooms:${room.cinemaId}`);

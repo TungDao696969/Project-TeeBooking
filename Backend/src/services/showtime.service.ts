@@ -23,6 +23,10 @@ export const createShowtimeService = async (data: CreateShowtimeInput) => {
     throw new Error("Cinema room not found");
   }
 
+  if (!room.isActive) {
+    throw new Error("Cinema room is disabled");
+  }
+
   const showTime = await prisma.showtime.create({
     data: {
       ...data,

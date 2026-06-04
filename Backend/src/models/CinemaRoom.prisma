@@ -1,12 +1,14 @@
 model CinemaRoom {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   cinemaId    String
   roomName    String
   roomType    String
   totalSeats  Int
   screenType  String?
   soundSystem String?
-  createdAt   DateTime @default(now())
+  isActive    Boolean   @default(true)
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
 
   cinema    Cinema     @relation(fields: [cinemaId], references: [id])
   seats     Seat[]
