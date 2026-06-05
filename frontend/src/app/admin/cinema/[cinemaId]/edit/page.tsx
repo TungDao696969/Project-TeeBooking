@@ -2,16 +2,16 @@ import { CinemaUpdateForm } from "@/components/admin/cinema/cinema-update-form";
 
 interface Props {
   params: Promise<{
-    id: string;
+    cinemaId: string;
   }>;
 }
 
 export default async function EditCinemaPage({ params }: Props) {
-  const { id } = await params;
+  const { cinemaId } = await params;
 
   return (
     <div className="space-y-6">
-      <CinemaUpdateForm cinemaId={id} />
+      <CinemaUpdateForm cinemaId={cinemaId} />
     </div>
   );
 }

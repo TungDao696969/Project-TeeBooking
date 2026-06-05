@@ -77,6 +77,7 @@ import {
 import {
   createCinemaRoom,
   getAllCinemaRooms,
+  getRoomsByCinemaIdController,
   getCinemaRoomById,
   updateCinemaRoom,
   deleteCinemaRoom,
@@ -233,6 +234,13 @@ import {
   updateFoodComboController,
 } from "../controllers/foodCombo.controller";
 import { getBookingDetailController } from "../controllers/booking.controller";
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  getUsers,
+  updateUser,
+} from "../controllers/admin/user.controller";
 
 const router = Router();
 
@@ -459,14 +467,10 @@ router.post(
 
 router.get("/cinema-rooms", getAllCinemaRooms);
 
-router.get("/cinema-rooms/detail/:id", getCinemaRoomById);
+router.get("/cinema-rooms/cinema/:cinemaId", getRoomsByCinemaIdController);
 
-router.get("/cinema-rooms/:cinemaId", getAllCinemaRooms);
-router.post(
-  "/cinema-rooms",
-  validate(createCinemaRoomSchema),
-  createCinemaRoom,
-);
+router.get("/cinema-rooms/:id", getCinemaRoomById);
+
 router.put(
   "/cinema-rooms/:id",
   validate(updateCinemaRoomSchema),
@@ -534,6 +538,8 @@ router.get("/seat/:id", getSeatById);
 router.put("/seat/:id", validate(updateSeatSchema), updateSeat);
 
 router.delete("/seat/:id", deleteSeat);
+
+router.get("/showtimes/:id/seats", getShowtimeSeatsController);
 
 // movies List
 router.get(
@@ -714,8 +720,6 @@ router.put(
 
 router.delete("/ticket-types/:id", deleteTicketType);
 
-router.get("/showtimes/:id/seats", getShowtimeSeatsController);
-
 // food
 router.get("/food", getAllFoodCombosController);
 
@@ -737,6 +741,17 @@ router.put(
 
 router.delete("/food/:id", authMiddleware, deleteFoodComboController);
 // admin
+
+router.post("/user", createUser);
+
+router.get("/user", getUsers);
+
+router.get("/user/:id", getUserById);
+
+router.patch("/user/:id", updateUser);
+
+router.delete("/user/:id", deleteUser);
+
 router.get(
   "/admin/dashboard",
   authMiddleware,

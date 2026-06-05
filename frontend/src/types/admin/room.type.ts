@@ -70,7 +70,7 @@ export interface RoomDetail {
   }[];
 }
 
-export interface CinemaRoom {
+export interface Room {
   id: string;
   roomName: string;
   roomType: string;
@@ -78,6 +78,21 @@ export interface CinemaRoom {
   soundSystem: string;
   totalSeats: number;
   cinemaId: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface RoomResponse {
+  success: boolean;
+  data: Room[];
+  pagination: Pagination;
 }
 
 export interface UpdateCinemaRoomPayload {

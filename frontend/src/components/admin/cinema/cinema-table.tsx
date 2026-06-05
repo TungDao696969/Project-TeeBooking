@@ -103,34 +103,7 @@ export function CinemaTable({ data, pagination, onPageChange }: Props) {
         </TableBody>
       </Table>
 
-      {/* Pagination */}
-      {/* <div className="flex items-center justify-between px-4 py-4 border-t border-[#1e1e1e]">
-        <p className="text-sm text-zinc-500">Tổng: {pagination.total} rạp</p>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={pagination.page === 1}
-            onClick={() => onPageChange?.(pagination.page - 1)}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-
-          <div className="text-sm text-zinc-400 px-3">
-            Trang {pagination.page} / {pagination.totalPages}
-          </div>
-
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={pagination.page === pagination.totalPages}
-            onClick={() => onPageChange?.(pagination.page + 1)}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
-      </div> */}
+     
 
       <div className="relative flex items-center justify-center px-4 py-4 border-t border-[#1e1e1e]">
         {/* Left */}

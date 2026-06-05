@@ -14,6 +14,7 @@ export const useSeatStore = create<SeatStore>((set) => ({
   page: 1,
 
   setPage: (page) => set({ page }),
+
   setKeyword: (keyword) =>
     set({
       keyword,

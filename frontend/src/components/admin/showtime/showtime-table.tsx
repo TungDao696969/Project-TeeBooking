@@ -144,15 +144,11 @@ export default function ShowtimeTable({
               </TableCell>
 
               <TableCell>
-                <div className=" gap-2">
+                <div className="flex gap-2">
                   <Link href={`/admin/showtime/${showtime.id}`}>
                     <Button
                       size="sm"
-                      className="
-                  bg-yellow-600
-                  text-white
-                  hover:bg-red-700
-                "
+                      className="bg-yellow-600 text-white hover:bg-red-700"
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -163,14 +159,30 @@ export default function ShowtimeTable({
                       size="sm"
                       variant="outline"
                       className="
-                    border-red-700
-                    bg-transparent
-                    text-red-400
-                    hover:bg-red-950
-                    hover:text-white
-                  "
+          border-red-700
+          bg-transparent
+          text-red-400
+          hover:bg-red-950
+          hover:text-white
+        "
                     >
                       <Pencil className="h-4 w-4" />
+                    </Button>
+                  </Link>
+
+                  {/* View Seats */}
+                  <Link href={`/admin/showtime/${showtime.id}/seats`}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="
+          border-blue-700
+          text-blue-400
+          hover:bg-blue-950
+          hover:text-white
+        "
+                    >
+                      <Clock className="h-4 w-4" />
                     </Button>
                   </Link>
 

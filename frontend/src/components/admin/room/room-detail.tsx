@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useRoomDetail } from "@/hooks/admin/room/use-room-detail";
-
+import Link from "next/link";
 export default function RoomDetail() {
   const params = useParams();
   const roomId = params.id as string;
@@ -59,7 +59,32 @@ export default function RoomDetail() {
             {room.cinema?.name ?? "—"} · Quản lý phòng chiếu
           </p>
         </div>
-        <StatusBadge />
+        <div className="flex items-center gap-3">
+          <Link
+            href={`/admin/room/${room.id}/seats`}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl
+                 bg-red-600 hover:bg-red-500
+                 text-white text-sm font-medium
+                 transition-colors"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 7h16M4 12h16M4 17h16"
+              />
+            </svg>
+            Xem ghế
+          </Link>
+
+          <StatusBadge />
+        </div>
       </div>
 
       {/* ── ROOM INFO ── */}

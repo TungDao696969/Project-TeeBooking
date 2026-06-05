@@ -1,7 +1,21 @@
 import { useMutation } from "@tanstack/react-query";
+
 import { toast } from "sonner";
-import { useRouter } from "next/router";
+
+import { useRouter } from "next/navigation";
+
+import { AxiosError } from "axios";
+
 import { createShowtime } from "@/services/admin/showtime.service";
+
+interface ErrorResponse {
+  message?: string;
+
+  errors?: {
+    message: string;
+  }[];
+}
+
 export const useCreateShowtime = () => {
   const router = useRouter();
 
@@ -14,8 +28,19 @@ export const useCreateShowtime = () => {
       router.push("/admin/showtime");
     },
 
-    onError: () => {
-      toast.error("Tạo suất chiếu không thành công");
+    onError: (error: AxiosError<ErrorResponse>) => {
+      const serverMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Tạo suất chiếu không thành công";
+
+      const validationErrors = error.response?.data?.errors;
+
+      const detailMessage = Array.isArray(validationErrors)
+        ? validationErrors.map((item) => item.message).join(" • ")
+        : serverMessage;
+
+      toast.error(detailMessage);
     },
   });
 };

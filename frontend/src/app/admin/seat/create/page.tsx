@@ -1,11 +1,18 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import SeatForm from "@/components/admin/seat/seat-form";
 
 export default function CreateSeatPage() {
-  return (
-    <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Create Seat</h1>
+  const searchParams = useSearchParams();
+  const roomId = searchParams.get("roomId") ?? undefined;
 
-      <SeatForm />
+  return (
+    <div className="container mx-auto py-8">
+      <h1 className="mb-6 text-2xl font-bold">Create Seat</h1>
+
+      <SeatForm roomId={roomId} />
     </div>
   );
 }

@@ -205,6 +205,14 @@ export function CinemaDetail({ cinemaId }: Props) {
                   </svg>
                   Hủy
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => router.push(`/admin/cinema/${cinemaId}/rooms`)}
+                  className="flex items-center gap-2 px-5 py-2 bg-[#e50914] text-white text-sm font-semibold rounded-md tracking-wide transition-colors hover:bg-[#c40812]"
+                >
+                  Xem phòng chiếu
+                </button>
               </div>
             </>
           )}

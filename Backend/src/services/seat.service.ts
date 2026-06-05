@@ -109,7 +109,7 @@ export const getAllSeatsService = async (
         },
         showtimeSeats: true,
       },
-      orderBy: [{ seatRow: "asc" }, { seatNumber: "asc" }],
+      orderBy: [{ seatRow: "desc" }, { seatNumber: "desc" }],
       skip,
       take: limit,
     }),

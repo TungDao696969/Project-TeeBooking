@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import {
   createCinemaRoomService,
-  getCinemaRoomService,
+  getRoomsByCinemaIdService,
   getAllCinemaRoomsService,
   getCinemaRoomByIdService,
   updateCinemaRoomService,
@@ -26,35 +26,63 @@ export const createCinemaRoom = async (req: Request, res: Response) => {
   }
 };
 
-// GET ALL ROOMS BY CINEMA ID
 export const getAllCinemaRooms = async (req: Request, res: Response) => {
   try {
-    const { cinemaId } = req.params;
-
-    if (cinemaId && !Array.isArray(cinemaId)) {
-      const room = await getCinemaRoomService(cinemaId);
-
-      return res.status(200).json({
-        success: true,
-        data: room,
-      });
-    }
-
     const page = Number(req.query.page) || 1;
+
     const limit = Number(req.query.limit) || 10;
 
     const result = await getAllCinemaRoomsService(page, limit);
 
     return res.status(200).json({
       success: true,
+
       data: result.data,
+
       pagination: result.pagination,
     });
   } catch (error: any) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch rooms",
+      defaultMessage: "Failed to fetch cinema rooms",
+    });
+  }
+};
+
+// GET ALL ROOMS BY CINEMA ID
+export const getRoomsByCinemaIdController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const { cinemaId } = req.params;
+
+    if (!cinemaId || Array.isArray(cinemaId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Cinema ID is required",
+      });
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await getRoomsByCinemaIdService({
+      cinemaId,
+      page,
+      limit,
+    });
+
+    return res.status(200).json({
+      success: true,
+      ...result,
+    });
+  } catch (error: any) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch cinema rooms",
     });
   }
 };

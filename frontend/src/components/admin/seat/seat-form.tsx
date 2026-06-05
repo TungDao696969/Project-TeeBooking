@@ -1,14 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { seatSchema, SeatFormData } from "@/schemas/admin/seat.schema";
+import { useRooms } from "@/hooks/admin/room/use-room";
+
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
-
+import { AxiosError } from "axios";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -16,258 +25,269 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { Input } from "@/components/ui/input";
-import { useRooms } from "@/hooks/admin/room/use-room";
 import { useCreateSeat } from "@/hooks/admin/seat/use-create-seat";
-import type { Room } from "@/types/admin/room.type";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  createSeatSchema,
-  CreateSeatFormData,
-} from "@/schemas/admin/seat.schema";
+import { toast } from "sonner";
 
-const inputClass = `
-  w-full h-10 px-3 rounded-md text-sm text-white
-  bg-[#111111] border border-[#2a2a2a]
-  placeholder:text-[#444]
-  focus:outline-none focus:border-[#e50000] focus:ring-1 focus:ring-[#e50000]/40
-  transition-all duration-150
-  [&:not(:placeholder-shown)]:border-[#3a3a3a]
-`;
+interface Props {
+  roomId?: string;
+}
 
-const labelClass =
-  "text-[11px] font-semibold tracking-[0.1em] uppercase text-[#888] mb-1.5 block";
+const fieldClass =
+  "bg-[#0b1633] border border-white/10 text-white placeholder:text-white/30 focus:border-[#e8192c] focus:ring-[#e8192c] rounded-lg h-10";
 
-const seatTypes = [
-  { value: "standard", label: "Standard", icon: "🪑" },
-  { value: "vip", label: "VIP", icon: "⭐" },
-  { value: "couple", label: "Couple", icon: "💑" },
-];
+const labelClass = "text-white/60 text-sm font-medium mb-1.5";
 
-export default function SeatForm() {
-  const { data: rooms } = useRooms();
-  const createMutation = useCreateSeat();
-  const roomOptions: Room[] = rooms?.data ?? [];
+export default function SeatForm({ roomId }: Props) {
+  const createSeatMutation = useCreateSeat();
+  const roomsQuery = useRooms(1);
 
-  const form = useForm<CreateSeatFormData>({
-    resolver: zodResolver(createSeatSchema),
+  const form = useForm<SeatFormData>({
+    resolver: zodResolver(seatSchema),
     defaultValues: {
+      roomId: roomId ?? "",
       seatRow: "",
       seatNumber: 1,
-      seatCode: "",
       seatType: "standard",
-      roomId: "",
+      extraPrice: 0,
     },
   });
 
-  const onSubmit = (values: CreateSeatFormData) => {
-    const payload = {
-      ...values,
-      seatCode: values.seatCode || `${values.seatRow}${values.seatNumber}`,
-    };
+  useEffect(() => {
+    if (roomId) form.setValue("roomId", roomId);
+  }, [roomId, form]);
 
-    console.log("Create seat payload:", payload);
-    createMutation.mutate(payload);
+  const onSubmit = async (values: SeatFormData) => {
+    try {
+      await createSeatMutation.mutateAsync(values);
+      toast.success("Tạo ghế thành công");
+      form.reset({
+        roomId: roomId ?? "",
+        seatRow: "",
+        seatNumber: 1,
+        seatType: "standard",
+        extraPrice: 0,
+      });
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError.response?.data?.message ?? "Tạo ghế thất bại");
+    }
   };
 
   return (
-    <div className="rounded-xl overflow-hidden border border-[#2a2a2a] bg-[#0d0d0d] shadow-[0_0_40px_rgba(0,0,0,0.6)]">
-      {/* Header */}
-      <div className="px-5 py-3 bg-linear-to-r from-[#1a0000] to-[#0d0d0d] border-b border-[#3a1010] flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-[#e50000]" />
-        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-[#e50000]">
-          Tạo ghế mới
-        </span>
-      </div>
+    <div className="bg-[#0b1633] min-h-screen p-6 flex items-start justify-center">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-1 h-6 bg-[#e8192c] rounded-full" />
+          <h2 className="text-white text-lg font-semibold">Thêm ghế ngồi</h2>
+        </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="p-5 space-y-5">
-          {/* Row + Number side by side */}
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="seatRow"
-              render={({ field }) => (
-                <FormItem className="space-y-0">
-                  <FormLabel className={labelClass}>Hàng ghế</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="A"
-                      value={field.value}
-                      onChange={(event) => {
-                        field.onChange(event);
-                        const row = event.target.value;
-                        const number = form.getValues("seatNumber");
-                        if (row && typeof number === "number") {
-                          form.setValue("seatCode", `${row}${number}`);
-                        } else {
-                          form.setValue("seatCode", "");
-                        }
-                      }}
-                      className={inputClass}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-[#e50000] text-xs mt-1" />
-                </FormItem>
+        <div className="bg-[#0f1d40] border border-white/10 rounded-2xl p-6 space-y-5">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              {/* Room field */}
+              {roomId ? (
+                <>
+                  <input
+                    type="hidden"
+                    {...form.register("roomId")}
+                    value={roomId}
+                  />
+                  <div className="flex items-center gap-3 bg-[#0b1633] border border-white/10 rounded-lg px-4 py-3">
+                    <span className="text-white/40 text-xs uppercase tracking-widest">
+                      Phòng
+                    </span>
+                    <span className="text-white font-medium text-sm ml-auto">
+                      {roomId}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <FormField
+                  control={form.control}
+                  name="roomId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={labelClass}>Phòng chiếu</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger className={fieldClass}>
+                            <SelectValue placeholder="Chọn phòng chiếu" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#0f1d40] border border-white/10 text-white">
+                            {roomsQuery.data?.data.map((room) => (
+                              <SelectItem
+                                key={room.id}
+                                value={room.id}
+                                className="focus:bg-[#e8192c]/20 focus:text-white"
+                              >
+                                {room.roomName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage className="text-[#e8192c] text-xs" />
+                    </FormItem>
+                  )}
+                />
               )}
-            />
 
-            <FormField
-              control={form.control}
-              name="seatNumber"
-              render={({ field }) => (
-                <FormItem className="space-y-0">
-                  <FormLabel className={labelClass}>Số ghế</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      value={field.value}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        const parsed = value === "" ? undefined : Number(value);
-                        field.onChange(parsed);
+              {/* Row + Number side by side */}
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="seatRow"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={labelClass}>Hàng ghế</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="A"
+                          {...field}
+                          className={fieldClass}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-[#e8192c] text-xs" />
+                    </FormItem>
+                  )}
+                />
 
-                        const row = form.getValues("seatRow");
-                        if (
-                          row &&
-                          typeof parsed === "number" &&
-                          !Number.isNaN(parsed)
-                        ) {
-                          form.setValue("seatCode", `${row}${parsed}`);
-                        } else {
-                          form.setValue("seatCode", "");
-                        }
-                      }}
-                      className={inputClass}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-[#e50000] text-xs mt-1" />
-                </FormItem>
-              )}
-            />
-          </div>
+                <FormField
+                  control={form.control}
+                  name="seatNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={labelClass}>Số ghế</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          value={field.value}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage className="text-[#e8192c] text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-          {/* Seat Type — button group */}
-          <FormField
-            control={form.control}
-            name="seatType"
-            render={({ field }) => (
-              <FormItem className="space-y-0">
-                <FormLabel className={labelClass}>Loại ghế</FormLabel>
-                <div className="grid grid-cols-3 gap-2">
-                  {seatTypes.map(({ value, label, icon }) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => field.onChange(value)}
-                      className={`
-                        flex flex-col items-center gap-1 py-3 rounded-md border text-xs font-medium
-                        transition-all duration-150
-                        ${
-                          field.value === value
-                            ? "bg-[#1a0000] border-[#e50000] text-[#e50000] shadow-[0_0_10px_rgba(229,0,0,0.2)]"
-                            : "bg-[#111] border-[#2a2a2a] text-[#666] hover:border-[#444] hover:text-[#999]"
-                        }
-                      `}
-                    >
-                      <span className="text-lg">{icon}</span>
-                      {label}
-                    </button>
-                  ))}
-                </div>
-                <FormMessage className="text-[#e50000] text-xs mt-1" />
-              </FormItem>
-            )}
-          />
+              {/* Seat type */}
+              <FormField
+                control={form.control}
+                name="seatType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={labelClass}>Loại ghế</FormLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className={fieldClass}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#0f1d40] border border-white/10 text-white">
+                        {[
+                          {
+                            value: "standard",
+                            label: "Standard",
+                            dot: "bg-[#1a9e5c]",
+                          },
+                          { value: "vip", label: "VIP", dot: "bg-violet-500" },
+                          {
+                            value: "couple",
+                            label: "Couple",
+                            dot: "bg-pink-500",
+                          },
+                        ].map(({ value, label, dot }) => (
+                          <SelectItem
+                            key={value}
+                            value={value}
+                            className="focus:bg-[#e8192c]/20 focus:text-white"
+                          >
+                            <span className="flex items-center gap-2">
+                              <span className={`w-2 h-2 rounded-full ${dot}`} />
+                              {label}
+                            </span>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-[#e8192c] text-xs" />
+                  </FormItem>
+                )}
+              />
 
-          {/* Room */}
-          <FormField
-            control={form.control}
-            name="seatCode"
-            render={({ field }) => <input type="hidden" {...field} />}
-          />
-
-          <FormField
-            control={form.control}
-            name="roomId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={labelClass}>Phòng chiếu</FormLabel>
-
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger className={inputClass}>
-                      <SelectValue placeholder="Chọn phòng chiếu" />
-                    </SelectTrigger>
-                  </FormControl>
-
-                  <SelectContent className="bg-[#111] border border-[#2a2a2a]">
-                    {roomOptions.length ? (
-                      roomOptions.map((room) => (
-                        <SelectItem key={room.id} value={room.id}>
-                          {room.roomName}
-                        </SelectItem>
-                      ))
-                    ) : (
-                      <div className="px-3 py-2 text-sm text-muted-foreground">
-                        Không có phòng chiếu
+              {/* Extra price */}
+              <FormField
+                control={form.control}
+                name="extraPrice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={labelClass}>Phụ thu (VNĐ)</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type="number"
+                          value={field.value}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          className={`${fieldClass} pr-14`}
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 text-xs font-medium">
+                          VNĐ
+                        </span>
                       </div>
-                    )}
-                  </SelectContent>
-                </Select>
+                    </FormControl>
+                    <FormMessage className="text-[#e8192c] text-xs" />
+                  </FormItem>
+                )}
+              />
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              {/* Divider */}
+              <div className="border-t border-white/10" />
 
-          {/* Divider */}
-          <div className="border-t border-[#1e1e1e]" />
-
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={createMutation.isPending}
-            className="
-              w-full h-10 rounded-md text-sm font-semibold tracking-wide
-              bg-[#e50000] text-white
-              hover:bg-[#cc0000] active:scale-[0.98]
-              disabled:opacity-40 disabled:cursor-not-allowed
-              transition-all duration-150
-              shadow-[0_0_16px_rgba(229,0,0,0.3)]
-            "
-          >
-            {createMutation.isPending ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg
-                  className="w-4 h-4 animate-spin"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
-                  />
-                </svg>
-                Đang tạo...
-              </span>
-            ) : (
-              "Tạo ghế"
-            )}
-          </button>
-        </form>
-      </Form>
+              {/* Submit */}
+              <Button
+                type="submit"
+                disabled={createSeatMutation.isPending}
+                className="w-full h-11 bg-[#e8192c] hover:bg-[#c9151f] active:bg-[#a81019] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {createSeatMutation.isPending ? (
+                  <span className="flex items-center gap-2">
+                    <svg
+                      className="animate-spin w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeOpacity="0.3"
+                      />
+                      <path
+                        d="M12 2a10 10 0 0 1 10 10"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    Đang tạo...
+                  </span>
+                ) : (
+                  "Tạo ghế"
+                )}
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 }

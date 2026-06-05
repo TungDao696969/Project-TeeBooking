@@ -39,3 +39,9 @@ export const deleteShowtimeApi = async (id: string) => {
 
   return data;
 };
+
+export const getShowtimeSeats = async (showtimeId: string) => {
+  const res = await api.get(`/showtimes/${showtimeId}/seats`);
+
+  return res.data.data;
+};

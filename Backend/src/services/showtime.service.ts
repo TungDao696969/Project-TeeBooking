@@ -27,17 +27,37 @@ export const createShowtimeService = async (data: CreateShowtimeInput) => {
     throw new Error("Cinema room is disabled");
   }
 
-  const showTime = await prisma.showtime.create({
-    data: {
-      ...data,
-      showDate: new Date(data.showDate),
-      startTime: new Date(data.startTime),
-      endTime: new Date(data.endTime),
-    },
-    include: {
-      movie: true,
-      room: true,
-    },
+  const seats = await prisma.seat.findMany({
+    where: { roomId: room.id },
+  });
+
+  const showTime = await prisma.$transaction(async (tx) => {
+    const createdShowtime = await tx.showtime.create({
+      data: {
+        ...data,
+        showDate: new Date(data.showDate),
+        startTime: new Date(data.startTime),
+        endTime: new Date(data.endTime),
+      },
+      include: {
+        movie: true,
+        room: true,
+      },
+    });
+
+    if (seats.length > 0) {
+      await tx.showtimeSeat.createMany({
+        data: seats.map((seat) => ({
+          showtimeId: createdShowtime.id,
+          seatId: seat.id,
+          status: "available",
+          finalPrice: Number(data.basePrice) + Number(seat.extraPrice),
+          lockedUntil: null,
+        })),
+      });
+    }
+
+    return createdShowtime;
   });
 
   await redis.del(`showtimes:${data.roomId}`);
@@ -72,7 +92,7 @@ export const getAllShowtimesService = async (
       },
 
       orderBy: {
-        startTime: "asc",
+        startTime: "desc",
       },
     }),
 

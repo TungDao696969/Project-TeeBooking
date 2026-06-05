@@ -3,6 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Seat } from "@/types/admin/seat.type";
 
+import SeatActions from "./seat-actions";
+
 export const columns: ColumnDef<Seat>[] = [
   {
     accessorKey: "seatCode",
@@ -31,5 +33,16 @@ export const columns: ColumnDef<Seat>[] = [
   {
     header: "Showtime Count",
     cell: ({ row }) => row.original.showtimeSeats.length,
+  },
+  {
+    id: "actions",
+
+    header: "Actions",
+
+    cell: ({ row }) => {
+      const seat = row.original;
+
+      return <SeatActions seatId={seat.id} />;
+    },
   },
 ];

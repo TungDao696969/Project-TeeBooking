@@ -27,27 +27,69 @@ export const createCinemaRoomService = async (data: CreateCinemaRoomInput) => {
   return room;
 };
 
-export const getCinemaRoomService = async (cinemaId: string) => {
-  const cacheKey = `cinemaRooms:${cinemaId}`;
+interface GetRoomsByCinemaParams {
+  cinemaId: string;
+  page: number;
+  limit: number;
+}
+
+export const getRoomsByCinemaIdService = async ({
+  cinemaId,
+  page,
+  limit,
+}: GetRoomsByCinemaParams) => {
+  const skip = (page - 1) * limit;
+
+  const cacheKey = `cinemaRooms:${cinemaId}:page:${page}:limit:${limit}`;
 
   const cached = await redis.get(cacheKey);
+
   if (cached) {
     return JSON.parse(cached);
   }
 
-  const rooms = await prisma.cinemaRoom.findMany({
-    where: { cinemaId, isActive: true },
-    include: {
-      seats: true,
-      showtimes: true,
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
+  const [rooms, total] = await Promise.all([
+    prisma.cinemaRoom.findMany({
+      where: {
+        cinemaId,
+        isActive: true,
+      },
 
-  await redis.set(cacheKey, JSON.stringify(rooms), "EX", cache_ttl);
-  return rooms;
+      include: {
+        seats: true,
+        showtimes: true,
+      },
+
+      orderBy: {
+        createdAt: "asc",
+      },
+
+      skip,
+      take: limit,
+    }),
+
+    prisma.cinemaRoom.count({
+      where: {
+        cinemaId,
+        isActive: true,
+      },
+    }),
+  ]);
+
+  const result = {
+    data: rooms,
+
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+
+  await redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
+
+  return result;
 };
 
 export const getAllCinemaRoomsService = async (

@@ -1,10 +1,15 @@
 "use client";
 
 import Link from "next/link";
+
 import { ColumnDef } from "@tanstack/react-table";
+
 import { Eye, Pencil } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+
 import DeleteRoomDialog from "./delete-room-dialog";
+
 import { Room } from "@/types/admin/room.type";
 
 export const columns: ColumnDef<Room>[] = [
@@ -35,28 +40,38 @@ export const columns: ColumnDef<Room>[] = [
 
   {
     id: "seatCount",
+
     header: "CREATED SEATS",
+
     cell: ({ row }) => row.original.seats.length,
   },
 
   {
     accessorKey: "createdAt",
+
     header: "CREATED",
+
     cell: ({ row }) =>
       new Date(row.original.createdAt).toLocaleDateString("vi-VN"),
   },
 
   {
     id: "actions",
+
     header: "ACTION",
+
     cell: ({ row }) => (
       <div className="flex flex-wrap items-center gap-2">
         <Link href={`/admin/room/${row.original.id}`}>
           <Button
             size="sm"
             variant="outline"
-            className="border-[#2a2a2a] text-[#f5f5f5] hover:border-[#e50000] hover:text-white"
-            title="Xem chi tiết"
+            className="
+              border-[#2a2a2a]
+              text-[#f5f5f5]
+              hover:border-[#e50000]
+              hover:text-white
+            "
           >
             <Eye className="h-4 w-4" />
           </Button>
@@ -67,18 +82,19 @@ export const columns: ColumnDef<Room>[] = [
             size="icon"
             variant="outline"
             className="
-                h-8 w-8
-                border-[#2a2a2a]
-                bg-[#111]
-                text-[#f5c518]
-                hover:bg-[#1a1a1a]
-                hover:text-white
-                hover:border-[#f5c518]
-              "
+              h-8 w-8
+              border-[#2a2a2a]
+              bg-[#111]
+              text-[#f5c518]
+              hover:bg-[#1a1a1a]
+              hover:text-white
+              hover:border-[#f5c518]
+            "
           >
             <Pencil className="h-4 w-4" />
           </Button>
         </Link>
+
         <DeleteRoomDialog roomId={row.original.id} />
       </div>
     ),

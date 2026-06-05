@@ -1,5 +1,7 @@
 import api from "@/lib/axios";
+import { RoomResponse } from "@/types/admin/room.type";
 import {
+  Room,
   RoomListResponse,
   UpdateCinemaRoomPayload,
 } from "@/types/admin/room.type";
@@ -18,7 +20,7 @@ export const createRoom = async (payload: CreateRoomPayload) => {
 };
 
 export const getRoomDetail = async (id: string): Promise<RoomDetail> => {
-  const res = await api.get(`/cinema-rooms/detail/${id}`);
+  const res = await api.get(`/cinema-rooms/${id}`);
 
   return res.data.data;
 };
@@ -36,4 +38,19 @@ export const updateRoom = async (
   const response = await api.put(`/cinema-rooms/${id}`, payload);
 
   return response.data;
+};
+
+export const getRoomsByCinema = async (
+  cinemaId: string,
+  page: number,
+  limit = 10,
+): Promise<RoomListResponse> => {
+  const res = await api.get(`/cinema-rooms/cinema/${cinemaId}`, {
+    params: {
+      page,
+      limit,
+    },
+  });
+
+  return res.data;
 };
