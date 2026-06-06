@@ -70,18 +70,6 @@ export interface RoomDetail {
   }[];
 }
 
-export interface Room {
-  id: string;
-  roomName: string;
-  roomType: string;
-  screenType: string;
-  soundSystem: string;
-  totalSeats: number;
-  cinemaId: string;
-  isActive: boolean;
-  createdAt: string;
-}
-
 export interface Pagination {
   page: number;
   limit: number;
@@ -101,4 +89,21 @@ export interface UpdateCinemaRoomPayload {
   screenType: string;
   soundSystem: string;
   totalSeats: number;
+}
+
+export interface TrashCinemaRoom {
+  id: string;
+
+  roomName: string;
+
+  totalSeats: number;
+
+  isActive: boolean;
+
+  deletedAt: string;
+
+  cinema: {
+    id: string;
+    name: string;
+  };
 }

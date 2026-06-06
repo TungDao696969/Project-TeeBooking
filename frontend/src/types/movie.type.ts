@@ -51,6 +51,8 @@ export interface Movie {
   producer: string;
   genres: Genre[];
   casts: Cast[];
+  duration: number;
+  deletedAt: string;
   ratings: {
     averageRating: number;
     totalReviews: number;
@@ -58,6 +60,11 @@ export interface Movie {
   reviews: Review[];
   showtimes: Showtime[];
   relatedMovies: Movie[];
+}
+
+export interface TrashMoviesResponse {
+  success: boolean;
+  data: Movie[];
 }
 
 export interface Ratings {

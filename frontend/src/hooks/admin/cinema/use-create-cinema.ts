@@ -9,11 +9,12 @@ export const useCreateCinema = () => {
   return useMutation({
     mutationFn: createCinema,
 
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Tạo rạp thành công");
 
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["cinemas"],
+        exact: false,
       });
     },
 

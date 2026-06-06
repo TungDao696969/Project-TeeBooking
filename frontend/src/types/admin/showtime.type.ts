@@ -107,3 +107,29 @@ export interface ShowtimeSeatsResponse {
 
   seatRows: SeatRow[];
 }
+
+export interface TrashShowtime {
+  id: string;
+
+  showDate: string;
+  startTime: string;
+  endTime: string;
+
+  deletedAt: string;
+
+  movie: {
+    id: string;
+    title: string;
+    posterUrl?: string;
+  };
+
+  room: {
+    id: string;
+    roomName: string;
+
+    cinema?: {
+      id: string;
+      name: string;
+    };
+  };
+}

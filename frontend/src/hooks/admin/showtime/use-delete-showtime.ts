@@ -11,6 +11,7 @@ export const useDeleteShowtime = () => {
     mutationFn: deleteShowtimeApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["showtimes"] });
+      queryClient.invalidateQueries({ queryKey: ["trash-showtimes"] });
       toast.success("Xóa suất chiếu thành công");
     },
     onError: (error: AxiosError<ErrorResponse>) => {

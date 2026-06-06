@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Eye, Pencil, Trash2, Plus, Search, Clock } from "lucide-react";
+import { Eye, Pencil, Trash, Plus, Search, Clock, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Showtime } from "@/types/admin/showtime.type";
@@ -60,6 +60,12 @@ export default function ShowtimeTable({
               className="pl-8 h-8 text-sm w-44"
             />
           </div>
+          <Link href="/admin/showtime/trash">
+            <Button variant="outline" size="sm">
+              <Trash2 className="w-4 h-4 mr-2" />
+              Thùng rác
+            </Button>
+          </Link>
           <Link href="/admin/showtime/create">
             <Button
               size="sm"

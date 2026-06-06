@@ -15,7 +15,7 @@ import {
   TableRow,
   TableHeader,
 } from "@/components/ui/table";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 import { Pagination } from "@/types/admin/seat.type";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -42,15 +42,27 @@ export function SeatTable({ data, pagination, onPageChange }: Props) {
           Quản lý ghế ngồi
         </span>
 
-        <Link href="/admin/seat/create">
-          <Button
-            size="sm"
-            className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a]"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            Thêm ghế
-          </Button>
-        </Link>
+        <div>
+          <Link href="/admin/seat/trash">
+            <Button
+              size="sm"
+              className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a] mr-2"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              Thùng rác
+            </Button>
+          </Link>
+
+          <Link href="/admin/seat/create">
+            <Button
+              size="sm"
+              className="h-8 bg-blue-400 text-white hover:bg-[#c4001a]"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Thêm ghế
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Table>

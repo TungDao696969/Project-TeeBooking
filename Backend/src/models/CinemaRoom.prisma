@@ -10,9 +10,9 @@ model CinemaRoom {
   deletedAt   DateTime?
   createdAt   DateTime  @default(now())
 
-  cinema    Cinema     @relation(fields: [cinemaId], references: [id])
   seats     Seat[]
   showtimes Showtime[]
+  cinema    Cinema     @relation(fields: [cinemaId], references: [id])
 
   @@map("cinema_rooms")
 }

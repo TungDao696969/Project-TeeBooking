@@ -5,7 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
 
 import Link from "next/link";
 
@@ -44,15 +44,26 @@ export function RoomTable({ data, pagination, onPageChange }: Props) {
           Quản lý phòng chiếu
         </span>
 
-        <Link href="/admin/room/create">
-          <Button
-            size="sm"
-            className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a]"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            Thêm mới
-          </Button>
-        </Link>
+        <div className="">
+          <Link href="/admin/room/trash">
+            <Button
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white mr-2"
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Thùng rác
+            </Button>
+          </Link>
+          <Link href="/admin/room/create">
+            <Button
+              size="sm"
+              className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a]"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Thêm mới
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Table>

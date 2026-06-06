@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import dayjs from "dayjs";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Trash } from "lucide-react";
 import { User } from "@/types/admin/user.type";
 import Pagination from "@/components/admin/user/pagination";
 import { useUserStore } from "@/store/admin/user.store";
@@ -10,6 +10,7 @@ import { useUsers } from "@/hooks/admin/user/use-users";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import DeleteUserDialog from "./delete-user-dialog";
 interface Props {
   users: User[];
 }
@@ -158,15 +159,28 @@ export default function UserTable({ users }: Props) {
           {users.length} thành viên
         </span>
 
-        <Link href="/admin/user/create">
-          <Button
-            size="sm"
-            className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a]"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            Thêm mới
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/admin/user/trash">
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-8 border-yellow-700/50 bg-[#13120e] text-yellow-500 hover:bg-yellow-950/30 hover:text-yellow-400"
+            >
+              <Trash className="h-3.5 w-3.5" />
+              Thùng rác
+            </Button>
+          </Link>
+
+          <Link href="/admin/user/create">
+            <Button
+              size="sm"
+              className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a]"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Thêm mới
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Table */}
@@ -257,7 +271,7 @@ export default function UserTable({ users }: Props) {
                     <Link href={`/admin/user/${user.id}/edit`}>
                       <ActionBtn icon={<Pencil size={14} />} label="Sửa" />
                     </Link>
-                    <ActionBtn icon={<Trash2 size={14} />} label="Xoá" danger />
+                    <DeleteUserDialog userId={user.id} />
                   </div>
                 </td>
               </tr>

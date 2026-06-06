@@ -6,9 +6,11 @@ import {
   deleteShowtimeService,
   getAllShowtimesService,
   getShowtimeTicketTypesService,
+  getTrashShowtimesService,
+  restoreShowtimeService,
+  forceDeleteShowtimeService,
 } from "../services/showtime.service";
 import { errorHandler } from "../utils/errorHandler";
-
 
 export const createShowtime = async (req: Request, res: Response) => {
   try {
@@ -147,6 +149,76 @@ export const getShowtimeTicketTypes = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: error.message || "Failed to fetch ticket types",
+    });
+  }
+};
+
+export const getTrashShowtimes = async (req: Request, res: Response) => {
+  try {
+    const result = await getTrashShowtimesService();
+
+    return res.status(200).json({
+      success: true,
+      ...result,
+    });
+  } catch (error: any) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch trash showtimes",
+    });
+  }
+};
+
+export const restoreShowtime = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid showtime ID",
+      });
+    }
+
+    const showtime = await restoreShowtimeService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Showtime restored successfully",
+      data: showtime,
+    });
+  } catch (error: any) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to restore showtime",
+    });
+  }
+};
+
+export const forceDeleteShowtime = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid showtime ID",
+      });
+    }
+
+    await forceDeleteShowtimeService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Showtime permanently deleted",
+    });
+  } catch (error: any) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to permanently delete showtime",
     });
   }
 };

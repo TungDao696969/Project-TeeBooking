@@ -2943,7 +2943,8 @@ export const CinemaScalarFieldEnum = {
   longitude: 'longitude',
   openingHours: 'openingHours',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type CinemaScalarFieldEnum = (typeof CinemaScalarFieldEnum)[keyof typeof CinemaScalarFieldEnum]
@@ -3049,7 +3050,8 @@ export const MovieScalarFieldEnum = {
   country: 'country',
   producer: 'producer',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum]
@@ -3168,7 +3170,9 @@ export const SeatScalarFieldEnum = {
   seatCode: 'seatCode',
   seatType: 'seatType',
   extraPrice: 'extraPrice',
-  createdAt: 'createdAt'
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]
@@ -3186,6 +3190,7 @@ export const ShowtimeScalarFieldEnum = {
   language: 'language',
   subtitle: 'subtitle',
   isActive: 'isActive',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt'
 } as const
 

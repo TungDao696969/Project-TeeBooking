@@ -44,18 +44,20 @@ export const getMoviesService = async (
 
   const skip = (page - 1) * limit;
 
-  const where: Prisma.MovieWhereInput = search
-    ? {
-        OR: [
-          {
-            title: {
-              contains: search,
-              mode: Prisma.QueryMode.insensitive,
-            },
+  const where: Prisma.MovieWhereInput = {
+    deletedAt: null,
+
+    ...(search && {
+      OR: [
+        {
+          title: {
+            contains: search,
+            mode: Prisma.QueryMode.insensitive,
           },
-        ],
-      }
-    : {};
+        },
+      ],
+    }),
+  };
 
   const [movies, total] = await Promise.all([
     prisma.movie.findMany({
@@ -89,7 +91,7 @@ export const getMoviesService = async (
 
 export const getMovieByIdService = async (id: string) => {
   return prisma.movie.findUnique({
-    where: { id },
+    where: { id, deletedAt: null },
     include: {
       genres: true,
     },
@@ -120,11 +122,35 @@ export const updateMovieService = async (id: string, data: any) => {
 };
 
 export const deleteMovieService = async (id: string) => {
-  await prisma.movie.delete({
+  const movie = await prisma.movie.findUnique({
     where: { id },
   });
 
+  if (!movie) {
+    throw new Error("Movie not found");
+  }
+
+  if (movie.deletedAt) {
+    throw new Error("Movie already deleted");
+  }
+
+  await prisma.movie.update({
+    where: { id },
+
+    data: {
+      deletedAt: new Date(),
+    },
+  });
+
   await clearMovieListCache();
+
+  await redis.del(`movie:${id}`);
+
+  const trashKeys = await redis.keys("movies:trash*");
+
+  if (trashKeys.length > 0) {
+    await redis.del(...trashKeys);
+  }
 
   return true;
 };
@@ -143,6 +169,7 @@ export const getMovieShowtimesService = async (slug: string) => {
   const movie = await prisma.movie.findUnique({
     where: {
       slug,
+      deletedAt: null,
     },
 
     select: {
@@ -251,4 +278,64 @@ export const getMovieShowtimesService = async (slug: string) => {
   await redis.set(cacheKey, JSON.stringify(result), "EX", CACHE_TTL);
 
   return result;
+};
+
+export const getTrashMoviesService = async () => {
+  const cacheKey = "movies:trash";
+
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  const movies = await prisma.movie.findMany({
+    where: {
+      deletedAt: {
+        not: null,
+      },
+    },
+
+    include: {
+      genres: true,
+    },
+
+    orderBy: {
+      deletedAt: "desc",
+    },
+  });
+
+  await redis.set(cacheKey, JSON.stringify(movies), "EX", cache_ttl);
+
+  return movies;
+};
+
+export const restoreMovieService = async (id: string) => {
+  const movie = await prisma.movie.findUnique({
+    where: { id },
+  });
+
+  if (!movie) {
+    throw new Error("Movie not found");
+  }
+
+  if (!movie.deletedAt) {
+    throw new Error("Movie is not in trash");
+  }
+
+  const restoredMovie = await prisma.movie.update({
+    where: { id },
+
+    data: {
+      deletedAt: null,
+    },
+  });
+
+  await clearMovieListCache();
+
+  await redis.del("movies:trash");
+
+  await redis.del(`movie:${id}`);
+
+  return restoredMovie;
 };

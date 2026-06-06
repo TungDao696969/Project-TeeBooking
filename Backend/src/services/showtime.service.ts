@@ -7,6 +7,13 @@ import {
 
 const cache_ttl = Number(process.env.CACHE_TTL);
 
+const clearShowtimesCache = async () => {
+  const keys = await redis.keys("showtimes:*");
+  if (keys.length > 0) {
+    await redis.del(...keys);
+  }
+};
+
 export const createShowtimeService = async (data: CreateShowtimeInput) => {
   const movie = await prisma.movie.findUnique({
     where: { id: data.movieId },
@@ -60,7 +67,7 @@ export const createShowtimeService = async (data: CreateShowtimeInput) => {
     return createdShowtime;
   });
 
-  await redis.del(`showtimes:${data.roomId}`);
+  await clearShowtimesCache();
 
   return showTime;
 };
@@ -81,6 +88,10 @@ export const getAllShowtimesService = async (
 
   const [showtimes, total] = await Promise.all([
     prisma.showtime.findMany({
+      where: {
+        deletedAt: null,
+      },
+
       skip,
       take: limit,
 
@@ -96,7 +107,11 @@ export const getAllShowtimesService = async (
       },
     }),
 
-    prisma.showtime.count(),
+    prisma.showtime.count({
+      where: {
+        deletedAt: null,
+      },
+    }),
   ]);
 
   const result = {
@@ -118,8 +133,12 @@ export const getAllShowtimesService = async (
 };
 
 export const getShowtimeByIdService = async (id: string) => {
-  return prisma.showtime.findUnique({
-    where: { id },
+  return prisma.showtime.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+    },
+
     include: {
       movie: true,
       room: true,
@@ -155,8 +174,7 @@ export const updateShowtimeService = async (
     },
   });
 
-  await redis.del("showtimes:all");
-  await redis.del(`showtimes:${existing.roomId}`);
+  await clearShowtimesCache();
 
   return updated;
 };
@@ -164,9 +182,12 @@ export const updateShowtimeService = async (
 export const deleteShowtimeService = async (id: string) => {
   const existing = await prisma.showtime.findUnique({
     where: { id },
+
     include: {
       bookings: {
-        select: { id: true },
+        select: {
+          id: true,
+        },
       },
     },
   });
@@ -175,26 +196,26 @@ export const deleteShowtimeService = async (id: string) => {
     throw new Error("Showtime not found");
   }
 
+  if (existing.deletedAt) {
+    throw new Error("Showtime already deleted");
+  }
+
   if (existing.bookings.length > 0) {
     throw new Error("Cannot delete showtime with existing bookings");
   }
 
-  await prisma.$transaction([
-    prisma.showtimeTicketType.deleteMany({
-      where: { showtimeId: id },
-    }),
-    prisma.showtimeSeat.deleteMany({
-      where: { showtimeId: id },
-    }),
-    prisma.showtime.delete({
-      where: { id },
-    }),
-  ]);
+  const showtime = await prisma.showtime.update({
+    where: { id },
 
-  await redis.del("showtimes:all");
-  await redis.del(`showtimes:${existing.roomId}`);
+    data: {
+      isActive: false,
+      deletedAt: new Date(),
+    },
+  });
 
-  return true;
+  await clearShowtimesCache();
+
+  return showtime;
 };
 
 export const getShowtimeTicketTypesService = async (showtimeId: string) => {
@@ -308,4 +329,105 @@ export const getShowtimeTicketTypesService = async (showtimeId: string) => {
   await redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
 
   return result;
+};
+
+export const getTrashShowtimesService = async () => {
+  const cacheKey = "showtimes:trash";
+
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
+  const showtimes = await prisma.showtime.findMany({
+    where: {
+      deletedAt: {
+        not: null,
+      },
+    },
+
+    include: {
+      movie: true,
+
+      room: {
+        include: {
+          cinema: true,
+        },
+      },
+    },
+
+    orderBy: {
+      deletedAt: "desc",
+    },
+  });
+
+  const result = {
+    data: showtimes,
+  };
+
+  await redis.set(cacheKey, JSON.stringify(result), "EX", 300);
+
+  return result;
+};
+
+export const restoreShowtimeService = async (id: string) => {
+  const showtime = await prisma.showtime.findUnique({
+    where: { id },
+  });
+
+  if (!showtime) {
+    throw new Error("Showtime not found");
+  }
+
+  if (!showtime.deletedAt) {
+    throw new Error("Showtime is not deleted");
+  }
+
+  const restored = await prisma.showtime.update({
+    where: { id },
+
+    data: {
+      isActive: true,
+      deletedAt: null,
+    },
+  });
+
+  await clearShowtimesCache();
+
+  return restored;
+};
+
+export const forceDeleteShowtimeService = async (id: string) => {
+  const showtime = await prisma.showtime.findUnique({
+    where: { id },
+  });
+
+  if (!showtime) {
+    throw new Error("Showtime not found");
+  }
+
+  await prisma.$transaction([
+    prisma.showtimeTicketType.deleteMany({
+      where: {
+        showtimeId: id,
+      },
+    }),
+
+    prisma.showtimeSeat.deleteMany({
+      where: {
+        showtimeId: id,
+      },
+    }),
+
+    prisma.showtime.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
+
+  await clearShowtimesCache();
+
+  return true;
 };

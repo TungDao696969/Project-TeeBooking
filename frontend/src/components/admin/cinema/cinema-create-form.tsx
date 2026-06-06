@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowLeft,
   ArrowLeftRight,
@@ -121,6 +121,7 @@ function SectionHeading({
 
 export function CinemaCreateForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const createCinemaMutation = useCreateCinema();
   const { data: cities = [], isLoading: isLoadingCities } = useQuery({
     queryKey: ["cities"],
@@ -145,7 +146,14 @@ export function CinemaCreateForm() {
 
   const onSubmit = (values: CinemaFormValues) => {
     createCinemaMutation.mutate(values, {
-      onSuccess: () => router.push("/admin/cinema"),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: ["cinemas"],
+          exact: false,
+        });
+
+        router.push("/admin/cinema");
+      },
     });
   };
 
@@ -240,7 +248,7 @@ export function CinemaCreateForm() {
           />
         </section>
 
-        <section>
+        {/* <section>
           <SectionHeading icon={Navigation}>Tọa độ bản đồ</SectionHeading>
           <div className="grid grid-cols-2 gap-2.5">
             <FieldInput
@@ -265,7 +273,7 @@ export function CinemaCreateForm() {
           <p className="text-[11px] text-zinc-700 italic mt-2">
             Dùng Google Maps để lấy tọa độ chính xác
           </p>
-        </section>
+        </section> */}
 
         <section>
           <SectionHeading icon={Clock}>Vận hành</SectionHeading>

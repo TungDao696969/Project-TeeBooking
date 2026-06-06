@@ -10,6 +10,14 @@ import dayjs from "dayjs";
 
 const cache_ttl = Number(process.env.CACHE_TTL);
 
+const clearCinemaListCache = async () => {
+  const keys = await redis.keys("cinemas:*");
+
+  if (keys.length > 0) {
+    await redis.del(...keys);
+  }
+};
+
 export const createCinemaService = async (data: CreateCinemaInput) => {
   const slug = generateSlug(data.name);
 
@@ -20,7 +28,7 @@ export const createCinemaService = async (data: CreateCinemaInput) => {
     },
   });
 
-  await redis.del("cinemas:all");
+  await clearCinemaListCache();
   return cinema;
 };
 
@@ -40,13 +48,23 @@ export const getCinemaService = async (
 
   const [cinemas, total] = await Promise.all([
     prisma.cinema.findMany({
+      where: {
+        deletedAt: null,
+      },
+
       skip,
       take: limit,
+
       orderBy: {
         createdAt: "desc",
       },
     }),
-    prisma.cinema.count(),
+
+    prisma.cinema.count({
+      where: {
+        deletedAt: null,
+      },
+    }),
   ]);
 
   const result = {
@@ -86,11 +104,16 @@ export const getCinemaService = async (
 // };
 
 export const getCinemaByIdService = async (id: string) => {
-  const cinema = await prisma.cinema.findUnique({
-    where: { id },
+  const cinema = await prisma.cinema.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+    },
   });
 
-  if (!cinema) throw new Error("Cinema not found");
+  if (!cinema) {
+    throw new Error("Cinema not found");
+  }
 
   return cinema;
 };
@@ -111,18 +134,35 @@ export const updateCinemaService = async (
   });
 
   await redis.del(`cinema:${id}`);
-  await redis.del("cinemas:all");
+  await clearCinemaListCache();
 
   return cinema;
 };
 
 export const deleteCinemaService = async (id: string) => {
-  await prisma.cinema.delete({
+  const cinema = await prisma.cinema.findUnique({
     where: { id },
   });
 
+  if (!cinema) {
+    throw new Error("Cinema not found");
+  }
+
+  if (cinema.deletedAt) {
+    throw new Error("Cinema already deleted");
+  }
+
+  await prisma.cinema.update({
+    where: { id },
+
+    data: {
+      deletedAt: new Date(),
+    },
+  });
+
+  await clearCinemaListCache();
+
   await redis.del(`cinema:${id}`);
-  await redis.del("cinemas:all");
 
   return true;
 };
@@ -146,6 +186,7 @@ export const getCinemaShowtimesService = async (slug: string) => {
       room: {
         cinema: {
           slug,
+          deletedAt: null,
         },
       },
 
@@ -305,4 +346,58 @@ export const getCinemaShowtimesService = async (slug: string) => {
   await redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
 
   return result;
+};
+
+export const getTrashCinemasService = async () => {
+  const cacheKey = "cinemas:trash";
+
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  const cinemas = await prisma.cinema.findMany({
+    where: {
+      deletedAt: {
+        not: null,
+      },
+    },
+
+    orderBy: {
+      deletedAt: "desc",
+    },
+  });
+
+  await redis.set(cacheKey, JSON.stringify(cinemas), "EX", cache_ttl);
+
+  return cinemas;
+};
+
+export const restoreCinemaService = async (id: string) => {
+  const cinema = await prisma.cinema.findUnique({
+    where: { id },
+  });
+
+  if (!cinema) {
+    throw new Error("Cinema not found");
+  }
+
+  if (!cinema.deletedAt) {
+    throw new Error("Cinema is not in trash");
+  }
+
+  const restoredCinema = await prisma.cinema.update({
+    where: { id },
+
+    data: {
+      deletedAt: null,
+    },
+  });
+
+  await clearCinemaListCache();
+
+  await redis.del(`cinema:${id}`);
+
+  return restoredCinema;
 };

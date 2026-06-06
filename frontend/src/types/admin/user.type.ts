@@ -8,6 +8,12 @@ export interface User {
   isActive: boolean;
   isVerified: boolean;
   createdAt: string;
+  deletedAt: string;
+}
+
+export interface TrashUsersResponse {
+  success: boolean;
+  data: User[];
 }
 
 export interface UserPagination {

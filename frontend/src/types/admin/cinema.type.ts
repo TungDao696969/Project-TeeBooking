@@ -3,7 +3,9 @@ import type {
   CinemaPagination,
 } from "@/types/cinema.type";
 
-export type Cinema = BaseCinema;
+export interface Cinema extends BaseCinema {
+  deletedAt: string;
+}
 
 export interface CinemasResponse {
   success: boolean;

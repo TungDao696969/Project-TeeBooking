@@ -83,9 +83,12 @@ export const registerUserService = async (data: RegisterInput) => {
 export const loginUserService = async (data: LoginInput) => {
   // Tìm user theo email
   const user = await prisma.user.findUnique({
-    where: { email: data.email },
+    where: { email: data.email, deletedAt: null },
   });
 
+  if (!user) {
+    throw new Error("Account not found");
+  }
   if (!user) {
     throw new Error("Invalid credentials");
   }

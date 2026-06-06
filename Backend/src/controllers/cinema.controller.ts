@@ -90,7 +90,12 @@ export const getCinemaById = async (
       });
     }
     const cinema = await cinemaService.getCinemaByIdService(id);
-
+    if (!cinema) {
+      return res.status(404).json({
+        success: false,
+        message: "Cinema not found",
+      });
+    }
     res.status(200).json({
       success: true,
       data: cinema,
@@ -184,6 +189,49 @@ export const getCinemaShowtimes = async (req: Request, res: Response) => {
       error,
       res,
       defaultMessage: "Failed to fetch cinema showtimes",
+    });
+  }
+};
+
+export const getTrashCinemas = async (req: Request, res: Response) => {
+  try {
+    const cinemas = await cinemaService.getTrashCinemasService();
+
+    return res.status(200).json({
+      success: true,
+      data: cinemas,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch trash cinemas",
+    });
+  }
+};
+
+export const restoreCinema = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid cinema id",
+      });
+    }
+
+    await cinemaService.restoreCinemaService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Cinema restored successfully",
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to restore cinema",
     });
   }
 };

@@ -14,7 +14,10 @@ export interface Cinema {
   createdAt: string;
   updatedAt: string;
 }
-
+export interface TrashMoviesResponse {
+  success: boolean;
+  data: Cinema[];
+}
 export interface Room {
   id: string;
   roomName: string;

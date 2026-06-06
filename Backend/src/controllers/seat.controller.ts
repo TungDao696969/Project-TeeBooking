@@ -6,6 +6,8 @@ import {
   getAllSeatsService,
   getSeatByIdService,
   getSeatsByRoomService,
+  getTrashSeatsService,
+  restoreSeatService,
   updateSeatService,
 } from "../services/seat.service";
 import { errorHandler } from "../utils/errorHandler";
@@ -162,23 +164,69 @@ export const updateSeat = async (req: Request, res: Response) => {
 export const deleteSeat = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
     if (!id || Array.isArray(id)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid room ID",
+        message: "Invalid seat ID",
       });
     }
+
     await deleteSeatService(id);
 
     return res.status(200).json({
       success: true,
-      message: "Seat deleted successfully",
+      message: "Seat moved to trash successfully",
     });
-  } catch (error: any) {
+  } catch (error) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch notifications",
+      defaultMessage: "Failed to delete seat",
+    });
+  }
+};
+
+export const getTrashSeats = async (req: Request, res: Response) => {
+  try {
+    const seats = await getTrashSeatsService();
+
+    return res.status(200).json({
+      success: true,
+      count: seats.length,
+      data: seats,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch trash seats",
+    });
+  }
+};
+
+export const restoreSeat = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid seat ID",
+      });
+    }
+
+    await restoreSeatService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Seat restored successfully",
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to restore seat",
     });
   }
 };

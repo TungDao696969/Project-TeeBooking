@@ -64,6 +64,8 @@ import {
   getMovieById,
   getMovies,
   getMovieShowtimes,
+  getTrashMovies,
+  restoreMovie,
   updateMovie,
 } from "../controllers/movie.controller";
 import {
@@ -72,6 +74,8 @@ import {
   getAllCinemas,
   getCinemaById,
   getCinemaShowtimes,
+  getTrashCinemas,
+  restoreCinema,
   updateCinema,
 } from "../controllers/cinema.controller";
 import {
@@ -81,6 +85,8 @@ import {
   getCinemaRoomById,
   updateCinemaRoom,
   deleteCinemaRoom,
+  getTrashCinemaRooms,
+  restoreCinemaRoom,
 } from "../controllers/cinemaRoom.controller";
 import { validate } from "../middlewares/validation.middleware";
 import {
@@ -98,9 +104,12 @@ import {
 import {
   createShowtime,
   deleteShowtime,
+  forceDeleteShowtime,
   getAllShowtimes,
   getShowtimeById,
   getShowtimeTicketTypes,
+  getTrashShowtimes,
+  restoreShowtime,
   updateShowtime,
 } from "../controllers/showtime.controller";
 import {
@@ -126,6 +135,8 @@ import {
   getAllSeats,
   getSeatById,
   getSeatsByRoom,
+  getTrashSeats,
+  restoreSeat,
   updateSeat,
 } from "../controllers/seat.controller";
 import { getMoviesListController } from "../controllers/movieList.controller";
@@ -237,8 +248,10 @@ import { getBookingDetailController } from "../controllers/booking.controller";
 import {
   createUser,
   deleteUser,
+  getTrashUsers,
   getUserById,
   getUsers,
+  restoreUser,
   updateUser,
 } from "../controllers/admin/user.controller";
 
@@ -414,6 +427,7 @@ router.post(
 );
 
 router.get("/movie", getMovies);
+router.get("/movie/trash", getTrashMovies);
 
 router.get("/movie/:id", getMovieById);
 
@@ -433,6 +447,7 @@ router.patch(
 );
 
 router.delete("/movie/:id", deleteMovie);
+router.patch("/movie/:id/restore", restoreMovie);
 
 router.get(
   "/movie/:slug/showtimes",
@@ -448,6 +463,7 @@ router.post(
   createCinema,
 );
 router.get("/cinema", getAllCinemas);
+router.get("/cinema/trash", getTrashCinemas);
 router.get("/cinema/:id", getCinemaById);
 // router.get("/cinema/:slug", getCinemaBySlug);
 router.put(
@@ -456,6 +472,7 @@ router.put(
   validate(updateCinemaSchema),
   updateCinema,
 );
+router.patch("/cinema/:id/restore", restoreCinema);
 router.delete("/cinema/:id", authMiddleware, deleteCinema);
 
 // cinema room
@@ -466,6 +483,7 @@ router.post(
 );
 
 router.get("/cinema-rooms", getAllCinemaRooms);
+router.get("/rooms/trash", getTrashCinemaRooms);
 
 router.get("/cinema-rooms/cinema/:cinemaId", getRoomsByCinemaIdController);
 
@@ -477,20 +495,23 @@ router.put(
   updateCinemaRoom,
 );
 
+router.patch("/rooms/:id/restore", restoreCinemaRoom);
+
 router.delete("/cinema-rooms/:id", deleteCinemaRoom);
 
 router.get("/cinema/:slug/showtimes", getCinemaShowtimes);
 
 // showtime
 router.post("/showtime", validate(createShowtimeSchema), createShowtime);
-
+router.get("/showtimes/trash", getTrashShowtimes);
 router.get("/showtime", getAllShowtimes);
 
 router.get("/showtime/:id", getShowtimeById);
 
 router.put("/showtime/:id", validate(updateShowtimeSchema), updateShowtime);
-
+router.patch("/showtime/:id/restore", restoreShowtime);
 router.delete("/showtime/:id", deleteShowtime);
+router.delete("/showtime/:id/force", forceDeleteShowtime);
 
 // showtime seat
 router.post(
@@ -527,6 +548,8 @@ router.delete("/blog/:id", deleteBlogPost);
 // seat
 router.post("/seat", validate(createSeatSchema), createSeat);
 
+router.get("/seat/trash", getTrashSeats);
+
 router.post("/seat/generate", generateSeats);
 
 router.get("/seat", getAllSeats);
@@ -536,6 +559,8 @@ router.get("/seat/room/:roomId", getSeatsByRoom);
 router.get("/seat/:id", getSeatById);
 
 router.put("/seat/:id", validate(updateSeatSchema), updateSeat);
+
+router.patch("/seat/:id/restore", restoreSeat);
 
 router.delete("/seat/:id", deleteSeat);
 
@@ -746,11 +771,15 @@ router.post("/user", createUser);
 
 router.get("/user", getUsers);
 
+router.get("/user/trash", getTrashUsers);
+
 router.get("/user/:id", getUserById);
 
 router.patch("/user/:id", updateUser);
 
 router.delete("/user/:id", deleteUser);
+
+router.patch("/user/:id/restore", restoreUser);
 
 router.get(
   "/admin/dashboard",

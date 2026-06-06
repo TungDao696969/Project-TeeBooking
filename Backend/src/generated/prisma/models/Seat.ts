@@ -44,7 +44,9 @@ export type SeatMinAggregateOutputType = {
   seatCode: string | null
   seatType: $Enums.SeatType | null
   extraPrice: number | null
+  isActive: boolean | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type SeatMaxAggregateOutputType = {
@@ -55,7 +57,9 @@ export type SeatMaxAggregateOutputType = {
   seatCode: string | null
   seatType: $Enums.SeatType | null
   extraPrice: number | null
+  isActive: boolean | null
   createdAt: Date | null
+  deletedAt: Date | null
 }
 
 export type SeatCountAggregateOutputType = {
@@ -66,7 +70,9 @@ export type SeatCountAggregateOutputType = {
   seatCode: number
   seatType: number
   extraPrice: number
+  isActive: number
   createdAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -89,7 +95,9 @@ export type SeatMinAggregateInputType = {
   seatCode?: true
   seatType?: true
   extraPrice?: true
+  isActive?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type SeatMaxAggregateInputType = {
@@ -100,7 +108,9 @@ export type SeatMaxAggregateInputType = {
   seatCode?: true
   seatType?: true
   extraPrice?: true
+  isActive?: true
   createdAt?: true
+  deletedAt?: true
 }
 
 export type SeatCountAggregateInputType = {
@@ -111,7 +121,9 @@ export type SeatCountAggregateInputType = {
   seatCode?: true
   seatType?: true
   extraPrice?: true
+  isActive?: true
   createdAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -209,7 +221,9 @@ export type SeatGroupByOutputType = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice: number
+  isActive: boolean
   createdAt: Date
+  deletedAt: Date | null
   _count: SeatCountAggregateOutputType | null
   _avg: SeatAvgAggregateOutputType | null
   _sum: SeatSumAggregateOutputType | null
@@ -243,7 +257,9 @@ export type SeatWhereInput = {
   seatCode?: Prisma.StringFilter<"Seat"> | string
   seatType?: Prisma.EnumSeatTypeFilter<"Seat"> | $Enums.SeatType
   extraPrice?: Prisma.FloatFilter<"Seat"> | number
+  isActive?: Prisma.BoolFilter<"Seat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Seat"> | Date | string | null
   room?: Prisma.XOR<Prisma.CinemaRoomScalarRelationFilter, Prisma.CinemaRoomWhereInput>
   showtimeSeats?: Prisma.ShowtimeSeatListRelationFilter
 }
@@ -256,7 +272,9 @@ export type SeatOrderByWithRelationInput = {
   seatCode?: Prisma.SortOrder
   seatType?: Prisma.SortOrder
   extraPrice?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   room?: Prisma.CinemaRoomOrderByWithRelationInput
   showtimeSeats?: Prisma.ShowtimeSeatOrderByRelationAggregateInput
 }
@@ -272,7 +290,9 @@ export type SeatWhereUniqueInput = Prisma.AtLeast<{
   seatCode?: Prisma.StringFilter<"Seat"> | string
   seatType?: Prisma.EnumSeatTypeFilter<"Seat"> | $Enums.SeatType
   extraPrice?: Prisma.FloatFilter<"Seat"> | number
+  isActive?: Prisma.BoolFilter<"Seat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Seat"> | Date | string | null
   room?: Prisma.XOR<Prisma.CinemaRoomScalarRelationFilter, Prisma.CinemaRoomWhereInput>
   showtimeSeats?: Prisma.ShowtimeSeatListRelationFilter
 }, "id">
@@ -285,7 +305,9 @@ export type SeatOrderByWithAggregationInput = {
   seatCode?: Prisma.SortOrder
   seatType?: Prisma.SortOrder
   extraPrice?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SeatCountOrderByAggregateInput
   _avg?: Prisma.SeatAvgOrderByAggregateInput
   _max?: Prisma.SeatMaxOrderByAggregateInput
@@ -304,7 +326,9 @@ export type SeatScalarWhereWithAggregatesInput = {
   seatCode?: Prisma.StringWithAggregatesFilter<"Seat"> | string
   seatType?: Prisma.EnumSeatTypeWithAggregatesFilter<"Seat"> | $Enums.SeatType
   extraPrice?: Prisma.FloatWithAggregatesFilter<"Seat"> | number
+  isActive?: Prisma.BoolWithAggregatesFilter<"Seat"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Seat"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Seat"> | Date | string | null
 }
 
 export type SeatCreateInput = {
@@ -314,7 +338,9 @@ export type SeatCreateInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   room: Prisma.CinemaRoomCreateNestedOneWithoutSeatsInput
   showtimeSeats?: Prisma.ShowtimeSeatCreateNestedManyWithoutSeatInput
 }
@@ -327,7 +353,9 @@ export type SeatUncheckedCreateInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   showtimeSeats?: Prisma.ShowtimeSeatUncheckedCreateNestedManyWithoutSeatInput
 }
 
@@ -338,7 +366,9 @@ export type SeatUpdateInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   room?: Prisma.CinemaRoomUpdateOneRequiredWithoutSeatsNestedInput
   showtimeSeats?: Prisma.ShowtimeSeatUpdateManyWithoutSeatNestedInput
 }
@@ -351,7 +381,9 @@ export type SeatUncheckedUpdateInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   showtimeSeats?: Prisma.ShowtimeSeatUncheckedUpdateManyWithoutSeatNestedInput
 }
 
@@ -363,7 +395,9 @@ export type SeatCreateManyInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type SeatUpdateManyMutationInput = {
@@ -373,7 +407,9 @@ export type SeatUpdateManyMutationInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SeatUncheckedUpdateManyInput = {
@@ -384,7 +420,9 @@ export type SeatUncheckedUpdateManyInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SeatListRelationFilter = {
@@ -405,7 +443,9 @@ export type SeatCountOrderByAggregateInput = {
   seatCode?: Prisma.SortOrder
   seatType?: Prisma.SortOrder
   extraPrice?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type SeatAvgOrderByAggregateInput = {
@@ -421,7 +461,9 @@ export type SeatMaxOrderByAggregateInput = {
   seatCode?: Prisma.SortOrder
   seatType?: Prisma.SortOrder
   extraPrice?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type SeatMinOrderByAggregateInput = {
@@ -432,7 +474,9 @@ export type SeatMinOrderByAggregateInput = {
   seatCode?: Prisma.SortOrder
   seatType?: Prisma.SortOrder
   extraPrice?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type SeatSumOrderByAggregateInput = {
@@ -512,7 +556,9 @@ export type SeatCreateWithoutRoomInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   showtimeSeats?: Prisma.ShowtimeSeatCreateNestedManyWithoutSeatInput
 }
 
@@ -523,7 +569,9 @@ export type SeatUncheckedCreateWithoutRoomInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   showtimeSeats?: Prisma.ShowtimeSeatUncheckedCreateNestedManyWithoutSeatInput
 }
 
@@ -564,7 +612,9 @@ export type SeatScalarWhereInput = {
   seatCode?: Prisma.StringFilter<"Seat"> | string
   seatType?: Prisma.EnumSeatTypeFilter<"Seat"> | $Enums.SeatType
   extraPrice?: Prisma.FloatFilter<"Seat"> | number
+  isActive?: Prisma.BoolFilter<"Seat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Seat"> | Date | string | null
 }
 
 export type SeatCreateWithoutShowtimeSeatsInput = {
@@ -574,7 +624,9 @@ export type SeatCreateWithoutShowtimeSeatsInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
   room: Prisma.CinemaRoomCreateNestedOneWithoutSeatsInput
 }
 
@@ -586,7 +638,9 @@ export type SeatUncheckedCreateWithoutShowtimeSeatsInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type SeatCreateOrConnectWithoutShowtimeSeatsInput = {
@@ -612,7 +666,9 @@ export type SeatUpdateWithoutShowtimeSeatsInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   room?: Prisma.CinemaRoomUpdateOneRequiredWithoutSeatsNestedInput
 }
 
@@ -624,7 +680,9 @@ export type SeatUncheckedUpdateWithoutShowtimeSeatsInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SeatCreateManyRoomInput = {
@@ -634,7 +692,9 @@ export type SeatCreateManyRoomInput = {
   seatCode: string
   seatType: $Enums.SeatType
   extraPrice?: number
+  isActive?: boolean
   createdAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type SeatUpdateWithoutRoomInput = {
@@ -644,7 +704,9 @@ export type SeatUpdateWithoutRoomInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   showtimeSeats?: Prisma.ShowtimeSeatUpdateManyWithoutSeatNestedInput
 }
 
@@ -655,7 +717,9 @@ export type SeatUncheckedUpdateWithoutRoomInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   showtimeSeats?: Prisma.ShowtimeSeatUncheckedUpdateManyWithoutSeatNestedInput
 }
 
@@ -666,7 +730,9 @@ export type SeatUncheckedUpdateManyWithoutRoomInput = {
   seatCode?: Prisma.StringFieldUpdateOperationsInput | string
   seatType?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
   extraPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -708,7 +774,9 @@ export type SeatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   seatCode?: boolean
   seatType?: boolean
   extraPrice?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   room?: boolean | Prisma.CinemaRoomDefaultArgs<ExtArgs>
   showtimeSeats?: boolean | Prisma.Seat$showtimeSeatsArgs<ExtArgs>
   _count?: boolean | Prisma.SeatCountOutputTypeDefaultArgs<ExtArgs>
@@ -722,7 +790,9 @@ export type SeatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   seatCode?: boolean
   seatType?: boolean
   extraPrice?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   room?: boolean | Prisma.CinemaRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -734,7 +804,9 @@ export type SeatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   seatCode?: boolean
   seatType?: boolean
   extraPrice?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
   room?: boolean | Prisma.CinemaRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -746,10 +818,12 @@ export type SeatSelectScalar = {
   seatCode?: boolean
   seatType?: boolean
   extraPrice?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  deletedAt?: boolean
 }
 
-export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "seatRow" | "seatNumber" | "seatCode" | "seatType" | "extraPrice" | "createdAt", ExtArgs["result"]["seat"]>
+export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "seatRow" | "seatNumber" | "seatCode" | "seatType" | "extraPrice" | "isActive" | "createdAt" | "deletedAt", ExtArgs["result"]["seat"]>
 export type SeatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   room?: boolean | Prisma.CinemaRoomDefaultArgs<ExtArgs>
   showtimeSeats?: boolean | Prisma.Seat$showtimeSeatsArgs<ExtArgs>
@@ -776,7 +850,9 @@ export type $SeatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     seatCode: string
     seatType: $Enums.SeatType
     extraPrice: number
+    isActive: boolean
     createdAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["seat"]>
   composites: {}
 }
@@ -1209,7 +1285,9 @@ export interface SeatFieldRefs {
   readonly seatCode: Prisma.FieldRef<"Seat", 'String'>
   readonly seatType: Prisma.FieldRef<"Seat", 'SeatType'>
   readonly extraPrice: Prisma.FieldRef<"Seat", 'Float'>
+  readonly isActive: Prisma.FieldRef<"Seat", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Seat", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Seat", 'DateTime'>
 }
     
 

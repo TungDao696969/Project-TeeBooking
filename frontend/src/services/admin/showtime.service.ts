@@ -45,3 +45,15 @@ export const getShowtimeSeats = async (showtimeId: string) => {
 
   return res.data.data;
 };
+
+export const getTrashShowtimesService = async () => {
+  const response = await api.get("/showtimes/trash");
+
+  return response.data;
+};
+
+export const restoreShowtimeService = async (id: string) => {
+  const response = await api.patch(`/showtime/${id}/restore`);
+
+  return response.data;
+};

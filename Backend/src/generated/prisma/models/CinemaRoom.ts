@@ -256,9 +256,9 @@ export type CinemaRoomWhereInput = {
   isActive?: Prisma.BoolFilter<"CinemaRoom"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"CinemaRoom"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CinemaRoom"> | Date | string
-  cinema?: Prisma.XOR<Prisma.CinemaScalarRelationFilter, Prisma.CinemaWhereInput>
   seats?: Prisma.SeatListRelationFilter
   showtimes?: Prisma.ShowtimeListRelationFilter
+  cinema?: Prisma.XOR<Prisma.CinemaScalarRelationFilter, Prisma.CinemaWhereInput>
 }
 
 export type CinemaRoomOrderByWithRelationInput = {
@@ -272,9 +272,9 @@ export type CinemaRoomOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  cinema?: Prisma.CinemaOrderByWithRelationInput
   seats?: Prisma.SeatOrderByRelationAggregateInput
   showtimes?: Prisma.ShowtimeOrderByRelationAggregateInput
+  cinema?: Prisma.CinemaOrderByWithRelationInput
 }
 
 export type CinemaRoomWhereUniqueInput = Prisma.AtLeast<{
@@ -291,9 +291,9 @@ export type CinemaRoomWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"CinemaRoom"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"CinemaRoom"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CinemaRoom"> | Date | string
-  cinema?: Prisma.XOR<Prisma.CinemaScalarRelationFilter, Prisma.CinemaWhereInput>
   seats?: Prisma.SeatListRelationFilter
   showtimes?: Prisma.ShowtimeListRelationFilter
+  cinema?: Prisma.XOR<Prisma.CinemaScalarRelationFilter, Prisma.CinemaWhereInput>
 }, "id">
 
 export type CinemaRoomOrderByWithAggregationInput = {
@@ -340,9 +340,9 @@ export type CinemaRoomCreateInput = {
   isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
   seats?: Prisma.SeatCreateNestedManyWithoutRoomInput
   showtimes?: Prisma.ShowtimeCreateNestedManyWithoutRoomInput
+  cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
 }
 
 export type CinemaRoomUncheckedCreateInput = {
@@ -370,9 +370,9 @@ export type CinemaRoomUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
   seats?: Prisma.SeatUpdateManyWithoutRoomNestedInput
   showtimes?: Prisma.ShowtimeUpdateManyWithoutRoomNestedInput
+  cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
 }
 
 export type CinemaRoomUncheckedUpdateInput = {
@@ -640,8 +640,8 @@ export type CinemaRoomCreateWithoutSeatsInput = {
   isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
   showtimes?: Prisma.ShowtimeCreateNestedManyWithoutRoomInput
+  cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
 }
 
 export type CinemaRoomUncheckedCreateWithoutSeatsInput = {
@@ -684,8 +684,8 @@ export type CinemaRoomUpdateWithoutSeatsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
   showtimes?: Prisma.ShowtimeUpdateManyWithoutRoomNestedInput
+  cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
 }
 
 export type CinemaRoomUncheckedUpdateWithoutSeatsInput = {
@@ -712,8 +712,8 @@ export type CinemaRoomCreateWithoutShowtimesInput = {
   isActive?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
   seats?: Prisma.SeatCreateNestedManyWithoutRoomInput
+  cinema: Prisma.CinemaCreateNestedOneWithoutRoomsInput
 }
 
 export type CinemaRoomUncheckedCreateWithoutShowtimesInput = {
@@ -756,8 +756,8 @@ export type CinemaRoomUpdateWithoutShowtimesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
   seats?: Prisma.SeatUpdateManyWithoutRoomNestedInput
+  cinema?: Prisma.CinemaUpdateOneRequiredWithoutRoomsNestedInput
 }
 
 export type CinemaRoomUncheckedUpdateWithoutShowtimesInput = {
@@ -877,9 +877,9 @@ export type CinemaRoomSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   isActive?: boolean
   deletedAt?: boolean
   createdAt?: boolean
-  cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
   seats?: boolean | Prisma.CinemaRoom$seatsArgs<ExtArgs>
   showtimes?: boolean | Prisma.CinemaRoom$showtimesArgs<ExtArgs>
+  cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CinemaRoomCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cinemaRoom"]>
 
@@ -926,9 +926,9 @@ export type CinemaRoomSelectScalar = {
 
 export type CinemaRoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cinemaId" | "roomName" | "roomType" | "totalSeats" | "screenType" | "soundSystem" | "isActive" | "deletedAt" | "createdAt", ExtArgs["result"]["cinemaRoom"]>
 export type CinemaRoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
   seats?: boolean | Prisma.CinemaRoom$seatsArgs<ExtArgs>
   showtimes?: boolean | Prisma.CinemaRoom$showtimesArgs<ExtArgs>
+  cinema?: boolean | Prisma.CinemaDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CinemaRoomCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CinemaRoomIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -941,9 +941,9 @@ export type CinemaRoomIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $CinemaRoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CinemaRoom"
   objects: {
-    cinema: Prisma.$CinemaPayload<ExtArgs>
     seats: Prisma.$SeatPayload<ExtArgs>[]
     showtimes: Prisma.$ShowtimePayload<ExtArgs>[]
+    cinema: Prisma.$CinemaPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1350,9 +1350,9 @@ readonly fields: CinemaRoomFieldRefs;
  */
 export interface Prisma__CinemaRoomClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  cinema<T extends Prisma.CinemaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CinemaDefaultArgs<ExtArgs>>): Prisma.Prisma__CinemaClient<runtime.Types.Result.GetResult<Prisma.$CinemaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   seats<T extends Prisma.CinemaRoom$seatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CinemaRoom$seatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   showtimes<T extends Prisma.CinemaRoom$showtimesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CinemaRoom$showtimesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShowtimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cinema<T extends Prisma.CinemaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CinemaDefaultArgs<ExtArgs>>): Prisma.Prisma__CinemaClient<runtime.Types.Result.GetResult<Prisma.$CinemaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

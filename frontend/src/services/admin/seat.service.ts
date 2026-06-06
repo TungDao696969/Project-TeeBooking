@@ -1,5 +1,9 @@
 import api from "@/lib/axios";
-import { SeatResponse, UpdateSeatInput } from "@/types/admin/seat.type";
+import {
+  SeatResponse,
+  TrashSeatResponse,
+  UpdateSeatInput,
+} from "@/types/admin/seat.type";
 import { SeatFormData, UpdateSeatFormData } from "@/schemas/admin/seat.schema";
 import { SeatDetail } from "@/types/admin/seat.type";
 export const getSeats = async (page: number): Promise<SeatResponse> => {
@@ -50,3 +54,20 @@ export const getSeatsByRoomService = async (roomId: string) => {
 
   return response.data.data;
 };
+
+export const getTrashSeatsService = async (
+  page = 1,
+  limit = 10,
+): Promise<TrashSeatResponse> => {
+  const response = await api.get(`/seat/trash?page=${page}&limit=${limit}`);
+
+  return response.data;
+};
+
+export const restoreSeatService = async (id: string) => {
+  const response = await api.patch(`/seat/${id}/restore`);
+
+  return response.data;
+};
+
+

@@ -2,6 +2,7 @@ import api from "@/lib/axios";
 import {
   ForgotPasswordPayload,
   LoginPayload,
+  LoginResponse,
   RegisterPayload,
   ResetPasswordPayload,
   VerifyOtpBody,
@@ -12,7 +13,9 @@ export const registerApi = async (body: RegisterPayload) => {
   const res = await api.post("/auth/register", body);
   return res.data;
 };
-export const loginService = async (payload: LoginPayload) => {
+export const loginService = async (
+  payload: LoginPayload,
+): Promise<LoginResponse> => {
   const response = await api.post("/auth/login", payload);
 
   return response.data;

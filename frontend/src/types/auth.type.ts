@@ -22,7 +22,7 @@ export interface User {
   name?: string;
   fullName?: string;
   email: string;
-  role: string;
+  role: "admin" | "user";
   avatar?: string;
   avatarUrl?: string | null;
 }
@@ -60,4 +60,14 @@ export interface ResetPasswordPayload {
   email: string;
   otp: string;
   password: string;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  message: string;
+
+  data: {
+    user: User;
+    accessToken: string;
+  };
 }

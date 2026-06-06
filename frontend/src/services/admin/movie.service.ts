@@ -1,4 +1,5 @@
 import api from "@/lib/axios";
+import { TrashMoviesResponse } from "@/types/movie.type";
 
 export const movieAdminService = {
   getMovies: async (page = 1) => {
@@ -36,4 +37,16 @@ export const movieAdminService = {
 
     return response.data;
   },
+};
+
+export const getTrashMoviesService = async (): Promise<TrashMoviesResponse> => {
+  const response = await api.get("/movie/trash");
+
+  return response.data;
+};
+
+export const restoreMovieService = async (id: string) => {
+  const response = await api.patch(`/movie/${id}/restore`);
+
+  return response.data;
 };

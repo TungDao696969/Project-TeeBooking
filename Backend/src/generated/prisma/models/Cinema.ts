@@ -52,6 +52,7 @@ export type CinemaMinAggregateOutputType = {
   openingHours: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type CinemaMaxAggregateOutputType = {
@@ -70,6 +71,7 @@ export type CinemaMaxAggregateOutputType = {
   openingHours: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type CinemaCountAggregateOutputType = {
@@ -88,6 +90,7 @@ export type CinemaCountAggregateOutputType = {
   openingHours: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -118,6 +121,7 @@ export type CinemaMinAggregateInputType = {
   openingHours?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type CinemaMaxAggregateInputType = {
@@ -136,6 +140,7 @@ export type CinemaMaxAggregateInputType = {
   openingHours?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type CinemaCountAggregateInputType = {
@@ -154,6 +159,7 @@ export type CinemaCountAggregateInputType = {
   openingHours?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -259,6 +265,7 @@ export type CinemaGroupByOutputType = {
   openingHours: string | null
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   _count: CinemaCountAggregateOutputType | null
   _avg: CinemaAvgAggregateOutputType | null
   _sum: CinemaSumAggregateOutputType | null
@@ -300,6 +307,7 @@ export type CinemaWhereInput = {
   openingHours?: Prisma.StringNullableFilter<"Cinema"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Cinema"> | Date | string | null
   city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>
   rooms?: Prisma.CinemaRoomListRelationFilter
   ticketTypes?: Prisma.TicketTypeListRelationFilter
@@ -321,6 +329,7 @@ export type CinemaOrderByWithRelationInput = {
   openingHours?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.CityOrderByWithRelationInput
   rooms?: Prisma.CinemaRoomOrderByRelationAggregateInput
   ticketTypes?: Prisma.TicketTypeOrderByRelationAggregateInput
@@ -345,6 +354,7 @@ export type CinemaWhereUniqueInput = Prisma.AtLeast<{
   openingHours?: Prisma.StringNullableFilter<"Cinema"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Cinema"> | Date | string | null
   city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>
   rooms?: Prisma.CinemaRoomListRelationFilter
   ticketTypes?: Prisma.TicketTypeListRelationFilter
@@ -366,6 +376,7 @@ export type CinemaOrderByWithAggregationInput = {
   openingHours?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CinemaCountOrderByAggregateInput
   _avg?: Prisma.CinemaAvgOrderByAggregateInput
   _max?: Prisma.CinemaMaxOrderByAggregateInput
@@ -392,6 +403,7 @@ export type CinemaScalarWhereWithAggregatesInput = {
   openingHours?: Prisma.StringNullableWithAggregatesFilter<"Cinema"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Cinema"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Cinema"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Cinema"> | Date | string | null
 }
 
 export type CinemaCreateInput = {
@@ -409,6 +421,7 @@ export type CinemaCreateInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   city: Prisma.CityCreateNestedOneWithoutCinemasInput
   rooms?: Prisma.CinemaRoomCreateNestedManyWithoutCinemaInput
   ticketTypes?: Prisma.TicketTypeCreateNestedManyWithoutCinemaInput
@@ -430,6 +443,7 @@ export type CinemaUncheckedCreateInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   rooms?: Prisma.CinemaRoomUncheckedCreateNestedManyWithoutCinemaInput
   ticketTypes?: Prisma.TicketTypeUncheckedCreateNestedManyWithoutCinemaInput
 }
@@ -449,6 +463,7 @@ export type CinemaUpdateInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city?: Prisma.CityUpdateOneRequiredWithoutCinemasNestedInput
   rooms?: Prisma.CinemaRoomUpdateManyWithoutCinemaNestedInput
   ticketTypes?: Prisma.TicketTypeUpdateManyWithoutCinemaNestedInput
@@ -470,6 +485,7 @@ export type CinemaUncheckedUpdateInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rooms?: Prisma.CinemaRoomUncheckedUpdateManyWithoutCinemaNestedInput
   ticketTypes?: Prisma.TicketTypeUncheckedUpdateManyWithoutCinemaNestedInput
 }
@@ -490,6 +506,7 @@ export type CinemaCreateManyInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type CinemaUpdateManyMutationInput = {
@@ -507,6 +524,7 @@ export type CinemaUpdateManyMutationInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type CinemaUncheckedUpdateManyInput = {
@@ -525,6 +543,7 @@ export type CinemaUncheckedUpdateManyInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type CinemaCountOrderByAggregateInput = {
@@ -543,6 +562,7 @@ export type CinemaCountOrderByAggregateInput = {
   openingHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type CinemaAvgOrderByAggregateInput = {
@@ -566,6 +586,7 @@ export type CinemaMaxOrderByAggregateInput = {
   openingHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type CinemaMinOrderByAggregateInput = {
@@ -584,6 +605,7 @@ export type CinemaMinOrderByAggregateInput = {
   openingHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type CinemaSumOrderByAggregateInput = {
@@ -706,6 +728,7 @@ export type CinemaCreateWithoutRoomsInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   city: Prisma.CityCreateNestedOneWithoutCinemasInput
   ticketTypes?: Prisma.TicketTypeCreateNestedManyWithoutCinemaInput
 }
@@ -726,6 +749,7 @@ export type CinemaUncheckedCreateWithoutRoomsInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   ticketTypes?: Prisma.TicketTypeUncheckedCreateNestedManyWithoutCinemaInput
 }
 
@@ -760,6 +784,7 @@ export type CinemaUpdateWithoutRoomsInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city?: Prisma.CityUpdateOneRequiredWithoutCinemasNestedInput
   ticketTypes?: Prisma.TicketTypeUpdateManyWithoutCinemaNestedInput
 }
@@ -780,6 +805,7 @@ export type CinemaUncheckedUpdateWithoutRoomsInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ticketTypes?: Prisma.TicketTypeUncheckedUpdateManyWithoutCinemaNestedInput
 }
 
@@ -798,6 +824,7 @@ export type CinemaCreateWithoutCityInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   rooms?: Prisma.CinemaRoomCreateNestedManyWithoutCinemaInput
   ticketTypes?: Prisma.TicketTypeCreateNestedManyWithoutCinemaInput
 }
@@ -817,6 +844,7 @@ export type CinemaUncheckedCreateWithoutCityInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   rooms?: Prisma.CinemaRoomUncheckedCreateNestedManyWithoutCinemaInput
   ticketTypes?: Prisma.TicketTypeUncheckedCreateNestedManyWithoutCinemaInput
 }
@@ -866,6 +894,7 @@ export type CinemaScalarWhereInput = {
   openingHours?: Prisma.StringNullableFilter<"Cinema"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cinema"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Cinema"> | Date | string | null
 }
 
 export type CinemaCreateWithoutTicketTypesInput = {
@@ -883,6 +912,7 @@ export type CinemaCreateWithoutTicketTypesInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   city: Prisma.CityCreateNestedOneWithoutCinemasInput
   rooms?: Prisma.CinemaRoomCreateNestedManyWithoutCinemaInput
 }
@@ -903,6 +933,7 @@ export type CinemaUncheckedCreateWithoutTicketTypesInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   rooms?: Prisma.CinemaRoomUncheckedCreateNestedManyWithoutCinemaInput
 }
 
@@ -937,6 +968,7 @@ export type CinemaUpdateWithoutTicketTypesInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city?: Prisma.CityUpdateOneRequiredWithoutCinemasNestedInput
   rooms?: Prisma.CinemaRoomUpdateManyWithoutCinemaNestedInput
 }
@@ -957,6 +989,7 @@ export type CinemaUncheckedUpdateWithoutTicketTypesInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rooms?: Prisma.CinemaRoomUncheckedUpdateManyWithoutCinemaNestedInput
 }
 
@@ -975,6 +1008,7 @@ export type CinemaCreateManyCityInput = {
   openingHours?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type CinemaUpdateWithoutCityInput = {
@@ -992,6 +1026,7 @@ export type CinemaUpdateWithoutCityInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rooms?: Prisma.CinemaRoomUpdateManyWithoutCinemaNestedInput
   ticketTypes?: Prisma.TicketTypeUpdateManyWithoutCinemaNestedInput
 }
@@ -1011,6 +1046,7 @@ export type CinemaUncheckedUpdateWithoutCityInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rooms?: Prisma.CinemaRoomUncheckedUpdateManyWithoutCinemaNestedInput
   ticketTypes?: Prisma.TicketTypeUncheckedUpdateManyWithoutCinemaNestedInput
 }
@@ -1030,6 +1066,7 @@ export type CinemaUncheckedUpdateManyWithoutCityInput = {
   openingHours?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1088,6 +1125,7 @@ export type CinemaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   openingHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
   rooms?: boolean | Prisma.Cinema$roomsArgs<ExtArgs>
   ticketTypes?: boolean | Prisma.Cinema$ticketTypesArgs<ExtArgs>
@@ -1110,6 +1148,7 @@ export type CinemaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   openingHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cinema"]>
 
@@ -1129,6 +1168,7 @@ export type CinemaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   openingHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cinema"]>
 
@@ -1148,9 +1188,10 @@ export type CinemaSelectScalar = {
   openingHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type CinemaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "hotline" | "email" | "cityId" | "province" | "district" | "ward" | "address" | "latitude" | "longitude" | "openingHours" | "createdAt" | "updatedAt", ExtArgs["result"]["cinema"]>
+export type CinemaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "hotline" | "email" | "cityId" | "province" | "district" | "ward" | "address" | "latitude" | "longitude" | "openingHours" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["cinema"]>
 export type CinemaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
   rooms?: boolean | Prisma.Cinema$roomsArgs<ExtArgs>
@@ -1187,6 +1228,7 @@ export type $CinemaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     openingHours: string | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["cinema"]>
   composites: {}
 }
@@ -1628,6 +1670,7 @@ export interface CinemaFieldRefs {
   readonly openingHours: Prisma.FieldRef<"Cinema", 'String'>
   readonly createdAt: Prisma.FieldRef<"Cinema", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Cinema", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Cinema", 'DateTime'>
 }
     
 

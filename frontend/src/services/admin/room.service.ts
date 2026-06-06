@@ -54,3 +54,15 @@ export const getRoomsByCinema = async (
 
   return res.data;
 };
+
+export const getTrashCinemaRoomsService = async () => {
+  const response = await api.get("/rooms/trash");
+
+  return response.data;
+};
+
+export const restoreCinemaRoomService = async (roomId: string) => {
+  const response = await api.patch(`/rooms/${roomId}/restore`);
+
+  return response.data;
+};

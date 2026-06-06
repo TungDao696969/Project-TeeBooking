@@ -7,6 +7,14 @@ import {
 
 const cache_ttl = Number(process.env.CACHE_TTL);
 
+const clearCinemaRoomCache = async () => {
+  const keys = await redis.keys("cinemaRooms:*");
+
+  if (keys.length > 0) {
+    await redis.del(...keys);
+  }
+};
+
 export const createCinemaRoomService = async (data: CreateCinemaRoomInput) => {
   const cinema = await prisma.cinema.findUnique({
     where: {
@@ -72,6 +80,7 @@ export const getRoomsByCinemaIdService = async ({
       where: {
         cinemaId,
         isActive: true,
+        deletedAt: null,
       },
     }),
   ]);
@@ -100,18 +109,28 @@ export const getAllCinemaRoomsService = async (
 
   const [rooms, total] = await Promise.all([
     prisma.cinemaRoom.findMany({
+      where: {
+        deletedAt: null,
+      },
+
       include: {
         seats: true,
         showtimes: true,
       },
+
       orderBy: {
         createdAt: "asc",
       },
+
       skip,
       take: limit,
     }),
 
-    prisma.cinemaRoom.count(),
+    prisma.cinemaRoom.count({
+      where: {
+        deletedAt: null,
+      },
+    }),
   ]);
 
   return {
@@ -126,14 +145,23 @@ export const getAllCinemaRoomsService = async (
 };
 
 export const getCinemaRoomByIdService = async (id: string) => {
-  const rooms = await prisma.cinemaRoom.findUnique({
-    where: { id },
+  const room = await prisma.cinemaRoom.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+    },
+
     include: {
       seats: true,
       showtimes: true,
     },
   });
-  return rooms;
+
+  if (!room) {
+    throw new Error("Cinema room not found");
+  }
+
+  return room;
 };
 
 export const updateCinemaRoomService = async (
@@ -158,27 +186,101 @@ export const updateCinemaRoomService = async (
 };
 
 export const deleteCinemaRoomService = async (id: string) => {
-  const existing = await prisma.cinemaRoom.findUnique({
+  const room = await prisma.cinemaRoom.findUnique({
     where: { id },
   });
 
-  if (!existing) {
+  if (!room) {
     throw new Error("Cinema room not found");
   }
 
-  if (!existing.isActive) {
-    throw new Error("Cinema room is already disabled");
+  if (room.deletedAt) {
+    throw new Error("Cinema room already deleted");
   }
 
-  const room = await prisma.cinemaRoom.update({
-    where: { id },
-    data: {
-      isActive: false,
-      deletedAt: new Date(),
+  const upcomingShowtime = await prisma.showtime.findFirst({
+    where: {
+      roomId: id,
+
+      startTime: {
+        gte: new Date(),
+      },
     },
   });
 
-  await redis.del(`cinemaRooms:${room.cinemaId}`);
+  if (upcomingShowtime) {
+    throw new Error("Cannot delete room with upcoming showtimes");
+  }
 
-  return room;
+  const deletedRoom = await prisma.cinemaRoom.update({
+    where: { id },
+
+    data: {
+      deletedAt: new Date(),
+      isActive: false,
+    },
+  });
+
+  await clearCinemaRoomCache();
+
+  return deletedRoom;
+};
+
+export const getTrashCinemaRoomsService = async () => {
+  const cacheKey = "cinemaRooms:trash";
+
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
+  const rooms = await prisma.cinemaRoom.findMany({
+    where: {
+      deletedAt: {
+        not: null,
+      },
+    },
+
+    include: {
+      cinema: true,
+    },
+
+    orderBy: {
+      deletedAt: "desc",
+    },
+  });
+
+  await redis.set(cacheKey, JSON.stringify(rooms), "EX", cache_ttl);
+
+  return rooms;
+};
+
+export const restoreCinemaRoomService = async (id: string) => {
+  const room = await prisma.cinemaRoom.findUnique({
+    where: { id },
+  });
+
+  if (!room) {
+    throw new Error("Cinema room not found");
+  }
+
+  if (!room.deletedAt) {
+    throw new Error("Cinema room is not in trash");
+  }
+
+  const restoredRoom = await prisma.cinemaRoom.update({
+    where: { id },
+
+    data: {
+      deletedAt: null,
+      isActive: true,
+    },
+  });
+
+  await clearCinemaRoomCache();
+
+  await redis.del("cinemaRooms:trash");
+
+  return restoredRoom;
 };

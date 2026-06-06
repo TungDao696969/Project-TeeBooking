@@ -101,6 +101,10 @@ export const getAllSeatsService = async (
 
   const [seats, total] = await Promise.all([
     prisma.seat.findMany({
+      where: {
+        deletedAt: null,
+        isActive: true,
+      },
       include: {
         room: {
           include: {
@@ -114,7 +118,12 @@ export const getAllSeatsService = async (
       take: limit,
     }),
 
-    prisma.seat.count(),
+    prisma.seat.count({
+      where: {
+        deletedAt: null,
+        isActive: true,
+      },
+    }),
   ]);
 
   return {
@@ -137,7 +146,12 @@ export const getSeatsByRoomService = async (roomId: string) => {
   }
 
   const seats = await prisma.seat.findMany({
-    where: { roomId },
+    where: {
+      roomId,
+      deletedAt: null,
+
+      isActive: true,
+    },
     include: {
       room: true,
       showtimeSeats: true,
@@ -151,8 +165,12 @@ export const getSeatsByRoomService = async (roomId: string) => {
 };
 
 export const getSeatByIdService = async (id: string) => {
-  return prisma.seat.findUnique({
-    where: { id },
+  return prisma.seat.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+    },
+
     include: {
       room: true,
       showtimeSeats: true,
@@ -211,23 +229,91 @@ export const deleteSeatService = async (id: string) => {
     throw new Error("Seat not found");
   }
 
-  // Không cho xóa nếu ghế đã được dùng trong showtime/booking
+  if (!seat.isActive) {
+    throw new Error("Seat already deleted");
+  }
+
   if (seat.showtimeSeats.length > 0) {
     throw new Error(
       "Cannot delete seat because it is already used in showtimes/bookings",
     );
   }
 
-  await prisma.seat.delete({
+  const deletedSeat = await prisma.seat.update({
+    where: { id },
+
+    data: {
+      isActive: false,
+      deletedAt: new Date(),
+    },
+  });
+
+  await redis.del(`seats:${seat.roomId}`);
+  await redis.del("seats:all");
+  await redis.del("seats:trash");
+
+  return deletedSeat;
+};
+
+export const getTrashSeatsService = async () => {
+  const cacheKey = "seats:trash";
+
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
+  const seats = await prisma.seat.findMany({
+    where: {
+      deletedAt: {
+        not: null,
+      },
+    },
+
+    include: {
+      room: {
+        include: {
+          cinema: true,
+        },
+      },
+    },
+
+    orderBy: {
+      deletedAt: "desc",
+    },
+  });
+
+  await redis.set(cacheKey, JSON.stringify(seats), "EX", 300);
+
+  return seats;
+};
+
+export const restoreSeatService = async (id: string) => {
+  const seat = await prisma.seat.findUnique({
     where: { id },
   });
 
-  // clear cache
+  if (!seat) {
+    throw new Error("Seat not found");
+  }
+
+  if (!seat.deletedAt) {
+    throw new Error("Seat is not deleted");
+  }
+
+  const restoredSeat = await prisma.seat.update({
+    where: { id },
+
+    data: {
+      isActive: true,
+      deletedAt: null,
+    },
+  });
+
   await redis.del(`seats:${seat.roomId}`);
   await redis.del("seats:all");
+  await redis.del("seats:trash");
 
-  return {
-    success: true,
-    message: "Seat deleted successfully",
-  };
+  return restoredSeat;
 };

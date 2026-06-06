@@ -1,7 +1,7 @@
 import api from "@/lib/axios";
-import { Cinema, CinemasResponse } from "@/types/cinema.type";
+import { Cinema } from "@/types/cinema.type";
 import { CinemaFormValues } from "@/schemas/admin/cinema.schema";
-
+import type { CinemasResponse } from "@/types/admin/cinema.type";
 interface City {
   id: string;
   name: string;
@@ -56,4 +56,16 @@ export const deleteCinema = async (id: string) => {
   const { data } = await api.delete(`/cinema/${id}`);
 
   return data;
+};
+
+export const getTrashCinemas = async () => {
+  const response = await api.get("/cinema/trash");
+
+  return response.data;
+};
+
+export const restoreCinema = async (id: string) => {
+  const response = await api.patch(`/cinema/${id}/restore`);
+
+  return response.data;
 };

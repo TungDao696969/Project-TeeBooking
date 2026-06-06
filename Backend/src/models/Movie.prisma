@@ -1,7 +1,7 @@
 model Movie {
-  id              String      @id @default(uuid())
+  id              String       @id @default(uuid())
   title           String
-  slug            String      @unique
+  slug            String       @unique
   originalTitle   String?
   description     String
   durationMinutes Int
@@ -16,14 +16,14 @@ model Movie {
   status          MovieStatus
   country         String?
   producer        String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @default(now()) @updatedAt
-
-  genres    MovieGenre[]
-  casts     MovieCast[]
-  showtimes Showtime[]
-  reviews   Review[]
-  trailers  Trailer[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now()) @updatedAt
+  deletedAt       DateTime?
+  genres          MovieGenre[]
+  casts           MovieCast[]
+  showtimes       Showtime[]
+  reviews         Review[]
+  trailers        Trailer[]
 
   @@map("movies")
 }

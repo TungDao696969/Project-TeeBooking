@@ -10,8 +10,8 @@ import {
 
 import { cinemaColumns } from "./cinema-columns";
 import { Cinema } from "@/types/cinema.type";
-
-import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { Search, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 
 import {
   Table,
@@ -53,15 +53,30 @@ export function CinemaTable({ data, pagination, onPageChange }: Props) {
   return (
     <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
       {/* Search */}
-      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#1e1e1e]">
-        <Search className="w-4 h-4 text-zinc-600 shrink-0" />
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[#1e1e1e]">
+        {/* Search */}
+        <div className="flex items-center gap-2.5 flex-1">
+          <Search className="w-4 h-4 text-zinc-600 shrink-0" />
 
-        <input
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Tìm kiếm rạp, địa chỉ, tỉnh thành..."
-          className="bg-transparent border-none outline-none text-sm text-zinc-300 placeholder:text-zinc-600 w-full"
-        />
+          <input
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Tìm kiếm rạp, địa chỉ, tỉnh thành..."
+            className="bg-transparent border-none outline-none text-sm text-zinc-300 placeholder:text-zinc-600 w-full"
+          />
+        </div>
+
+        {/* Trash Button */}
+        <Link href="/admin/cinema/trash">
+          <Button
+            size="sm"
+            variant="outline"
+            className="ml-4 border-red-900/50 text-red-500 hover:bg-red-950/30 hover:text-red-400"
+          >
+            <Trash2 className="w-4 h-4 mr-1" />
+            Thùng rác
+          </Button>
+        </Link>
       </div>
 
       {/* Table */}
@@ -102,8 +117,6 @@ export function CinemaTable({ data, pagination, onPageChange }: Props) {
           ))}
         </TableBody>
       </Table>
-
-     
 
       <div className="relative flex items-center justify-center px-4 py-4 border-t border-[#1e1e1e]">
         {/* Left */}

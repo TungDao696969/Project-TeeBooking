@@ -1,13 +1,14 @@
 model Seat {
-  id         String   @id @default(uuid())
-  roomId     String
-  seatRow    String
-  seatNumber Int
-  seatCode   String
-  seatType   SeatType
-  extraPrice Float    @default(0)
-  createdAt  DateTime @default(now())
-
+  id            String         @id @default(uuid())
+  roomId        String
+  seatRow       String
+  seatNumber    Int
+  seatCode      String
+  seatType      SeatType
+  extraPrice    Float          @default(0)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  deletedAt     DateTime?
   room          CinemaRoom     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   showtimeSeats ShowtimeSeat[]
 

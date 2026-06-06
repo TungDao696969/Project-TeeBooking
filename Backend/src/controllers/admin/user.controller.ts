@@ -6,6 +6,8 @@ import {
   getUserByIdService,
   updateUserService,
   deleteUserService,
+  getTrashUsersService,
+  restoreUserService,
 } from "../../services/admin/user.service";
 
 import { errorHandler } from "../../utils/errorHandler";
@@ -133,6 +135,38 @@ export const deleteUser = async (req: Request, res: Response) => {
       error,
       res,
       defaultMessage: "Failed to delete user",
+    });
+  }
+};
+
+export const getTrashUsers = async (req: Request, res: Response) => {
+  const users = await getTrashUsersService();
+
+  return res.status(200).json({
+    success: true,
+    data: users,
+  });
+};
+
+export const restoreUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invaid user Id",
+      });
+    }
+    await restoreUserService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "User restored successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error instanceof Error ? error.message : "Restore failed",
     });
   }
 };

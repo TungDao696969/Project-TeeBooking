@@ -11,7 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Pencil, Trash2, Plus, Search, Clock } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Trash2,
+  Plus,
+  Search,
+  Clock,
+  Archive,
+} from "lucide-react";
 import { Movie } from "@/types/movie.type";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -97,6 +105,24 @@ export default function MovieTable({
               className="pl-8 h-8 text-sm w-44"
             />
           </div>
+
+          <Link href="/admin/movie/trash">
+            <Button
+              size="sm"
+              variant="outline"
+              className="
+        h-8
+        border-red-200
+        text-red-600
+        hover:bg-red-50
+        hover:border-red-300
+      "
+            >
+              <Archive className="h-3.5 w-3.5" />
+              Thùng rác
+            </Button>
+          </Link>
+
           <Link href="/admin/movie/create">
             <Button
               size="sm"
@@ -217,7 +243,7 @@ export default function MovieTable({
       <div className="relative flex items-center justify-center">
         {/* Left */}
         <span className="absolute left-0 text-xs text-muted-foreground">
-          Hiển thị {movies.length} / {pagination.total} phim
+          Hiển thị {movies.length} phim
         </span>
 
         {/* Center Pagination */}

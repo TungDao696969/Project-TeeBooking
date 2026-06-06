@@ -3,20 +3,40 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { AuthState, User } from "@/types/auth.type";
 
-export const useAuthStore = create<AuthState>()(
+interface AuthPersistState extends AuthState {
+  hasHydrated: boolean;
+
+  setHasHydrated: (state: boolean) => void;
+}
+
+export const useAuthStore = create<AuthPersistState>()(
   persist(
     (set) => ({
       user: null,
+
       accessToken: null,
+
       isAuthenticated: false,
+
       forgotEmail: "",
 
-      setForgotEmail: (email) => set({ forgotEmail: email }),
+      hasHydrated: false,
+
+      setHasHydrated: (state) =>
+        set({
+          hasHydrated: state,
+        }),
+
+      setForgotEmail: (email) =>
+        set({
+          forgotEmail: email,
+        }),
 
       setAuthenticated: (value) =>
         set({
           isAuthenticated: value,
         }),
+
       setAuth: (user, token) =>
         set({
           user,
@@ -53,9 +73,17 @@ export const useAuthStore = create<AuthState>()(
             : null,
         })),
     }),
+
     {
       name: "auth-storage",
+
       storage: createJSONStorage(() => localStorage),
+
+      onRehydrateStorage: () => {
+        return (state) => {
+          state?.setHasHydrated(true);
+        };
+      },
     },
   ),
 );

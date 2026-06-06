@@ -34,12 +34,16 @@ function GoogleCallbackContent() {
   const setAuth = useAuthStore((state) => state.setAuth);
 
   const token = useMemo(() => searchParams.get("token"), [searchParams]);
-  const payload = useMemo(() => (token ? decodeJwtPayload(token) : null), [token]);
+  const payload = useMemo(
+    () => (token ? decodeJwtPayload(token) : null),
+    [token],
+  );
   const userId = searchParams.get("id") || payload?.userId || payload?.sub;
   const email = searchParams.get("email") || "";
   const fullName =
     searchParams.get("fullName") || searchParams.get("name") || "Google User";
-  const role = searchParams.get("role") || "customer";
+  const roleParam = searchParams.get("role");
+  const role: User["role"] = roleParam === "admin" ? "admin" : "user";
   const avatarUrl =
     searchParams.get("avatarUrl") ||
     searchParams.get("picture") ||
@@ -72,6 +76,12 @@ function GoogleCallbackContent() {
     };
 
     setAuth(user, token);
+
+    if (role === "admin") {
+      router.replace("/admin/dashboard");
+      return;
+    }
+
     router.replace("/");
   }, [avatarUrl, email, fullName, role, router, setAuth, token, userId]);
 

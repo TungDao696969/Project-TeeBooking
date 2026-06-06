@@ -6,6 +6,8 @@ import {
   getCinemaRoomByIdService,
   updateCinemaRoomService,
   deleteCinemaRoomService,
+  getTrashCinemaRoomsService,
+  restoreCinemaRoomService,
 } from "../services/cinemaRoom.service";
 import { errorHandler } from "../utils/errorHandler";
 // CREATE
@@ -164,13 +166,56 @@ export const deleteCinemaRoom = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      message: "Deleted successfully",
+      message: "Room moved to trash successfully",
     });
-  } catch (error: any) {
+  } catch (error) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch cinema",
+      defaultMessage: "Failed to delete room",
+    });
+  }
+};
+
+export const getTrashCinemaRooms = async (req: Request, res: Response) => {
+  try {
+    const rooms = await getTrashCinemaRoomsService();
+
+    return res.status(200).json({
+      success: true,
+      data: rooms,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch trash rooms",
+    });
+  }
+};
+
+export const restoreCinemaRoom = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid room ID",
+      });
+    }
+
+    await restoreCinemaRoomService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Room restored successfully",
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to restore room",
     });
   }
 };

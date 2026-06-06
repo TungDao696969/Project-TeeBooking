@@ -138,24 +138,6 @@ export const updateMovie = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteMovie = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  if (!id || Array.isArray(id)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid movie Id",
-    });
-  }
-
-  await movieService.deleteMovieService(id);
-
-  return res.json({
-    success: true,
-    message: "Delete success",
-  });
-};
-
 export const getMovieShowtimes = async (req: Request, res: Response) => {
   try {
     const { slug } = req.params;
@@ -178,6 +160,75 @@ export const getMovieShowtimes = async (req: Request, res: Response) => {
       error,
       res,
       defaultMessage: "Failed to fetch movie showtimes",
+    });
+  }
+};
+
+export const deleteMovie = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid movie Id",
+      });
+    }
+
+    await movieService.deleteMovieService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Movie moved to trash successfully",
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to delete movie",
+    });
+  }
+};
+
+export const getTrashMovies = async (req: Request, res: Response) => {
+  try {
+    const movies = await movieService.getTrashMoviesService();
+
+    return res.status(200).json({
+      success: true,
+      data: movies,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch trash movies",
+    });
+  }
+};
+
+export const restoreMovie = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid movie Id",
+      });
+    }
+
+    await movieService.restoreMovieService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Movie restored successfully",
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to restore movie",
     });
   }
 };

@@ -247,6 +247,64 @@ export const deleteUserService = async (id: string) => {
   if (userListKeys.length > 0) {
     await redis.del(...userListKeys);
   }
-
+  await redis.del("users:trash");
   await redis.del(`user:${id}`);
+};
+
+export const getTrashUsersService = async () => {
+  const cacheKey = "users:trash";
+
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  const users = await prisma.user.findMany({
+    where: {
+      deletedAt: {
+        not: null,
+      },
+    },
+    orderBy: {
+      deletedAt: "desc",
+    },
+  });
+
+  await redis.set(cacheKey, JSON.stringify(users), "EX", 300);
+
+  return users;
+};
+
+export const restoreUserService = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const restoredUser = await prisma.user.update({
+    where: { id },
+    data: {
+      deletedAt: null,
+      isActive: true,
+    },
+  });
+
+  // clear cache user detail
+  await redis.del(`user:${id}`);
+
+  // clear trash cache
+  await redis.del("users:trash");
+
+  // clear all user list cache
+  const userListKeys = await redis.keys("users:*");
+
+  if (userListKeys.length > 0) {
+    await redis.del(...userListKeys);
+  }
+
+  return restoredUser;
 };
