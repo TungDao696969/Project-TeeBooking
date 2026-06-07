@@ -7,7 +7,8 @@ import Footer from "@/components/layout/footer";
 
 import { useSearchMovies } from "@/hooks/use-search-movies";
 import { Movie } from "@/types/movie.type";
-
+import { getImageUrl } from "@/lib/image";
+import Link from "next/link";
 // const GENRES = [
 //   { value: "", label: "Tất cả thể loại" },
 //   { value: "action", label: "Hành động" },
@@ -136,7 +137,6 @@ export default function MoviesPage() {
                                     opacity-0 group-hover:opacity-100 transition-opacity duration-300
                                     flex flex-col justify-end p-4"
                     >
-                     
                       <button
                         className="w-full bg-white/10 hover:bg-white/20 text-white text-sm
                                    py-2 rounded-lg transition-colors duration-200 backdrop-blur-sm"
@@ -165,11 +165,40 @@ export default function MoviesPage() {
 
                   {/* Info */}
                   <div className="mt-3 px-0.5">
-                    <h2 className="text-white font-semibold text-sm leading-tight line-clamp-2 group-hover:text-[#e50000] transition-colors duration-200">
+                    <h2 className="text-white text-2xl font-bold leading-tight line-clamp-2 transition-colors duration-200 mb-2">
                       {movie.title}
                     </h2>
+                    <div className="flex gap-5 items-center justify-center">
+                      <Link
+                        href={movie.trailerUrl || "#"}
+                        className="flex shrink-0 items-center gap-1.5 text-white"
+                      >
+                        <div className="rounded-full border">
+                          <img
+                            src={getImageUrl(
+                              "https://cinestar.com.vn/assets/images/icon-play-vid.svg",
+                            )}
+                            alt={movie.title}
+                            width={20}
+                            height={20}
+                            className="object-cover"
+                          />
+                        </div>
+
+                        <span className="hidden text-xs font-semibold md:inline md:text-sm">
+                          Xem Trailer
+                        </span>
+                      </Link>
+                      <button
+                        className="w-full bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-bold
+                                   py-2 rounded-lg transition-colors duration-200 backdrop-blur-sm"
+                      >
+                        Đặt vé
+                      </button>
+                    </div>
+
                     {movie.genres && movie.genres.length > 0 && (
-                      <p className="text-gray-500 text-xs mt-1 capitalize">
+                      <p className="text-gray-500 text-sm mt-1 capitalize">
                         {" "}
                         {movie.genres.map((g) => g.name).join(", ")}{" "}
                       </p>

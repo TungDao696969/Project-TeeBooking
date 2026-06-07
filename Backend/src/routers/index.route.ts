@@ -702,9 +702,6 @@ router.post("/payment/momo/create", authMiddleware, createMoMoController);
 router.post("/payment/momo/ipn", momoIPNController);
 router.get("/payment/momo/return", momoReturnController);
 
-// booking current
-router.get("/booking/:bookingId", authMiddleware, getBookingDetailController);
-
 // ticket QR
 router.get(
   "/booking/tickets/:ticketId/qr",
@@ -722,6 +719,8 @@ router.get(
 
 router.post("/booking/:id/cancel", authMiddleware, cancelBookingController);
 
+// booking current
+router.get("/booking/:bookingId", authMiddleware, getBookingDetailController);
 // promotion
 router.post("/promotion", createPromotionController);
 

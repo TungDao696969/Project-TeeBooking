@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableHead,
-  TableHeader,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 import {
   Eye,
   Pencil,
@@ -20,9 +10,22 @@ import {
   Clock,
   Archive,
 } from "lucide-react";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+
 import { Movie } from "@/types/movie.type";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import DeleteMovieDialog from "./movie-delete-dialog";
 
 interface Pagination {
@@ -35,41 +38,47 @@ interface Pagination {
 interface Props {
   movies: Movie[];
   pagination: Pagination;
-
   page: number;
-
   onPageChange: (page: number) => void;
 }
 
-const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
+const STATUS_CONFIG: Record<
+  string,
+  {
+    label: string;
+    className: string;
+  }
+> = {
   showing: {
-    label: "Đang chiếu",
-    className: "bg-red-50 text-red-700 border-red-200",
+    label: "Active",
+    className: "bg-green-950 text-green-400 border-green-600",
   },
+
   upcoming: {
-    label: "Sắp chiếu",
-    className: "bg-blue-50 text-blue-700 border-blue-200",
+    label: "Coming",
+    className: "bg-yellow-950 text-yellow-400 border-yellow-600",
   },
+
   ended: {
-    label: "Đã kết thúc",
-    className: "bg-gray-100 text-gray-500 border-gray-200",
+    label: "Ended",
+    className: "bg-red-950 text-red-400 border-red-600",
   },
 };
 
 function StatusBadge({ status }: { status: string }) {
   const config = STATUS_CONFIG[status] ?? {
     label: status,
-    className: "bg-gray-100 text-gray-500 border-gray-200",
+    className: "bg-zinc-900 text-zinc-400 border-zinc-700",
   };
+
   return (
     <Badge
-      variant="outline"
       className={cn(
-        "text-xs font-medium rounded-full px-2.5 py-0.5 gap-1.5",
+        "rounded-full border px-4 py-1 text-xs font-medium flex items-center gap-2",
         config.className,
       )}
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-current inline-block" />
+      <span className="w-2 h-2 rounded-full bg-current" />
       {config.label}
     </Badge>
   );
@@ -82,79 +91,83 @@ export default function MovieTable({
   onPageChange,
 }: Props) {
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1
-            className="text-xl font-bold tracking-widest text-[#E8001D]"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-          >
-            TEE<span className="text-foreground text-white">STAR</span>
-          </h1>
-          <p className="text-sm text-muted-foreground flex items-center gap-2 mt-0.5">
-            <span className="inline-block w-0.5 h-4 bg-[#E8001D] rounded-full" />
-            Quản lý phim
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
-            <Input
-              placeholder="Tìm kiếm phim..."
-              className="pl-8 h-8 text-sm w-44"
-            />
+    <div className="space-y-6">
+      <div className="rounded-3xl border border-red-900/40 bg-black overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5">
+          <div>
+            <h2
+              className="text-4xl tracking-widest text-[#E8001D]"
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+              }}
+            >
+              TEE
+              <span className="text-white">STAR</span>
+            </h2>
+
+            <div className="flex items-center gap-2 mt-1 text-white">
+              <span className="w-[3px] h-6 bg-[#E8001D]" />
+              <span>Quản lý phim</span>
+            </div>
           </div>
 
-          <Link href="/admin/movie/trash">
-            <Button
-              size="sm"
-              variant="outline"
-              className="
-        h-8
-        border-red-200
-        text-red-600
-        hover:bg-red-50
-        hover:border-red-300
-      "
-            >
-              <Archive className="h-3.5 w-3.5" />
-              Thùng rác
-            </Button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
 
-          <Link href="/admin/movie/create">
-            <Button
-              size="sm"
-              className="h-8 bg-[#E8001D] text-white hover:bg-[#c4001a]"
-            >
-              <Plus className="h-3.5 w-3.5" />
-              Thêm phim
-            </Button>
-          </Link>
+              <Input
+                placeholder="Tìm kiếm phim..."
+                className="
+                  w-[240px]
+                  bg-transparent
+                  border-zinc-600
+                  text-white
+                  pl-10
+                  h-11
+                "
+              />
+            </div>
+
+            <Link href="/admin/movie/trash">
+              <Button
+                variant="outline"
+                className="
+                  border-zinc-500
+                  text-white
+                  bg-transparent
+                  hover:bg-zinc-900
+                "
+              >
+                <Archive className="w-4 h-4" />
+                Thùng rác
+              </Button>
+            </Link>
+
+            <Link href="/admin/movie/create">
+              <Button className="bg-[#E8001D] hover:bg-red-700 text-white">
+                <Plus className="w-4 h-4" />
+                Thêm phim
+              </Button>
+            </Link>
+          </div>
         </div>
-      </div>
 
-      {/* Table */}
-      <div className="rounded-xl border border-border overflow-hidden">
+        {/* Table */}
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#E8001D] hover:bg-[#E8001D]">
-              {[
-                "Poster",
-                "Tên phim",
-                "Trạng thái",
-                "Quốc gia",
-                "Thời lượng",
-                "Thao tác",
-              ].map((h) => (
-                <TableHead
-                  key={h}
-                  className="text-white text-[11px] font-medium uppercase tracking-widest"
-                >
-                  {h}
-                </TableHead>
-              ))}
+            <TableRow className="bg-[#350000] hover:bg-[#350000] border-b border-red-950">
+              <TableHead className="text-red-300">POSTER</TableHead>
+
+              <TableHead className="text-red-300">TÊN PHIM</TableHead>
+
+              <TableHead className="text-red-300">TRẠNG THÁI</TableHead>
+
+              <TableHead className="text-red-300">QUỐC GIA</TableHead>
+
+              <TableHead className="text-red-300">THỜI LƯỢNG</TableHead>
+
+              <TableHead className="text-red-300">THAO TÁC</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -162,72 +175,106 @@ export default function MovieTable({
             {movies.map((movie) => (
               <TableRow
                 key={movie.id}
-                className="hover:bg-muted/40 transition-colors"
+                className="
+                  border-zinc-800
+                  hover:bg-zinc-950
+                  transition-colors
+                "
               >
+                {/* Poster */}
                 <TableCell>
                   {movie.posterUrl ? (
                     <img
                       src={movie.posterUrl}
                       alt={movie.title}
-                      className="h-16 w-11 rounded object-cover"
+                      className="
+                        h-20
+                        w-14
+                        rounded-md
+                        object-cover
+                      "
                     />
                   ) : (
-                    <div className="h-16 w-11 rounded bg-muted flex items-center justify-center text-muted-foreground text-xs">
+                    <div className="h-20 w-14 bg-zinc-800 rounded-md flex items-center justify-center text-xs text-zinc-500">
                       N/A
                     </div>
                   )}
                 </TableCell>
 
+                {/* Name */}
                 <TableCell>
-                  <p className="font-medium text-sm leading-snug">
-                    {movie.title}
-                  </p>
-                  {movie.genres && movie.genres.length > 0 && (
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {movie.genres.map((genre) => genre.name).join(", ")}
-                    </p>
-                  )}
+                  <div>
+                    <p className="font-semibold text-white">{movie.title}</p>
+
+                    {movie.genres?.length > 0 && (
+                      <p className="text-xs text-zinc-400 mt-1">
+                        {movie.genres.map((genre) => genre.name).join(", ")}
+                      </p>
+                    )}
+                  </div>
                 </TableCell>
 
+                {/* Status */}
                 <TableCell>
                   <StatusBadge status={movie.status} />
                 </TableCell>
 
-                <TableCell className="text-sm text-muted-foreground">
-                  {movie.country}
-                </TableCell>
+                {/* Country */}
+                <TableCell className="text-white">{movie.country}</TableCell>
 
+                {/* Duration */}
                 <TableCell>
-                  <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <Clock className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2 text-white">
+                    <Clock className="w-4 h-4" />
                     {movie.durationMinutes} phút
-                  </span>
+                  </div>
                 </TableCell>
 
+                {/* Actions */}
                 <TableCell>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <Link href={`/admin/movie/${movie.id}`}>
+                      <Button
+                        size="icon"
+                        className="
+                          h-9
+                          w-9
+                          bg-amber-500
+                          hover:bg-amber-600
+                          text-white
+                        "
+                      >
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                    </Link>
+
+                    <Link href={`/admin/movie/${movie.id}/edit`}>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="
+                          h-9
+                          w-9
+                          bg-blue-500
+                          border-blue-500
+                          text-white
+                          hover:bg-blue-700
+                        "
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                    </Link>
+
                     <Button
-                      variant="outline"
                       size="icon"
-                      className="h-7 w-7 hover:text-[#E8001D] hover:border-[#E8001D]"
-                    >
-                      <Link href={`/admin/movie/${movie.id}`}>
-                        <Eye className="w-3.5 h-3.5" />
-                      </Link>
-                    </Button>
-                    <Button
                       variant="outline"
-                      size="icon"
-                      className="h-7 w-7 hover:text-[#E8001D] hover:border-[#E8001D]"
-                    >
-                      <Link href={`/admin/movie/${movie.id}/edit`}>
-                        <Pencil className="w-3.5 h-3.5" />
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-7 w-7 hover:text-destructive hover:border-destructive"
+                      className="
+                        h-9
+                        w-9
+                        border-red-600
+                        text-red-600
+                        hover:bg-red-600/10
+                      "
                     >
                       <DeleteMovieDialog movieId={movie.id} />
                     </Button>
@@ -237,50 +284,56 @@ export default function MovieTable({
             ))}
           </TableBody>
         </Table>
-      </div>
 
-      {/* Footer */}
-      <div className="relative flex items-center justify-center">
-        {/* Left */}
-        <span className="absolute left-0 text-xs text-muted-foreground">
-          Hiển thị {movies.length} phim
-        </span>
+        {/* Footer */}
+        <div className="relative flex items-center justify-center py-6">
+          <span className="absolute left-6 text-sm text-zinc-400">
+            Hiển thị {movies.length} phim
+          </span>
 
-        {/* Center Pagination */}
-        <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={page === 1}
-            onClick={() => onPageChange(page - 1)}
-          >
-            Trước
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              disabled={page === 1}
+              onClick={() => onPageChange(page - 1)}
+              className="
+                border-zinc-600
+                text-zinc-300
+                bg-transparent
+              "
+            >
+              Trước
+            </Button>
 
-          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
-            (pageNumber) => (
-              <Button
-                key={pageNumber}
-                size="sm"
-                variant={pageNumber === page ? "default" : "outline"}
-                onClick={() => onPageChange(pageNumber)}
-                className={
-                  pageNumber === page ? "bg-[#E8001D] hover:bg-[#c4001a]" : ""
-                }
-              >
-                {pageNumber}
-              </Button>
-            ),
-          )}
+            {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
+              (pageNumber) => (
+                <Button
+                  key={pageNumber}
+                  onClick={() => onPageChange(pageNumber)}
+                  className={
+                    pageNumber === page
+                      ? "bg-[#E8001D] hover:bg-red-700 text-white"
+                      : "border border-zinc-600 bg-transparent text-zinc-300 hover:bg-zinc-900"
+                  }
+                >
+                  {pageNumber}
+                </Button>
+              ),
+            )}
 
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={page === pagination.totalPages}
-            onClick={() => onPageChange(page + 1)}
-          >
-            Sau
-          </Button>
+            <Button
+              variant="outline"
+              disabled={page === pagination.totalPages}
+              onClick={() => onPageChange(page + 1)}
+              className="
+                border-zinc-600
+                text-zinc-300
+                bg-transparent
+              "
+            >
+              Sau
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -39,11 +39,11 @@ const menus = [
     icon: Calendar,
   },
 
-  {
-    label: "Bookings",
-    href: "/admin/booking",
-    icon: Ticket,
-  },
+  // {
+  //   label: "Bookings",
+  //   href: "/admin/booking",
+  //   icon: Ticket,
+  // },
 
   {
     label: "Seat",
@@ -70,7 +70,7 @@ export default function AdminSidebar() {
   return (
     <aside className="hidden w-64 bg-[#111827] text-white lg:block">
       <div className="border-b border-zinc-700 p-6">
-        <h1 className="text-2xl font-bold">CINEMA ADMIN</h1>
+        <h1 className="text-2xl font-bold">TEESTART ADMIN</h1>
       </div>
 
       <nav className="space-y-2 p-4">

@@ -85,3 +85,57 @@ export type ShowTime = {
   startTime: string;
   endTime: string;
 };
+
+export type BookingStatus =
+  | "pending"
+  | "confirmed"
+  | "completed"
+  | "cancelled"
+  | "refunded";
+
+export interface PastBooking {
+  id: string;
+  bookingCode: string;
+  status: BookingStatus;
+  finalAmount: number;
+  bookedAt: string;
+
+  showtime: {
+    startTime: string;
+    date: string;
+
+    movie: {
+      title: string;
+      posterUrl: string;
+    };
+
+    cinema: {
+      name: string;
+    };
+  };
+
+  tickets: {
+    showtimeSeat: {
+      seat: {
+        seatCode: string;
+      };
+    };
+  }[];
+
+  payments: {
+    status: BookingStatus;
+    paymentMethod: string;
+  }[];
+}
+
+export interface PastBookingResponse {
+  success: boolean;
+  data: PastBooking[];
+
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}

@@ -7,7 +7,7 @@ import {
   useReactTable,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-
+import { Plus } from "lucide-react";
 import { cinemaColumns } from "./cinema-columns";
 import { Cinema } from "@/types/cinema.type";
 import Link from "next/link";
@@ -51,116 +51,187 @@ export function CinemaTable({ data, pagination, onPageChange }: Props) {
   });
 
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
-      {/* Search */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[#1e1e1e]">
-        {/* Search */}
-        <div className="flex items-center gap-2.5 flex-1">
-          <Search className="w-4 h-4 text-zinc-600 shrink-0" />
+    <div className="space-y-6">
+      <h1 className="text-5xl font-bold text-white">Cinema Management</h1>
 
-          <input
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            placeholder="Tìm kiếm rạp, địa chỉ, tỉnh thành..."
-            className="bg-transparent border-none outline-none text-sm text-zinc-300 placeholder:text-zinc-600 w-full"
-          />
+      <div className="rounded-3xl border border-red-900/40 bg-black overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5">
+          <div>
+            <h2
+              className="text-4xl tracking-widest text-[#E8001D]"
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+              }}
+            >
+              TEE
+              <span className="text-white">STAR</span>
+            </h2>
+
+            <div className="flex items-center gap-2 mt-1 text-white">
+              <span className="w-[3px] h-6 bg-[#E8001D]" />
+              <span>Quản lý rạp chiếu phim</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+
+              <input
+                value={globalFilter}
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                placeholder="Tìm kiếm rạp..."
+                className="
+                h-11
+                w-[240px]
+                rounded-md
+                border
+                border-zinc-600
+                bg-transparent
+                pl-10
+                pr-4
+                text-white
+                placeholder:text-zinc-500
+                outline-none
+              "
+              />
+            </div>
+
+            <Link href="/admin/cinema/trash">
+              <Button
+                variant="outline"
+                className="
+                border-zinc-500
+                text-white
+                bg-transparent
+                hover:bg-zinc-900
+              "
+              >
+                <Trash2 className="w-4 h-4" />
+                Thùng rác
+              </Button>
+            </Link>
+
+            <Button asChild className="border bg-red-600">
+              <Link href="/admin/cinema/create">
+                <Plus className="mr-2 h-4 w-4" />
+                Thêm rạp
+              </Link>
+            </Button>
+          </div>
         </div>
 
-        {/* Trash Button */}
-        <Link href="/admin/cinema/trash">
-          <Button
-            size="sm"
-            variant="outline"
-            className="ml-4 border-red-900/50 text-red-500 hover:bg-red-950/30 hover:text-red-400"
-          >
-            <Trash2 className="w-4 h-4 mr-1" />
-            Thùng rác
-          </Button>
-        </Link>
-      </div>
-
-      {/* Table */}
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((hg) => (
-            <TableRow
-              key={hg.id}
-              className="bg-[#161616] border-b border-[#252525] hover:bg-[#161616]"
-            >
-              {hg.headers.map((h) => (
-                <TableHead
-                  key={h.id}
-                  className="text-[10px] uppercase tracking-widest text-zinc-600 font-semibold py-3"
-                >
-                  {flexRender(h.column.columnDef.header, h.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              className="border-b border-[#1a1a1a] hover:bg-[#171717] transition-colors"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  key={cell.id}
-                  className="py-3 text-zinc-400 text-[13px]"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      <div className="relative flex items-center justify-center px-4 py-4 border-t border-[#1e1e1e]">
-        {/* Left */}
-        <span className="absolute left-4 text-xs text-muted-foreground">
-          Hiển thị {data.length} / {pagination.total} rạp
-        </span>
-
-        {/* Center Pagination */}
-        <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={pagination.page === 1}
-            onClick={() => onPageChange?.(pagination.page - 1)}
-          >
-            Trước
-          </Button>
-
-          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
-            (pageNumber) => (
-              <Button
-                key={pageNumber}
-                size="sm"
-                variant={pageNumber === pagination.page ? "default" : "outline"}
-                onClick={() => onPageChange?.(pageNumber)}
-                className={
-                  pageNumber === pagination.page
-                    ? "bg-[#E8001D] hover:bg-[#c4001a]"
-                    : ""
-                }
+        {/* Table */}
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((hg) => (
+              <TableRow
+                key={hg.id}
+                className="
+                bg-[#350000]
+                border-b
+                border-red-950
+                hover:bg-[#350000]
+              "
               >
-                {pageNumber}
-              </Button>
-            ),
-          )}
+                {hg.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="
+                    text-red-300
+                    text-sm
+                    font-semibold
+                    uppercase
+                  "
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
 
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={pagination.page === pagination.totalPages}
-            onClick={() => onPageChange?.(pagination.page + 1)}
-          >
-            Sau
-          </Button>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                className="
+                border-zinc-800
+                hover:bg-zinc-950
+                transition-colors
+              "
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className="
+                    py-4
+                    text-white
+                  "
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        {/* Footer */}
+        <div className="relative flex items-center justify-center py-6">
+          <span className="absolute left-6 text-sm text-zinc-400">
+            Hiển thị {data.length} / {pagination.total} rạp
+          </span>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              disabled={pagination.page === 1}
+              onClick={() => onPageChange?.(pagination.page - 1)}
+              className="
+              border-zinc-600
+              text-zinc-300
+              bg-transparent
+            "
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Trước
+            </Button>
+
+            {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
+              (pageNumber) => (
+                <Button
+                  key={pageNumber}
+                  onClick={() => onPageChange?.(pageNumber)}
+                  className={
+                    pageNumber === pagination.page
+                      ? "bg-[#E8001D] hover:bg-red-700 text-white"
+                      : "border border-zinc-600 bg-transparent text-zinc-300 hover:bg-zinc-900"
+                  }
+                >
+                  {pageNumber}
+                </Button>
+              ),
+            )}
+
+            <Button
+              variant="outline"
+              disabled={pagination.page === pagination.totalPages}
+              onClick={() => onPageChange?.(pagination.page + 1)}
+              className="
+              border-zinc-600
+              text-zinc-300
+              bg-transparent
+            "
+            >
+              Sau
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

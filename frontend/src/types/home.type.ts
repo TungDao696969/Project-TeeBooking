@@ -10,6 +10,10 @@ export interface Movie {
   title: string;
   slug: string;
   posterUrl: string;
+  genres?: {
+    id: string;
+    name: string;
+  }[];
   trailerUrl?: string;
   durationMinutes?: number;
   ageRating?: string;

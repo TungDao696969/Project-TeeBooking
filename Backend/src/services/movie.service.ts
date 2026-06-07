@@ -90,8 +90,11 @@ export const getMoviesService = async (
 };
 
 export const getMovieByIdService = async (id: string) => {
-  return prisma.movie.findUnique({
-    where: { id, deletedAt: null },
+  return prisma.movie.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+    },
     include: {
       genres: true,
     },
@@ -166,7 +169,7 @@ export const getMovieShowtimesService = async (slug: string) => {
   }
 
   // find movie
-  const movie = await prisma.movie.findUnique({
+  const movie = await prisma.movie.findFirst({
     where: {
       slug,
       deletedAt: null,

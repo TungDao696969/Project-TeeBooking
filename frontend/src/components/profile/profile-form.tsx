@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+import Link from "next/link";
 import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ import { useProfile } from "@/hooks/profile/use-profile";
 import { updateProfile, uploadAvatarApi } from "@/services/user.api";
 
 import { Input } from "@/components/ui/input";
+import BookingHistory from "./booking-history";
 
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
@@ -37,6 +38,10 @@ export default function ProfileForm() {
     `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}`;
 
   const updateUserAvatar = useAuthStore((state) => state.updateUserAvatar);
+
+  const [activeTab, setActiveTab] = useState<"profile" | "member" | "history">(
+    "profile",
+  );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -320,59 +325,45 @@ export default function ProfileForm() {
 
           <div className="space-y-2">
             <button
-              className="
-                flex
-                w-full
-                items-center
-                gap-4
-                border-l-4
-                border-yellow-400
-                bg-white/5
-                px-4
-                py-4
-                text-left
-                text-xl
-                font-bold
-                text-yellow-300
-              "
+              onClick={() => setActiveTab("profile")}
+              className={`
+    flex w-full items-center gap-4 px-4 py-4 text-left text-xl transition
+    ${
+      activeTab === "profile"
+        ? "border-l-4 border-yellow-400 bg-white/5 font-bold text-yellow-300"
+        : "text-white hover:bg-white/10"
+    }
+  `}
             >
               <User className="h-6 w-6" />
               Thông tin khách hàng
             </button>
 
             <button
-              className="
-                flex
-                w-full
-                items-center
-                gap-4
-                px-4
-                py-4
-                text-left
-                text-xl
-                text-white
-                transition
-                hover:bg-white/10
-              "
+              onClick={() => setActiveTab("member")}
+              className={`
+    flex w-full items-center gap-4 px-4 py-4 text-left text-xl transition
+    ${
+      activeTab === "member"
+        ? "border-l-4 border-yellow-400 bg-white/5 font-bold text-yellow-300"
+        : "text-white hover:bg-white/10"
+    }
+  `}
             >
               <Star className="h-6 w-6" />
               Thành viên Cinestar
             </button>
 
             <button
-              className="
-                flex
-                w-full
-                items-center
-                gap-4
-                px-4
-                py-4
-                text-left
-                text-xl
-                text-white
-                transition
-                hover:bg-white/10
-              "
+              onClick={() => setActiveTab("history")}
+              className={`
+    flex w-full items-center gap-4 px-4 py-4 text-left text-xl transition
+    ${
+      activeTab === "history"
+        ? "border-l-4 border-yellow-400 bg-white/5 font-bold text-yellow-300"
+        : "text-white hover:bg-white/10"
+    }
+  `}
             >
               <History className="h-6 w-6" />
               Lịch sử mua hàng
@@ -400,138 +391,192 @@ export default function ProfileForm() {
 
         {/* CONTENT */}
         <div className="flex-1">
-          <h1
-            className="
-              text-4xl
-              font-black
-              uppercase
-              text-white
-            "
-          >
-            Thông tin khách hàng
-          </h1>
+          {activeTab === "profile" && (
+            <>
+              <h1
+                className="
+          text-4xl
+          font-black
+          uppercase
+          text-white
+        "
+              >
+                Thông tin khách hàng
+              </h1>
 
-          <div className="mt-8 bg-[#EAEAEA] p-8 lg:p-10">
-            <h2 className="text-4xl font-black text-black">
-              Thông tin cá nhân
-            </h2>
+              <div className="mt-8 bg-[#EAEAEA] p-8 lg:p-10">
+                <h2 className="text-4xl font-black text-black">
+                  Thông tin cá nhân
+                </h2>
 
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2"
-            >
-              {/* FULL NAME */}
-              <div>
-                <label className="mb-3 block text-xl text-black">
-                  Họ và tên
-                </label>
-
-                <Input
-                  {...register("fullName")}
-                  className="
-                    h-16
-                    rounded-none
-                    border-black
-                    bg-transparent
-                    px-5
-                    text-xl
-                    text-black
-                  "
-                />
-
-                {errors.fullName && (
-                  <p className="mt-2 text-red-500">{errors.fullName.message}</p>
-                )}
-              </div>
-
-              {/* DATE */}
-              <div>
-                <label className="mb-3 block text-xl text-black">
-                  Ngày sinh
-                </label>
-
-                <Input
-                  type="date"
-                  {...register("dateOfBirth")}
-                  className="
-                    h-16
-                    rounded-none
-                    border-black
-                    bg-transparent
-                    px-5
-                    text-xl
-                    text-black
-                  "
-                />
-              </div>
-
-              {/* PHONE */}
-              <div>
-                <label className="mb-3 block text-xl text-black">
-                  Số điện thoại
-                </label>
-
-                <Input
-                  {...register("phone")}
-                  className="
-                    h-16
-                    rounded-none
-                    border-black
-                    bg-transparent
-                    px-5
-                    text-xl
-                    text-black
-                  "
-                />
-
-                {errors.phone && (
-                  <p className="mt-2 text-red-500">{errors.phone.message}</p>
-                )}
-              </div>
-
-              {/* EMAIL */}
-              <div>
-                <label className="mb-3 block text-xl text-black">Email</label>
-
-                <Input
-                  value={profile?.email || ""}
-                  disabled
-                  className="
-                    h-16
-                    rounded-none
-                    border-black
-                    bg-transparent
-                    px-5
-                    text-xl
-                    text-black
-                    disabled:opacity-100
-                  "
-                />
-              </div>
-
-              {/* BUTTON */}
-              <div className="md:col-span-2">
-                <Button
-                  type="submit"
-                  disabled={mutation.isPending}
-                  className="
-                    mt-4
-                    h-14
-                    rounded-md
-                    bg-[#D9D9D9]
-                    px-8
-                    text-xl
-                    font-black
-                    uppercase
-                    text-black
-                    hover:bg-gray-300
-                  "
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2"
                 >
-                  {mutation.isPending ? "Đang lưu..." : "Lưu thông tin"}
-                </Button>
+                  {/* FULL NAME */}
+                  <div>
+                    <label className="mb-3 block text-xl text-black">
+                      Họ và tên
+                    </label>
+
+                    <Input
+                      {...register("fullName")}
+                      className="
+                h-16
+                rounded-none
+                border-black
+                bg-transparent
+                px-5
+                text-xl
+                text-black
+              "
+                    />
+
+                    {errors.fullName && (
+                      <p className="mt-2 text-red-500">
+                        {errors.fullName.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* DATE */}
+                  <div>
+                    <label className="mb-3 block text-xl text-black">
+                      Ngày sinh
+                    </label>
+
+                    <Input
+                      type="date"
+                      {...register("dateOfBirth")}
+                      className="
+                h-16
+                rounded-none
+                border-black
+                bg-transparent
+                px-5
+                text-xl
+                text-black
+              "
+                    />
+                  </div>
+
+                  {/* PHONE */}
+                  <div>
+                    <label className="mb-3 block text-xl text-black">
+                      Số điện thoại
+                    </label>
+
+                    <Input
+                      {...register("phone")}
+                      className="
+                h-16
+                rounded-none
+                border-black
+                bg-transparent
+                px-5
+                text-xl
+                text-black
+              "
+                    />
+
+                    {errors.phone && (
+                      <p className="mt-2 text-red-500">
+                        {errors.phone.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* EMAIL */}
+                  <div>
+                    <label className="mb-3 block text-xl text-black">
+                      Email
+                    </label>
+
+                    <Input
+                      value={profile?.email || ""}
+                      disabled
+                      className="
+                h-16
+                rounded-none
+                border-black
+                bg-transparent
+                px-5
+                text-xl
+                text-black
+                disabled:opacity-100
+              "
+                    />
+                  </div>
+
+                  {/* BUTTON */}
+                  <div className="md:col-span-2">
+                    <Button
+                      type="submit"
+                      disabled={mutation.isPending}
+                      className="
+                mt-4
+                h-14
+                rounded-md
+                bg-[#D9D9D9]
+                px-8
+                text-xl
+                font-black
+                uppercase
+                text-black
+                hover:bg-gray-300
+              "
+                    >
+                      {mutation.isPending ? "Đang lưu..." : "Lưu thông tin"}
+                    </Button>
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
+            </>
+          )}
+
+          {activeTab === "history" && (
+            <>
+              <h1
+                className="
+          text-4xl
+          font-black
+          uppercase
+          text-white
+        "
+              >
+                Lịch sử mua hàng
+              </h1>
+
+              <div className="mt-8">
+                <BookingHistory />
+              </div>
+            </>
+          )}
+
+          {activeTab === "member" && (
+            <>
+              <h1
+                className="
+          text-4xl
+          font-black
+          uppercase
+          text-white
+        "
+              >
+                Thành viên Cinestar
+              </h1>
+
+              <div className="mt-8 bg-[#EAEAEA] p-8 lg:p-10">
+                <h2 className="text-3xl font-black text-black">
+                  Thông tin thành viên
+                </h2>
+
+                <div className="mt-6 text-lg text-black">
+                  Chưa có dữ liệu thành viên.
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

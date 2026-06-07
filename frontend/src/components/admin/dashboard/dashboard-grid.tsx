@@ -196,7 +196,7 @@ export default function DashboardGrid() {
               value={`₫${data?.todayRevenue.toLocaleString("vi-VN")}`}
               icon={<CalendarDays className="w-4 h-4" />}
               variant="revenue"
-              sub="+8.2% so với hôm qua"
+              sub="Toàn thời gian"
               trend="up"
             />
             <StatsCard
@@ -204,7 +204,7 @@ export default function DashboardGrid() {
               value={`₫${data?.monthlyRevenue.toLocaleString("vi-VN")}`}
               icon={<BarChart3 className="w-4 h-4" />}
               variant="revenue"
-              sub="+12.4% tháng trước"
+              sub="Toàn thời gian"
               trend="up"
             />
           </>
@@ -230,7 +230,7 @@ export default function DashboardGrid() {
               value={data?.todayBookings ?? 0}
               icon={<Clock className="w-4 h-4" />}
               variant="booking"
-              sub="+5.1% so với hôm qua"
+              sub="Toàn thời gian"
               trend="up"
             />
             <StatsCard
@@ -238,7 +238,7 @@ export default function DashboardGrid() {
               value={data?.cancelledBookings ?? 0}
               icon={<XCircle className="w-4 h-4" />}
               variant="warning"
-              sub="4.3% tỉ lệ hủy"
+              sub="Toàn thời gian"
               trend="down"
             />
           </>

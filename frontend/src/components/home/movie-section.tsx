@@ -8,7 +8,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Movie } from "@/types/home.type";
 import { getImageUrl } from "@/lib/image";
-
+import { Tag, Clock, ShieldAlert, MessageCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/auth.store";
 interface Props {
   title: string;
   movies: Movie[];
@@ -31,11 +33,11 @@ export default function MovieSection({ title, movies }: Props) {
   // Button text
   const buttonLabel = (movie: Movie) => {
     if (movie.status === "coming_soon") {
-      return "Tìm Hiểu Ngay";
+      return "Xem";
     }
 
     if (!movie.status && title.toLowerCase().includes("sắp chiếu")) {
-      return "Tìm Hiểu Ngay";
+      return "Xem";
     }
 
     return "Đặt Vé";
@@ -49,6 +51,23 @@ export default function MovieSection({ title, movies }: Props) {
   // Prev
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+  };
+
+  const router = useRouter();
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  console.log("isAuthenticated =", isAuthenticated);
+  const handleBooking = (slug: string) => {
+    console.log("clicked");
+    console.log("isAuthenticated =", isAuthenticated);
+
+    if (!isAuthenticated) {
+      console.log("redirect login");
+      router.push("/login");
+      return;
+    }
+
+    router.push(`/movies/${slug}`);
   };
 
   return (
@@ -65,21 +84,106 @@ export default function MovieSection({ title, movies }: Props) {
         {/* Grid */}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {visibleMovies.map((movie) => (
-            <div key={movie.id} className="overflow-hidden rounded-2xl">
+            <div
+              key={movie.id}
+              className="
+    group
+    relative
+    overflow-hidden
+    rounded-2xl
+  "
+            >
               {/* Poster */}
-              <div className="relative">
-                <Link
-                  href={`/movies/${movie.slug}`}
-                  className="relative block overflow-hidden rounded-2xl"
-                >
+              <div className="relative overflow-hidden rounded-2xl">
+                <Link href={`/movies/${movie.slug}`} className="block">
                   <Image
                     src={getImageUrl(movie.posterUrl ?? "")}
                     alt={movie.title}
                     width={400}
                     height={600}
-                    className="aspect-[2/3] w-full object-cover"
+                    className="
+        aspect-[2/3]
+        w-full
+        object-cover
+        transition-all
+        duration-500
+        group-hover:scale-110
+      "
                   />
                 </Link>
+
+                {/* Overlay */}
+                <div
+                  className="
+      absolute inset-0
+      bg-black/80
+      opacity-0
+      transition-all
+      duration-500
+      group-hover:opacity-100
+    "
+                />
+
+                {/* Content Hover */}
+                <div
+                  className="
+      absolute inset-0
+      flex flex-col
+      justify-center
+      px-6
+      text-white
+
+      opacity-0
+      translate-y-6
+
+      transition-all
+      duration-500
+
+      group-hover:opacity-100
+      group-hover:translate-y-0
+    "
+                >
+                  <h3 className="text-2xl font-bold uppercase">
+                    {movie.title}
+                  </h3>
+
+                  <div className="mt-6 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Tag className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+                      <span>
+                        {movie.genres?.map((g) => g.name).join(", ") ||
+                          "Kinh Dị"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Clock className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+                      <span>{movie.durationMinutes} phút</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <ShieldAlert className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+                      <span>{movie.ageRating}</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <MessageCircle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+                      <span>VN</span>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => handleBooking(movie.slug)}
+                    className="
+                    mt-3
+    bg-yellow-400
+    text-black
+    font-bold
+    hover:bg-yellow-300
+  "
+                  >
+                    {buttonLabel(movie)}
+                  </Button>
+                </div>
 
                 {/* Tags */}
                 <div className="absolute left-2 top-2 flex gap-1.5">
@@ -87,7 +191,7 @@ export default function MovieSection({ title, movies }: Props) {
                     2D
                   </span>
 
-                  <span className="flex items-center rounded bg-[#E8192C] px-1.5 py-0.5 text-xs font-extrabold leading-none text-white">
+                  <span className="flex items-center rounded bg-[#E8192C] px-1.5 py-0.5 text-xs font-extrabold text-white">
                     K
                   </span>
                 </div>
@@ -100,7 +204,7 @@ export default function MovieSection({ title, movies }: Props) {
                 </h3>
 
                 {/* Actions */}
-                <div className="mt-4 flex items-center gap-2">
+                <div className="mt-4 flex items-center justify-between gap-2">
                   {/* Trailer */}
                   <Link
                     href={movie.trailerUrl || "#"}
@@ -124,10 +228,16 @@ export default function MovieSection({ title, movies }: Props) {
                   </Link>
 
                   {/* Button */}
-                  <Button className="ml-auto h-10 min-w-0 shrink rounded-md bg-yellow-400 px-2 text-xs font-extrabold uppercase text-black hover:bg-yellow-300 md:px-4 md:text-sm">
-                    <span className="break-words text-center leading-tight">
-                      {buttonLabel(movie)}
-                    </span>
+                  <Button
+                    onClick={() => handleBooking(movie.slug)}
+                    className="
+    bg-yellow-400
+    text-black
+    font-bold
+    hover:bg-yellow-300
+  "
+                  >
+                    {buttonLabel(movie)}
                   </Button>
                 </div>
               </div>

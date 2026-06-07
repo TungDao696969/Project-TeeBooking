@@ -3,8 +3,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { movieAdminService } from "@/services/admin/movie.service";
+import { useRouter } from "next/navigation";
 
 export const useUpdateMovie = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -16,6 +18,8 @@ export const useUpdateMovie = () => {
       });
 
       toast.success("Movie updated successfully");
+
+      router.push("/admin/movie");
     },
 
     onError: () => {

@@ -37,6 +37,12 @@ export default function Header() {
   const [debouncedSearch] = useDebounce(search, 500);
 
   const { data: suggestions, isLoading } = useMovieSuggestions(debouncedSearch);
+
+  const handleLogout = () => {
+    logout();
+
+    router.replace("/login");
+  };
   return (
     <header className="sticky top-0 z-50 w-full border-white/10 bg-[#0b1633] text-white">
       {/* Top Header */}
@@ -218,7 +224,7 @@ export default function Header() {
 
                 {/* Logout */}
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-red-500 transition hover:bg-red-50"
                 >
                   <LogOut className="h-4 w-4" />

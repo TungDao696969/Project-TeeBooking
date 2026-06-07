@@ -5,7 +5,8 @@ import { MapPin, Phone, Clock, ChevronRight, ChevronLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Cinema } from "@/types/home.type";
-
+import { useCinemas } from "@/hooks/cinema/use-cinema";
+import Link from "next/link";
 interface Props {
   cinemas: Cinema[];
 }
@@ -34,6 +35,7 @@ export default function CinemaSection({ cinemas }: Props) {
     setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
   };
 
+  const { data, isLoading } = useCinemas();
   return (
     <section className="py-12">
       {/* Title */}
@@ -111,9 +113,15 @@ export default function CinemaSection({ cinemas }: Props) {
 
               {/* Button */}
               <div className="mt-5">
-                <button className="w-full rounded-lg border border-yellow-400/40 bg-yellow-400/10 py-2.5 text-xs font-extrabold uppercase tracking-wider text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black">
-                  Đặt Vé Tại Rạp
-                </button>
+                <Link
+                  key={cinema.id}
+                  href={`/cinemas/${cinema.slug}`}
+                  className="group"
+                >
+                  <button className="w-full rounded-lg border border-yellow-400/40 bg-yellow-400/10 py-2.5 text-xs font-extrabold uppercase tracking-wider text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black">
+                    Đặt Vé Tại Rạp
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
@@ -151,14 +159,29 @@ export default function CinemaSection({ cinemas }: Props) {
 
       {/* View More */}
       <div className="mt-6 flex items-center justify-center">
-        <Button
-          variant="outline"
-          className="rounded-md border-2 border-yellow-400 bg-transparent px-16 py-5 text-base font-extrabold uppercase tracking-widest text-yellow-400 hover:bg-yellow-400/10 hover:text-yellow-300"
-        >
-          Xem Thêm
-        </Button>
+        <Link href="/cinemas">
+          <Button
+            variant="outline"
+            className="
+        rounded-md
+        border-2
+        border-yellow-400
+        bg-transparent
+        px-16
+        py-5
+        text-base
+        font-extrabold
+        uppercase
+        tracking-widest
+        text-yellow-400
+        hover:bg-yellow-400/10
+        hover:text-yellow-300
+      "
+          >
+            Xem Thêm
+          </Button>
+        </Link>
       </div>
     </section>
   );
 }
-  

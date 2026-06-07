@@ -14,17 +14,16 @@ interface Props {
 export default function HeroBanner({ banners }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const currentBanner = banners[currentIndex];
+  const currentBanner = banners?.[currentIndex];
 
-  // Next
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
   };
 
-  // Prev
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? banners.length - 1 : prev - 1));
   };
+
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
@@ -32,6 +31,10 @@ export default function HeroBanner({ banners }: Props) {
 
     return () => clearInterval(interval);
   }, []);
+
+  if (!currentBanner) {
+    return null;
+  }
   return (
     <div className="relative w-full">
       {/* Banner */}

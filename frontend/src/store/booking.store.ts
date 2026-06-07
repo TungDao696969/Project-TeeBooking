@@ -30,6 +30,14 @@ interface BookingState {
 
   selectedTab: "detail" | "ticket" | "payment";
   setTab: (tab: BookingState["selectedTab"]) => void;
+
+  search: string;
+
+  setSearch: (search: string) => void;
+
+  status: string;
+
+  setStatus: (status: string) => void;
 }
 
 export const useBookingStore = create<BookingState>()(
@@ -146,6 +154,14 @@ export const useBookingStore = create<BookingState>()(
 
       selectedTab: "detail",
       setTab: (tab) => set({ selectedTab: tab }),
+
+      search: "",
+
+      setSearch: (search) => set({ search }),
+
+      status: "all",
+
+      setStatus: (status) => set({ status }),
     }),
     {
       name: "booking-storage",
