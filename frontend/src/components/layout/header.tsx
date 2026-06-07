@@ -16,9 +16,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Navbar from "./navbar";
 import { useAuthStore } from "@/store/auth.store";
+import { useState } from "react";
+import { useDebounce } from "use-debounce";
 
+import { useMovieSuggestions } from "@/hooks/use-search-movies";
+import { Movie } from "@/types/movie.type";
 export default function Header() {
   const router = useRouter();
+  const [search, setSearch] = useState("");
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const displayName = user?.fullName || user?.name || user?.email || "User";
@@ -27,6 +32,11 @@ export default function Header() {
     user?.avatar ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}`;
 
+  const [isFocused, setIsFocused] = useState(false);
+
+  const [debouncedSearch] = useDebounce(search, 500);
+
+  const { data: suggestions, isLoading } = useMovieSuggestions(debouncedSearch);
   return (
     <header className="sticky top-0 z-50 w-full border-white/10 bg-[#0b1633] text-white">
       {/* Top Header */}
@@ -61,12 +71,108 @@ export default function Header() {
         </div>
 
         {/* Search */}
-        <div className="relative hidden w-[300px] items-center xl:flex">
-          <Input
-            placeholder="Tìm phim, rạp"
-            className="rounded-full bg-white py-6 pl-5 pr-12 text-base text-black"
-          />
-          <Search className="absolute right-4 h-5 w-5 text-gray-500" />
+        <div className="relative hidden w-[350px] xl:flex">
+          <div className="relative w-full">
+            <Input
+              placeholder="Tìm phim..."
+              value={search}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => {
+                setTimeout(() => setIsFocused(false), 200);
+              }}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  router.push(`/movies?q=${encodeURIComponent(search)}`);
+                }
+              }}
+              className="rounded-full bg-white py-6 pl-5 pr-12 text-base text-black"
+            />
+
+            <Search className="absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
+
+            {isFocused && search.trim() && (
+              <div
+                className="
+          absolute top-full mt-2 w-full
+          overflow-hidden rounded-xl
+          border border-gray-200
+          bg-white shadow-2xl
+          z-[9999]
+        "
+              >
+                {isLoading && (
+                  <div className="p-4 text-sm text-gray-500">
+                    Đang tìm kiếm...
+                  </div>
+                )}
+
+                {!isLoading && suggestions?.data?.length === 0 && (
+                  <div className="p-4 text-sm text-gray-500">
+                    Không tìm thấy phim
+                  </div>
+                )}
+
+                {!isLoading &&
+                  suggestions?.data?.map((movie: Movie) => (
+                    <Link
+                      key={movie.id}
+                      href={`/movies/${movie.slug}`}
+                      className="
+                flex items-center gap-3
+                border-b border-gray-100
+                p-3
+                hover:bg-gray-50
+                transition
+              "
+                    >
+                      <img
+                        src={movie.posterUrl}
+                        alt={movie.title}
+                        className="
+                  h-16 w-12
+                  rounded-md
+                  object-cover
+                "
+                      />
+
+                      <div className="flex-1">
+                        <h4 className="font-medium text-black line-clamp-1">
+                          {movie.title}
+                        </h4>
+
+                        {movie.releaseDate && (
+                          <p className="text-xs text-gray-500">
+                            {new Date(movie.releaseDate).getFullYear()}
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+
+                {!isLoading && suggestions?.data?.length > 0 && (
+                  <button
+                    onClick={() =>
+                      router.push(
+                        `/movies/search?q=${encodeURIComponent(search)}`,
+                      )
+                    }
+                    className="
+                w-full
+                bg-gray-50
+                p-3
+                text-sm
+                font-medium
+                text-blue-600
+                hover:bg-gray-100
+              "
+                  >
+                    Xem tất cả kết quả
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right Actions */}

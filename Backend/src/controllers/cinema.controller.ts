@@ -48,33 +48,33 @@ export const getAllCinemas = async (
   }
 };
 
-// export const getCinemaBySlug = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     const { slug } = req.params;
-//     if (!slug || Array.isArray(slug)) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Invaid cinema Id",
-//       });
-//     }
-//     const cinema = await cinemaService.getCinemaBySlugService(slug);
+export const getCinemaBySlug = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { slug } = req.params;
+    if (!slug || Array.isArray(slug)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invaid cinema Id",
+      });
+    }
+    const cinema = await cinemaService.getCinemaBySlugService(slug);
 
-//     res.status(200).json({
-//       success: true,
-//       data: cinema,
-//     });
-//   } catch (error) {
-//     errorHandler({
-//       error,
-//       res,
-//       defaultMessage: "Failed to fetch cinema",
-//     });
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      data: cinema,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch cinema",
+    });
+  }
+};
 
 export const getCinemaById = async (
   req: Request,

@@ -1,3 +1,4 @@
+import { getCinemaBySlug } from "./../controllers/cinema.controller";
 import { Router } from "express";
 import {
   changePasswordController,
@@ -171,7 +172,10 @@ import {
   updateTrailerController,
 } from "../controllers/trailer.controller";
 import { movieSearchSchema } from "../validations/movieSearch.validation";
-import { searchMoviesController } from "../controllers/movieSearch.controller";
+import {
+  getMovieSuggestions,
+  searchMoviesController,
+} from "../controllers/movieSearch.controller";
 import {
   createCityController,
   deleteCityController,
@@ -462,10 +466,11 @@ router.post(
   validate(createCinemaSchema),
   createCinema,
 );
+router.get("/cinema/:slug", getCinemaBySlug);
+
 router.get("/cinema", getAllCinemas);
 router.get("/cinema/trash", getTrashCinemas);
 router.get("/cinema/:id", getCinemaById);
-// router.get("/cinema/:slug", getCinemaBySlug);
 router.put(
   "/cinema/:id",
   authMiddleware,
@@ -653,8 +658,12 @@ router.delete(
 );
 
 // search
-router.get("/search", validate(movieSearchSchema), searchMoviesController);
-
+router.get(
+  "/movies/search",
+  validate(movieSearchSchema),
+  searchMoviesController,
+);
+router.get("/movies/suggestions", getMovieSuggestions);
 // city
 router.get("/city", getCitiesController);
 router.get("/city/:id", getCityByIdController);

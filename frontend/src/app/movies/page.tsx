@@ -11,7 +11,7 @@ import QuickBooking from "@/components/home/quick-booking";
 import ContactSection from "@/components/home/contact";
 import Footer from "@/components/layout/footer";
 
-export default function HomePage() {
+export default function MoviePage() {
   const { data, isLoading, error } = useHome();
 
   if (isLoading) {

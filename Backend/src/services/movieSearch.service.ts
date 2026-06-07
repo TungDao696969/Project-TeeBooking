@@ -26,18 +26,12 @@ export const searchMoviesService = async (params: SearchParams) => {
     return JSON.parse(cached);
   }
 
-  const {
-    q,
-    genre,
-    status,
-    minRating,
-    year,
-    sort = "latest",
-    page = 1,
-    limit = 10,
-  } = params;
+  const { q, genre, status, minRating, year, sort = "latest" } = params;
 
-  const skip = (page - 1) * limit;
+  const pageNumber = Number(params.page || 1);
+  const limitNumber = Number(params.limit || 10);
+
+  const skip = (pageNumber - 1) * limitNumber;
 
   const where: any = {};
 
@@ -97,7 +91,7 @@ export const searchMoviesService = async (params: SearchParams) => {
     prisma.movie.findMany({
       where,
       skip,
-      take: limit,
+      take: limitNumber,
       orderBy: orderByMap[sort] || {
         releaseDate: "desc",
       },
@@ -167,14 +161,48 @@ export const searchMoviesService = async (params: SearchParams) => {
       ),
     })),
     pagination: {
-      page,
-      limit,
+      page: pageNumber,
+      limit: limitNumber,
       total,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / limitNumber),
     },
   };
 
   await redis.set(cacheKey, JSON.stringify(result), "EX", 60 * 30);
 
   return result;
+};
+
+export const getMovieSuggestionsService = async (q: string) => {
+  if (!q.trim()) {
+    return [];
+  }
+
+  const movies = await prisma.movie.findMany({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: q,
+            mode: "insensitive",
+          },
+        },
+        {
+          originalTitle: {
+            contains: q,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      title: true,
+      posterUrl: true,
+      slug: true,
+    },
+    take: 8,
+  });
+
+  return movies;
 };

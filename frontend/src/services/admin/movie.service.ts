@@ -1,6 +1,17 @@
 import api from "@/lib/axios";
 import { TrashMoviesResponse } from "@/types/movie.type";
 
+export interface SearchMovieParams {
+  q?: string;
+  genre?: string;
+  status?: string;
+  minRating?: number;
+  year?: number;
+  sort?: string;
+  page?: number;
+  limit?: number;
+}
+
 export const movieAdminService = {
   getMovies: async (page = 1) => {
     const res = await api.get(`/movie?page=${page}`);
@@ -49,4 +60,20 @@ export const restoreMovieService = async (id: string) => {
   const response = await api.patch(`/movie/${id}/restore`);
 
   return response.data;
+};
+
+export const searchMovies = async (params: SearchMovieParams) => {
+  const res = await api.get("/movies/search", {
+    params,
+  });
+
+  return res.data;
+};
+
+export const getMovieSuggestions = async (q: string) => {
+  const res = await api.get("/movies/suggestions", {
+    params: { q },
+  });
+
+  return res.data;
 };

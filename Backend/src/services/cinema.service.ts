@@ -82,26 +82,26 @@ export const getCinemaService = async (
   return result;
 };
 
-// export const getCinemaBySlugService = async (slug: string) => {
-//   const cacheKey = `cinema: ${slug}`;
+export const getCinemaBySlugService = async (slug: string) => {
+  const cacheKey = `cinema: ${slug}`;
 
-//   const cached = await redis.get(cacheKey);
+  const cached = await redis.get(cacheKey);
 
-//   if (cached) {
-//     return JSON.parse(cached);
-//   }
+  if (cached) {
+    return JSON.parse(cached);
+  }
 
-//   const cinema = await prisma.cinema.findUnique({
-//     where: { slug },
-//     include: { rooms: true },
-//   });
+  const cinema = await prisma.cinema.findUnique({
+    where: { slug },
+    include: { rooms: true },
+  });
 
-//   if (!cinema) throw new Error("Cinema not found");
+  if (!cinema) throw new Error("Cinema not found");
 
-//   await redis.set(cacheKey, JSON.stringify(cinema), "EX", cache_ttl);
+  await redis.set(cacheKey, JSON.stringify(cinema), "EX", cache_ttl);
 
-//   return cinema;
-// };
+  return cinema;
+};
 
 export const getCinemaByIdService = async (id: string) => {
   const cinema = await prisma.cinema.findFirst({
