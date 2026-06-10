@@ -1,9 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+// import { useMutation } from "@tanstack/react-query";
 
-import { createMoMoPayment } from "@/services/payment.api";
+// import { createMoMoPayment } from "@/services/payment.api";
 
-export const useCreateMoMo = () => {
-  return useMutation({
-    mutationFn: createMoMoPayment,
-  });
-};
+// export const useCreateMoMo = () => {
+//   return useMutation({
+//     mutationFn: createMoMoPayment,
+//   });
+// };

@@ -193,18 +193,7 @@ import {
   reserveShowtimeSeatController,
 } from "../controllers/showtimeSeat.controller";
 import { generateTicketQRController } from "../controllers/ticket-qr.controller";
-import {
-  createMoMoController,
-  createVnpayPaymentController,
-  momoIPNController,
-  momoReturnController,
-  vnpayIPNController,
-  // createMomoPaymentController,
-  // createVnpayPaymentController,
-  // momoIpnController,
-  vnpayReturnController,
-} from "../controllers/payment.controller";
-// import { vnpayReturnController } from "../controllers/vnpay.controller";
+
 import { create } from "node:domain";
 import {
   getBookingHistoryDetailController,
@@ -248,7 +237,7 @@ import {
   getFoodComboByIdController,
   updateFoodComboController,
 } from "../controllers/foodCombo.controller";
-import { getBookingDetailController } from "../controllers/booking.controller";
+import { getBookingDetailController, createBooking } from "../controllers/booking.controller";
 import {
   createUser,
   deleteUser,
@@ -258,6 +247,9 @@ import {
   restoreUser,
   updateUser,
 } from "../controllers/admin/user.controller";
+import { createPaymentController } from "../controllers/payment.controller";
+import { verifySePaySignature } from "../middlewares/sepay-signature.middleware";
+import { sepayWebhookController } from "../controllers/sepayWebhook.controller";
 
 const router = Router();
 
@@ -692,15 +684,13 @@ router.delete(
 );
 
 // payment
-router.post("/payment/vnpay", authMiddleware, createVnpayPaymentController);
-router.get("/payment/vnpay-return", vnpayReturnController);
-// Alias route kept for backwards compatibility or external return URLs
-router.get("/payment/vnpay/return", vnpayReturnController);
-router.get("/payment/vnpay-ipn", vnpayIPNController);
-// momo
-router.post("/payment/momo/create", authMiddleware, createMoMoController);
-router.post("/payment/momo/ipn", momoIPNController);
-router.get("/payment/momo/return", momoReturnController);
+router.post("/payment/create", authMiddleware, createPaymentController);
+
+router.post(
+  "/payment/sepay/webhook",
+  verifySePaySignature,
+  sepayWebhookController,
+);
 
 // ticket QR
 router.get(
@@ -720,6 +710,7 @@ router.get(
 router.post("/booking/:id/cancel", authMiddleware, cancelBookingController);
 
 // booking current
+router.post("/booking/create", authMiddleware, createBooking);
 router.get("/booking/:bookingId", authMiddleware, getBookingDetailController);
 // promotion
 router.post("/promotion", createPromotionController);

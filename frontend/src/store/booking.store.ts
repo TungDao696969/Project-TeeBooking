@@ -25,10 +25,13 @@ interface BookingState {
   upsertSeat: (seat: Seat) => void;
 
   clearSeats: () => void;
+
   resetBooking: () => void;
+
   totalPrice: number;
 
   selectedTab: "detail" | "ticket" | "payment";
+
   setTab: (tab: BookingState["selectedTab"]) => void;
 
   search: string;
@@ -38,6 +41,10 @@ interface BookingState {
   status: string;
 
   setStatus: (status: string) => void;
+
+  ticketQuantity: number;
+
+  setTicketQuantity: (qty: number) => void;
 }
 
 export const useBookingStore = create<BookingState>()(
@@ -83,8 +90,8 @@ export const useBookingStore = create<BookingState>()(
         }),
 
       decreaseTicket: (ticketTypeId) =>
-        set((state) => ({
-          tickets: state.tickets
+        set((state) => {
+          const newTickets = state.tickets
             .map((t) =>
               t.ticketTypeId === ticketTypeId
                 ? {
@@ -93,8 +100,27 @@ export const useBookingStore = create<BookingState>()(
                   }
                 : t,
             )
-            .filter((t) => t.quantity > 0),
-        })),
+            .filter((t) => t.quantity > 0);
+
+          const totalTickets = newTickets.reduce(
+            (sum, t) => sum + t.quantity,
+            0,
+          );
+
+          let newSelectedSeats = [...state.selectedSeats];
+          if (newSelectedSeats.length > totalTickets) {
+            newSelectedSeats = newSelectedSeats.slice(0, totalTickets);
+          }
+
+          return {
+            tickets: newTickets,
+            selectedSeats: newSelectedSeats,
+            totalPrice: newSelectedSeats.reduce(
+              (sum, s) => sum + s.price + (s.extraPrice ?? 0),
+              0,
+            ),
+          };
+        }),
 
       selectedSeats: [],
 
@@ -162,6 +188,13 @@ export const useBookingStore = create<BookingState>()(
       status: "all",
 
       setStatus: (status) => set({ status }),
+
+      ticketQuantity: 0,
+
+      setTicketQuantity: (qty) =>
+        set({
+          ticketQuantity: qty,
+        }),
     }),
     {
       name: "booking-storage",

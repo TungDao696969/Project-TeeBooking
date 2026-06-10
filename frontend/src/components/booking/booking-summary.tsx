@@ -1,18 +1,25 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import dayjs from "dayjs";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useTicketTypes } from "@/hooks/booking/use-ticket-types";
 import { useBookingStore } from "@/store/booking.store";
 import { useComboStore } from "@/store/combo.store";
 
 import ReserveTimer from "@/components/booking/seat/reserve-timer";
-import { useRouter } from "next/navigation";
+import { createBooking } from "@/services/booking.api";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 export default function BookingSummary() {
   const params = useParams();
   const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
   const showtimeId = Array.isArray(params.showtimeId)
     ? params.showtimeId[0]
     : params.showtimeId;
@@ -91,10 +98,46 @@ export default function BookingSummary() {
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
   }, [selectedSeats]);
 
+  const handleBooking = async () => {
+    if (selectedSeats.length === 0) {
+      toast.error("Vui lòng chọn ghế trước khi đặt vé");
+      return;
+    }
+
+    try {
+      setIsPending(true);
+
+      const payload = {
+        showtimeId: showtimeId ?? "",
+        seatIds: selectedSeats.map((seat) => seat.id),
+        comboIds: selectedCombos.map((item) => ({
+          comboId: item.combo.id,
+          quantity: item.quantity,
+        })),
+      };
+
+      const response = await createBooking(payload);
+
+      if (response?.success && response?.data?.id) {
+        toast.success("Tạo đặt vé thành công!");
+        router.push(`/payment/${response.data.id}`);
+      } else {
+        toast.error(response?.message || "Đặt vé thất bại");
+      }
+    } catch (error: unknown) {
+      const err = error as AxiosError<{ message?: string }>;
+
+      const errMsg =
+        err.response?.data?.message || err.message || "Đặt vé thất bại";
+
+      toast.error(errMsg);
+    }
+  };
+
   if (!showtime) return null;
 
   return (
-    <div className="sticky bottom-0 z-50 border-t border-white/[0.07] bg-[#05080f]/95 backdrop-blur-xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.07] bg-[#05080f]/95 backdrop-blur-xl">
       <div className="container mx-auto flex items-center gap-4 px-6 py-3">
         {/* Movie / Booking Info */}
         <div className="min-w-0 flex flex-1 flex-col justify-center">
@@ -135,13 +178,11 @@ export default function BookingSummary() {
             </div>
 
             <button
-              disabled={finalTotal === 0}
+              disabled={finalTotal === 0 || isPending}
               className="rounded-lg bg-yellow-400 px-6 py-2 font-bold text-lg tracking-[2px] text-black transition-all hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-30"
-              onClick={() => {
-                router.push(`/booking/${showtimeId}/payment`);
-              }}
+              onClick={handleBooking}
             >
-              ĐẶT VÉ
+              {isPending ? "ĐANG XỬ LÝ..." : "ĐẶT VÉ"}
             </button>
           </div>
         </div>

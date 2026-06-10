@@ -27,6 +27,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
 app.use(express.json());
+// app.use(
+//   express.json({
+//     verify: (req: any, _res, buf) => {
+//       req.rawBody = buf.toString();
+//     },
+//   }),
+// );
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 startSeatLockCleanupJob();

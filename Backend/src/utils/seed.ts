@@ -11,6 +11,7 @@ import {
   VoucherStatus,
 } from "../generated/prisma/enums";
 import { prisma } from "./prisma";
+import bcrypt from "bcryptjs";
 
 type SeedRoom = {
   id: string;
@@ -236,6 +237,8 @@ async function seedTicketTypes() {
 async function main() {
   console.log("🌱 Start seeding database...");
 
+  const defaultPasswordHash = await bcrypt.hash("Tungdao382005@", 12);
+
   // =============================
   // USERS
   // =============================
@@ -243,12 +246,32 @@ async function main() {
     where: {
       email: "admin@cinestar.vn",
     },
-    update: {},
+    update: {
+      passwordHash: defaultPasswordHash,
+    },
     create: {
       fullName: "Admin Cinestar",
       email: "admin@cinestar.vn",
       phone: "0900000001",
-      passwordHash: "hashed_password_admin",
+      passwordHash: defaultPasswordHash,
+      role: UserRole.admin,
+      gender: GenderType.male,
+      isVerified: true,
+    },
+  });
+
+  const readmeAdmin = await prisma.user.upsert({
+    where: {
+      email: "daot0502@gmail.com",
+    },
+    update: {
+      passwordHash: defaultPasswordHash,
+    },
+    create: {
+      fullName: "Admin Tùng Đào",
+      email: "daot0502@gmail.com",
+      phone: "0900000003",
+      passwordHash: defaultPasswordHash,
       role: UserRole.admin,
       gender: GenderType.male,
       isVerified: true,
@@ -259,12 +282,14 @@ async function main() {
     where: {
       email: "customer1@gmail.com",
     },
-    update: {},
+    update: {
+      passwordHash: defaultPasswordHash,
+    },
     create: {
       fullName: "Nguyen Van A",
       email: "customer1@gmail.com",
       phone: "0900000002",
-      passwordHash: "hashed_password_customer",
+      passwordHash: defaultPasswordHash,
       role: UserRole.customer,
       gender: GenderType.female,
       isVerified: true,

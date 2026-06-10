@@ -19,10 +19,11 @@ export default async function BookingPage({ params }: Props) {
 
   return (
     <>
-      <BookingComboReset showtimeId={showtimeId} />
       <Header />
 
       <main className="">
+        <BookingComboReset showtimeId={showtimeId} />
+
         <BookingTicketTypes showtimeId={showtimeId} />
 
         <div className="mt-10">

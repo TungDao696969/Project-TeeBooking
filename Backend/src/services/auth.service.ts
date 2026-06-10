@@ -85,7 +85,7 @@ export const loginUserService = async (data: LoginInput) => {
   const user = await prisma.user.findUnique({
     where: { email: data.email, deletedAt: null },
   });
-
+  console.log("USER:", user);
   if (!user) {
     throw new Error("Account not found");
   }
@@ -103,7 +103,7 @@ export const loginUserService = async (data: LoginInput) => {
     data.password,
     user.passwordHash,
   );
-
+  console.log("PASSWORD VALID:", isPasswordValid);
   if (!isPasswordValid) {
     throw new Error("Invalid credentials");
   }

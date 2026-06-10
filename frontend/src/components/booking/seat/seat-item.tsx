@@ -6,15 +6,21 @@ import { Seat } from "@/types/seat.type";
 import { useBookingStore } from "@/store/booking.store";
 import { useReserveSeat } from "@/hooks/seat/use-reserve-seat";
 import { useReleaseSeat } from "@/hooks/seat/use-release-seat";
+import { toast } from "sonner";
 interface Props {
   seat: Seat;
 }
 
 export default function SeatItem({ seat }: Props) {
-  const { selectedSeats, toggleSeat, upsertSeat } = useBookingStore();
+  const { selectedSeats, tickets, toggleSeat, upsertSeat } = useBookingStore();
   const reserveSeatMutation = useReserveSeat();
   const releaseSeatMutation = useReleaseSeat();
   const isSelected = selectedSeats.some((s) => s.id === seat.id);
+
+  const ticketQuantity = tickets.reduce(
+    (sum, ticket) => sum + ticket.quantity,
+    0,
+  );
 
   const disabled =
     seat.status === "booked" ||
@@ -26,6 +32,16 @@ export default function SeatItem({ seat }: Props) {
   const handleClick = async () => {
     if (reserveSeatMutation.isPending || releaseSeatMutation.isPending) return;
 
+    if (ticketQuantity === 0) {
+      toast.error("Vui lòng chọn vé trước");
+      return;
+    }
+
+    if (!isSelected && selectedSeats.length >= ticketQuantity) {
+      toast.error(`Bạn chỉ được chọn tối đa ${ticketQuantity} ghế`);
+
+      return;
+    }
     try {
       if (isSelected) {
         await releaseSeatMutation.mutateAsync(seat.id);
@@ -56,22 +72,35 @@ export default function SeatItem({ seat }: Props) {
       disabled={disabled}
       onClick={handleClick}
       className={clsx(
-        "h-9 w-9 rounded-md text-xs font-bold transition flex items-center justify-center border border-transparent relative z-10",
+        "h-9 w-9 rounded-md text-xs font-bold transition flex items-center justify-center border relative z-10",
         {
-          "bg-white text-black":
+          // Standard
+          "bg-white text-black border-transparent":
             seat.seatType === "standard" &&
-            !isSelected &&
-            seat.status !== "booked",
-          "bg-yellow-400 text-black":
-            seat.seatType === "vip" && !isSelected && seat.status !== "booked",
-          "bg-pink-400 text-black":
-            seat.seatType === "couple" &&
-            !isSelected &&
-            seat.status !== "booked",
+            seat.status === "available" &&
+            !isSelected,
 
+          // VIP
+          "bg-yellow-400 text-black border-transparent":
+            seat.seatType === "vip" &&
+            seat.status === "available" &&
+            !isSelected,
+
+          // Couple
+          "bg-pink-400 text-black border-transparent":
+            seat.seatType === "couple" &&
+            seat.status === "available" &&
+            !isSelected,
+
+          // Ghế đang được người khác giữ
+          "bg-transparent border-2 border-green-400 cursor-not-allowed":
+            seat.status === "reserved" && !isSelected,
+
+          // Đã đặt
           "bg-gray-400 text-white opacity-60 cursor-not-allowed":
             seat.status === "booked",
 
+          // Ghế mình chọn
           "border-2 border-yellow-300 bg-yellow-200 text-black": isSelected,
         },
       )}

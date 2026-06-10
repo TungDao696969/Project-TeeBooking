@@ -31,3 +31,18 @@ export const getPastBookingsService = async (
 
   return response.data;
 };
+
+export const getBookingStatus = async (bookingId: string) => {
+  const { data } = await api.get(`/bookings/${bookingId}`);
+
+  return data;
+};
+
+export const createBooking = async (payload: {
+  showtimeId: string;
+  seatIds: string[];
+  comboIds?: { comboId: string; quantity: number }[];
+}) => {
+  const response = await api.post("/booking/create", payload);
+  return response.data;
+};
