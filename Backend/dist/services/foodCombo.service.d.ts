@@ -1,8 +1,8 @@
 export declare const getAllFoodCombosService: () => Promise<{
     name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
+    isActive: boolean;
     description: string | null;
     price: number;
     imageUrl: string | null;
@@ -11,8 +11,8 @@ export declare const getAllFoodCombosService: () => Promise<{
 export declare const getFoodComboByIdService: (id: string) => Promise<{
     name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
+    isActive: boolean;
     description: string | null;
     price: number;
     imageUrl: string | null;
@@ -21,8 +21,8 @@ export declare const getFoodComboByIdService: (id: string) => Promise<{
 export declare const createFoodComboService: (data: any) => Promise<{
     name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
+    isActive: boolean;
     description: string | null;
     price: number;
     imageUrl: string | null;
@@ -31,8 +31,8 @@ export declare const createFoodComboService: (data: any) => Promise<{
 export declare const updateFoodComboService: (id: string, data: any) => Promise<{
     name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
+    isActive: boolean;
     description: string | null;
     price: number;
     imageUrl: string | null;
@@ -41,8 +41,8 @@ export declare const updateFoodComboService: (id: string, data: any) => Promise<
 export declare const deleteFoodComboService: (id: string) => Promise<{
     name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
+    isActive: boolean;
     description: string | null;
     price: number;
     imageUrl: string | null;

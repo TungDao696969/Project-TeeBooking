@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import TrashSeatTable from "@/hooks/admin/seat/trash-seat-table";
+import TrashSeatTable from "@/components/admin/seat/trash-seat-table";
 
 import { useTrashSeats } from "@/hooks/admin/seat/use-trash-seat";
 

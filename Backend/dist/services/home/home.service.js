@@ -16,6 +16,7 @@ const getHomeService = async () => {
         prisma_1.prisma.movie.findMany({
             where: {
                 status: "now_showing",
+                deletedAt: null,
             },
             select: {
                 id: true,
@@ -34,6 +35,7 @@ const getHomeService = async () => {
         prisma_1.prisma.movie.findMany({
             where: {
                 status: "coming_soon",
+                deletedAt: null,
             },
             select: {
                 id: true,
@@ -49,6 +51,9 @@ const getHomeService = async () => {
             },
         }),
         prisma_1.prisma.cinema.findMany({
+            where: {
+                deletedAt: null,
+            },
             select: {
                 id: true,
                 name: true,

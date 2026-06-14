@@ -1,30 +1,41 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useForm } from "react-hook-form";
-
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { toast } from "sonner";
 
 import { profileSchema, ProfileSchemaType } from "@/schemas/profile.schema";
-
 import { useProfile } from "@/hooks/profile/use-profile";
-
-import { updateProfile, uploadAvatarApi } from "@/services/user.api";
+import { updateProfile, uploadAvatarApi, changePasswordApi } from "@/services/user.api";
 
 import { Input } from "@/components/ui/input";
 import BookingHistory from "./booking-history";
-
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
-import { User, Star, History, LogOut, Camera } from "lucide-react";
+import { User, Star, History, LogOut, Camera, Lock, Eye, EyeOff, KeyRound } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
+
+// ── Change-password form schema ────────────────────────────────────────────
+const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Vui lòng nhập mật khẩu hiện tại"),
+    newPassword: z
+      .string()
+      .min(6, "Mật khẩu mới tối thiểu 6 ký tự")
+      .max(50, "Mật khẩu tối đa 50 ký tự"),
+    confirmPassword: z.string().min(1, "Vui lòng xác nhận mật khẩu"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Mật khẩu xác nhận không khớp",
+    path: ["confirmPassword"],
+  });
+
+type ChangePasswordSchemaType = z.infer<typeof changePasswordSchema>;
 export default function ProfileForm() {
   const queryClient = useQueryClient();
 
@@ -94,6 +105,65 @@ export default function ProfileForm() {
       toast.error("Cập nhật thất bại");
     },
   });
+
+  // ── Change-password form ─────────────────────────────────────────────────
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const {
+    register: registerPwd,
+    handleSubmit: handleSubmitPwd,
+    reset: resetPwd,
+    watch: watchPwd,
+    formState: { errors: pwdErrors },
+  } = useForm<ChangePasswordSchemaType>({
+    resolver: zodResolver(changePasswordSchema),
+  });
+
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const newPasswordValue = watchPwd("newPassword", "");
+
+  // Password strength helper
+  const getStrength = (pw: string) => {
+    if (!pw) return { score: 0, label: "", color: "" };
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    const levels = [
+      { label: "Rất yếu", color: "bg-red-500" },
+      { label: "Yếu", color: "bg-orange-400" },
+      { label: "Trung bình", color: "bg-yellow-400" },
+      { label: "Mạnh", color: "bg-green-400" },
+      { label: "Rất mạnh", color: "bg-green-600" },
+    ];
+    return { score, ...levels[score] };
+  };
+
+  const strength = getStrength(newPasswordValue);
+
+  const changePwdMutation = useMutation({
+    mutationFn: changePasswordApi,
+    onSuccess: () => {
+      toast.success("Đổi mật khẩu thành công!");
+      resetPwd();
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (err: any) => {
+      const msg =
+        err?.response?.data?.message || "Đổi mật khẩu thất bại. Thử lại sau.";
+      toast.error(msg);
+    },
+  });
+
+  const onChangePwd = (data: ChangePasswordSchemaType) => {
+    changePwdMutation.mutate({
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    });
+  };
 
   const uploadAvatarMutation = useMutation({
     mutationFn: uploadAvatarApi,
@@ -527,6 +597,147 @@ export default function ProfileForm() {
               "
                     >
                       {mutation.isPending ? "Đang lưu..." : "Lưu thông tin"}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+
+              {/* ── CHANGE PASSWORD FORM ────────────────────────────── */}
+              <div className="mt-8 bg-[#EAEAEA] p-8 lg:p-10">
+                <div className="mb-8 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#3B63D1]">
+                    <KeyRound className="h-5 w-5 text-white" />
+                  </div>
+                  <h2 className="text-4xl font-black text-black">Đổi mật khẩu</h2>
+                </div>
+
+                <form
+                  onSubmit={handleSubmitPwd(onChangePwd)}
+                  className="space-y-6"
+                >
+                  {/* Current password */}
+                  <div>
+                    <label className="mb-3 flex items-center gap-2 text-xl text-black">
+                      <Lock className="h-4 w-4 text-gray-500" />
+                      Mật khẩu hiện tại
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <Input
+                        {...registerPwd("currentPassword")}
+                        type={showCurrent ? "text" : "password"}
+                        placeholder="Nhập mật khẩu hiện tại"
+                        className="h-16 rounded-none border-black bg-transparent px-5 pr-14 text-xl text-black"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowCurrent((v) => !v)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                      >
+                        {showCurrent ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      </button>
+                    </div>
+                    {pwdErrors.currentPassword && (
+                      <p className="mt-2 text-sm text-red-500">{pwdErrors.currentPassword.message}</p>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    {/* New password */}
+                    <div>
+                      <label className="mb-3 flex items-center gap-2 text-xl text-black">
+                        <Lock className="h-4 w-4 text-gray-500" />
+                        Mật khẩu mới
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <Input
+                          {...registerPwd("newPassword")}
+                          type={showNew ? "text" : "password"}
+                          placeholder="Nhập mật khẩu mới"
+                          className="h-16 rounded-none border-black bg-transparent px-5 pr-14 text-xl text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNew((v) => !v)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                        >
+                          {showNew ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
+                      </div>
+                      {/* Strength bar */}
+                      {newPasswordValue && (
+                        <div className="mt-2">
+                          <div className="flex gap-1">
+                            {[0, 1, 2, 3].map((i) => (
+                              <div
+                                key={i}
+                                className={`h-1.5 flex-1 rounded-full transition-all ${
+                                  i < strength.score ? strength.color : "bg-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <p className="mt-1 text-xs text-gray-600">{strength.label}</p>
+                        </div>
+                      )}
+                      {pwdErrors.newPassword && (
+                        <p className="mt-2 text-sm text-red-500">{pwdErrors.newPassword.message}</p>
+                      )}
+                    </div>
+
+                    {/* Confirm password */}
+                    <div>
+                      <label className="mb-3 flex items-center gap-2 text-xl text-black">
+                        <Lock className="h-4 w-4 text-gray-500" />
+                        Xác nhận mật khẩu
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <Input
+                          {...registerPwd("confirmPassword")}
+                          type={showConfirm ? "text" : "password"}
+                          placeholder="Nhập lại mật khẩu mới"
+                          className="h-16 rounded-none border-black bg-transparent px-5 pr-14 text-xl text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirm((v) => !v)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                        >
+                          {showConfirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
+                      </div>
+                      {pwdErrors.confirmPassword && (
+                        <p className="mt-2 text-sm text-red-500">{pwdErrors.confirmPassword.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Submit */}
+                  <div className="pt-2">
+                    <Button
+                      type="submit"
+                      disabled={changePwdMutation.isPending}
+                      className="
+                        relative h-14 overflow-hidden rounded-md
+                        bg-gradient-to-r from-[#5B35B0] to-[#3B63D1]
+                        px-10 text-xl font-black uppercase text-white
+                        transition-all hover:from-[#4a2b9a] hover:to-[#3255c0]
+                        hover:shadow-lg disabled:opacity-60
+                      "
+                    >
+                      {changePwdMutation.isPending ? (
+                        <span className="flex items-center gap-2">
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                          Đang xử lý...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <KeyRound className="h-5 w-5" />
+                          Đổi mật khẩu
+                        </span>
+                      )}
                     </Button>
                   </div>
                 </form>

@@ -193,6 +193,8 @@ export const getMovieShowtimesService = async (slug: string) => {
 
       isActive: true,
 
+      deletedAt: null,
+
       startTime: {
         gte: new Date(),
       },
@@ -238,7 +240,7 @@ export const getMovieShowtimesService = async (slug: string) => {
       };
     }
 
-    const dateKey = new Date(showtime.showDate)
+    const dateKey = new Date(showtime.startTime)
       .toISOString()
       .split("T")[0] as string;
 
@@ -308,7 +310,7 @@ export const getTrashMoviesService = async () => {
     },
   });
 
-  await redis.set(cacheKey, JSON.stringify(movies), "EX", cache_ttl);
+  await redis.set(cacheKey, JSON.stringify(movies), "EX", CACHE_TTL);
 
   return movies;
 };

@@ -20,11 +20,11 @@ export declare const createTrailerService: (payload: CreateTrailerPayload) => Pr
     data: {
         type: import("../generated/prisma/enums").TrailerType;
         id: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        title: string;
         movieId: string;
+        isActive: boolean;
+        title: string;
         thumbnailUrl: string | null;
         videoUrl: string;
         sortOrder: number;
@@ -36,11 +36,11 @@ export declare const getTrailerByIdService: (id: string) => Promise<{
     data: {
         type: import("../generated/prisma/enums").TrailerType;
         id: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        title: string;
         movieId: string;
+        isActive: boolean;
+        title: string;
         thumbnailUrl: string | null;
         videoUrl: string;
         sortOrder: number;
@@ -52,11 +52,11 @@ export declare const updateTrailerService: (id: string, payload: UpdateTrailerPa
     data: {
         type: import("../generated/prisma/enums").TrailerType;
         id: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        title: string;
         movieId: string;
+        isActive: boolean;
+        title: string;
         thumbnailUrl: string | null;
         videoUrl: string;
         sortOrder: number;

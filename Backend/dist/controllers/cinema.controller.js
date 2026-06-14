@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCinemaShowtimes = exports.deleteCinema = exports.updateCinema = exports.getCinemaById = exports.getCinemaBySlug = exports.getAllCinemas = exports.createCinema = void 0;
+exports.restoreCinema = exports.getTrashCinemas = exports.getCinemaShowtimes = exports.deleteCinema = exports.updateCinema = exports.getCinemaById = exports.getCinemaBySlug = exports.getAllCinemas = exports.createCinema = void 0;
 const cinemaService = __importStar(require("../services/cinema.service"));
 const errorHandler_1 = require("../utils/errorHandler");
 const createCinema = async (req, res, next) => {
@@ -54,12 +54,14 @@ const createCinema = async (req, res, next) => {
     }
 };
 exports.createCinema = createCinema;
-const getAllCinemas = async (_req, res, next) => {
+const getAllCinemas = async (req, res, next) => {
     try {
-        const cinemas = await cinemaService.getCinemaService();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const cinemas = await cinemaService.getCinemaService(page, limit);
         res.status(200).json({
             success: true,
-            data: cinemas,
+            ...cinemas,
         });
     }
     catch (error) {
@@ -105,6 +107,12 @@ const getCinemaById = async (req, res, next) => {
             });
         }
         const cinema = await cinemaService.getCinemaByIdService(id);
+        if (!cinema) {
+            return res.status(404).json({
+                success: false,
+                message: "Cinema not found",
+            });
+        }
         res.status(200).json({
             success: true,
             data: cinema,
@@ -193,4 +201,45 @@ const getCinemaShowtimes = async (req, res) => {
     }
 };
 exports.getCinemaShowtimes = getCinemaShowtimes;
+const getTrashCinemas = async (req, res) => {
+    try {
+        const cinemas = await cinemaService.getTrashCinemasService();
+        return res.status(200).json({
+            success: true,
+            data: cinemas,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch trash cinemas",
+        });
+    }
+};
+exports.getTrashCinemas = getTrashCinemas;
+const restoreCinema = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid cinema id",
+            });
+        }
+        await cinemaService.restoreCinemaService(id);
+        return res.status(200).json({
+            success: true,
+            message: "Cinema restored successfully",
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to restore cinema",
+        });
+    }
+};
+exports.restoreCinema = restoreCinema;
 //# sourceMappingURL=cinema.controller.js.map

@@ -223,7 +223,8 @@ exports.CinemaScalarFieldEnum = {
     longitude: 'longitude',
     openingHours: 'openingHours',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
 };
 exports.CinemaRoomScalarFieldEnum = {
     id: 'id',
@@ -233,6 +234,8 @@ exports.CinemaRoomScalarFieldEnum = {
     totalSeats: 'totalSeats',
     screenType: 'screenType',
     soundSystem: 'soundSystem',
+    isActive: 'isActive',
+    deletedAt: 'deletedAt',
     createdAt: 'createdAt'
 };
 exports.CityScalarFieldEnum = {
@@ -299,7 +302,8 @@ exports.MovieScalarFieldEnum = {
     country: 'country',
     producer: 'producer',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
 };
 exports.MovieCastScalarFieldEnum = {
     id: 'id',
@@ -382,7 +386,9 @@ exports.SeatScalarFieldEnum = {
     seatCode: 'seatCode',
     seatType: 'seatType',
     extraPrice: 'extraPrice',
-    createdAt: 'createdAt'
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
 };
 exports.ShowtimeScalarFieldEnum = {
     id: 'id',
@@ -396,6 +402,7 @@ exports.ShowtimeScalarFieldEnum = {
     language: 'language',
     subtitle: 'subtitle',
     isActive: 'isActive',
+    deletedAt: 'deletedAt',
     createdAt: 'createdAt'
 };
 exports.ShowtimeSeatScalarFieldEnum = {
@@ -454,7 +461,8 @@ exports.UserScalarFieldEnum = {
     isVerified: 'isVerified',
     isActive: 'isActive',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
 };
 exports.UserAddressScalarFieldEnum = {
     id: 'id',

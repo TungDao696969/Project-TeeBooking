@@ -1,37 +1,37 @@
 export declare const getHomeService: () => Promise<{
     banners: {
         id: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        isActive: boolean;
         title: string;
         endDate: Date;
         imageUrl: string;
-        startDate: Date;
         redirectUrl: string | null;
+        startDate: Date;
     }[];
     nowShowing: {
         id: string;
-        status: import("../../generated/prisma/enums").MovieStatus;
-        title: string;
         slug: string;
+        title: string;
         durationMinutes: number;
         ageRating: string | null;
         posterUrl: string | null;
+        status: import("../../generated/prisma/enums").MovieStatus;
     }[];
     comingSoon: {
         id: string;
-        status: import("../../generated/prisma/enums").MovieStatus;
-        title: string;
         slug: string;
+        title: string;
         releaseDate: Date;
         posterUrl: string | null;
+        status: import("../../generated/prisma/enums").MovieStatus;
     }[];
     cinemas: {
         name: string;
+        address: string;
         id: string;
         slug: string;
-        address: string;
     }[];
     promotions: {
         type: import("../../generated/prisma/enums").PromotionType;
@@ -40,16 +40,16 @@ export declare const getHomeService: () => Promise<{
         description: string | null;
         endDate: Date;
         imageUrl: string | null;
+        startDate: Date;
         discountValue: number;
         minOrderValue: number | null;
         maxDiscount: number | null;
-        startDate: Date;
     }[];
     blogs: {
         id: string;
+        slug: string;
         createdAt: Date;
         title: string;
-        slug: string;
         thumbnailUrl: string | null;
     }[];
 }>;

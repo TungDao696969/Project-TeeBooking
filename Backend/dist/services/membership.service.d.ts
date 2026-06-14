@@ -1,8 +1,8 @@
 export declare const getMembershipService: (userId: string) => Promise<any>;
 export declare const createMembershipService: (userId: string) => Promise<{
-    userId: string;
     level: string;
     id: string;
+    userId: string;
     membershipCode: string;
     points: number;
     lifetimePoints: number;
@@ -14,9 +14,9 @@ export declare const updateMembershipService: (userId: string, data: {
     points?: number;
     lifetimePoints?: number;
 }) => Promise<{
-    userId: string;
     level: string;
     id: string;
+    userId: string;
     membershipCode: string;
     points: number;
     lifetimePoints: number;

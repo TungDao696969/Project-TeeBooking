@@ -1,20 +1,13 @@
 "use client";
 
 import Image from "next/image";
-
-import { Card } from "@/components/ui/card";
-
-import QuantityButton from "./quantity-button";
-
 import { FoodCombo } from "@/types/combo.type";
+import QuantityButton from "./quantity-button";
 
 interface Props {
   combo: FoodCombo;
-
   quantity: number;
-
   onIncrease: () => void;
-
   onDecrease: () => void;
 }
 
@@ -25,28 +18,28 @@ export default function ComboCard({
   onDecrease,
 }: Props) {
   return (
-    <Card className="overflow-hidden border-none bg-zinc-900 text-white">
-      <div className="relative h-52 w-full">
+    <div className="flex items-start gap-4">
+      <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-md bg-white">
         <Image
           src={combo.imageUrl || "/images/food.jpg"}
           alt={combo.name}
           fill
-          className="object-cover"
+          className="object-contain p-2"
         />
       </div>
 
-      <div className="space-y-3 p-4">
-        <h3 className="text-lg font-bold">{combo.name}</h3>
+      <div className="flex min-w-0 flex-col">
+        <h3 className="text-xl font-bold uppercase text-white">{combo.name}</h3>
 
-        <p className="line-clamp-2 text-sm text-zinc-400">
-          {combo.description}
+        {combo.description && (
+          <p className="mt-1 text-sm text-white/80">{combo.description}</p>
+        )}
+
+        <p className="mt-2 text-2xl font-bold text-white">
+          {combo.price.toLocaleString("vi-VN")} VNĐ
         </p>
 
-        <div className="flex items-center justify-between">
-          <span className="text-xl font-bold text-yellow-400">
-            {combo.price.toLocaleString("vi-VN")}đ
-          </span>
-
+        <div className="mt-6">
           <QuantityButton
             quantity={quantity}
             onIncrease={onIncrease}
@@ -54,6 +47,6 @@ export default function ComboCard({
           />
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

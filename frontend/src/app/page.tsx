@@ -43,7 +43,7 @@ export default function HomePage() {
       <main className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
         <HeroBanner banners={data.banners || []} />
 
-        <QuickBooking />
+        <QuickBooking movies={data.nowShowing || []} />
 
         <MovieSection title="Phim đang chiếu" movies={data.nowShowing || []} />
 

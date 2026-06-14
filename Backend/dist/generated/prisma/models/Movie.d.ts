@@ -39,6 +39,7 @@ export type MovieMinAggregateOutputType = {
     producer: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    deletedAt: Date | null;
 };
 export type MovieMaxAggregateOutputType = {
     id: string | null;
@@ -60,6 +61,7 @@ export type MovieMaxAggregateOutputType = {
     producer: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    deletedAt: Date | null;
 };
 export type MovieCountAggregateOutputType = {
     id: number;
@@ -81,6 +83,7 @@ export type MovieCountAggregateOutputType = {
     producer: number;
     createdAt: number;
     updatedAt: number;
+    deletedAt: number;
     _all: number;
 };
 export type MovieAvgAggregateInputType = {
@@ -109,6 +112,7 @@ export type MovieMinAggregateInputType = {
     producer?: true;
     createdAt?: true;
     updatedAt?: true;
+    deletedAt?: true;
 };
 export type MovieMaxAggregateInputType = {
     id?: true;
@@ -130,6 +134,7 @@ export type MovieMaxAggregateInputType = {
     producer?: true;
     createdAt?: true;
     updatedAt?: true;
+    deletedAt?: true;
 };
 export type MovieCountAggregateInputType = {
     id?: true;
@@ -151,6 +156,7 @@ export type MovieCountAggregateInputType = {
     producer?: true;
     createdAt?: true;
     updatedAt?: true;
+    deletedAt?: true;
     _all?: true;
 };
 export type MovieAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -249,6 +255,7 @@ export type MovieGroupByOutputType = {
     producer: string | null;
     createdAt: Date;
     updatedAt: Date;
+    deletedAt: Date | null;
     _count: MovieCountAggregateOutputType | null;
     _avg: MovieAvgAggregateOutputType | null;
     _sum: MovieSumAggregateOutputType | null;
@@ -281,6 +288,7 @@ export type MovieWhereInput = {
     producer?: Prisma.StringNullableFilter<"Movie"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Movie"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Movie"> | Date | string;
+    deletedAt?: Prisma.DateTimeNullableFilter<"Movie"> | Date | string | null;
     genres?: Prisma.MovieGenreListRelationFilter;
     casts?: Prisma.MovieCastListRelationFilter;
     showtimes?: Prisma.ShowtimeListRelationFilter;
@@ -307,6 +315,7 @@ export type MovieOrderByWithRelationInput = {
     producer?: Prisma.SortOrderInput | Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
     genres?: Prisma.MovieGenreOrderByRelationAggregateInput;
     casts?: Prisma.MovieCastOrderByRelationAggregateInput;
     showtimes?: Prisma.ShowtimeOrderByRelationAggregateInput;
@@ -336,6 +345,7 @@ export type MovieWhereUniqueInput = Prisma.AtLeast<{
     producer?: Prisma.StringNullableFilter<"Movie"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Movie"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Movie"> | Date | string;
+    deletedAt?: Prisma.DateTimeNullableFilter<"Movie"> | Date | string | null;
     genres?: Prisma.MovieGenreListRelationFilter;
     casts?: Prisma.MovieCastListRelationFilter;
     showtimes?: Prisma.ShowtimeListRelationFilter;
@@ -362,6 +372,7 @@ export type MovieOrderByWithAggregationInput = {
     producer?: Prisma.SortOrderInput | Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.MovieCountOrderByAggregateInput;
     _avg?: Prisma.MovieAvgOrderByAggregateInput;
     _max?: Prisma.MovieMaxOrderByAggregateInput;
@@ -391,6 +402,7 @@ export type MovieScalarWhereWithAggregatesInput = {
     producer?: Prisma.StringNullableWithAggregatesFilter<"Movie"> | string | null;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Movie"> | Date | string;
     updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Movie"> | Date | string;
+    deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Movie"> | Date | string | null;
 };
 export type MovieCreateInput = {
     id?: string;
@@ -412,6 +424,7 @@ export type MovieCreateInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
@@ -438,6 +451,7 @@ export type MovieUncheckedCreateInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
@@ -464,6 +478,7 @@ export type MovieUpdateInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
@@ -490,6 +505,7 @@ export type MovieUncheckedUpdateInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
@@ -516,6 +532,7 @@ export type MovieCreateManyInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
 };
 export type MovieUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -537,6 +554,7 @@ export type MovieUpdateManyMutationInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 export type MovieUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -558,6 +576,7 @@ export type MovieUncheckedUpdateManyInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 export type MovieCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -579,6 +598,7 @@ export type MovieCountOrderByAggregateInput = {
     producer?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    deletedAt?: Prisma.SortOrder;
 };
 export type MovieAvgOrderByAggregateInput = {
     durationMinutes?: Prisma.SortOrder;
@@ -603,6 +623,7 @@ export type MovieMaxOrderByAggregateInput = {
     producer?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    deletedAt?: Prisma.SortOrder;
 };
 export type MovieMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -624,6 +645,7 @@ export type MovieMinOrderByAggregateInput = {
     producer?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    deletedAt?: Prisma.SortOrder;
 };
 export type MovieSumOrderByAggregateInput = {
     durationMinutes?: Prisma.SortOrder;
@@ -715,6 +737,7 @@ export type MovieCreateWithoutCastsInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
@@ -740,6 +763,7 @@ export type MovieUncheckedCreateWithoutCastsInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
@@ -778,6 +802,7 @@ export type MovieUpdateWithoutCastsInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
@@ -803,6 +828,7 @@ export type MovieUncheckedUpdateWithoutCastsInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
@@ -828,6 +854,7 @@ export type MovieCreateWithoutGenresInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
@@ -853,6 +880,7 @@ export type MovieUncheckedCreateWithoutGenresInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
@@ -891,6 +919,7 @@ export type MovieUpdateWithoutGenresInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
@@ -916,6 +945,7 @@ export type MovieUncheckedUpdateWithoutGenresInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
@@ -941,6 +971,7 @@ export type MovieCreateWithoutReviewsInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
@@ -966,6 +997,7 @@ export type MovieUncheckedCreateWithoutReviewsInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
@@ -1004,6 +1036,7 @@ export type MovieUpdateWithoutReviewsInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
@@ -1029,6 +1062,7 @@ export type MovieUncheckedUpdateWithoutReviewsInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
@@ -1054,6 +1088,7 @@ export type MovieCreateWithoutShowtimesInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutMovieInput;
@@ -1079,6 +1114,7 @@ export type MovieUncheckedCreateWithoutShowtimesInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutMovieInput;
@@ -1117,6 +1153,7 @@ export type MovieUpdateWithoutShowtimesInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutMovieNestedInput;
@@ -1142,6 +1179,7 @@ export type MovieUncheckedUpdateWithoutShowtimesInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutMovieNestedInput;
@@ -1167,6 +1205,7 @@ export type MovieCreateWithoutTrailersInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeCreateNestedManyWithoutMovieInput;
@@ -1192,6 +1231,7 @@ export type MovieUncheckedCreateWithoutTrailersInput = {
     producer?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    deletedAt?: Date | string | null;
     genres?: Prisma.MovieGenreUncheckedCreateNestedManyWithoutMovieInput;
     casts?: Prisma.MovieCastUncheckedCreateNestedManyWithoutMovieInput;
     showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutMovieInput;
@@ -1230,6 +1270,7 @@ export type MovieUpdateWithoutTrailersInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUpdateManyWithoutMovieNestedInput;
@@ -1255,6 +1296,7 @@ export type MovieUncheckedUpdateWithoutTrailersInput = {
     producer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     genres?: Prisma.MovieGenreUncheckedUpdateManyWithoutMovieNestedInput;
     casts?: Prisma.MovieCastUncheckedUpdateManyWithoutMovieNestedInput;
     showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutMovieNestedInput;
@@ -1336,6 +1378,7 @@ export type MovieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     producer?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    deletedAt?: boolean;
     genres?: boolean | Prisma.Movie$genresArgs<ExtArgs>;
     casts?: boolean | Prisma.Movie$castsArgs<ExtArgs>;
     showtimes?: boolean | Prisma.Movie$showtimesArgs<ExtArgs>;
@@ -1363,6 +1406,7 @@ export type MovieSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
     producer?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    deletedAt?: boolean;
 }, ExtArgs["result"]["movie"]>;
 export type MovieSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -1384,6 +1428,7 @@ export type MovieSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
     producer?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    deletedAt?: boolean;
 }, ExtArgs["result"]["movie"]>;
 export type MovieSelectScalar = {
     id?: boolean;
@@ -1405,8 +1450,9 @@ export type MovieSelectScalar = {
     producer?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    deletedAt?: boolean;
 };
-export type MovieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "originalTitle" | "description" | "durationMinutes" | "releaseDate" | "endDate" | "ageRating" | "language" | "subtitle" | "trailerUrl" | "posterUrl" | "bannerUrl" | "status" | "country" | "producer" | "createdAt" | "updatedAt", ExtArgs["result"]["movie"]>;
+export type MovieOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "originalTitle" | "description" | "durationMinutes" | "releaseDate" | "endDate" | "ageRating" | "language" | "subtitle" | "trailerUrl" | "posterUrl" | "bannerUrl" | "status" | "country" | "producer" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["movie"]>;
 export type MovieInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     genres?: boolean | Prisma.Movie$genresArgs<ExtArgs>;
     casts?: boolean | Prisma.Movie$castsArgs<ExtArgs>;
@@ -1446,6 +1492,7 @@ export type $MoviePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
         producer: string | null;
         createdAt: Date;
         updatedAt: Date;
+        deletedAt: Date | null;
     }, ExtArgs["result"]["movie"]>;
     composites: {};
 };
@@ -1824,6 +1871,7 @@ export interface MovieFieldRefs {
     readonly producer: Prisma.FieldRef<"Movie", 'String'>;
     readonly createdAt: Prisma.FieldRef<"Movie", 'DateTime'>;
     readonly updatedAt: Prisma.FieldRef<"Movie", 'DateTime'>;
+    readonly deletedAt: Prisma.FieldRef<"Movie", 'DateTime'>;
 }
 /**
  * Movie findUnique

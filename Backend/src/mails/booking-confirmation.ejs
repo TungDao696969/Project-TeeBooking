@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xác Nhận Đặt Vé - TEE BOOKING</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #0d0d0d;
+      color: #ffffff;
+    }
+    .wrapper {
+      max-width: 620px;
+      margin: 0 auto;
+      background: #0d0d0d;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #e50914 0%, #b81c2e 50%, #8b0000 100%);
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+    }
+    .header-logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .header-logo span {
+      color: #ffcc00;
+    }
+    .header-tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      margin-top: 6px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+    }
+    .header-icon {
+      font-size: 48px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 12px;
+      position: relative;
+    }
+    .header-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 6px;
+      position: relative;
+    }
+
+    /* Body */
+    .body {
+      background: #111111;
+      padding: 30px;
+    }
+
+    /* Greeting */
+    .greeting {
+      font-size: 16px;
+      color: #cccccc;
+      margin-bottom: 24px;
+    }
+    .greeting strong {
+      color: #ffcc00;
+    }
+
+    /* Movie Card */
+    .movie-card {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border: 1px solid rgba(229, 9, 20, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .movie-card-header {
+      background: linear-gradient(90deg, #e50914, #c70039);
+      padding: 14px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+    }
+    .movie-card-body {
+      padding: 20px;
+    }
+    .movie-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .movie-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .meta-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 10px 14px;
+      min-width: 120px;
+    }
+    .meta-label {
+      font-size: 10px;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .meta-value.highlight {
+      color: #ffcc00;
+    }
+
+    /* Seats Section */
+    .section {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #e50914;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .seat-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .seat-badge {
+      background: linear-gradient(135deg, #e50914, #c70039);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .seat-badge.vip {
+      background: linear-gradient(135deg, #f5a623, #e8941a);
+    }
+    .seat-badge.couple {
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    }
+
+    /* Combo Section */
+    .combo-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .combo-item:last-child {
+      border-bottom: none;
+    }
+    .combo-name {
+      font-size: 14px;
+      color: #cccccc;
+    }
+    .combo-qty {
+      font-size: 12px;
+      color: #888888;
+      margin-top: 2px;
+    }
+    .combo-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffcc00;
+    }
+
+    /* Total */
+    .total-box {
+      background: linear-gradient(135deg, rgba(229, 9, 20, 0.15), rgba(199, 0, 57, 0.1));
+      border: 1px solid rgba(229, 9, 20, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+    .total-label {
+      font-size: 13px;
+      color: #aaaaaa;
+    }
+    .total-value {
+      font-size: 13px;
+      color: #cccccc;
+      font-weight: 500;
+    }
+    .total-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 10px 0;
+    }
+    .total-final-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .total-final-value {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffcc00;
+    }
+
+    /* QR Section */
+    .qr-section {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border: 1px solid rgba(255, 204, 0, 0.3);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .qr-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffcc00;
+      margin-bottom: 6px;
+    }
+    .qr-subtitle {
+      font-size: 12px;
+      color: #888888;
+      margin-bottom: 20px;
+    }
+    .qr-wrapper {
+      display: inline-block;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .qr-wrapper img {
+      display: block;
+      width: 180px;
+      height: 180px;
+    }
+    .qr-note {
+      font-size: 12px;
+      color: #888888;
+      line-height: 1.5;
+    }
+    .qr-note strong {
+      color: #ffcc00;
+    }
+
+    /* Booking Code */
+    .booking-code-box {
+      background: rgba(255, 204, 0, 0.08);
+      border: 1px dashed rgba(255, 204, 0, 0.4);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      margin-top: 16px;
+    }
+    .booking-code-label {
+      font-size: 11px;
+      color: #888888;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .booking-code-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffcc00;
+      letter-spacing: 3px;
+      margin-top: 4px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Ticket Per Row (multiple QRs) */
+    .tickets-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+    }
+    .ticket-item {
+      text-align: center;
+    }
+    .ticket-seat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #cccccc;
+      margin-bottom: 8px;
+    }
+    .ticket-qr-wrapper {
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .ticket-qr-wrapper img {
+      display: block;
+      width: 120px;
+      height: 120px;
+    }
+
+    /* Instructions */
+    .instructions {
+      background: #1a1a1a;
+      border-left: 3px solid #e50914;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .instructions-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #e50914;
+      margin-bottom: 10px;
+    }
+    .instructions-list {
+      list-style: none;
+      padding: 0;
+    }
+    .instructions-list li {
+      font-size: 13px;
+      color: #aaaaaa;
+      padding: 3px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .instructions-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #e50914;
+      font-weight: bold;
+    }
+
+    /* Footer */
+    .footer {
+      background: #0a0a0a;
+      padding: 24px 30px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #e50914;
+      margin-bottom: 8px;
+    }
+    .footer-text {
+      font-size: 12px;
+      color: #555555;
+      line-height: 1.6;
+    }
+    .footer-text a {
+      color: #e50914;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-logo">TEE <span>BOOKING</span></div>
+      <div class="header-tagline">Cinema Ticket System</div>
+      <div class="header-icon">🎬</div>
+      <div class="header-title">Đặt Vé Thành Công!</div>
+      <div class="header-subtitle">Cảm ơn bạn đã thanh toán. Vé của bạn đã sẵn sàng.</div>
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+
+      <!-- Greeting -->
+      <p class="greeting">
+        Xin chào <strong><%= fullName %></strong>,<br/>
+        Chúng tôi xác nhận bạn đã đặt vé thành công. Dưới đây là thông tin chi tiết đặt vé của bạn.
+      </p>
+
+      <!-- Movie Info -->
+      <div class="movie-card">
+        <div class="movie-card-header">🎥 Thông Tin Phim</div>
+        <div class="movie-card-body">
+          <div class="movie-title"><%= movieTitle %></div>
+          <div class="movie-meta">
+            <div class="meta-item">
+              <div class="meta-label">📅 Ngày chiếu</div>
+              <div class="meta-value"><%= showDate %></div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">⏰ Giờ chiếu</div>
+              <div class="meta-value highlight"><%= showTime %></div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">🏛️ Rạp chiếu</div>
+              <div class="meta-value"><%= cinemaName %></div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">🎭 Phòng</div>
+              <div class="meta-value"><%= roomName %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seats -->
+      <div class="section">
+        <div class="section-title">🪑 Ghế Đã Đặt</div>
+        <div class="seat-list">
+          <% seats.forEach(function(seat) { %>
+            <span class="seat-badge <%= seat.type ? seat.type.toLowerCase() : '' %>">
+              <%= seat.label %>
+            </span>
+          <% }); %>
+        </div>
+      </div>
+
+      <!-- Combos (if any) -->
+      <% if (combos && combos.length > 0) { %>
+      <div class="section">
+        <div class="section-title">🍿 Bắp & Nước</div>
+        <% combos.forEach(function(combo) { %>
+        <div class="combo-item">
+          <div>
+            <div class="combo-name"><%= combo.name %></div>
+            <div class="combo-qty">x<%= combo.quantity %></div>
+          </div>
+          <div class="combo-price"><%= combo.totalPrice.toLocaleString('vi-VN') %>đ</div>
+        </div>
+        <% }); %>
+      </div>
+      <% } %>
+
+      <!-- Total -->
+      <div class="total-box">
+        <div class="total-row">
+          <span class="total-label">Tiền vé</span>
+          <span class="total-value"><%= totalTicketPrice.toLocaleString('vi-VN') %>đ</span>
+        </div>
+        <% if (totalComboPrice > 0) { %>
+        <div class="total-row">
+          <span class="total-label">Bắp & Nước</span>
+          <span class="total-value"><%= totalComboPrice.toLocaleString('vi-VN') %>đ</span>
+        </div>
+        <% } %>
+        <hr class="total-divider"/>
+        <div class="total-row">
+          <span class="total-final-label">Tổng thanh toán</span>
+          <span class="total-final-value"><%= finalAmount.toLocaleString('vi-VN') %>đ</span>
+        </div>
+      </div>
+
+      <!-- QR Code Section -->
+      <div class="qr-section">
+        <div class="qr-title">🎟️ Mã QR Vào Rạp</div>
+        <div class="qr-subtitle">Xuất trình mã QR này tại quầy soát vé khi đến rạp</div>
+
+        <% if (tickets.length === 1) { %>
+          <!-- Single QR (CID inline image) -->
+          <div class="qr-wrapper">
+            <img src="cid:<%= tickets[0].cid %>" alt="QR Code Vé" width="180" height="180" />
+          </div>
+          <div class="qr-note">
+            <strong>Ghế <%= tickets[0].seatLabel %></strong><br/>
+            Mã vé: <%= tickets[0].ticketId.substring(0, 8).toUpperCase() %>
+          </div>
+        <% } else { %>
+          <!-- Multiple QRs (CID inline images) -->
+          <div class="tickets-grid">
+            <% tickets.forEach(function(ticket) { %>
+            <div class="ticket-item">
+              <div class="ticket-seat-label">Ghế <%= ticket.seatLabel %></div>
+              <div class="ticket-qr-wrapper">
+                <img src="cid:<%= ticket.cid %>" alt="QR Code" width="120" height="120" />
+              </div>
+            </div>
+            <% }); %>
+          </div>
+          <div class="qr-note" style="margin-top: 16px;">
+            Mỗi mã QR tương ứng với 1 ghế ngồi
+          </div>
+        <% } %>
+
+        <!-- Booking Code -->
+        <div class="booking-code-box">
+          <div class="booking-code-label">Mã đặt vé</div>
+          <div class="booking-code-value"><%= bookingCode %></div>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="instructions">
+        <div class="instructions-title">📋 Lưu Ý Quan Trọng</div>
+        <ul class="instructions-list">
+          <li>Vui lòng đến rạp trước giờ chiếu ít nhất <strong>15 phút</strong></li>
+          <li>Mỗi mã QR chỉ sử dụng được <strong>1 lần</strong> để soát vé</li>
+          <li>Xuất trình mã QR trên điện thoại hoặc in ra giấy</li>
+          <li>Vé đã mua <strong>không hoàn tiền</strong> hoặc đổi suất chiếu</li>
+          <li>Liên hệ hotline <strong>1900 xxxx</strong> nếu cần hỗ trợ</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-logo">TEE BOOKING</div>
+      <div class="footer-text">
+        Email này được gửi tự động, vui lòng không trả lời.<br/>
+        © 2026 Tee Booking. All rights reserved.<br/>
+        <a href="#">Điều khoản sử dụng</a> &middot; <a href="#">Chính sách bảo mật</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

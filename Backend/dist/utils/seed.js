@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const enums_1 = require("../generated/prisma/enums");
 const prisma_1 = require("./prisma");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const SHOWTIME_SLOTS = [
     { hour: 10, minute: 0, format: "2D", basePrice: 75000 },
     { hour: 13, minute: 30, format: "2D", basePrice: 85000 },
@@ -184,6 +188,7 @@ async function seedTicketTypes() {
 }
 async function main() {
     console.log("🌱 Start seeding database...");
+    const defaultPasswordHash = await bcryptjs_1.default.hash("Tungdao382005@", 12);
     // =============================
     // USERS
     // =============================
@@ -191,12 +196,31 @@ async function main() {
         where: {
             email: "admin@cinestar.vn",
         },
-        update: {},
+        update: {
+            passwordHash: defaultPasswordHash,
+        },
         create: {
             fullName: "Admin Cinestar",
             email: "admin@cinestar.vn",
             phone: "0900000001",
-            passwordHash: "hashed_password_admin",
+            passwordHash: defaultPasswordHash,
+            role: enums_1.UserRole.admin,
+            gender: enums_1.GenderType.male,
+            isVerified: true,
+        },
+    });
+    const readmeAdmin = await prisma_1.prisma.user.upsert({
+        where: {
+            email: "daot0502@gmail.com",
+        },
+        update: {
+            passwordHash: defaultPasswordHash,
+        },
+        create: {
+            fullName: "Admin Tùng Đào",
+            email: "daot0502@gmail.com",
+            phone: "0900000003",
+            passwordHash: defaultPasswordHash,
             role: enums_1.UserRole.admin,
             gender: enums_1.GenderType.male,
             isVerified: true,
@@ -206,12 +230,14 @@ async function main() {
         where: {
             email: "customer1@gmail.com",
         },
-        update: {},
+        update: {
+            passwordHash: defaultPasswordHash,
+        },
         create: {
             fullName: "Nguyen Van A",
             email: "customer1@gmail.com",
             phone: "0900000002",
-            passwordHash: "hashed_password_customer",
+            passwordHash: defaultPasswordHash,
             role: enums_1.UserRole.customer,
             gender: enums_1.GenderType.female,
             isVerified: true,

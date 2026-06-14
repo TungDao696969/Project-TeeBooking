@@ -112,6 +112,11 @@ export interface PastBooking {
     cinema: {
       name: string;
     };
+
+    room?: {
+      id: string;
+      roomName: string;
+    };
   };
 
   tickets: {

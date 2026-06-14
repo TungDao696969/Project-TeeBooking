@@ -6,15 +6,9 @@ import { useBookingStore } from "@/store/booking.store";
 import { useComboStore } from "@/store/combo.store";
 
 export default function PaymentSummary() {
-  const { selectedSeats, tickets } = useBookingStore();
+  const { selectedSeats, tickets, totalPrice } = useBookingStore();
 
   const { selectedCombos } = useComboStore();
-
-  const seatTotal = useMemo(() => {
-    return selectedSeats.reduce((sum, seat) => {
-      return sum + Number(seat.price ?? 0) + Number(seat.extraPrice ?? 0);
-    }, 0);
-  }, [selectedSeats]);
 
   const ticketTotal = useMemo(() => {
     return tickets.reduce((sum, item) => {
@@ -22,13 +16,19 @@ export default function PaymentSummary() {
     }, 0);
   }, [tickets]);
 
+  const seatExtraTotal = useMemo(() => {
+    return selectedSeats.reduce((sum, seat) => {
+      return sum + Number(seat.extraPrice ?? 0);
+    }, 0);
+  }, [selectedSeats]);
+
   const comboTotal = useMemo(() => {
     return selectedCombos.reduce((sum, item) => {
       return sum + Number(item.combo.price) * item.quantity;
     }, 0);
   }, [selectedCombos]);
 
-  const total = seatTotal + ticketTotal + comboTotal;
+  const total = totalPrice + comboTotal;
 
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
@@ -43,8 +43,8 @@ export default function PaymentSummary() {
         </div>
 
         <div className="flex justify-between text-white/70">
-          <span>Ghế</span>
-          <span>{seatTotal.toLocaleString()}đ</span>
+          <span>Ghế (Phụ thu)</span>
+          <span>{seatExtraTotal.toLocaleString()}đ</span>
         </div>
 
         <div className="space-y-2">

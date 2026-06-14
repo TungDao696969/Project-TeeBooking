@@ -6,14 +6,23 @@ interface CreateBannerInput {
   redirectUrl?: string;
   startDate: Date;
   endDate: Date;
+  isActive?: boolean;
 }
 const cache_ttl = Number(process.env.CACHE_TTL);
 export const createBannerService = async (data: CreateBannerInput) => {
   const banner = await prisma.banner.create({
-    data,
+    data: {
+      title: data.title,
+      imageUrl: data.imageUrl,
+      redirectUrl: data.redirectUrl,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      isActive: data.isActive ?? true,
+    },
   });
 
   await redis.del("banners:list");
+
   return banner;
 };
 
@@ -39,8 +48,17 @@ export const getAllBannerService = async () => {
   return banner;
 };
 
+export const getAllBannersAdminService = async () => {
+  const banners = await prisma.banner.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return banners;
+};
+
 export const getBannerById = async (id: string) => {
-  const banner = prisma.banner.findUnique({
+  const banner = await prisma.banner.findUnique({
     where: {
       id,
     },
@@ -51,13 +69,13 @@ export const getBannerById = async (id: string) => {
 
 export const updateBannerService = async (
   id: string,
-  data: Partial<CreateBannerInput>,
+  data: Record<string, unknown>,
 ) => {
   const banner = await prisma.banner.update({
     where: {
       id,
     },
-    data,
+    data: data as Parameters<typeof prisma.banner.update>[0]["data"],
   });
 
   await redis.del("banners:list");

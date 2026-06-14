@@ -41,7 +41,7 @@ export default function MoviePage() {
       <Header />
 
       <main className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
-        <QuickBooking />
+        <QuickBooking movies={[...(data.nowShowing || []), ...(data.comingSoon || [])]} />
 
         <MovieSection title="Phim đang chiếu" movies={data.nowShowing || []} />
 

@@ -1,11 +1,15 @@
 export declare const confirmBookingService: (bookingId: string) => Promise<{
     user: {
-        fullName: string;
         email: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        isActive: boolean;
+        fullName: string;
         phone: string;
         gender: import("../generated/prisma/enums").GenderType | null;
         dateOfBirth: Date | null;
-        id: string;
         passwordHash: string;
         avatarUrl: string | null;
         role: import("../generated/prisma/enums").UserRole;
@@ -14,9 +18,6 @@ export declare const confirmBookingService: (bookingId: string) => Promise<{
         resetPasswordExpiresAt: Date | null;
         refreshToken: string | null;
         isVerified: boolean;
-        isActive: boolean;
-        createdAt: Date;
-        updatedAt: Date;
     };
     tickets: {
         id: string;
@@ -28,9 +29,9 @@ export declare const confirmBookingService: (bookingId: string) => Promise<{
         checkedInAt: Date | null;
     }[];
 } & {
-    userId: string;
     id: string;
     status: import("../generated/prisma/enums").BookingStatus;
+    userId: string;
     showtimeId: string;
     bookingCode: string;
     totalTicketPrice: number;

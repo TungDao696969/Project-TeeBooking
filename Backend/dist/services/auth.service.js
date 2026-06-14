@@ -67,8 +67,12 @@ exports.registerUserService = registerUserService;
 const loginUserService = async (data) => {
     // Tìm user theo email
     const user = await prisma_1.prisma.user.findUnique({
-        where: { email: data.email },
+        where: { email: data.email, deletedAt: null },
     });
+    console.log("USER:", user);
+    if (!user) {
+        throw new Error("Account not found");
+    }
     if (!user) {
         throw new Error("Invalid credentials");
     }
@@ -78,6 +82,7 @@ const loginUserService = async (data) => {
     }
     // Kiểm tra mật khẩu
     const isPasswordValid = await (0, hash_1.comparePassword)(data.password, user.passwordHash);
+    console.log("PASSWORD VALID:", isPasswordValid);
     if (!isPasswordValid) {
         throw new Error("Invalid credentials");
     }

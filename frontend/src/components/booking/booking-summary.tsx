@@ -26,7 +26,7 @@ export default function BookingSummary() {
 
   const { data } = useTicketTypes(showtimeId ?? "");
 
-  const { selectedSeats, tickets } = useBookingStore();
+  const { selectedSeats, tickets, totalPrice } = useBookingStore();
   const { selectedCombos, getTotalPrice } = useComboStore();
 
   const showtime = data?.showtime;
@@ -60,13 +60,6 @@ export default function BookingSummary() {
       .join(", ");
   }, [selectedCombos]);
 
-  const seatTotal = useMemo(() => {
-    return selectedSeats.reduce(
-      (sum, seat) => sum + seat.price + (seat.extraPrice ?? 0),
-      0,
-    );
-  }, [selectedSeats]);
-
   const ticketTotal = useMemo(() => {
     if (!data) return 0;
 
@@ -83,7 +76,7 @@ export default function BookingSummary() {
 
   const comboTotal = getTotalPrice();
 
-  const finalTotal = seatTotal + ticketTotal + comboTotal;
+  const finalTotal = totalPrice + comboTotal;
 
   /**
    * Lấy thời gian giữ ghế mới nhất
@@ -113,6 +106,11 @@ export default function BookingSummary() {
         comboIds: selectedCombos.map((item) => ({
           comboId: item.combo.id,
           quantity: item.quantity,
+        })),
+        tickets: tickets.map((t) => ({
+          ticketTypeId: t.ticketTypeId,
+          quantity: t.quantity,
+          price: t.price,
         })),
       };
 

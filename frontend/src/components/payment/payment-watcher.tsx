@@ -16,7 +16,7 @@ export default function PaymentWatcher({ bookingId }: Props) {
 
   useEffect(() => {
     if (data?.status === "confirmed" || data?.status === "CONFIRMED") {
-      router.push(`/payment/success/${bookingId}`);
+      router.push(`/payment-success?bookingId=${bookingId}`);
     } else if (data?.status === "cancelled" || data?.status === "CANCELLED") {
       toast.error("Thời gian thanh toán đã hết, đơn hàng đã bị hủy");
       router.push(`/`);

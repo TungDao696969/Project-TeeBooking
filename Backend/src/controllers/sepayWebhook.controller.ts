@@ -1,26 +1,37 @@
 import { Request, Response } from "express";
 import { prisma } from "../utils/prisma";
+import { sendBookingConfirmationEmail } from "../services/send-booking-email.service";
 
 export const sepayWebhookController = async (req: Request, res: Response) => {
   try {
-    const { content, transferAmount, transactionId } = req.body;
+    console.log("SEPAY WEBHOOK RECEIVED:", req.body);
+    const { content, transferAmount, id, referenceCode } = req.body;
+
+    const match = String(content).match(/BK\d{8}/);
+    const codeToSearch = match ? match[0] : content;
+
+    console.log("Extracted Booking Code:", codeToSearch);
 
     const booking = await prisma.booking.findUnique({
       where: {
-        bookingCode: content,
+        bookingCode: codeToSearch,
       },
     });
 
     if (!booking) {
-      return res.sendStatus(404);
+      return res
+        .status(404)
+        .json({ success: false, message: "Booking not found" });
     }
 
     if (Number(booking.finalAmount) !== Number(transferAmount)) {
-      return res.sendStatus(400);
+      return res
+        .status(400)
+        .json({ success: false, message: "Amount mismatch" });
     }
 
     if (booking.status === "confirmed") {
-      return res.sendStatus(200);
+      return res.status(200).json({ success: true });
     }
 
     await prisma.$transaction(async (tx) => {
@@ -29,7 +40,7 @@ export const sepayWebhookController = async (req: Request, res: Response) => {
           bookingId: booking.id,
           paymentMethod: "bank_transfer",
           amount: Number(transferAmount),
-          transactionCode: String(transactionId),
+          transactionCode: String(referenceCode || id),
           status: "paid",
           paidAt: new Date(),
         },
@@ -41,14 +52,22 @@ export const sepayWebhookController = async (req: Request, res: Response) => {
         },
         data: {
           status: "confirmed",
+          paymentStatus: "paid",
         },
       });
     });
 
-    return res.sendStatus(200);
+    // ── Send confirmation email with QR code (non-blocking) ────────────────
+    sendBookingConfirmationEmail(booking.id).catch((err) =>
+      console.error("[Webhook] Failed to send booking confirmation email:", err),
+    );
+
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
 
-    return res.sendStatus(500);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
 };

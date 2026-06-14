@@ -70,4 +70,23 @@ export const restoreSeatService = async (id: string) => {
   return response.data;
 };
 
+export const generateSeats = async (payload: {
+  roomId: string;
+  rows: string[];
+  seatsPerRow: number;
+}) => {
+  const { data } = await api.post("/seat/generate", payload);
 
+  return data;
+};
+
+export const updateSeatTypeService = async (payload: {
+  roomId: string;
+  startRow: string;
+  endRow: string;
+  seatType: string;
+}) => {
+  const { data } = await api.patch("/seat/update-type", payload);
+
+  return data;
+};

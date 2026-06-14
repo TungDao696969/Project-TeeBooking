@@ -48,6 +48,9 @@ const errorHandler = ({ error, res, defaultMessage = "Something went wrong", }) 
         case "Only image files are allowed":
             statusCode = 400;
             break;
+        case "Cannot delete showtime with existing bookings":
+            statusCode = 409;
+            break;
         default:
             statusCode = 400;
             break;

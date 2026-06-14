@@ -6,9 +6,9 @@ export declare const createActivityLogService: (data: {
     ipAddress?: string;
     userAgent?: string;
 }) => Promise<{
-    userId: string;
     id: string;
     createdAt: Date;
+    userId: string;
     action: string;
     targetType: string;
     targetId: string | null;
@@ -17,9 +17,9 @@ export declare const createActivityLogService: (data: {
 }>;
 export declare const getUserActivityLogsService: (userId: string) => Promise<any>;
 export declare const getActivityLogByIdService: (id: string, userId: string) => Promise<{
-    userId: string;
     id: string;
     createdAt: Date;
+    userId: string;
     action: string;
     targetType: string;
     targetId: string | null;

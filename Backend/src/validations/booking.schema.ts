@@ -13,6 +13,16 @@ export const createBookingSchema = z.object({
       }),
     )
     .optional(),
+
+  tickets: z
+    .array(
+      z.object({
+        ticketTypeId: z.string().uuid(),
+        quantity: z.number().min(1),
+        price: z.number().min(0),
+      })
+    )
+    .optional(),
 });
 
 export type CreateBookingInput = z.infer<typeof createBookingSchema>;

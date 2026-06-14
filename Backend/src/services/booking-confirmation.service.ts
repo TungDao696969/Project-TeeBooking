@@ -1,7 +1,8 @@
 import { prisma } from "../utils/prisma";
+import { sendBookingConfirmationEmail } from "./send-booking-email.service";
 
 export const confirmBookingService = async (bookingId: string) => {
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     const booking = await tx.booking.findUnique({
       where: {
         id: bookingId,
@@ -64,4 +65,11 @@ export const confirmBookingService = async (bookingId: string) => {
 
     return updateBooking;
   });
+
+  // ── Send confirmation email with QR code (non-blocking) ──────────────────
+  sendBookingConfirmationEmail(bookingId).catch((err) =>
+    console.error("[ConfirmBooking] Failed to send confirmation email:", err),
+  );
+
+  return result;
 };

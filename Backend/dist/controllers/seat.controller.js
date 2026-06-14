@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSeat = exports.updateSeat = exports.getSeatById = exports.getSeatsByRoom = exports.getAllSeats = exports.generateSeats = exports.createSeat = void 0;
+exports.restoreSeat = exports.getTrashSeats = exports.deleteSeat = exports.updateSeat = exports.getSeatById = exports.getSeatsByRoom = exports.getAllSeats = exports.generateSeats = exports.createSeat = void 0;
 const seat_service_1 = require("../services/seat.service");
 const errorHandler_1 = require("../utils/errorHandler");
+const seat_validation_1 = require("../validations/seat.validation");
 // CREATE
 const createSeat = async (req, res) => {
     try {
@@ -24,8 +25,8 @@ exports.createSeat = createSeat;
 // AUTO GENERATE
 const generateSeats = async (req, res) => {
     try {
-        const { roomId, rows, seatsPerRow, seatType } = req.body;
-        const seats = await (0, seat_service_1.generateSeatService)(roomId, rows, seatsPerRow, seatType);
+        const payload = seat_validation_1.generateSeatSchema.parse(req.body);
+        const seats = await (0, seat_service_1.generateSeatService)(payload);
         return res.status(201).json({
             success: true,
             count: seats.length,
@@ -36,26 +37,28 @@ const generateSeats = async (req, res) => {
         (0, errorHandler_1.errorHandler)({
             error,
             res,
-            defaultMessage: "Failed to fetch notifications",
+            defaultMessage: "Generate seats failed",
         });
     }
 };
 exports.generateSeats = generateSeats;
 // GET ALL
-const getAllSeats = async (_req, res) => {
+const getAllSeats = async (req, res) => {
     try {
-        const seats = await (0, seat_service_1.getAllSeatsService)();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const result = await (0, seat_service_1.getAllSeatsService)(page, limit);
         return res.status(200).json({
             success: true,
-            count: seats.length,
-            data: seats,
+            data: result.seats,
+            pagination: result.pagination,
         });
     }
     catch (error) {
         (0, errorHandler_1.errorHandler)({
             error,
             res,
-            defaultMessage: "Failed to fetch notifications",
+            defaultMessage: "Failed to fetch seats",
         });
     }
 };
@@ -149,22 +152,64 @@ const deleteSeat = async (req, res) => {
         if (!id || Array.isArray(id)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid room ID",
+                message: "Invalid seat ID",
             });
         }
         await (0, seat_service_1.deleteSeatService)(id);
         return res.status(200).json({
             success: true,
-            message: "Seat deleted successfully",
+            message: "Seat moved to trash successfully",
         });
     }
     catch (error) {
         (0, errorHandler_1.errorHandler)({
             error,
             res,
-            defaultMessage: "Failed to fetch notifications",
+            defaultMessage: "Failed to delete seat",
         });
     }
 };
 exports.deleteSeat = deleteSeat;
+const getTrashSeats = async (req, res) => {
+    try {
+        const seats = await (0, seat_service_1.getTrashSeatsService)();
+        return res.status(200).json({
+            success: true,
+            count: seats.length,
+            data: seats,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch trash seats",
+        });
+    }
+};
+exports.getTrashSeats = getTrashSeats;
+const restoreSeat = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid seat ID",
+            });
+        }
+        await (0, seat_service_1.restoreSeatService)(id);
+        return res.status(200).json({
+            success: true,
+            message: "Seat restored successfully",
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to restore seat",
+        });
+    }
+};
+exports.restoreSeat = restoreSeat;
 //# sourceMappingURL=seat.controller.js.map

@@ -3,13 +3,40 @@ import {
   createBannerService,
   deleteBannerService,
   getAllBannerService,
+  getAllBannersAdminService,
   getBannerById,
   updateBannerService,
 } from "../services/banner.service";
 import { errorHandler } from "../utils/errorHandler";
+import { createBannerSchema, updateBannerSchema } from "../validations/banner.validation";
+import { uploadToCloudinary } from "../configs/upload-cloudinary";
 export const createBannerController = async (req: Request, res: Response) => {
   try {
-    const banner = await createBannerService(req.body);
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    const validateData = createBannerSchema.parse(req.body);
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Banner image is required",
+      });
+    }
+
+    const imageUrl = await uploadToCloudinary(
+      req.file.buffer,
+      "booking/banners",
+    );
+
+    const banner = await createBannerService({
+      title: validateData.title,
+      redirectUrl: validateData.redirectUrl || "",
+      startDate: new Date(validateData.startDate),
+      endDate: new Date(validateData.endDate),
+      isActive: validateData.isActive ?? true,
+      imageUrl,
+    });
 
     return res.status(201).json({
       success: true,
@@ -17,10 +44,12 @@ export const createBannerController = async (req: Request, res: Response) => {
       data: banner,
     });
   } catch (error) {
+    console.log(error);
+
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch banner",
+      defaultMessage: "Failed to create banner",
     });
   }
 };
@@ -38,6 +67,23 @@ export const getAllBannerController = async (req: Request, res: Response) => {
       error,
       res,
       defaultMessage: "Failed to fetch banner",
+    });
+  }
+};
+
+export const getAllBannersAdminController = async (req: Request, res: Response) => {
+  try {
+    const banners = await getAllBannersAdminService();
+
+    return res.status(200).json({
+      success: true,
+      data: banners,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Failed to fetch banners",
     });
   }
 };
@@ -81,10 +127,24 @@ export const updateBannerController = async (req: Request, res: Response) => {
     if (!id || Array.isArray(id)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid room ID",
+        message: "Invalid banner ID",
       });
     }
-    const banner = await updateBannerService(id, req.body);
+
+    const validateData = updateBannerSchema.parse(req.body);
+
+    // If a new image is uploaded, upload to Cloudinary
+    let imageUrl: string | undefined = undefined;
+    if (req.file) {
+      imageUrl = await uploadToCloudinary(req.file.buffer, "booking/banners");
+    }
+
+    const updateData: Record<string, unknown> = { ...validateData };
+    if (validateData.startDate) updateData.startDate = new Date(validateData.startDate);
+    if (validateData.endDate) updateData.endDate = new Date(validateData.endDate);
+    if (imageUrl) updateData.imageUrl = imageUrl;
+
+    const banner = await updateBannerService(id, updateData);
 
     return res.status(200).json({
       success: true,
@@ -95,7 +155,7 @@ export const updateBannerController = async (req: Request, res: Response) => {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch banner",
+      defaultMessage: "Failed to update banner",
     });
   }
 };

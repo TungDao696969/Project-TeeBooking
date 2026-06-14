@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getShowtimeTicketTypes = exports.deleteShowtime = exports.updateShowtime = exports.getShowtimeById = exports.getAllShowtimes = exports.createShowtime = void 0;
+exports.forceDeleteShowtime = exports.restoreShowtime = exports.getTrashShowtimes = exports.getShowtimeTicketTypes = exports.deleteShowtime = exports.updateShowtime = exports.getShowtimeById = exports.getAllShowtimes = exports.createShowtime = void 0;
 const showtime_service_1 = require("../services/showtime.service");
 const errorHandler_1 = require("../utils/errorHandler");
 const createShowtime = async (req, res) => {
@@ -22,18 +22,19 @@ const createShowtime = async (req, res) => {
 exports.createShowtime = createShowtime;
 const getAllShowtimes = async (req, res) => {
     try {
-        const showtimes = await (0, showtime_service_1.getAllShowtimesService)();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const result = await (0, showtime_service_1.getAllShowtimesService)(page, limit);
         return res.status(200).json({
             success: true,
-            count: showtimes.length,
-            data: showtimes,
+            ...result,
         });
     }
     catch (error) {
         (0, errorHandler_1.errorHandler)({
             error,
             res,
-            defaultMessage: "Failed to fetch cinema",
+            defaultMessage: "Failed to fetch showtimes",
         });
     }
 };
@@ -139,4 +140,70 @@ const getShowtimeTicketTypes = async (req, res) => {
     }
 };
 exports.getShowtimeTicketTypes = getShowtimeTicketTypes;
+const getTrashShowtimes = async (req, res) => {
+    try {
+        const result = await (0, showtime_service_1.getTrashShowtimesService)();
+        return res.status(200).json({
+            success: true,
+            ...result,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch trash showtimes",
+        });
+    }
+};
+exports.getTrashShowtimes = getTrashShowtimes;
+const restoreShowtime = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid showtime ID",
+            });
+        }
+        const showtime = await (0, showtime_service_1.restoreShowtimeService)(id);
+        return res.status(200).json({
+            success: true,
+            message: "Showtime restored successfully",
+            data: showtime,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to restore showtime",
+        });
+    }
+};
+exports.restoreShowtime = restoreShowtime;
+const forceDeleteShowtime = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid showtime ID",
+            });
+        }
+        await (0, showtime_service_1.forceDeleteShowtimeService)(id);
+        return res.status(200).json({
+            success: true,
+            message: "Showtime permanently deleted",
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to permanently delete showtime",
+        });
+    }
+};
+exports.forceDeleteShowtime = forceDeleteShowtime;
 //# sourceMappingURL=showtime.controller.js.map

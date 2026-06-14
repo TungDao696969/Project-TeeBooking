@@ -14,3 +14,19 @@ export const getMovieShowtimes = async (
 
   return response.data.data;
 };
+
+export interface MovieListParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  genre?: string;
+  status?: string;
+  sortBy?: string;
+  order?: string;
+}
+
+export const getMoviesList = async (params: MovieListParams) => {
+  const response = await api.get("/movies/list", { params });
+  return response.data;
+};
+

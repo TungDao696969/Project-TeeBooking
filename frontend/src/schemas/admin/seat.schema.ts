@@ -30,3 +30,21 @@ export const updateSeatSchema = z.object({
   extraPrice: z.number().min(0, "Extra price cannot be negative").optional(),
 });
 export type UpdateSeatFormData = z.infer<typeof updateSeatSchema>;
+
+export const generateSeatSchema = z.object({
+  roomId: z.string().uuid(),
+  rowCount: z.number().min(1).max(26),
+  seatsPerRow: z.number().min(1).max(30),
+});
+
+export type GenerateSeatFormData = z.infer<typeof generateSeatSchema>;
+
+export const updateSeatTypeSchema = z.object({
+  roomId: z.string().uuid(),
+  startRow: z.string().min(1, "Từ hàng là bắt buộc").max(5),
+  endRow: z.string().min(1, "Đến hàng là bắt buộc").max(5),
+  seatType: z.enum(["standard", "vip", "couple", "recliner"]),
+});
+
+export type UpdateSeatTypeFormData = z.infer<typeof updateSeatTypeSchema>;
+

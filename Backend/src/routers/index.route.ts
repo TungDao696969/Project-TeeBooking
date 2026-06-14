@@ -139,6 +139,7 @@ import {
   getTrashSeats,
   restoreSeat,
   updateSeat,
+  updateSeatType,
 } from "../controllers/seat.controller";
 import { getMoviesListController } from "../controllers/movieList.controller";
 import { movieListQuerySchema } from "../validations/movieList.validation";
@@ -205,6 +206,7 @@ import {
   createBannerController,
   deleteBannerController,
   getAllBannerController,
+  getAllBannersAdminController,
   getBannerByIdController,
   updateBannerController,
 } from "../controllers/banner.controller";
@@ -237,7 +239,10 @@ import {
   getFoodComboByIdController,
   updateFoodComboController,
 } from "../controllers/foodCombo.controller";
-import { getBookingDetailController, createBooking } from "../controllers/booking.controller";
+import {
+  getBookingDetailController,
+  createBooking,
+} from "../controllers/booking.controller";
 import {
   createUser,
   deleteUser,
@@ -304,13 +309,15 @@ router.patch(
 router.get("/home", getHomeController);
 
 // banner
-router.post("/banner", createBannerController);
+router.post("/banner", upload.single("image"), createBannerController);
 
 router.get("/banner", getAllBannerController);
 
+router.get("/admin/banners", getAllBannersAdminController);
+
 router.get("/banner/:id", getBannerByIdController);
 
-router.patch("/banner/:id", updateBannerController);
+router.patch("/banner/:id", upload.single("image"), updateBannerController);
 
 router.delete("/banner/:id", deleteBannerController);
 
@@ -555,6 +562,8 @@ router.get("/seat/room/:roomId", getSeatsByRoom);
 
 router.get("/seat/:id", getSeatById);
 
+router.patch("/seat/update-type", updateSeatType);
+
 router.put("/seat/:id", validate(updateSeatSchema), updateSeat);
 
 router.patch("/seat/:id/restore", restoreSeat);
@@ -692,6 +701,8 @@ router.post(
   sepayWebhookController,
 );
 
+router.post("/sepay-payment", verifySePaySignature, sepayWebhookController);
+
 // ticket QR
 router.get(
   "/booking/tickets/:ticketId/qr",
@@ -786,4 +797,40 @@ router.get(
   roleMiddleware(UserRole.admin),
   getDashboardStatsController,
 );
+
+import {
+  getAdminBookings,
+  getAdminBookingById,
+  updateAdminBookingStatus,
+  adminCancelBooking,
+} from "../controllers/admin/booking.controller";
+
+router.get(
+  "/admin/booking",
+  authMiddleware,
+  roleMiddleware(UserRole.admin, UserRole.staff),
+  getAdminBookings,
+);
+
+router.get(
+  "/admin/booking/:id",
+  authMiddleware,
+  roleMiddleware(UserRole.admin, UserRole.staff),
+  getAdminBookingById,
+);
+
+router.patch(
+  "/admin/booking/:id/status",
+  authMiddleware,
+  roleMiddleware(UserRole.admin, UserRole.staff),
+  updateAdminBookingStatus,
+);
+
+router.post(
+  "/admin/booking/:id/cancel",
+  authMiddleware,
+  roleMiddleware(UserRole.admin, UserRole.staff),
+  adminCancelBooking,
+);
+
 export default router;

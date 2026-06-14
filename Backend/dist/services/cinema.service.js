@@ -3,12 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCinemaShowtimesService = exports.deleteCinemaService = exports.updateCinemaService = exports.getCinemaByIdService = exports.getCinemaBySlugService = exports.getCinemaService = exports.createCinemaService = void 0;
+exports.restoreCinemaService = exports.getTrashCinemasService = exports.getCinemaShowtimesService = exports.deleteCinemaService = exports.updateCinemaService = exports.getCinemaByIdService = exports.getCinemaBySlugService = exports.getCinemaService = exports.createCinemaService = void 0;
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
 const slug_1 = require("../utils/slug");
 const dayjs_1 = __importDefault(require("dayjs"));
 const cache_ttl = Number(process.env.CACHE_TTL);
+const clearCinemaListCache = async () => {
+    const keys = await redis_1.redis.keys("cinemas:*");
+    if (keys.length > 0) {
+        await redis_1.redis.del(...keys);
+    }
+};
 const createCinemaService = async (data) => {
     const slug = (0, slug_1.generateSlug)(data.name);
     const cinema = await prisma_1.prisma.cinema.create({
@@ -17,22 +23,45 @@ const createCinemaService = async (data) => {
             slug,
         },
     });
-    await redis_1.redis.del("cinemas:all");
+    await clearCinemaListCache();
     return cinema;
 };
 exports.createCinemaService = createCinemaService;
-const getCinemaService = async () => {
-    const cached = await redis_1.redis.get("cinemas:all");
+const getCinemaService = async (page = 1, limit = 10) => {
+    const cacheKey = `cinemas:${page}:${limit}`;
+    const cached = await redis_1.redis.get(cacheKey);
     if (cached) {
         return JSON.parse(cached);
     }
-    const cinema = await prisma_1.prisma.cinema.findMany({
-        orderBy: {
-            createdAt: "desc",
+    const skip = (page - 1) * limit;
+    const [cinemas, total] = await Promise.all([
+        prisma_1.prisma.cinema.findMany({
+            where: {
+                deletedAt: null,
+            },
+            skip,
+            take: limit,
+            orderBy: {
+                createdAt: "desc",
+            },
+        }),
+        prisma_1.prisma.cinema.count({
+            where: {
+                deletedAt: null,
+            },
+        }),
+    ]);
+    const result = {
+        data: cinemas,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
         },
-    });
-    await redis_1.redis.set("cinemas:all", JSON.stringify(cinema), "EX", cache_ttl);
-    return cinema;
+    };
+    await redis_1.redis.set(cacheKey, JSON.stringify(result), "EX", cache_ttl);
+    return result;
 };
 exports.getCinemaService = getCinemaService;
 const getCinemaBySlugService = async (slug) => {
@@ -52,11 +81,15 @@ const getCinemaBySlugService = async (slug) => {
 };
 exports.getCinemaBySlugService = getCinemaBySlugService;
 const getCinemaByIdService = async (id) => {
-    const cinema = await prisma_1.prisma.cinema.findUnique({
-        where: { id },
+    const cinema = await prisma_1.prisma.cinema.findFirst({
+        where: {
+            id,
+            deletedAt: null,
+        },
     });
-    if (!cinema)
+    if (!cinema) {
         throw new Error("Cinema not found");
+    }
     return cinema;
 };
 exports.getCinemaByIdService = getCinemaByIdService;
@@ -70,16 +103,28 @@ const updateCinemaService = async (id, data) => {
         data: updatedData,
     });
     await redis_1.redis.del(`cinema:${id}`);
-    await redis_1.redis.del("cinemas:all");
+    await clearCinemaListCache();
     return cinema;
 };
 exports.updateCinemaService = updateCinemaService;
 const deleteCinemaService = async (id) => {
-    await prisma_1.prisma.cinema.delete({
+    const cinema = await prisma_1.prisma.cinema.findUnique({
         where: { id },
     });
+    if (!cinema) {
+        throw new Error("Cinema not found");
+    }
+    if (cinema.deletedAt) {
+        throw new Error("Cinema already deleted");
+    }
+    await prisma_1.prisma.cinema.update({
+        where: { id },
+        data: {
+            deletedAt: new Date(),
+        },
+    });
+    await clearCinemaListCache();
     await redis_1.redis.del(`cinema:${id}`);
-    await redis_1.redis.del("cinemas:all");
     return true;
 };
 exports.deleteCinemaService = deleteCinemaService;
@@ -98,6 +143,7 @@ const getCinemaShowtimesService = async (slug) => {
             room: {
                 cinema: {
                     slug,
+                    deletedAt: null,
                 },
             },
             movie: {
@@ -219,4 +265,45 @@ const getCinemaShowtimesService = async (slug) => {
     return result;
 };
 exports.getCinemaShowtimesService = getCinemaShowtimesService;
+const getTrashCinemasService = async () => {
+    const cacheKey = "cinemas:trash";
+    const cachedData = await redis_1.redis.get(cacheKey);
+    if (cachedData) {
+        return JSON.parse(cachedData);
+    }
+    const cinemas = await prisma_1.prisma.cinema.findMany({
+        where: {
+            deletedAt: {
+                not: null,
+            },
+        },
+        orderBy: {
+            deletedAt: "desc",
+        },
+    });
+    await redis_1.redis.set(cacheKey, JSON.stringify(cinemas), "EX", cache_ttl);
+    return cinemas;
+};
+exports.getTrashCinemasService = getTrashCinemasService;
+const restoreCinemaService = async (id) => {
+    const cinema = await prisma_1.prisma.cinema.findUnique({
+        where: { id },
+    });
+    if (!cinema) {
+        throw new Error("Cinema not found");
+    }
+    if (!cinema.deletedAt) {
+        throw new Error("Cinema is not in trash");
+    }
+    const restoredCinema = await prisma_1.prisma.cinema.update({
+        where: { id },
+        data: {
+            deletedAt: null,
+        },
+    });
+    await clearCinemaListCache();
+    await redis_1.redis.del(`cinema:${id}`);
+    return restoredCinema;
+};
+exports.restoreCinemaService = restoreCinemaService;
 //# sourceMappingURL=cinema.service.js.map

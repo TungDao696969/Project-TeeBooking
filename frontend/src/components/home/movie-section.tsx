@@ -70,6 +70,14 @@ export default function MovieSection({ title, movies }: Props) {
     router.push(`/movies/${slug}`);
   };
 
+  const handleViewMore = () => {
+    if (title.toLowerCase().includes("đang chiếu")) {
+      router.push("/movies/showing");
+    } else {
+      router.push("/movies/comingsoon");
+    }
+  };
+
   return (
     <section className="py-12">
       {/* Title */}
@@ -278,6 +286,7 @@ export default function MovieSection({ title, movies }: Props) {
       {/* Button */}
       <div className="mt-6 flex items-center justify-center">
         <Button
+          onClick={handleViewMore}
           variant="outline"
           className="rounded-md border-2 border-yellow-400 bg-transparent px-16 py-5 text-base font-extrabold uppercase tracking-widest text-yellow-400 hover:bg-yellow-400/10 hover:text-yellow-300"
         >

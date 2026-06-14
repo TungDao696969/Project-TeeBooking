@@ -7,7 +7,7 @@ import {
   updateRoomSchema,
   UpdateRoomFormData,
 } from "@/schemas/admin/room.schema";
-import { CinemaRoom } from "@/types/admin/room.type";
+import { RoomDetail } from "@/types/admin/room.type";
 import { useUpdateRoom } from "@/hooks/admin/room/use-update-room";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 
 interface Props {
-  room: CinemaRoom;
+  room: RoomDetail;
 }
 
 export default function UpdateRoomForm({ room }: Props) {

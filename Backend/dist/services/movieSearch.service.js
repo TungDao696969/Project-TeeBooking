@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchMoviesService = void 0;
+exports.getMovieSuggestionsService = exports.searchMoviesService = void 0;
 const redis_1 = require("../utils/redis");
 const prisma_1 = require("../utils/prisma");
 const generateCacheKey = (params) => {
@@ -12,8 +12,10 @@ const searchMoviesService = async (params) => {
     if (cached) {
         return JSON.parse(cached);
     }
-    const { q, genre, status, minRating, year, sort = "latest", page = 1, limit = 10, } = params;
-    const skip = (page - 1) * limit;
+    const { q, genre, status, minRating, year, sort = "latest" } = params;
+    const pageNumber = Number(params.page || 1);
+    const limitNumber = Number(params.limit || 10);
+    const skip = (pageNumber - 1) * limitNumber;
     const where = {};
     if (q) {
         where.OR = [
@@ -67,7 +69,7 @@ const searchMoviesService = async (params) => {
         prisma_1.prisma.movie.findMany({
             where,
             skip,
-            take: limit,
+            take: limitNumber,
             orderBy: orderByMap[sort] || {
                 releaseDate: "desc",
             },
@@ -117,14 +119,46 @@ const searchMoviesService = async (params) => {
                 (movie.reviews.length || 1)).toFixed(1)),
         })),
         pagination: {
-            page,
-            limit,
+            page: pageNumber,
+            limit: limitNumber,
             total,
-            totalPages: Math.ceil(total / limit),
+            totalPages: Math.ceil(total / limitNumber),
         },
     };
     await redis_1.redis.set(cacheKey, JSON.stringify(result), "EX", 60 * 30);
     return result;
 };
 exports.searchMoviesService = searchMoviesService;
+const getMovieSuggestionsService = async (q) => {
+    if (!q.trim()) {
+        return [];
+    }
+    const movies = await prisma_1.prisma.movie.findMany({
+        where: {
+            OR: [
+                {
+                    title: {
+                        contains: q,
+                        mode: "insensitive",
+                    },
+                },
+                {
+                    originalTitle: {
+                        contains: q,
+                        mode: "insensitive",
+                    },
+                },
+            ],
+        },
+        select: {
+            id: true,
+            title: true,
+            posterUrl: true,
+            slug: true,
+        },
+        take: 8,
+    });
+    return movies;
+};
+exports.getMovieSuggestionsService = getMovieSuggestionsService;
 //# sourceMappingURL=movieSearch.service.js.map

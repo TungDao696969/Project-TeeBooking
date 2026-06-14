@@ -58,3 +58,7 @@
 //     </div>
 //   );
 // }
+
+export default function PaymentPageDummy() {
+  return null;
+}

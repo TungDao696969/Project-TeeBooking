@@ -2,46 +2,50 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
     showtime: {
         movie: {
             id: string;
+            slug: string;
             createdAt: Date;
             updatedAt: Date;
-            status: import("../generated/prisma/enums").MovieStatus;
+            deletedAt: Date | null;
+            language: string | null;
+            subtitle: string | null;
             title: string;
-            slug: string;
             originalTitle: string | null;
             description: string;
             durationMinutes: number;
             releaseDate: Date;
             endDate: Date | null;
             ageRating: string | null;
-            language: string | null;
-            subtitle: string | null;
             trailerUrl: string | null;
             posterUrl: string | null;
             bannerUrl: string | null;
+            status: import("../generated/prisma/enums").MovieStatus;
             country: string | null;
             producer: string | null;
         };
         room: {
             cinema: {
                 name: string;
+                hotline: string | null;
                 email: string | null;
-                id: string;
-                createdAt: Date;
-                updatedAt: Date;
+                cityId: string;
                 province: string;
                 district: string;
                 ward: string;
-                slug: string;
-                hotline: string | null;
-                cityId: string;
                 address: string;
                 latitude: number | null;
                 longitude: number | null;
                 openingHours: string | null;
+                id: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+                deletedAt: Date | null;
             };
         } & {
             id: string;
             createdAt: Date;
+            deletedAt: Date | null;
+            isActive: boolean;
             cinemaId: string;
             roomName: string;
             roomType: string;
@@ -50,25 +54,28 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
             soundSystem: string | null;
         };
     } & {
-        format: string | null;
         id: string;
-        isActive: boolean;
         createdAt: Date;
-        language: string | null;
-        subtitle: string | null;
+        deletedAt: Date | null;
         movieId: string;
         roomId: string;
         showDate: Date;
         startTime: Date;
         endTime: Date;
         basePrice: number;
+        format: string | null;
+        language: string | null;
+        subtitle: string | null;
+        isActive: boolean;
     };
     tickets: ({
         showtimeSeat: {
             seat: {
                 id: string;
                 createdAt: Date;
+                deletedAt: Date | null;
                 roomId: string;
+                isActive: boolean;
                 seatRow: string;
                 seatNumber: number;
                 seatCode: string;
@@ -96,8 +103,8 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
         combo: {
             name: string;
             id: string;
-            isActive: boolean;
             createdAt: Date;
+            isActive: boolean;
             description: string | null;
             price: number;
             imageUrl: string | null;
@@ -106,17 +113,17 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
     } & {
         id: string;
         bookingId: string;
+        comboId: string;
         quantity: number;
         unitPrice: number;
         totalPrice: number;
-        comboId: string;
     })[];
     payments: {
         id: string;
         createdAt: Date;
         status: import("../generated/prisma/enums").PaymentStatus;
-        bookingId: string;
         expiresAt: Date | null;
+        bookingId: string;
         paymentMethod: import("../generated/prisma/enums").PaymentMethod;
         paymentGateway: string | null;
         transactionCode: string | null;
@@ -124,9 +131,9 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
         paidAt: Date | null;
     }[];
 } & {
-    userId: string;
     id: string;
     status: import("../generated/prisma/enums").BookingStatus;
+    userId: string;
     showtimeId: string;
     bookingCode: string;
     totalTicketPrice: number;

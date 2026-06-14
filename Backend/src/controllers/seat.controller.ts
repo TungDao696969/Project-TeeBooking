@@ -9,8 +9,10 @@ import {
   getTrashSeatsService,
   restoreSeatService,
   updateSeatService,
+  updateSeatTypeService,
 } from "../services/seat.service";
 import { errorHandler } from "../utils/errorHandler";
+import { generateSeatSchema, updateSeatTypeSchema } from "../validations/seat.validation";
 // CREATE
 export const createSeat = async (req: Request, res: Response) => {
   try {
@@ -32,25 +34,40 @@ export const createSeat = async (req: Request, res: Response) => {
 // AUTO GENERATE
 export const generateSeats = async (req: Request, res: Response) => {
   try {
-    const { roomId, rows, seatsPerRow, seatType } = req.body;
+    const payload = generateSeatSchema.parse(req.body);
 
-    const seats = await generateSeatService(
-      roomId,
-      rows,
-      seatsPerRow,
-      seatType,
-    );
+    const seats = await generateSeatService(payload);
 
     return res.status(201).json({
       success: true,
       count: seats.length,
       data: seats,
     });
-  } catch (error: any) {
+  } catch (error) {
     errorHandler({
       error,
       res,
-      defaultMessage: "Failed to fetch notifications",
+      defaultMessage: "Generate seats failed",
+    });
+  }
+};
+
+export const updateSeatType = async (req: Request, res: Response) => {
+  try {
+    const payload = updateSeatTypeSchema.parse(req.body);
+
+    const updated = await updateSeatTypeService(payload);
+
+    return res.status(200).json({
+      success: true,
+      message: "Seat types updated successfully",
+      count: updated.count,
+    });
+  } catch (error) {
+    errorHandler({
+      error,
+      res,
+      defaultMessage: "Update seat types failed",
     });
   }
 };

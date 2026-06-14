@@ -5,8 +5,13 @@ import {
   CreateSeatInput,
   UpdateSeatInput,
 } from "../validations/seat.validation";
-
+import { Prisma } from "../generated/prisma/client";
 const cache_ttl = Number(process.env.CACHE_TTL);
+interface GenerateSeatPayload {
+  roomId: string;
+  rows: string[];
+  seatsPerRow: number;
+}
 
 export const createSeatService = async (data: CreateSeatInput) => {
   const room = await prisma.cinemaRoom.findUnique({
@@ -49,14 +54,15 @@ export const createSeatService = async (data: CreateSeatInput) => {
 
 // tự động tạo ghế ngồi
 
-export const generateSeatService = async (
-  roomId: string,
-  rows: string[],
-  seatsPerRow: number,
-  seatType: SeatType = "standard",
-) => {
+export const generateSeatService = async ({
+  roomId,
+  rows,
+  seatsPerRow,
+}: GenerateSeatPayload) => {
   const room = await prisma.cinemaRoom.findUnique({
-    where: { id: roomId },
+    where: {
+      id: roomId,
+    },
   });
 
   if (!room) {
@@ -67,28 +73,38 @@ export const generateSeatService = async (
     throw new Error("Cinema room is disabled");
   }
 
-  const seatData: any[] = [];
+  const seatCount = await prisma.seat.count({
+    where: {
+      roomId,
+    },
+  });
+
+  if (seatCount > 0) {
+    throw new Error("Room already contains seats");
+  }
+
+  const seatData: Prisma.SeatCreateManyInput[] = [];
 
   for (const row of rows) {
-    for (let i = 1; i <= seatsPerRow; i++) {
+    for (let seatNumber = 1; seatNumber <= seatsPerRow; seatNumber++) {
       seatData.push({
         roomId,
         seatRow: row,
-        seatNumber: i,
-        seatCode: `${row}${i}`,
-        seatType,
+        seatNumber,
+        seatCode: `${row}${seatNumber}`,
+        seatType: SeatType.standard,
         extraPrice: 0,
       });
     }
   }
 
-  await prisma.seat.createMany({
-    data: seatData,
-    skipDuplicates: true,
+  await prisma.$transaction(async (tx) => {
+    await tx.seat.createMany({
+      data: seatData,
+    });
   });
 
-  await redis.del(`seats:${roomId}`);
-  await redis.del("seats:all");
+  await Promise.all([redis.del(`seats:${roomId}`), redis.del("seats:all")]);
 
   return seatData;
 };
@@ -316,4 +332,44 @@ export const restoreSeatService = async (id: string) => {
   await redis.del("seats:trash");
 
   return restoredSeat;
+};
+
+interface UpdateSeatTypePayload {
+  roomId: string;
+  startRow: string;
+  endRow: string;
+  seatType: SeatType;
+}
+
+export const updateSeatTypeService = async ({
+  roomId,
+  startRow,
+  endRow,
+  seatType,
+}: UpdateSeatTypePayload) => {
+  const room = await prisma.cinemaRoom.findUnique({
+    where: { id: roomId },
+  });
+
+  if (!room) {
+    throw new Error("Cinema room not found");
+  }
+
+  const updated = await prisma.seat.updateMany({
+    where: {
+      roomId,
+      seatRow: {
+        gte: startRow,
+        lte: endRow,
+      },
+    },
+    data: {
+      seatType,
+    },
+  });
+
+  await redis.del(`seats:${roomId}`);
+  await redis.del("seats:all");
+
+  return updated;
 };

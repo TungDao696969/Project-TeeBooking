@@ -99,6 +99,79 @@ export const sendMailTemplate = async (
   return sendMail(to, subject, html);
 };
 
+/**
+ * Send an email with CID inline attachments (e.g., embedded QR code images).
+ * Attachments should follow nodemailer format: { filename, content, cid, contentType }
+ */
+export const sendMailWithAttachments = async (
+  to: string,
+  subject: string,
+  html: string,
+  attachments: nodemailer.SendMailOptions["attachments"] = [],
+) => {
+  try {
+    const transporter = getMailTransporter();
+
+    if (!transporterVerified) {
+      await transporter.verify();
+      transporterVerified = true;
+      console.log("SMTP connection verified");
+    }
+
+    const info = await transporter.sendMail({
+      from: `"${requiredEnv("SMTP_FROM_NAME")}" <${requiredEnv("SMTP_FROM_EMAIL")}>`,
+      to,
+      subject,
+      html,
+      attachments,
+    });
+
+    const accepted = Array.isArray(info.accepted) ? info.accepted : [];
+    const rejected = Array.isArray(info.rejected) ? info.rejected : [];
+
+    console.log("Mail sent:", {
+      messageId: info.messageId,
+      accepted,
+      rejected,
+      response: info.response,
+    });
+
+    if (!accepted.length || rejected.includes(to)) {
+      console.error("Mail was not accepted by SMTP server:", {
+        to,
+        accepted,
+        rejected,
+      });
+      return false;
+    }
+
+    return info;
+  } catch (error) {
+    console.error("Send mail with attachments failed:", error);
+    return false;
+  }
+};
+
+/**
+ * Render an EJS template and send it with CID inline attachments.
+ */
+export const sendMailTemplateWithAttachments = async (
+  to: string,
+  subject: string,
+  template: string,
+  context = {},
+  attachments: nodemailer.SendMailOptions["attachments"] = [],
+) => {
+  const templatePath = path.join(
+    process.cwd(),
+    "src",
+    "mails",
+    `${template}.ejs`,
+  );
+  const html = await ejs.renderFile(templatePath, context);
+  return sendMailWithAttachments(to, subject, html as string, attachments);
+};
+
 // email invoice
 export const sendInvoiceEmail = async ({
   to,

@@ -2,6 +2,8 @@ import { CreateCinemaRoomInput, UpdateCinemaRoomInput } from "../validations/act
 export declare const createCinemaRoomService: (data: CreateCinemaRoomInput) => Promise<{
     id: string;
     createdAt: Date;
+    deletedAt: Date | null;
+    isActive: boolean;
     cinemaId: string;
     roomName: string;
     roomType: string;
@@ -9,45 +11,105 @@ export declare const createCinemaRoomService: (data: CreateCinemaRoomInput) => P
     screenType: string | null;
     soundSystem: string | null;
 }>;
-export declare const getCinemaRoomService: (cinemaId: string) => Promise<any>;
-export declare const getCinemaRoomByIdService: (id: string) => Promise<({
-    showtimes: {
-        format: string | null;
+interface GetRoomsByCinemaParams {
+    cinemaId: string;
+    page: number;
+    limit: number;
+}
+export declare const getRoomsByCinemaIdService: ({ cinemaId, page, limit, }: GetRoomsByCinemaParams) => Promise<any>;
+export declare const getAllCinemaRoomsService: (page?: number, limit?: number) => Promise<{
+    data: ({
+        seats: {
+            id: string;
+            createdAt: Date;
+            deletedAt: Date | null;
+            roomId: string;
+            isActive: boolean;
+            seatRow: string;
+            seatNumber: number;
+            seatCode: string;
+            seatType: import("../generated/prisma/enums").SeatType;
+            extraPrice: number;
+        }[];
+        showtimes: {
+            id: string;
+            createdAt: Date;
+            deletedAt: Date | null;
+            movieId: string;
+            roomId: string;
+            showDate: Date;
+            startTime: Date;
+            endTime: Date;
+            basePrice: number;
+            format: string | null;
+            language: string | null;
+            subtitle: string | null;
+            isActive: boolean;
+        }[];
+    } & {
         id: string;
-        isActive: boolean;
         createdAt: Date;
-        language: string | null;
-        subtitle: string | null;
-        movieId: string;
-        roomId: string;
-        showDate: Date;
-        startTime: Date;
-        endTime: Date;
-        basePrice: number;
-    }[];
+        deletedAt: Date | null;
+        isActive: boolean;
+        cinemaId: string;
+        roomName: string;
+        roomType: string;
+        totalSeats: number;
+        screenType: string | null;
+        soundSystem: string | null;
+    })[];
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    };
+}>;
+export declare const getCinemaRoomByIdService: (id: string) => Promise<{
     seats: {
         id: string;
         createdAt: Date;
+        deletedAt: Date | null;
         roomId: string;
+        isActive: boolean;
         seatRow: string;
         seatNumber: number;
         seatCode: string;
         seatType: import("../generated/prisma/enums").SeatType;
         extraPrice: number;
     }[];
+    showtimes: {
+        id: string;
+        createdAt: Date;
+        deletedAt: Date | null;
+        movieId: string;
+        roomId: string;
+        showDate: Date;
+        startTime: Date;
+        endTime: Date;
+        basePrice: number;
+        format: string | null;
+        language: string | null;
+        subtitle: string | null;
+        isActive: boolean;
+    }[];
 } & {
     id: string;
     createdAt: Date;
+    deletedAt: Date | null;
+    isActive: boolean;
     cinemaId: string;
     roomName: string;
     roomType: string;
     totalSeats: number;
     screenType: string | null;
     soundSystem: string | null;
-}) | null>;
+}>;
 export declare const updateCinemaRoomService: (id: string, data: UpdateCinemaRoomInput) => Promise<{
     id: string;
     createdAt: Date;
+    deletedAt: Date | null;
+    isActive: boolean;
     cinemaId: string;
     roomName: string;
     roomType: string;
@@ -58,6 +120,8 @@ export declare const updateCinemaRoomService: (id: string, data: UpdateCinemaRoo
 export declare const deleteCinemaRoomService: (id: string) => Promise<{
     id: string;
     createdAt: Date;
+    deletedAt: Date | null;
+    isActive: boolean;
     cinemaId: string;
     roomName: string;
     roomType: string;
@@ -65,4 +129,18 @@ export declare const deleteCinemaRoomService: (id: string) => Promise<{
     screenType: string | null;
     soundSystem: string | null;
 }>;
+export declare const getTrashCinemaRoomsService: () => Promise<any>;
+export declare const restoreCinemaRoomService: (id: string) => Promise<{
+    id: string;
+    createdAt: Date;
+    deletedAt: Date | null;
+    isActive: boolean;
+    cinemaId: string;
+    roomName: string;
+    roomType: string;
+    totalSeats: number;
+    screenType: string | null;
+    soundSystem: string | null;
+}>;
+export {};
 //# sourceMappingURL=cinemaRoom.service.d.ts.map

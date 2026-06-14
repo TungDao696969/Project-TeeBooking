@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSeatService = exports.updateSeatService = exports.getSeatByIdService = exports.getSeatsByRoomService = exports.getAllSeatsService = exports.generateSeatService = exports.createSeatService = void 0;
+exports.restoreSeatService = exports.getTrashSeatsService = exports.deleteSeatService = exports.updateSeatService = exports.getSeatByIdService = exports.getSeatsByRoomService = exports.getAllSeatsService = exports.generateSeatService = exports.createSeatService = void 0;
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
 const cache_ttl = Number(process.env.CACHE_TTL);
@@ -12,6 +12,9 @@ const createSeatService = async (data) => {
     });
     if (!room) {
         throw new Error("Cinema room not found");
+    }
+    if (!room.isActive) {
+        throw new Error("Cinema room is disabled");
     }
     const existingSeat = await prisma_1.prisma.seat.findFirst({
         where: {
@@ -34,54 +37,84 @@ const createSeatService = async (data) => {
 };
 exports.createSeatService = createSeatService;
 // tự động tạo ghế ngồi
-const generateSeatService = async (roomId, rows, seatsPerRow, seatType = "standard") => {
+const generateSeatService = async ({ roomId, rows, seatsPerRow, seatType, }) => {
     const room = await prisma_1.prisma.cinemaRoom.findUnique({
-        where: { id: roomId },
+        where: {
+            id: roomId,
+        },
     });
     if (!room) {
         throw new Error("Cinema room not found");
     }
+    if (!room.isActive) {
+        throw new Error("Cinema room is disabled");
+    }
+    const seatCount = await prisma_1.prisma.seat.count({
+        where: {
+            roomId,
+        },
+    });
+    if (seatCount > 0) {
+        throw new Error("Room already contains seats");
+    }
     const seatData = [];
     for (const row of rows) {
-        for (let i = 1; i <= seatsPerRow; i++) {
+        for (let seatNumber = 1; seatNumber <= seatsPerRow; seatNumber++) {
             seatData.push({
                 roomId,
                 seatRow: row,
-                seatNumber: i,
-                seatCode: `${row}${i}`,
+                seatNumber,
+                seatCode: `${row}${seatNumber}`,
                 seatType,
                 extraPrice: 0,
             });
         }
     }
-    await prisma_1.prisma.seat.createMany({
-        data: seatData,
-        skipDuplicates: true,
+    await prisma_1.prisma.$transaction(async (tx) => {
+        await tx.seat.createMany({
+            data: seatData,
+        });
     });
-    await redis_1.redis.del(`seats:${roomId}`);
-    await redis_1.redis.del("seats:all");
+    await Promise.all([redis_1.redis.del(`seats:${roomId}`), redis_1.redis.del("seats:all")]);
     return seatData;
 };
 exports.generateSeatService = generateSeatService;
-const getAllSeatsService = async () => {
-    const cacheKey = "seats:all";
-    const cached = await redis_1.redis.get(cacheKey);
-    if (cached) {
-        return JSON.parse(cached);
-    }
-    const seats = await prisma_1.prisma.seat.findMany({
-        include: {
-            room: {
-                include: {
-                    cinema: true,
-                },
+const getAllSeatsService = async (page = 1, limit = 10) => {
+    const skip = (page - 1) * limit;
+    const [seats, total] = await Promise.all([
+        prisma_1.prisma.seat.findMany({
+            where: {
+                deletedAt: null,
+                isActive: true,
             },
-            showtimeSeats: true,
+            include: {
+                room: {
+                    include: {
+                        cinema: true,
+                    },
+                },
+                showtimeSeats: true,
+            },
+            orderBy: [{ seatRow: "desc" }, { seatNumber: "desc" }],
+            skip,
+            take: limit,
+        }),
+        prisma_1.prisma.seat.count({
+            where: {
+                deletedAt: null,
+                isActive: true,
+            },
+        }),
+    ]);
+    return {
+        seats,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
         },
-        orderBy: [{ seatRow: "asc" }, { seatNumber: "asc" }],
-    });
-    await redis_1.redis.set(cacheKey, JSON.stringify(seats), "EX", cache_ttl);
-    return seats;
+    };
 };
 exports.getAllSeatsService = getAllSeatsService;
 const getSeatsByRoomService = async (roomId) => {
@@ -91,7 +124,11 @@ const getSeatsByRoomService = async (roomId) => {
         return JSON.parse(cached);
     }
     const seats = await prisma_1.prisma.seat.findMany({
-        where: { roomId },
+        where: {
+            roomId,
+            deletedAt: null,
+            isActive: true,
+        },
         include: {
             room: true,
             showtimeSeats: true,
@@ -103,8 +140,11 @@ const getSeatsByRoomService = async (roomId) => {
 };
 exports.getSeatsByRoomService = getSeatsByRoomService;
 const getSeatByIdService = async (id) => {
-    return prisma_1.prisma.seat.findUnique({
-        where: { id },
+    return prisma_1.prisma.seat.findFirst({
+        where: {
+            id,
+            deletedAt: null,
+        },
         include: {
             room: true,
             showtimeSeats: true,
@@ -155,20 +195,73 @@ const deleteSeatService = async (id) => {
     if (!seat) {
         throw new Error("Seat not found");
     }
-    // Không cho xóa nếu ghế đã được dùng trong showtime/booking
+    if (!seat.isActive) {
+        throw new Error("Seat already deleted");
+    }
     if (seat.showtimeSeats.length > 0) {
         throw new Error("Cannot delete seat because it is already used in showtimes/bookings");
     }
-    await prisma_1.prisma.seat.delete({
+    const deletedSeat = await prisma_1.prisma.seat.update({
         where: { id },
+        data: {
+            isActive: false,
+            deletedAt: new Date(),
+        },
     });
-    // clear cache
     await redis_1.redis.del(`seats:${seat.roomId}`);
     await redis_1.redis.del("seats:all");
-    return {
-        success: true,
-        message: "Seat deleted successfully",
-    };
+    await redis_1.redis.del("seats:trash");
+    return deletedSeat;
 };
 exports.deleteSeatService = deleteSeatService;
+const getTrashSeatsService = async () => {
+    const cacheKey = "seats:trash";
+    const cached = await redis_1.redis.get(cacheKey);
+    if (cached) {
+        return JSON.parse(cached);
+    }
+    const seats = await prisma_1.prisma.seat.findMany({
+        where: {
+            deletedAt: {
+                not: null,
+            },
+        },
+        include: {
+            room: {
+                include: {
+                    cinema: true,
+                },
+            },
+        },
+        orderBy: {
+            deletedAt: "desc",
+        },
+    });
+    await redis_1.redis.set(cacheKey, JSON.stringify(seats), "EX", 300);
+    return seats;
+};
+exports.getTrashSeatsService = getTrashSeatsService;
+const restoreSeatService = async (id) => {
+    const seat = await prisma_1.prisma.seat.findUnique({
+        where: { id },
+    });
+    if (!seat) {
+        throw new Error("Seat not found");
+    }
+    if (!seat.deletedAt) {
+        throw new Error("Seat is not deleted");
+    }
+    const restoredSeat = await prisma_1.prisma.seat.update({
+        where: { id },
+        data: {
+            isActive: true,
+            deletedAt: null,
+        },
+    });
+    await redis_1.redis.del(`seats:${seat.roomId}`);
+    await redis_1.redis.del("seats:all");
+    await redis_1.redis.del("seats:trash");
+    return restoredSeat;
+};
+exports.restoreSeatService = restoreSeatService;
 //# sourceMappingURL=seat.service.js.map

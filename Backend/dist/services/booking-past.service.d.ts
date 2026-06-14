@@ -7,6 +7,44 @@ interface GetPastBookingsParams {
 }
 export declare const getPastBookingsService: ({ userId, page, limit, status, search, }: GetPastBookingsParams) => Promise<{
     data: ({
+        showtime: {
+            movie: {
+                id: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+                deletedAt: Date | null;
+                language: string | null;
+                subtitle: string | null;
+                title: string;
+                originalTitle: string | null;
+                description: string;
+                durationMinutes: number;
+                releaseDate: Date;
+                endDate: Date | null;
+                ageRating: string | null;
+                trailerUrl: string | null;
+                posterUrl: string | null;
+                bannerUrl: string | null;
+                status: import("../generated/prisma/enums").MovieStatus;
+                country: string | null;
+                producer: string | null;
+            };
+        } & {
+            id: string;
+            createdAt: Date;
+            deletedAt: Date | null;
+            movieId: string;
+            roomId: string;
+            showDate: Date;
+            startTime: Date;
+            endTime: Date;
+            basePrice: number;
+            format: string | null;
+            language: string | null;
+            subtitle: string | null;
+            isActive: boolean;
+        };
         invoice: {
             id: string;
             total: number;
@@ -17,48 +55,14 @@ export declare const getPastBookingsService: ({ userId, page, limit, status, sea
             pdfUrl: string | null;
             issuedAt: Date;
         } | null;
-        showtime: {
-            movie: {
-                id: string;
-                createdAt: Date;
-                updatedAt: Date;
-                status: import("../generated/prisma/enums").MovieStatus;
-                title: string;
-                slug: string;
-                originalTitle: string | null;
-                description: string;
-                durationMinutes: number;
-                releaseDate: Date;
-                endDate: Date | null;
-                ageRating: string | null;
-                language: string | null;
-                subtitle: string | null;
-                trailerUrl: string | null;
-                posterUrl: string | null;
-                bannerUrl: string | null;
-                country: string | null;
-                producer: string | null;
-            };
-        } & {
-            format: string | null;
-            id: string;
-            isActive: boolean;
-            createdAt: Date;
-            language: string | null;
-            subtitle: string | null;
-            movieId: string;
-            roomId: string;
-            showDate: Date;
-            startTime: Date;
-            endTime: Date;
-            basePrice: number;
-        };
         tickets: ({
             showtimeSeat: {
                 seat: {
                     id: string;
                     createdAt: Date;
+                    deletedAt: Date | null;
                     roomId: string;
+                    isActive: boolean;
                     seatRow: string;
                     seatNumber: number;
                     seatCode: string;
@@ -86,8 +90,8 @@ export declare const getPastBookingsService: ({ userId, page, limit, status, sea
             id: string;
             createdAt: Date;
             status: import("../generated/prisma/enums").PaymentStatus;
-            bookingId: string;
             expiresAt: Date | null;
+            bookingId: string;
             paymentMethod: import("../generated/prisma/enums").PaymentMethod;
             paymentGateway: string | null;
             transactionCode: string | null;
@@ -95,9 +99,9 @@ export declare const getPastBookingsService: ({ userId, page, limit, status, sea
             paidAt: Date | null;
         }[];
     } & {
-        userId: string;
         id: string;
         status: import("../generated/prisma/enums").BookingStatus;
+        userId: string;
         showtimeId: string;
         bookingCode: string;
         totalTicketPrice: number;
@@ -116,6 +120,56 @@ export declare const getPastBookingsService: ({ userId, page, limit, status, sea
     };
 }>;
 export declare const getBookingHistoryDetail: (bookingId: string, userId: string) => Promise<({
+    showtime: {
+        movie: {
+            id: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            deletedAt: Date | null;
+            language: string | null;
+            subtitle: string | null;
+            title: string;
+            originalTitle: string | null;
+            description: string;
+            durationMinutes: number;
+            releaseDate: Date;
+            endDate: Date | null;
+            ageRating: string | null;
+            trailerUrl: string | null;
+            posterUrl: string | null;
+            bannerUrl: string | null;
+            status: import("../generated/prisma/enums").MovieStatus;
+            country: string | null;
+            producer: string | null;
+        };
+        room: {
+            id: string;
+            createdAt: Date;
+            deletedAt: Date | null;
+            isActive: boolean;
+            cinemaId: string;
+            roomName: string;
+            roomType: string;
+            totalSeats: number;
+            screenType: string | null;
+            soundSystem: string | null;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        deletedAt: Date | null;
+        movieId: string;
+        roomId: string;
+        showDate: Date;
+        startTime: Date;
+        endTime: Date;
+        basePrice: number;
+        format: string | null;
+        language: string | null;
+        subtitle: string | null;
+        isActive: boolean;
+    };
     invoice: {
         id: string;
         total: number;
@@ -126,58 +180,14 @@ export declare const getBookingHistoryDetail: (bookingId: string, userId: string
         pdfUrl: string | null;
         issuedAt: Date;
     } | null;
-    showtime: {
-        movie: {
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            status: import("../generated/prisma/enums").MovieStatus;
-            title: string;
-            slug: string;
-            originalTitle: string | null;
-            description: string;
-            durationMinutes: number;
-            releaseDate: Date;
-            endDate: Date | null;
-            ageRating: string | null;
-            language: string | null;
-            subtitle: string | null;
-            trailerUrl: string | null;
-            posterUrl: string | null;
-            bannerUrl: string | null;
-            country: string | null;
-            producer: string | null;
-        };
-        room: {
-            id: string;
-            createdAt: Date;
-            cinemaId: string;
-            roomName: string;
-            roomType: string;
-            totalSeats: number;
-            screenType: string | null;
-            soundSystem: string | null;
-        };
-    } & {
-        format: string | null;
-        id: string;
-        isActive: boolean;
-        createdAt: Date;
-        language: string | null;
-        subtitle: string | null;
-        movieId: string;
-        roomId: string;
-        showDate: Date;
-        startTime: Date;
-        endTime: Date;
-        basePrice: number;
-    };
     tickets: ({
         showtimeSeat: {
             seat: {
                 id: string;
                 createdAt: Date;
+                deletedAt: Date | null;
                 roomId: string;
+                isActive: boolean;
                 seatRow: string;
                 seatNumber: number;
                 seatCode: string;
@@ -204,17 +214,17 @@ export declare const getBookingHistoryDetail: (bookingId: string, userId: string
     combos: {
         id: string;
         bookingId: string;
+        comboId: string;
         quantity: number;
         unitPrice: number;
         totalPrice: number;
-        comboId: string;
     }[];
     payments: {
         id: string;
         createdAt: Date;
         status: import("../generated/prisma/enums").PaymentStatus;
-        bookingId: string;
         expiresAt: Date | null;
+        bookingId: string;
         paymentMethod: import("../generated/prisma/enums").PaymentMethod;
         paymentGateway: string | null;
         transactionCode: string | null;
@@ -222,9 +232,9 @@ export declare const getBookingHistoryDetail: (bookingId: string, userId: string
         paidAt: Date | null;
     }[];
 } & {
-    userId: string;
     id: string;
     status: import("../generated/prisma/enums").BookingStatus;
+    userId: string;
     showtimeId: string;
     bookingCode: string;
     totalTicketPrice: number;

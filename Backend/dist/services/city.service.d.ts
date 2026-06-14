@@ -7,10 +7,10 @@ export declare const createCityService: (data: {
     data: {
         name: string;
         id: string;
-        isActive: boolean;
+        slug: string;
         createdAt: Date;
         updatedAt: Date;
-        slug: string;
+        isActive: boolean;
     };
 }>;
 export declare const getCitiesService: () => Promise<any>;
@@ -19,10 +19,10 @@ export declare const getCityByIdService: (id: string) => Promise<{
     data: {
         name: string;
         id: string;
-        isActive: boolean;
+        slug: string;
         createdAt: Date;
         updatedAt: Date;
-        slug: string;
+        isActive: boolean;
     };
 }>;
 export declare const updateCityService: (id: string, data: any) => Promise<{
@@ -31,10 +31,10 @@ export declare const updateCityService: (id: string, data: any) => Promise<{
     data: {
         name: string;
         id: string;
-        isActive: boolean;
+        slug: string;
         createdAt: Date;
         updatedAt: Date;
-        slug: string;
+        isActive: boolean;
     };
 }>;
 export declare const deleteCityService: (id: string) => Promise<{

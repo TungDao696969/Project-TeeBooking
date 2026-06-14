@@ -15,8 +15,8 @@ export declare const movieListQuerySchema: z.ZodObject<{
         releaseDate: "releaseDate";
     }>>;
     order: z.ZodOptional<z.ZodEnum<{
-        desc: "desc";
         asc: "asc";
+        desc: "desc";
     }>>;
 }, z.core.$strip>;
 export type moviesListInput = z.infer<typeof movieListQuerySchema>;

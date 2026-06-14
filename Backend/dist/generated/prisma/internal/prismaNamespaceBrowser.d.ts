@@ -151,6 +151,7 @@ export declare const CinemaScalarFieldEnum: {
     readonly openingHours: "openingHours";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
+    readonly deletedAt: "deletedAt";
 };
 export type CinemaScalarFieldEnum = (typeof CinemaScalarFieldEnum)[keyof typeof CinemaScalarFieldEnum];
 export declare const CinemaRoomScalarFieldEnum: {
@@ -161,6 +162,8 @@ export declare const CinemaRoomScalarFieldEnum: {
     readonly totalSeats: "totalSeats";
     readonly screenType: "screenType";
     readonly soundSystem: "soundSystem";
+    readonly isActive: "isActive";
+    readonly deletedAt: "deletedAt";
     readonly createdAt: "createdAt";
 };
 export type CinemaRoomScalarFieldEnum = (typeof CinemaRoomScalarFieldEnum)[keyof typeof CinemaRoomScalarFieldEnum];
@@ -234,6 +237,7 @@ export declare const MovieScalarFieldEnum: {
     readonly producer: "producer";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
+    readonly deletedAt: "deletedAt";
 };
 export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum];
 export declare const MovieCastScalarFieldEnum: {
@@ -325,7 +329,9 @@ export declare const SeatScalarFieldEnum: {
     readonly seatCode: "seatCode";
     readonly seatType: "seatType";
     readonly extraPrice: "extraPrice";
+    readonly isActive: "isActive";
     readonly createdAt: "createdAt";
+    readonly deletedAt: "deletedAt";
 };
 export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum];
 export declare const ShowtimeScalarFieldEnum: {
@@ -340,6 +346,7 @@ export declare const ShowtimeScalarFieldEnum: {
     readonly language: "language";
     readonly subtitle: "subtitle";
     readonly isActive: "isActive";
+    readonly deletedAt: "deletedAt";
     readonly createdAt: "createdAt";
 };
 export type ShowtimeScalarFieldEnum = (typeof ShowtimeScalarFieldEnum)[keyof typeof ShowtimeScalarFieldEnum];
@@ -404,6 +411,7 @@ export declare const UserScalarFieldEnum: {
     readonly isActive: "isActive";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
+    readonly deletedAt: "deletedAt";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 export declare const UserAddressScalarFieldEnum: {

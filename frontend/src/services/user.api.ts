@@ -1,5 +1,6 @@
 import api from "@/lib/axios";
 import { ProfileResponse, UpdateProfilePayload } from "@/types/user.type";
+
 export const getProfile = async () => {
   const response = await api.get<ProfileResponse>("/users/profile");
 
@@ -25,3 +26,12 @@ export const uploadAvatarApi = async (file: File) => {
 
   return res.data;
 };
+
+export const changePasswordApi = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  const response = await api.post("/change-password", data);
+  return response.data;
+};
+

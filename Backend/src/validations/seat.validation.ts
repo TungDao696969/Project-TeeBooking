@@ -14,3 +14,18 @@ export const updateSeatSchema = createSeatSchema.partial();
 export type CreateSeatInput = z.infer<typeof createSeatSchema>;
 
 export type UpdateSeatInput = z.infer<typeof updateSeatSchema>;
+
+export const generateSeatSchema = z.object({
+  roomId: z.string().uuid(),
+
+  rows: z.array(z.string()).min(1, "Rows is required"),
+
+  seatsPerRow: z.number().min(1).max(30),
+});
+
+export const updateSeatTypeSchema = z.object({
+  roomId: z.string().uuid(),
+  startRow: z.string().min(1).max(5),
+  endRow: z.string().min(1).max(5),
+  seatType: z.enum(["standard", "vip", "couple", "recliner"]),
+});

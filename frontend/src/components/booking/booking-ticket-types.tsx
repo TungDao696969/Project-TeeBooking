@@ -4,7 +4,70 @@ import { useMemo, useEffect, useState } from "react";
 import { useTicketTypes } from "@/hooks/booking/use-ticket-types";
 import { useBookingStore } from "@/store/booking.store";
 import BookingHeader from "./booking-header";
-import TicketTypeCard from "./ticket-type-card";
+
+// ─── TicketTypeCard ───────────────────────────────────────────────────────────
+
+interface TicketType {
+  id: string;
+  name: string;
+  type?: string; // "ĐƠN" | "ĐÔI"
+  price: number | string;
+}
+
+interface CardProps {
+  ticket: TicketType;
+  quantity: number;
+  onIncrease: () => void;
+  onDecrease: () => void;
+}
+
+function TicketTypeCard({
+  ticket,
+  quantity,
+  onIncrease,
+  onDecrease,
+}: CardProps) {
+  const formattedPrice = Number(ticket.price).toLocaleString("vi-VN") + " VNĐ";
+
+  return (
+    <div className="rounded-lg border border-white/20 bg-[#1e1e4a] p-5">
+      <p className="mb-1 font-bold text-sm tracking-widest text-white uppercase">
+        {ticket.name}
+      </p>
+
+      {ticket.type && (
+        <p className="mb-2 font-bold text-sm tracking-widest text-yellow-400 uppercase">
+          {ticket.type}
+        </p>
+      )}
+
+      <p className="mb-5 font-semibold text-base text-white">
+        {formattedPrice}
+      </p>
+
+      <div className="flex items-center">
+        <button
+          onClick={onDecrease}
+          disabled={quantity === 0}
+          className="flex h-10 w-10 items-center justify-center rounded-l-md bg-white/10 text-white text-xl font-light transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          −
+        </button>
+        <div className="flex h-10 w-12 items-center justify-center bg-white/10 text-white font-semibold text-base">
+          {quantity}
+        </div>
+        <button
+          onClick={onIncrease}
+          className="flex h-10 w-10 items-center justify-center rounded-r-md bg-white/10 text-white text-xl font-light transition hover:bg-white/20"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── BookingTicketTypes ───────────────────────────────────────────────────────
 
 interface Props {
   showtimeId: string;
@@ -21,7 +84,6 @@ export default function BookingTicketTypes({ showtimeId }: Props) {
     return () => clearInterval(t);
   }, []);
 
-  // Tổng tiền = tổng tiền vé + tổng tiền ghế chọn (nếu có extra)
   const totalTicketPrice = useMemo(() => {
     if (!data) return 0;
     return tickets.reduce((total, item) => {
@@ -35,9 +97,7 @@ export default function BookingTicketTypes({ showtimeId }: Props) {
     0,
   );
   const totalPrice = totalTicketPrice + totalSeatExtra;
-
   const totalTickets = tickets.reduce((t, i) => t + i.quantity, 0);
-
   const timerDisplay = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 
   if (isLoading) {
@@ -56,22 +116,15 @@ export default function BookingTicketTypes({ showtimeId }: Props) {
   if (!data) return null;
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-[#0a0e1a] via-[#111827] to-[#0d1520] text-white">
-      <div className="container mx-auto px-6 py-10">
+    <section className="min-h-screen text-white">
+      <div className="mx-auto max-w-6xl px-8 py-10">
         <BookingHeader showtime={data.showtime} />
 
-        {/* Section heading */}
-        <div className="mb-3 mt-6">
-          <h2 className="font-bebas mt-1 text-xl tracking-widest text-white md:text-5xl">
-            Chọn <span className="text-yellow-400">Loại Vé</span>
-          </h2>
-        </div>
+        <h2 className="mb-10 mt-8 text-center font-black text-2xl tracking-widest text-white uppercase md:text-4xl">
+          CHỌN LOẠI VÉ
+        </h2>
 
-        {/* Gold divider */}
-        <div className="mb-10 h-px bg-gradient-to-r from-yellow-400/40 via-yellow-400/10 to-transparent" />
-
-        {/* Cards grid */}
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {data.ticketTypes.map((ticket) => {
             const quantity =
               tickets.find((t) => t.ticketTypeId === ticket.id)?.quantity ?? 0;

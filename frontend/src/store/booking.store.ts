@@ -64,28 +64,35 @@ export const useBookingStore = create<BookingState>()(
             (t) => t.ticketTypeId === ticketTypeId,
           );
 
+          let newTickets = [];
           if (existing) {
-            return {
-              tickets: state.tickets.map((t) =>
-                t.ticketTypeId === ticketTypeId
-                  ? {
-                      ...t,
-                      quantity: t.quantity + 1,
-                    }
-                  : t,
-              ),
-            };
-          }
-
-          return {
-            tickets: [
+            newTickets = state.tickets.map((t) =>
+              t.ticketTypeId === ticketTypeId
+                ? {
+                    ...t,
+                    quantity: t.quantity + 1,
+                  }
+                : t,
+            );
+          } else {
+            newTickets = [
               ...state.tickets,
               {
                 ticketTypeId,
                 quantity: 1,
                 price,
               },
-            ],
+            ];
+          }
+
+          return {
+            tickets: newTickets,
+            totalPrice:
+              newTickets.reduce((sum, t) => sum + t.price * t.quantity, 0) +
+              state.selectedSeats.reduce(
+                (sum, s) => sum + Number(s.extraPrice ?? 0),
+                0,
+              ),
           };
         }),
 
@@ -115,10 +122,12 @@ export const useBookingStore = create<BookingState>()(
           return {
             tickets: newTickets,
             selectedSeats: newSelectedSeats,
-            totalPrice: newSelectedSeats.reduce(
-              (sum, s) => sum + s.price + (s.extraPrice ?? 0),
-              0,
-            ),
+            totalPrice:
+              newTickets.reduce((sum, t) => sum + t.price * t.quantity, 0) +
+              newSelectedSeats.reduce(
+                (sum, s) => sum + Number(s.extraPrice ?? 0),
+                0,
+              ),
           };
         }),
 
@@ -137,10 +146,12 @@ export const useBookingStore = create<BookingState>()(
 
         set({
           selectedSeats: updatedSeats,
-          totalPrice: updatedSeats.reduce(
-            (sum, s) => sum + s.price + (s.extraPrice ?? 0),
-            0,
-          ),
+          totalPrice:
+            get().tickets.reduce((sum, t) => sum + t.price * t.quantity, 0) +
+            updatedSeats.reduce(
+              (sum, s) => sum + Number(s.extraPrice ?? 0),
+              0,
+            ),
         });
       },
 
@@ -155,10 +166,12 @@ export const useBookingStore = create<BookingState>()(
 
         set({
           selectedSeats: updatedSeats,
-          totalPrice: updatedSeats.reduce(
-            (sum, s) => sum + s.price + (s.extraPrice ?? 0),
-            0,
-          ),
+          totalPrice:
+            get().tickets.reduce((sum, t) => sum + t.price * t.quantity, 0) +
+            updatedSeats.reduce(
+              (sum, s) => sum + Number(s.extraPrice ?? 0),
+              0,
+            ),
         });
       },
 

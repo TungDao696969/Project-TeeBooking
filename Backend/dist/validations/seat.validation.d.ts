@@ -27,4 +27,15 @@ export declare const updateSeatSchema: z.ZodObject<{
 }, z.core.$strip>;
 export type CreateSeatInput = z.infer<typeof createSeatSchema>;
 export type UpdateSeatInput = z.infer<typeof updateSeatSchema>;
+export declare const generateSeatSchema: z.ZodObject<{
+    roomId: z.ZodUUID;
+    rows: z.ZodArray<z.ZodString>;
+    seatsPerRow: z.ZodNumber;
+    seatType: z.ZodEnum<{
+        standard: "standard";
+        vip: "vip";
+        couple: "couple";
+        recliner: "recliner";
+    }>;
+}, z.core.$strip>;
 //# sourceMappingURL=seat.validation.d.ts.map

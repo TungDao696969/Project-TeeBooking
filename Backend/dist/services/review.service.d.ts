@@ -11,11 +11,11 @@ export declare const createReviewService: (userId: string, payload: ReviewPayloa
     success: boolean;
     message: string;
     data: {
-        userId: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         movieId: string;
+        userId: string;
         rating: number;
         comment: string | null;
     };
@@ -24,11 +24,11 @@ export declare const updateReviewService: (userId: string, reviewId: string, pay
     success: boolean;
     message: string;
     data: {
-        userId: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         movieId: string;
+        userId: string;
         rating: number;
         comment: string | null;
     };
@@ -44,16 +44,16 @@ export declare const getReviewService: (movieId: string, page?: number, limit?: 
         totalReviews: number;
         reviews: ({
             user: {
-                fullName: string;
                 id: string;
+                fullName: string;
                 avatarUrl: string | null;
             };
         } & {
-            userId: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             movieId: string;
+            userId: string;
             rating: number;
             comment: string | null;
         })[];

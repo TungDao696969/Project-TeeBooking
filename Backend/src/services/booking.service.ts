@@ -13,7 +13,7 @@ export const createBookingService = async (
   userId: string,
   payload: CreateBookingInput,
 ) => {
-  const { showtimeId, seatIds, comboIds } = payload;
+  const { showtimeId, seatIds, comboIds, tickets } = payload;
 
   //--------------------------------
   // 1. Showtime
@@ -39,6 +39,9 @@ export const createBookingService = async (
         in: seatIds,
       },
       showtimeId,
+    },
+    include: {
+      seat: true,
     },
   });
 
@@ -76,9 +79,23 @@ export const createBookingService = async (
 
   let totalTicketPrice = 0;
 
-  seats.forEach((seat) => {
-    totalTicketPrice += seat.finalPrice;
-  });
+  if (tickets && tickets.length > 0) {
+    let ticketSum = 0;
+    for (const t of tickets) {
+      ticketSum += t.price * t.quantity;
+    }
+    
+    let extraSum = 0;
+    seats.forEach((seat) => {
+      extraSum += Number(seat.seat.extraPrice || 0);
+    });
+
+    totalTicketPrice = ticketSum + extraSum;
+  } else {
+    seats.forEach((seat) => {
+      totalTicketPrice += seat.finalPrice;
+    });
+  }
 
   //--------------------------------
   // 6. Combo Price
@@ -152,11 +169,17 @@ export const createBookingService = async (
     //--------------------------------
 
     await tx.bookingTicket.createMany({
-      data: seats.map((seat) => ({
-        bookingId: booking.id,
-        showtimeSeatId: seat.id,
-        ticketPrice: seat.finalPrice,
-      })),
+      data: seats.map((seat) => {
+        const tPrice = tickets && tickets.length > 0 
+          ? (totalTicketPrice / seats.length) 
+          : seat.finalPrice;
+
+        return {
+          bookingId: booking.id,
+          showtimeSeatId: seat.id,
+          ticketPrice: tPrice,
+        };
+      }),
     });
 
     //--------------------------------

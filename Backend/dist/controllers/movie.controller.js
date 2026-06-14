@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMovieShowtimes = exports.deleteMovie = exports.updateMovie = exports.getMovieById = exports.getMovies = exports.createMovie = void 0;
+exports.restoreMovie = exports.getTrashMovies = exports.deleteMovie = exports.getMovieShowtimes = exports.updateMovie = exports.getMovieById = exports.getMovies = exports.createMovie = void 0;
 const movieService = __importStar(require("../services/movie.service"));
 const movie_validation_1 = require("../validations/movie.validation");
 const errorHandler_1 = require("../utils/errorHandler");
@@ -143,21 +143,6 @@ const updateMovie = async (req, res) => {
     }
 };
 exports.updateMovie = updateMovie;
-const deleteMovie = async (req, res) => {
-    const { id } = req.params;
-    if (!id || Array.isArray(id)) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid movie Id",
-        });
-    }
-    await movieService.deleteMovieService(id);
-    return res.json({
-        success: true,
-        message: "Delete success",
-    });
-};
-exports.deleteMovie = deleteMovie;
 const getMovieShowtimes = async (req, res) => {
     try {
         const { slug } = req.params;
@@ -182,4 +167,69 @@ const getMovieShowtimes = async (req, res) => {
     }
 };
 exports.getMovieShowtimes = getMovieShowtimes;
+const deleteMovie = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid movie Id",
+            });
+        }
+        await movieService.deleteMovieService(id);
+        return res.status(200).json({
+            success: true,
+            message: "Movie moved to trash successfully",
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to delete movie",
+        });
+    }
+};
+exports.deleteMovie = deleteMovie;
+const getTrashMovies = async (req, res) => {
+    try {
+        const movies = await movieService.getTrashMoviesService();
+        return res.status(200).json({
+            success: true,
+            data: movies,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to fetch trash movies",
+        });
+    }
+};
+exports.getTrashMovies = getTrashMovies;
+const restoreMovie = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id || Array.isArray(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid movie Id",
+            });
+        }
+        await movieService.restoreMovieService(id);
+        return res.status(200).json({
+            success: true,
+            message: "Movie restored successfully",
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Failed to restore movie",
+        });
+    }
+};
+exports.restoreMovie = restoreMovie;
 //# sourceMappingURL=movie.controller.js.map

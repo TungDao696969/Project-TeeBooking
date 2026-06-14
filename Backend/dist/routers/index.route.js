@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const cinema_controller_1 = require("./../controllers/cinema.controller");
 const express_1 = require("express");
 const auth_controller_1 = require("../controllers/auth.controller");
 const verifyEmail_controller_1 = require("../controllers/verifyEmail.controller");
@@ -16,7 +17,7 @@ const voucher_controller_1 = require("../controllers/voucher.controller");
 const notification_controller_1 = require("../controllers/notification.controller");
 const activityLog_controller_1 = require("../controllers/activityLog.controller");
 const movie_controller_1 = require("../controllers/movie.controller");
-const cinema_controller_1 = require("../controllers/cinema.controller");
+const cinema_controller_2 = require("../controllers/cinema.controller");
 const cinemaRoom_controller_1 = require("../controllers/cinemaRoom.controller");
 const validation_middleware_1 = require("../middlewares/validation.middleware");
 const cinema_schema_1 = require("../validations/cinema.schema");
@@ -41,7 +42,6 @@ const city_controller_1 = require("../controllers/city.controller");
 const city_validation_1 = require("../validations/city.validation");
 const showtimeSeat_controller_1 = require("../controllers/showtimeSeat.controller");
 const ticket_qr_controller_1 = require("../controllers/ticket-qr.controller");
-const payment_controller_1 = require("../controllers/payment.controller");
 const booking_past_controller_1 = require("../controllers/booking-past.controller");
 const booking_cancel_controller_1 = require("../controllers/booking-cancel.controller");
 const admin_controller_1 = require("../controllers/admin/admin.controller");
@@ -54,6 +54,10 @@ const ticket_type_controller_1 = require("../controllers/ticket-type.controller"
 const get_showtime_seats_controller_1 = require("../controllers/get-showtime-seats.controller");
 const foodCombo_controller_1 = require("../controllers/foodCombo.controller");
 const booking_controller_1 = require("../controllers/booking.controller");
+const user_controller_2 = require("../controllers/admin/user.controller");
+const payment_controller_1 = require("../controllers/payment.controller");
+const sepay_signature_middleware_1 = require("../middlewares/sepay-signature.middleware");
+const sepayWebhook_controller_1 = require("../controllers/sepayWebhook.controller");
 const router = (0, express_1.Router)();
 router.post("/auth/register", auth_controller_1.registerController);
 router.post("/auth/verify-otp", verifyEmail_controller_1.verifyEmailController);
@@ -123,6 +127,7 @@ router.post("/movie", upload_middleware_1.upload.fields([
     },
 ]), movie_controller_1.createMovie);
 router.get("/movie", movie_controller_1.getMovies);
+router.get("/movie/trash", movie_controller_1.getTrashMovies);
 router.get("/movie/:id", movie_controller_1.getMovieById);
 router.patch("/movie/:id", upload_middleware_1.upload.fields([
     {
@@ -135,27 +140,36 @@ router.patch("/movie/:id", upload_middleware_1.upload.fields([
     },
 ]), movie_controller_1.updateMovie);
 router.delete("/movie/:id", movie_controller_1.deleteMovie);
+router.patch("/movie/:id/restore", movie_controller_1.restoreMovie);
 router.get("/movie/:slug/showtimes", (0, validation_middleware_1.validate)(movie_validation_1.getMovieShowtimesSchema), movie_controller_1.getMovieShowtimes);
 // cinema
-router.post("/cinema", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(cinema_schema_1.createCinemaSchema), cinema_controller_1.createCinema);
-router.get("/cinema", cinema_controller_1.getAllCinemas);
-router.get("/cinema/detail/:id", cinema_controller_1.getCinemaById);
+router.post("/cinema", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(cinema_schema_1.createCinemaSchema), cinema_controller_2.createCinema);
 router.get("/cinema/:slug", cinema_controller_1.getCinemaBySlug);
-router.put("/cinema/:id", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(cinema_schema_1.updateCinemaSchema), cinema_controller_1.updateCinema);
-router.delete("/cinema/:id", auth_middleware_1.authMiddleware, cinema_controller_1.deleteCinema);
+router.get("/cinema", cinema_controller_2.getAllCinemas);
+router.get("/cinema/trash", cinema_controller_2.getTrashCinemas);
+router.get("/cinema/:id", cinema_controller_2.getCinemaById);
+router.put("/cinema/:id", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validate)(cinema_schema_1.updateCinemaSchema), cinema_controller_2.updateCinema);
+router.patch("/cinema/:id/restore", cinema_controller_2.restoreCinema);
+router.delete("/cinema/:id", auth_middleware_1.authMiddleware, cinema_controller_2.deleteCinema);
 // cinema room
 router.post("/cinema-rooms", (0, validation_middleware_1.validate)(activityLog_schema_1.createCinemaRoomSchema), cinemaRoom_controller_1.createCinemaRoom);
-router.get("/cinema-rooms/detail/:id", cinemaRoom_controller_1.getCinemaRoomById);
-router.get("/cinema-rooms/:cinemaId", cinemaRoom_controller_1.getAllCinemaRooms);
+router.get("/cinema-rooms", cinemaRoom_controller_1.getAllCinemaRooms);
+router.get("/rooms/trash", cinemaRoom_controller_1.getTrashCinemaRooms);
+router.get("/cinema-rooms/cinema/:cinemaId", cinemaRoom_controller_1.getRoomsByCinemaIdController);
+router.get("/cinema-rooms/:id", cinemaRoom_controller_1.getCinemaRoomById);
 router.put("/cinema-rooms/:id", (0, validation_middleware_1.validate)(activityLog_schema_1.updateCinemaRoomSchema), cinemaRoom_controller_1.updateCinemaRoom);
+router.patch("/rooms/:id/restore", cinemaRoom_controller_1.restoreCinemaRoom);
 router.delete("/cinema-rooms/:id", cinemaRoom_controller_1.deleteCinemaRoom);
-router.get("/cinema/:slug/showtimes", cinema_controller_1.getCinemaShowtimes);
+router.get("/cinema/:slug/showtimes", cinema_controller_2.getCinemaShowtimes);
 // showtime
 router.post("/showtime", (0, validation_middleware_1.validate)(showtime_validation_1.createShowtimeSchema), showtime_controller_1.createShowtime);
+router.get("/showtimes/trash", showtime_controller_1.getTrashShowtimes);
 router.get("/showtime", showtime_controller_1.getAllShowtimes);
 router.get("/showtime/:id", showtime_controller_1.getShowtimeById);
 router.put("/showtime/:id", (0, validation_middleware_1.validate)(showtime_validation_1.updateShowtimeSchema), showtime_controller_1.updateShowtime);
+router.patch("/showtime/:id/restore", showtime_controller_1.restoreShowtime);
 router.delete("/showtime/:id", showtime_controller_1.deleteShowtime);
+router.delete("/showtime/:id/force", showtime_controller_1.forceDeleteShowtime);
 // showtime seat
 router.post("/showtime-seat/:id/reserve-seats", auth_middleware_1.authMiddleware, showtimeSeat_controller_1.reserveShowtimeSeatController);
 router.post("/showtime-seat/:id/release-seats", auth_middleware_1.authMiddleware, showtimeSeat_controller_1.releaseShowtimeSeatController);
@@ -169,12 +183,15 @@ router.put("/blog/:id", (0, validation_middleware_1.validate)(blogPost_validatio
 router.delete("/blog/:id", blogPost_controller_1.deleteBlogPost);
 // seat
 router.post("/seat", (0, validation_middleware_1.validate)(seat_validation_1.createSeatSchema), seat_controller_1.createSeat);
+router.get("/seat/trash", seat_controller_1.getTrashSeats);
 router.post("/seat/generate", seat_controller_1.generateSeats);
 router.get("/seat", seat_controller_1.getAllSeats);
 router.get("/seat/room/:roomId", seat_controller_1.getSeatsByRoom);
 router.get("/seat/:id", seat_controller_1.getSeatById);
 router.put("/seat/:id", (0, validation_middleware_1.validate)(seat_validation_1.updateSeatSchema), seat_controller_1.updateSeat);
+router.patch("/seat/:id/restore", seat_controller_1.restoreSeat);
 router.delete("/seat/:id", seat_controller_1.deleteSeat);
+router.get("/showtimes/:id/seats", get_showtime_seats_controller_1.getShowtimeSeatsController);
 // movies List
 router.get("/movies/list", (0, validation_middleware_1.validate)(movieList_validation_1.movieListQuerySchema), movieList_controller_1.getMoviesListController);
 // movie detail by slug
@@ -201,7 +218,8 @@ router.get("/trailer/:id", trailer_controller_1.getTrailerByIdController);
 router.put("/trailer/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(trailer_validation_1.updateTrailerSchema), trailer_controller_1.updateTrailerController);
 router.delete("/trailer/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), trailer_controller_1.deleteTrailerController);
 // search
-router.get("/search", (0, validation_middleware_1.validate)(movieSearch_validation_1.movieSearchSchema), movieSearch_controller_1.searchMoviesController);
+router.get("/movies/search", (0, validation_middleware_1.validate)(movieSearch_validation_1.movieSearchSchema), movieSearch_controller_1.searchMoviesController);
+router.get("/movies/suggestions", movieSearch_controller_1.getMovieSuggestions);
 // city
 router.get("/city", city_controller_1.getCitiesController);
 router.get("/city/:id", city_controller_1.getCityByIdController);
@@ -209,23 +227,18 @@ router.post("/city", auth_middleware_1.authMiddleware, (0, role_middleware_1.rol
 router.put("/city/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), (0, validation_middleware_1.validate)(city_validation_1.updateCitySchema), city_controller_1.updateCityController);
 router.delete("/city/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), city_controller_1.deleteCityController);
 // payment
-router.post("/payment/vnpay", auth_middleware_1.authMiddleware, payment_controller_1.createVnpayPaymentController);
-router.get("/payment/vnpay-return", payment_controller_1.vnpayReturnController);
-// Alias route kept for backwards compatibility or external return URLs
-router.get("/payment/vnpay/return", payment_controller_1.vnpayReturnController);
-router.get("/payment/vnpay-ipn", payment_controller_1.vnpayIPNController);
-// momo
-router.post("/payment/momo/create", auth_middleware_1.authMiddleware, payment_controller_1.createMoMoController);
-router.post("/payment/momo/ipn", payment_controller_1.momoIPNController);
-router.get("/payment/momo/return", payment_controller_1.momoReturnController);
-// booking current
-router.get("/booking/:bookingId", auth_middleware_1.authMiddleware, booking_controller_1.getBookingDetailController);
+router.post("/payment/create", auth_middleware_1.authMiddleware, payment_controller_1.createPaymentController);
+router.post("/payment/sepay/webhook", sepay_signature_middleware_1.verifySePaySignature, sepayWebhook_controller_1.sepayWebhookController);
+router.post("/sepay-payment", sepay_signature_middleware_1.verifySePaySignature, sepayWebhook_controller_1.sepayWebhookController);
 // ticket QR
 router.get("/booking/tickets/:ticketId/qr", auth_middleware_1.authMiddleware, ticket_qr_controller_1.generateTicketQRController);
 // booking past
 router.get("/booking/past", auth_middleware_1.authMiddleware, booking_past_controller_1.getPastBookingsController);
 router.get("/booking/history/:id", auth_middleware_1.authMiddleware, booking_past_controller_1.getBookingHistoryDetailController);
 router.post("/booking/:id/cancel", auth_middleware_1.authMiddleware, booking_cancel_controller_1.cancelBookingController);
+// booking current
+router.post("/booking/create", auth_middleware_1.authMiddleware, booking_controller_1.createBooking);
+router.get("/booking/:bookingId", auth_middleware_1.authMiddleware, booking_controller_1.getBookingDetailController);
 // promotion
 router.post("/promotion", promotion_controller_1.createPromotionController);
 router.get("/promotion/active", promotion_controller_1.getActivePromotionController);
@@ -239,7 +252,6 @@ router.get("/ticket-types", ticket_type_controller_1.getAllTicketTypes);
 router.get("/ticket-types/:id", ticket_type_controller_1.getTicketTypeById);
 router.put("/ticket-types/:id", (0, validation_middleware_1.validate)(ticket_type_validation_1.updateTicketTypeSchema), ticket_type_controller_1.updateTicketType);
 router.delete("/ticket-types/:id", ticket_type_controller_1.deleteTicketType);
-router.get("/showtimes/:id/seats", get_showtime_seats_controller_1.getShowtimeSeatsController);
 // food
 router.get("/food", foodCombo_controller_1.getAllFoodCombosController);
 router.get("/food/:id", foodCombo_controller_1.getFoodComboByIdController);
@@ -247,6 +259,13 @@ router.post("/food", auth_middleware_1.authMiddleware, upload_middleware_1.uploa
 router.put("/food/:id", auth_middleware_1.authMiddleware, upload_middleware_1.upload.single("image"), foodCombo_controller_1.updateFoodComboController);
 router.delete("/food/:id", auth_middleware_1.authMiddleware, foodCombo_controller_1.deleteFoodComboController);
 // admin
+router.post("/user", user_controller_2.createUser);
+router.get("/user", user_controller_2.getUsers);
+router.get("/user/trash", user_controller_2.getTrashUsers);
+router.get("/user/:id", user_controller_2.getUserById);
+router.patch("/user/:id", user_controller_2.updateUser);
+router.delete("/user/:id", user_controller_2.deleteUser);
+router.patch("/user/:id/restore", user_controller_2.restoreUser);
 router.get("/admin/dashboard", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), admin_controller_1.getDashboardStatsController);
 exports.default = router;
 //# sourceMappingURL=index.route.js.map

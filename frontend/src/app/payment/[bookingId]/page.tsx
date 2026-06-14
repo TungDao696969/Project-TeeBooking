@@ -13,6 +13,8 @@ import BookingMovie from "@/components/booking/booking-detail/booking-movie";
 import BookingSeats from "@/components/booking/booking-detail/booking-seats";
 import BookingCombos from "@/components/booking/booking-detail/booking-combos";
 import BookingSummary from "@/components/booking/booking-detail/booking-summary";
+
+import BookingInvoice from "@/components/booking/booking-detail/booking-invoice";
 export default function PaymentPage() {
   const params = useParams();
   const bookingId = params.bookingId as string;
@@ -94,9 +96,9 @@ export default function PaymentPage() {
       <div className="min-h-screen bg-[#0a0a0f] py-10 px-4">
         <div className="max-w-7xl mx-auto rounded-2xl border border-white/[0.08] bg-[#13131a] overflow-hidden">
           {/* Header */}
-          <div className="bg-[#1a0a0a] border-b border-red-900/30 px-6 py-4 flex items-center gap-3">
+          <div className="  px-6 py-4 flex items-center gap-3">
             <span className="bg-red-600 text-white text-xs font-medium px-2.5 py-1 rounded tracking-widest">
-              CINESTAR
+              TeeStar
             </span>
             <span className="text-white/80 text-sm font-medium">
               Xác nhận thanh toán
@@ -106,27 +108,28 @@ export default function PaymentPage() {
             {/* LEFT */}
             <div className="lg:col-span-2">
               <div className="space-y-4">
-                <BookingMovie showtime={booking.showtime} />
+                {/* <BookingMovie showtime={booking.showtime} />
 
                 <BookingSeats tickets={booking.tickets} />
 
                 <BookingCombos combos={booking.combos} />
 
-                <BookingSummary booking={booking} />
+                <BookingSummary booking={booking} /> */}
+                <BookingInvoice booking={booking} timeLeft={timeLeft} />
               </div>
             </div>
             {/* RIGHT */}
             <div>
               <div className="p-6 space-y-5">
                 {/* Timer */}
-                <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 flex flex-col items-center justify-center gap-1">
+                {/* <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 flex flex-col items-center justify-center gap-1">
                   <span className="text-yellow-500/80 text-xs">
                     Thời gian còn lại
                   </span>
                   <span className="text-yellow-400 text-2xl font-bold font-mono tracking-wider">
                     {timeLeft}
                   </span>
-                </div>
+                </div> */}
 
                 {/* QR Code */}
                 <div className="bg-[#1e1e28] border border-white/[0.08] rounded-xl p-5 flex flex-col items-center gap-3">

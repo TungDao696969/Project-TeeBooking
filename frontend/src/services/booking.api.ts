@@ -33,15 +33,16 @@ export const getPastBookingsService = async (
 };
 
 export const getBookingStatus = async (bookingId: string) => {
-  const { data } = await api.get(`/bookings/${bookingId}`);
+  const { data } = await api.get(`/booking/${bookingId}`);
 
-  return data;
+  return data.data;
 };
 
 export const createBooking = async (payload: {
   showtimeId: string;
   seatIds: string[];
   comboIds?: { comboId: string; quantity: number }[];
+  tickets?: { ticketTypeId: string; quantity: number; price: number }[];
 }) => {
   const response = await api.post("/booking/create", payload);
   return response.data;

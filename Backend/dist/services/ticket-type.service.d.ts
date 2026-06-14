@@ -6,26 +6,26 @@ export declare const createTicketTypeService: (body: {
     price: number;
     isActive?: boolean;
 }) => Promise<{
-    name: string;
     type: string;
+    name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
-    code: string;
-    description: string | null;
+    isActive: boolean;
     cinemaId: string | null;
+    description: string | null;
+    code: string;
     price: import("@prisma/client-runtime-utils").Decimal;
 }>;
 export declare const getAllTicketTypesService: () => Promise<any>;
 export declare const getTicketTypeByIdService: (id: string) => Promise<{
-    name: string;
     type: string;
+    name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
-    code: string;
-    description: string | null;
+    isActive: boolean;
     cinemaId: string | null;
+    description: string | null;
+    code: string;
     price: import("@prisma/client-runtime-utils").Decimal;
 } | null>;
 export declare const updateTicketTypeService: (id: string, body: {
@@ -34,14 +34,14 @@ export declare const updateTicketTypeService: (id: string, body: {
     description?: string;
     isActive?: boolean;
 }) => Promise<{
-    name: string;
     type: string;
+    name: string;
     id: string;
-    isActive: boolean;
     createdAt: Date;
-    code: string;
-    description: string | null;
+    isActive: boolean;
     cinemaId: string | null;
+    description: string | null;
+    code: string;
     price: import("@prisma/client-runtime-utils").Decimal;
 }>;
 export declare const deleteTicketTypeService: (id: string) => Promise<boolean>;
