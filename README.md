@@ -1,80 +1,30 @@
-Giới thiệu
+1. Dành cho Khách hàng (Client)
+Tài khoản: Đăng ký, đăng nhập (hỗ trợ Google OTP/OAuth), đổi mật khẩu, cập nhật hồ sơ cá nhân và quản lý địa chỉ.
 
-TeeStar Cinema Booking System là hệ thống đặt vé xem phim trực tuyến được xây dựng nhằm hỗ trợ khách hàng tìm kiếm phim, xem lịch chiếu, chọn ghế và thanh toán vé nhanh chóng. Hệ thống đồng thời cung cấp trang quản trị giúp quản lý toàn bộ hoạt động của rạp chiếu phim.
+Duyệt phim & Rạp: Tìm kiếm phim (có gợi ý nhanh), xem trailer, đánh giá phim, xem danh sách rạp và lịch chiếu theo rạp/phim.
 
-Dự án được phát triển theo mô hình Frontend - Backend tách biệt, sử dụng RESTful API để giao tiếp giữa các hệ thống.
+Đặt vé: Chọn suất chiếu, chọn ghế trực quan (Standard, VIP, Couple), giữ ghế tạm thời, mua kèm bắp nước (Food Combo) và áp dụng voucher giảm giá.
 
-Chức năng người dùng User
+Thanh toán: Chuyển khoản qua ngân hàng bằng mã QR động, tích hợp SePay Webhook tự động xác nhận vé trong thời gian thực khi nhận được tiền.
 
-- Xác thực tài khoản
-- Đăng ký
-- Đăng nhập
-- Đăng xuất
-- Quên mật khẩu
-- Đổi mật khẩu
-- Cập nhật hồ sơ cá nhân
+Vé điện tử: Nhận mã QR Code vé qua Email và xem lại lịch sử đặt vé trong trang cá nhân.
+2. Dành cho Quản trị viên (Admin & Staff)
 
-Quản lý phim
+Báo cáo: Thống kê doanh thu, số lượng vé đã bán, lượng khách hàng, số phim/rạp đang hoạt động.
+Vận hành hệ thống: CRUD Phim, Rạp chiếu, Phòng chiếu, Suất chiếu (có kiểm tra trùng lịch), Thể loại, Mã giảm giá, Thực đơn combo bắp nước, Banner và Khuyến mãi.
 
-- Xem danh sách phim
-- Xem chi tiết phim
-- Xem trailer
-- Tìm kiếm phim
+Quản lý ghế: Tạo sơ đồ ghế tự động, đổi nhanh loại ghế hàng loạt.
 
-Đặt vé
+Thành viên & Phân quyền: CRUD người dùng, phân quyền (Admin, Staff, Customer), quản lý hạng thẻ thành viên.
+Nhật ký & Thùng rác: Lưu vết hoạt động và hỗ trợ khôi phục dữ liệu đã xóa (xóa mềm).
 
-- Xem lịch chiếu
-- Chọn rạp
-- Chọn suất chiếu
-- Chọn ghế
-- Thanh toán trực tuyến
-- Thanh toán COD
-
-Quản lý đơn hàng
-
-- Xem chi tiết vé
-
-Chức năng quản trị (Admin)
-Dashboard
-Tổng doanh thu
-Doanh thu hôm nay
-Tổng số vé bán
-Tổng số khách hàng
-Tổng số phim
-Tổng số rạp
-Tổng số phòng chiếu
-Quản lý phim
-Thêm phim
-Sửa phim
-Xem chi tiết phim
-Xóa mềm phim
-Khôi phục phim
-Quản lý thùng rác
-
-Quản lý rạp chiếu
-Thêm rạp
-Sửa rạp
-Xóa mềm rạp
-Khôi phục rạp
-
-Quản lý ghế
-CRUD ghế
-Phân loại ghế
-Quản lý trạng thái ghế
-Quản lý suất chiếu
-
-Tạo suất chiếu
-Chỉnh sửa suất chiếu
-Xóa mềm
-Khôi phục
-
-Quản lý người dùng
-Danh sách người dùng
-Xem chi tiết người dùng
+3. Tác vụ ngầm tự động (Automation)
+Giải phóng ghế ảo: Tự động hủy khóa giữ ghế sau 5 phút nếu khách hàng không thanh toán.
+Gửi mail tự động: Gửi mã OTP xác nhận và hóa đơn vé điện tử kèm mã QR Code xác thực.
 
 Tài khoản test:
 User: daot030805@gmail.com
 Password: Tungdao382005@
 
-Admin: daot0502@gmail.com
+Admin: abx@gmail.com
 Password: Tungdao382005@
