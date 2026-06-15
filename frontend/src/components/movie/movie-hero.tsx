@@ -9,6 +9,7 @@ import { Clock3, Globe2, Mic2, Ticket, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getImageUrl } from "@/lib/image";
 import { Cast, Genre, Movie, Ratings } from "@/types/movie.type";
+import TrailerModal from "@/components/movies/trailer-modal";
 
 interface Props {
   movie: Movie;
@@ -30,6 +31,7 @@ function formatDateVi(dateStr?: string) {
 
 export default function MovieHero({ movie, genres, casts }: Props) {
   const [expanded, setExpanded] = useState(false);
+  const [trailerOpen, setTrailerOpen] = useState(false);
 
   const meta = useMemo(() => {
     const directors = casts
@@ -162,11 +164,11 @@ export default function MovieHero({ movie, genres, casts }: Props) {
               </button>
             </div>
 
-            {/* Actions like screenshot */}
+            {/* Actions */}
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                href={movie.trailerUrl || "#"}
-                className="flex items-center gap-2 text-white hover:text-yellow-200"
+              <button
+                onClick={() => setTrailerOpen(true)}
+                className="flex items-center gap-2 text-white hover:text-yellow-200 transition"
               >
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/60">
                   <Image
@@ -179,11 +181,20 @@ export default function MovieHero({ movie, genres, casts }: Props) {
                   />
                 </span>
                 <span className="text-sm font-semibold">Xem Trailer</span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Trailer Modal */}
+      <TrailerModal
+        movieId={movie.id}
+        movieTitle={movie.title}
+        fallbackUrl={movie.trailerUrl}
+        isOpen={trailerOpen}
+        onClose={() => setTrailerOpen(false)}
+      />
     </section>
   );
 }

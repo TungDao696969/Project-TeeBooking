@@ -15,15 +15,83 @@ const clearMovieListCache = async () => {
 };
 
 export const createMovieService = async (data: any) => {
-  const slug = generateSlug(data.title);
+  const { genreIds, directors, actors, ...movieData } = data;
+  const slug = generateSlug(movieData.title);
 
-  const movie = await prisma.movie.create({
-    data: {
-      ...data,
-      slug,
-      releaseDate: new Date(data.releaseDate),
-      endDate: data.endDate ? new Date(data.endDate) : null,
-    },
+  const movie = await prisma.$transaction(async (tx) => {
+    const createdMovie = await tx.movie.create({
+      data: {
+        ...movieData,
+        slug,
+        releaseDate: new Date(movieData.releaseDate),
+        endDate: movieData.endDate ? new Date(movieData.endDate) : null,
+      },
+    });
+
+    if (genreIds) {
+      const genreIdList = String(genreIds)
+        .split(",")
+        .map((id) => id.trim())
+        .filter(Boolean);
+      if (genreIdList.length > 0) {
+        await tx.movieGenre.createMany({
+          data: genreIdList.map((genreId) => ({
+            movieId: createdMovie.id,
+            genreId,
+          })),
+        });
+      }
+    }
+
+    if (directors) {
+      const directorNames = String(directors)
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean);
+      for (const name of directorNames) {
+        let person = await tx.person.findFirst({
+          where: { fullName: name },
+        });
+        if (!person) {
+          person = await tx.person.create({
+            data: { fullName: name },
+          });
+        }
+        await tx.movieCast.create({
+          data: {
+            movieId: createdMovie.id,
+            personId: person.id,
+            roleType: "director",
+          },
+        });
+      }
+    }
+
+    if (actors) {
+      const actorNames = String(actors)
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean);
+      for (const name of actorNames) {
+        let person = await tx.person.findFirst({
+          where: { fullName: name },
+        });
+        if (!person) {
+          person = await tx.person.create({
+            data: { fullName: name },
+          });
+        }
+        await tx.movieCast.create({
+          data: {
+            movieId: createdMovie.id,
+            personId: person.id,
+            roleType: "actor",
+          },
+        });
+      }
+    }
+
+    return createdMovie;
   });
 
   await clearMovieListCache();
@@ -68,7 +136,16 @@ export const getMoviesService = async (
         createdAt: "desc",
       },
       include: {
-        genres: true,
+        genres: {
+          include: {
+            genre: true,
+          },
+        },
+        casts: {
+          include: {
+            person: true,
+          },
+        },
       },
     }),
     prisma.movie.count({ where }),
@@ -96,30 +173,122 @@ export const getMovieByIdService = async (id: string) => {
       deletedAt: null,
     },
     include: {
-      genres: true,
+      genres: {
+        include: {
+          genre: true,
+        },
+      },
+      casts: {
+        include: {
+          person: true,
+        },
+      },
     },
   });
 };
 
 export const updateMovieService = async (id: string, data: any) => {
-  if (data.title) {
-    data.slug = generateSlug(data.title);
+  const { genreIds, directors, actors, ...movieData } = data;
+
+  if (movieData.title) {
+    movieData.slug = generateSlug(movieData.title);
   }
 
-  if (data.releaseDate) {
-    data.releaseDate = new Date(data.releaseDate);
+  if (movieData.releaseDate) {
+    movieData.releaseDate = new Date(movieData.releaseDate);
   }
 
-  if (data.endDate) {
-    data.endDate = new Date(data.endDate);
+  if (movieData.endDate) {
+    movieData.endDate = new Date(movieData.endDate);
   }
 
-  const movie = await prisma.movie.update({
-    where: { id },
-    data,
+  const movie = await prisma.$transaction(async (tx) => {
+    const updatedMovie = await tx.movie.update({
+      where: { id },
+      data: movieData,
+    });
+
+    if (genreIds !== undefined) {
+      await tx.movieGenre.deleteMany({
+        where: { movieId: id },
+      });
+
+      const genreIdList = String(genreIds)
+        .split(",")
+        .map((gid) => gid.trim())
+        .filter(Boolean);
+      if (genreIdList.length > 0) {
+        await tx.movieGenre.createMany({
+          data: genreIdList.map((genreId) => ({
+            movieId: id,
+            genreId,
+          })),
+        });
+      }
+    }
+
+    if (directors !== undefined) {
+      await tx.movieCast.deleteMany({
+        where: { movieId: id, roleType: "director" },
+      });
+
+      const directorNames = String(directors)
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean);
+      for (const name of directorNames) {
+        let person = await tx.person.findFirst({
+          where: { fullName: name },
+        });
+        if (!person) {
+          person = await tx.person.create({
+            data: { fullName: name },
+          });
+        }
+        await tx.movieCast.create({
+          data: {
+            movieId: id,
+            personId: person.id,
+            roleType: "director",
+          },
+        });
+      }
+    }
+
+    if (actors !== undefined) {
+      await tx.movieCast.deleteMany({
+        where: { movieId: id, roleType: "actor" },
+      });
+
+      const actorNames = String(actors)
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean);
+      for (const name of actorNames) {
+        let person = await tx.person.findFirst({
+          where: { fullName: name },
+        });
+        if (!person) {
+          person = await tx.person.create({
+            data: { fullName: name },
+          });
+        }
+        await tx.movieCast.create({
+          data: {
+            movieId: id,
+            personId: person.id,
+            roleType: "actor",
+          },
+        });
+      }
+    }
+
+    return updatedMovie;
   });
 
   await clearMovieListCache();
+  await redis.del(`movie:detail:${movie.slug}`);
+  await redis.del(`movie:detail:${id}`);
 
   return movie;
 };
@@ -203,7 +372,11 @@ export const getMovieShowtimesService = async (slug: string) => {
     include: {
       room: {
         include: {
-          cinema: true,
+          cinema: {
+            include: {
+              city: true,
+            },
+          },
         },
       },
     },
@@ -234,6 +407,11 @@ export const getMovieShowtimesService = async (slug: string) => {
           slug: cinema.slug,
           address: cinema.address,
           province: cinema.province,
+          city: (cinema as any).city ? {
+            id: (cinema as any).city.id,
+            name: (cinema as any).city.name,
+            slug: (cinema as any).city.slug,
+          } : null,
         },
 
         dates: {},

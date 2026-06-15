@@ -11,15 +11,17 @@ import { getImageUrl } from "@/lib/image";
 import { Tag, Clock, ShieldAlert, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth.store";
+import TrailerModal from "@/components/movies/trailer-modal";
 interface Props {
   title: string;
   movies: Movie[];
 }
 
 export default function MovieSection({ title, movies }: Props) {
-  const ITEMS_PER_PAGE = 5;
+  const ITEMS_PER_PAGE = 4;
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [trailerMovie, setTrailerMovie] = useState<Movie | null>(null);
 
   // Total pages
   const totalPages = Math.ceil(movies.length / ITEMS_PER_PAGE);
@@ -41,6 +43,24 @@ export default function MovieSection({ title, movies }: Props) {
     }
 
     return "Đặt Vé";
+  };
+
+  const renderGenres = (movie: Movie) => {
+    if (!movie.genres || movie.genres.length === 0) return "Chưa cập nhật";
+    if (Array.isArray(movie.genres)) {
+      return movie.genres
+        .map((g) => (typeof g === "string" ? g : g.name))
+        .join(", ");
+    }
+    return "Chưa cập nhật";
+  };
+
+  const renderLanguage = (movie: Movie) => {
+    if (!movie.language) return "VN";
+    const lang = movie.language.toLowerCase();
+    if (lang === "english" || lang === "tiếng anh") return "EN";
+    if (lang === "vietnamese" || lang === "tiếng việt") return "VN";
+    return movie.language;
   };
 
   // Next
@@ -90,7 +110,7 @@ export default function MovieSection({ title, movies }: Props) {
       {/* Slider */}
       <div className="relative">
         {/* Grid */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
           {visibleMovies.map((movie) => (
             <div
               key={movie.id}
@@ -98,11 +118,11 @@ export default function MovieSection({ title, movies }: Props) {
     group
     relative
     overflow-hidden
-    rounded-2xl
+    
   "
             >
               {/* Poster */}
-              <div className="relative overflow-hidden rounded-2xl">
+              <div className="relative overflow-hidden ">
                 <Link href={`/movies/${movie.slug}`} className="block">
                   <Image
                     src={getImageUrl(movie.posterUrl ?? "")}
@@ -120,22 +140,11 @@ export default function MovieSection({ title, movies }: Props) {
                   />
                 </Link>
 
-                {/* Overlay */}
+                {/* Content Hover Overlay */}
                 <div
                   className="
       absolute inset-0
       bg-black/80
-      opacity-0
-      transition-all
-      duration-500
-      group-hover:opacity-100
-    "
-                />
-
-                {/* Content Hover */}
-                <div
-                  className="
-      absolute inset-0
       flex flex-col
       justify-center
       px-6
@@ -149,6 +158,7 @@ export default function MovieSection({ title, movies }: Props) {
 
       group-hover:opacity-100
       group-hover:translate-y-0
+      z-10
     "
                 >
                   <h3 className="text-2xl font-bold uppercase">
@@ -158,25 +168,24 @@ export default function MovieSection({ title, movies }: Props) {
                   <div className="mt-6 space-y-4">
                     <div className="flex items-center gap-3">
                       <Tag className="w-4 h-4 text-yellow-400 flex-shrink-0" />
-                      <span>
-                        {movie.genres?.map((g) => g.name).join(", ") ||
-                          "Kinh Dị"}
+                      <span className="line-clamp-1">
+                        {renderGenres(movie)}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <Clock className="w-4 h-4 text-yellow-400 flex-shrink-0" />
-                      <span>{movie.durationMinutes} phút</span>
+                      <span>{movie.durationMinutes ? `${movie.durationMinutes} phút` : "Chưa cập nhật"}</span>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <ShieldAlert className="w-4 h-4 text-yellow-400 flex-shrink-0" />
-                      <span>{movie.ageRating}</span>
+                      <span>{movie.ageRating || "K"}</span>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <MessageCircle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
-                      <span>VN</span>
+                      <span>{renderLanguage(movie)}</span>
                     </div>
                   </div>
                   <Button
@@ -200,7 +209,7 @@ export default function MovieSection({ title, movies }: Props) {
                   </span>
 
                   <span className="flex items-center rounded bg-[#E8192C] px-1.5 py-0.5 text-xs font-extrabold text-white">
-                    K
+                    {movie.ageRating || "K"}
                   </span>
                 </div>
               </div>
@@ -213,12 +222,12 @@ export default function MovieSection({ title, movies }: Props) {
 
                 {/* Actions */}
                 <div className="mt-4 flex items-center justify-between gap-2">
-                  {/* Trailer */}
-                  <Link
-                    href={movie.trailerUrl || "#"}
-                    className="flex shrink-0 items-center gap-1.5 text-white"
+                  {/* Trailer button */}
+                  <button
+                    onClick={() => setTrailerMovie(movie)}
+                    className="flex shrink-0 items-center gap-1.5 text-white hover:text-yellow-400 transition"
                   >
-                    <div className="rounded-full border">
+                    <div className="rounded-full border border-white/30 p-0.5 bg-white/5">
                       <Image
                         src={getImageUrl(
                           "https://cinestar.com.vn/assets/images/icon-play-vid.svg",
@@ -233,7 +242,7 @@ export default function MovieSection({ title, movies }: Props) {
                     <span className="hidden text-xs font-semibold md:inline md:text-sm">
                       Xem Trailer
                     </span>
-                  </Link>
+                  </button>
 
                   {/* Button */}
                   <Button
@@ -293,6 +302,17 @@ export default function MovieSection({ title, movies }: Props) {
           Xem Thêm
         </Button>
       </div>
+
+      {/* Trailer Modal */}
+      {trailerMovie && (
+        <TrailerModal
+          movieId={trailerMovie.id}
+          movieTitle={trailerMovie.title}
+          fallbackUrl={trailerMovie.trailerUrl}
+          isOpen={!!trailerMovie}
+          onClose={() => setTrailerMovie(null)}
+        />
+      )}
     </section>
   );
 }

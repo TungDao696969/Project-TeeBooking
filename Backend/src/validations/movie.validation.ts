@@ -26,6 +26,10 @@ export const createMovieSchema = z.object({
   country: z.string().optional(),
 
   producer: z.string().optional(),
+
+  genreIds: z.string().optional(),
+  directors: z.string().optional(),
+  actors: z.string().optional(),
 });
 export type CreateMoviesInput = z.infer<typeof createMovieSchema>;
 
@@ -51,6 +55,10 @@ export const updateMovieSchema = z.object({
 
   country: z.string().optional(),
   producer: z.string().optional(),
+
+  genreIds: z.string().optional(),
+  directors: z.string().optional(),
+  actors: z.string().optional(),
 });
 
 export type UpdateMoviesInput = z.infer<typeof updateMovieSchema>;

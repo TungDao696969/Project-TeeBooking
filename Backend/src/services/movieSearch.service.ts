@@ -33,7 +33,7 @@ export const searchMoviesService = async (params: SearchParams) => {
 
   const skip = (pageNumber - 1) * limitNumber;
 
-  const where: any = {};
+  const where: any = { deletedAt: null };
 
   if (q) {
     where.OR = [
@@ -180,6 +180,7 @@ export const getMovieSuggestionsService = async (q: string) => {
 
   const movies = await prisma.movie.findMany({
     where: {
+      deletedAt: null,
       OR: [
         {
           title: {

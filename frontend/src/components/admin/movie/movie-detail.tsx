@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Movie } from "@/types/movie.type";
+import MovieTrailerManager from "@/components/admin/movie/movie-trailer-manager";
 
 interface Props {
   data: Movie;
@@ -169,21 +170,8 @@ export default function MovieDetail({ data: movie }: Props) {
             </div>
           </div>
 
-          {/* Trailer */}
-          {movie.trailerUrl && (
-            <div>
-              <SectionLabel>Trailer</SectionLabel>
-              <div className="rounded-xl overflow-hidden border border-yellow-500/20 bg-black">
-                <iframe
-                  width="100%"
-                  height="360"
-                  src={movie.trailerUrl.replace("watch?v=", "embed/")}
-                  allowFullScreen
-                  className="block"
-                />
-              </div>
-            </div>
-          )}
+          {/* Trailer Manager */}
+          <MovieTrailerManager movieId={movie.id} movieTitle={movie.title} />
             
           <Button variant="outline" asChild>
             <Link href="/admin/movie">

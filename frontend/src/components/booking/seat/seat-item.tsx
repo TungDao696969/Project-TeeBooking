@@ -67,46 +67,55 @@ export default function SeatItem({ seat }: Props) {
     }
   };
 
+  const formatSeatCode = (code: string) => {
+    const match = code.match(/^([A-Za-z]+)(\d+)$/);
+    if (match) {
+      const row = match[1];
+      const num = parseInt(match[2], 10);
+      return `${row}${num.toString().padStart(2, "0")}`;
+    }
+    return code;
+  };
+
   return (
     <button
       disabled={disabled}
       onClick={handleClick}
       className={clsx(
-        "h-9 w-9 rounded-md text-xs font-bold transition flex items-center justify-center border relative z-10",
+        "h-8 w-14 rounded-md text-[11px] font-black tracking-wider transition flex items-center justify-center border relative z-10 select-none shadow-md",
         {
-          // Standard
-          "bg-white text-black border-transparent":
+          // Standard Available
+          "bg-white text-[#4c3cc5] border-transparent hover:bg-zinc-100 hover:scale-105":
             seat.seatType === "standard" &&
             seat.status === "available" &&
             !isSelected,
 
-          // VIP
-          "bg-yellow-400 text-black border-transparent":
+          // VIP Available
+          "bg-[#ffd700] text-[#5c3c00] border-transparent hover:bg-[#ffea75] hover:scale-105":
             seat.seatType === "vip" &&
             seat.status === "available" &&
             !isSelected,
 
-          // Couple
-          "bg-pink-400 text-black border-transparent":
+          // Couple Available
+          "bg-[#ff69b4] text-[#4d002b] border-transparent hover:bg-[#ff94cb] hover:scale-105":
             seat.seatType === "couple" &&
             seat.status === "available" &&
             !isSelected,
 
-          // Ghế đang được người khác giữ
-          "bg-transparent border-2 border-green-400 cursor-not-allowed":
+          // Ghế đang được người khác giữ (Reserved)
+          "bg-transparent border-2 border-[#10b981] text-[#10b981] cursor-not-allowed opacity-50":
             seat.status === "reserved" && !isSelected,
 
-          // Đã đặt
-          "bg-gray-400 text-white opacity-60 cursor-not-allowed":
+          // Đã đặt (Booked)
+          "bg-[#2a2d3e] text-white/20 border border-white/5 cursor-not-allowed opacity-30":
             seat.status === "booked",
 
-          // Ghế mình chọn
-          "border-2 border-yellow-300 bg-yellow-200 text-black": isSelected,
+          // Ghế mình chọn (Selected)
+          "bg-[#e2001a] text-white border-transparent shadow-[0_0_12px_rgba(226,0,26,0.5)] hover:scale-105": isSelected,
         },
       )}
-      style={{ boxShadow: isSelected ? "0 0 0 2px #facc15" : undefined }}
     >
-      {seat.seatCode}
+      {formatSeatCode(seat.seatCode)}
     </button>
   );
 }

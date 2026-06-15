@@ -52,14 +52,14 @@ export function CinemaTable({ data, pagination, onPageChange }: Props) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-5xl font-bold text-white">Cinema Management</h1>
+      <h1 className="text-3xl font-bold text-white">Cinema Management</h1>
 
       <div className="rounded-3xl border border-red-900/40 bg-black overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5">
           <div>
             <h2
-              className="text-4xl tracking-widest text-[#E8001D]"
+              className="text-2xl tracking-widest text-[#E8001D]"
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
               }}

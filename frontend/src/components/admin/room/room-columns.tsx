@@ -19,6 +19,12 @@ export const columns: ColumnDef<Room>[] = [
   },
 
   {
+    id: "cinemaName",
+    header: "CINEMA",
+    cell: ({ row }) => row.original.cinema?.name ?? "—",
+  },
+
+  {
     accessorKey: "roomType",
     header: "TYPE",
   },

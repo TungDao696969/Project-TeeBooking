@@ -14,6 +14,8 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import api from "@/lib/axios";
+
 interface Props {
   movieId: string;
 }
@@ -29,6 +31,8 @@ export default function MovieUpdateForm({ movieId }: Props) {
   const [isDirty, setIsDirty] = useState(false);
   const [posterName, setPosterName] = useState<string | null>(null);
   const [bannerName, setBannerName] = useState<string | null>(null);
+  const [genres, setGenres] = useState<{ id: string; name: string }[]>([]);
+  const [selectedGenreIds, setSelectedGenreIds] = useState<string[]>([]);
 
   const { register, reset, handleSubmit, watch, setValue } =
     useForm<MovieUpdateFormData>({ resolver: zodResolver(movieUpdateSchema) });
@@ -36,8 +40,39 @@ export default function MovieUpdateForm({ movieId }: Props) {
   const status = watch("status");
 
   useEffect(() => {
+    api.get("/genre?limit=100")
+      .then((res) => {
+        setGenres(res.data.data || []);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
     if (!data?.data) return;
     const m = data.data;
+
+    let preSelectedGenres: string[] = [];
+    if (m.genres) {
+      preSelectedGenres = m.genres.map((mg: any) => mg.genreId || mg.id || mg.genre?.id).filter(Boolean);
+      setSelectedGenreIds(preSelectedGenres);
+    }
+
+    let directorsVal = "";
+    let actorsVal = "";
+    if (m.casts) {
+      directorsVal = m.casts
+        .filter((c: any) => c.roleType === "director")
+        .map((c: any) => c.person?.fullName || c.fullName)
+        .filter(Boolean)
+        .join(", ");
+
+      actorsVal = m.casts
+        .filter((c: any) => c.roleType === "actor")
+        .map((c: any) => c.person?.fullName || c.fullName)
+        .filter(Boolean)
+        .join(", ");
+    }
+
     reset({
       title: m.title,
       description: m.description,
@@ -50,8 +85,15 @@ export default function MovieUpdateForm({ movieId }: Props) {
       country: m.country,
       producer: m.producer,
       status: m.status,
+      genreIds: preSelectedGenres.join(","),
+      directors: directorsVal,
+      actors: actorsVal,
     });
   }, [data, reset]);
+
+  useEffect(() => {
+    setValue("genreIds", selectedGenreIds.join(","));
+  }, [selectedGenreIds, setValue]);
 
   const onSubmit = async (values: MovieUpdateFormData) => {
     const formData = new FormData();
@@ -177,6 +219,58 @@ export default function MovieUpdateForm({ movieId }: Props) {
               {...register("description")}
             />
           </Field>
+
+          {/* Section: Thể loại & Nhân sự */}
+          <SectionLabel>Thể loại & Nhân sự</SectionLabel>
+
+          <div className="space-y-4">
+            <Field label="Thể loại">
+              <div className="flex flex-wrap gap-2 mt-1">
+                {genres.map((g) => {
+                  const active = selectedGenreIds.includes(g.id);
+                  return (
+                    <button
+                      key={g.id}
+                      type="button"
+                      onClick={() => {
+                        if (active) {
+                          setSelectedGenreIds(selectedGenreIds.filter((id) => id !== g.id));
+                        } else {
+                          setSelectedGenreIds([...selectedGenreIds, g.id]);
+                        }
+                        mark();
+                      }}
+                      className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-all
+                        ${
+                          active
+                            ? "border-red-600 bg-red-600/10 text-red-400"
+                            : "border-yellow-500/20 bg-[#0e0e16] text-zinc-500 hover:border-yellow-500/40 hover:text-zinc-300"
+                        }`}
+                    >
+                      {g.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </Field>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Đạo diễn (Phân cách bằng dấu phẩy)">
+                <input
+                  className={inputCls}
+                  placeholder="VD: Victor Vũ, Christopher Nolan"
+                  {...register("directors")}
+                />
+              </Field>
+              <Field label="Diễn viên (Phân cách bằng dấu phẩy)">
+                <input
+                  className={inputCls}
+                  placeholder="VD: Kaity Nguyễn, Leonardo DiCaprio"
+                  {...register("actors")}
+                />
+              </Field>
+            </div>
+          </div>
 
           {/* Trạng thái */}
           <Field label="Trạng thái chiếu">

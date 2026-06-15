@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { prisma } from "../utils/prisma";
 import { sendBookingConfirmationEmail } from "../services/send-booking-email.service";
 
+import { enqueuePaymentSuccessJob } from "../queue/payment-success.queue";
+
 export const sepayWebhookController = async (req: Request, res: Response) => {
   try {
     console.log("SEPAY WEBHOOK RECEIVED:", req.body);
@@ -34,6 +36,7 @@ export const sepayWebhookController = async (req: Request, res: Response) => {
       return res.status(200).json({ success: true });
     }
 
+    // Update payment record and set paymentStatus to "paid"
     await prisma.$transaction(async (tx) => {
       await tx.payment.create({
         data: {
@@ -51,16 +54,14 @@ export const sepayWebhookController = async (req: Request, res: Response) => {
           id: booking.id,
         },
         data: {
-          status: "confirmed",
           paymentStatus: "paid",
         },
       });
     });
 
-    // ── Send confirmation email with QR code (non-blocking) ────────────────
-    sendBookingConfirmationEmail(booking.id).catch((err) =>
-      console.error("[Webhook] Failed to send booking confirmation email:", err),
-    );
+    // Enqueue the payment success job so the worker handles seat confirmation, PDF generation, and sends both QR + Invoice emails
+    await enqueuePaymentSuccessJob(booking.id);
+
 
     return res.status(200).json({ success: true });
   } catch (error) {

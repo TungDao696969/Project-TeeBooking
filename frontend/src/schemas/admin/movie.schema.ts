@@ -39,6 +39,10 @@ export const movieSchema = z.object({
   producer: z.string(),
 
   status: z.enum(["coming_soon", "now_showing", "ended"]),
+
+  genreIds: z.string().optional(),
+  directors: z.string().optional(),
+  actors: z.string().optional(),
 });
 
 export type MovieFormData = z.infer<typeof movieSchema>;

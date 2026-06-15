@@ -1,4 +1,5 @@
 import { prisma } from "../utils/prisma";
+import { redis } from "../utils/redis";
 import dayjs from "dayjs";
 
 export const cancelBookingService = async ({
@@ -8,7 +9,7 @@ export const cancelBookingService = async ({
   bookingId: string;
   userId: string;
 }) => {
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     const booking = await tx.booking.findFirst({
       where: {
         id: bookingId,
@@ -82,6 +83,15 @@ export const cancelBookingService = async ({
     return {
       success: true,
       message: "Booking cancelled successfully",
+      showtimeId: booking.showtimeId,
     };
   });
+
+  await redis.del(`showtime:${result.showtimeId}:seats`);
+
+  return {
+    success: result.success,
+    message: result.message,
+  };
 };
+

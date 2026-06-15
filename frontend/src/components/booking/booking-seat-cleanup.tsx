@@ -18,8 +18,7 @@ export default function BookingSeatCleanup() {
   useEffect(() => {
     return () => {
       const nextPath = window.location.pathname;
-      const isNavigatingToPayment =
-        nextPath.startsWith("/booking/") && nextPath.includes("/payment");
+      const isNavigatingToPayment = nextPath.includes("/payment");
 
       if (isNavigatingToPayment) {
         return;
@@ -32,6 +31,7 @@ export default function BookingSeatCleanup() {
       }
 
       resetBooking();
+
     };
   }, [resetBooking]);
 

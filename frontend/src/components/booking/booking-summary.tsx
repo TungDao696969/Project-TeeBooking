@@ -129,6 +129,8 @@ export default function BookingSummary() {
         err.response?.data?.message || err.message || "Đặt vé thất bại";
 
       toast.error(errMsg);
+    } finally {
+      setIsPending(false);
     }
   };
 

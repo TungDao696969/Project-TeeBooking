@@ -5,15 +5,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { movieSchema, MovieFormData } from "@/schemas/admin/movie.schema";
 import { useCreateMovie } from "@/hooks/admin/movie/use-create-movie";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import api from "@/lib/axios";
+
 export default function MovieForm() {
   const [posterPreview, setPosterPreview] = useState("");
 
   const [bannerPreview, setBannerPreview] = useState("");
+  const [genres, setGenres] = useState<{ id: string; name: string }[]>([]);
+  const [selectedGenreIds, setSelectedGenreIds] = useState<string[]>([]);
+
   const {
     register,
     handleSubmit,
@@ -36,12 +41,27 @@ export default function MovieForm() {
       country: "",
       producer: "",
       status: "coming_soon",
+      genreIds: "",
+      directors: "",
+      actors: "",
     },
   });
 
   const router = useRouter();
   const { mutateAsync: createMovie } = useCreateMovie();
   const status = watch("status");
+
+  useEffect(() => {
+    api.get("/genre?limit=100")
+      .then((res) => {
+        setGenres(res.data.data || []);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    setValue("genreIds", selectedGenreIds.join(","));
+  }, [selectedGenreIds, setValue]);
 
   const onSubmit = async (values: MovieFormData) => {
     try {
@@ -72,6 +92,16 @@ export default function MovieForm() {
       formData.append("poster", values.poster);
 
       formData.append("banner", values.banner);
+
+      if (values.genreIds) {
+        formData.append("genreIds", values.genreIds);
+      }
+      if (values.directors) {
+        formData.append("directors", values.directors);
+      }
+      if (values.actors) {
+        formData.append("actors", values.actors);
+      }
 
       await createMovie(formData);
     } catch (error) {
@@ -246,6 +276,57 @@ export default function MovieForm() {
           {errors.banner && (
             <p className="text-sm text-red-500">{errors.banner.message}</p>
           )}
+        </div>
+
+        {/* Section: Thể loại & Nhân sự */}
+        <SectionLabel>Thể loại & Nhân sự</SectionLabel>
+
+        <div className="space-y-4">
+          <Field label="Thể loại">
+            <div className="flex flex-wrap gap-2 mt-1">
+              {genres.map((g) => {
+                const active = selectedGenreIds.includes(g.id);
+                return (
+                  <button
+                    key={g.id}
+                    type="button"
+                    onClick={() => {
+                      if (active) {
+                        setSelectedGenreIds(selectedGenreIds.filter((id) => id !== g.id));
+                      } else {
+                        setSelectedGenreIds([...selectedGenreIds, g.id]);
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-all
+                      ${
+                        active
+                          ? "border-red-600 bg-red-600/10 text-red-400"
+                          : "border-yellow-500/20 bg-[#0e0e16] text-zinc-500 hover:border-yellow-500/40 hover:text-zinc-300"
+                      }`}
+                  >
+                    {g.name}
+                  </button>
+                );
+              })}
+            </div>
+          </Field>
+
+          <div className="grid grid-cols-2 gap-3.5">
+            <Field label="Đạo diễn (Phân cách bằng dấu phẩy)">
+              <input
+                className={inputCls}
+                placeholder="VD: Victor Vũ, Christopher Nolan"
+                {...register("directors")}
+              />
+            </Field>
+            <Field label="Diễn viên (Phân cách bằng dấu phẩy)">
+              <input
+                className={inputCls}
+                placeholder="VD: Kaity Nguyễn, Leonardo DiCaprio"
+                {...register("actors")}
+              />
+            </Field>
+          </div>
         </div>
 
         {/* Section: Nội dung & Trạng thái */}

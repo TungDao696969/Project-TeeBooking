@@ -180,18 +180,19 @@ export const sendInvoiceEmail = async ({
   to: string;
   pdfPath: string;
 }) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+  const transporter = getMailTransporter();
+
+  if (!transporterVerified) {
+    await transporter.verify();
+    transporterVerified = true;
+    console.log("SMTP connection verified");
+  }
 
   await transporter.sendMail({
+    from: `"${requiredEnv("SMTP_FROM_NAME")}" <${requiredEnv("SMTP_FROM_EMAIL")}>`,
     to,
-    subject: "Booking Confirmation Invoice",
-    text: "Booking confirmed successfully",
+    subject: "Hóa Đơn Đặt Vé - TEE BOOKING",
+    text: "Cảm ơn bạn đã đặt vé tại Tee Booking. Hóa đơn chi tiết được đính kèm trong email này.",
     attachments: [
       {
         filename: "invoice.pdf",
@@ -200,3 +201,4 @@ export const sendInvoiceEmail = async ({
     ],
   });
 };
+

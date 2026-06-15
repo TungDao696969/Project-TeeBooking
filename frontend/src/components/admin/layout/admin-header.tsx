@@ -15,7 +15,7 @@ export default function AdminHeader() {
       </div>
 
       {/* Center — search */}
-      <div className="flex-1 max-w-sm relative">
+      {/* <div className="flex-1 max-w-sm relative">
         <Search
           className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none"
           size={14}
@@ -24,7 +24,7 @@ export default function AdminHeader() {
           placeholder="Tìm kiếm..."
           className="w-full pl-9 h-9 bg-white border-neutral-800 text-neutral-300 placeholder:text-neutral-600 text-sm rounded-xl focus-visible:ring-1 focus-visible:ring-red-700 focus-visible:border-red-800 transition-colors"
         />
-      </div>
+      </div> */}
 
       {/* Right — actions + user */}
       <div className="flex items-center gap-3 shrink-0">

@@ -13,10 +13,10 @@ export const useGenerateSeats = () => {
   return useMutation({
     mutationFn: generateSeats,
 
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       toast.success("Tạo ghế thành công");
 
-      router.push("/admin/seat");
+      router.push(`/admin/room/${variables.roomId}/seats`);
     },
 
     onError: (error: AxiosError<ErrorResponse>) => {

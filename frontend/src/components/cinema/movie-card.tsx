@@ -33,7 +33,7 @@ export default function MovieCard({ item }: Props) {
   return (
     <div className="flex flex-col sm:flex-row gap-6 w-full">
       {/* Movie Poster */}
-      <div className="relative aspect-[2/3] w-full sm:w-[220px] shrink-0 overflow-hidden rounded-2xl shadow-xl border border-white/5">
+      <div className="relative aspect-[2/3] w-full sm:w-[220px] shrink-0 self-start overflow-hidden rounded-2xl shadow-xl border border-white/5">
         <Image
           src={item.movie.posterUrl}
           alt={item.movie.title}

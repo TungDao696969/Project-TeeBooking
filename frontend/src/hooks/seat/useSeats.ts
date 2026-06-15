@@ -8,5 +8,7 @@ export const useSeats = (showtimeId: string) => {
     queryKey: ["showtime-seats", showtimeId],
     queryFn: () => getSeatsByShowtime(showtimeId),
     enabled: !!showtimeId,
+    refetchInterval: 3000, // Refetch seats every 3 seconds for real-time updates
   });
 };
+

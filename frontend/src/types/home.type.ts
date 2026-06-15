@@ -10,14 +10,17 @@ export interface Movie {
   title: string;
   slug: string;
   posterUrl: string;
-  genres?: {
+  genres?: string[] | {
     id: string;
     name: string;
   }[];
   trailerUrl?: string;
   durationMinutes?: number;
   ageRating?: string;
-  status: "coming_soon" | "now_showing" | "ended";
+  status: "coming_soon" | "now_showing" | "ended" | string;
+  language?: string;
+  subtitle?: string;
+  country?: string;
 }
 
 export interface Cinema {

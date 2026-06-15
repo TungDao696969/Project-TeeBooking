@@ -45,7 +45,7 @@ export default function BannerTable<TData>({
       <div className="flex items-center justify-between border-b border-[#2a2a2a] px-5 py-4">
         <div>
           <p className="text-xl font-bold text-white">
-            <span className="text-[#c8000a]">CINE</span>STAR
+            <span className="text-[#c8000a]">TEE</span>STAR
           </p>
           <p className="mt-1 border-l-[3px] border-[#c8000a] pl-2 text-sm text-[#aaa]">
             Quản lý banner

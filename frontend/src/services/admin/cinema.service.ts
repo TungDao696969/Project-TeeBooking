@@ -34,7 +34,7 @@ export const getCities = async () => {
 
 export const getCinema = async (id: string) => {
   const { data } = await api.get<{ success: boolean; data: Cinema }>(
-    `/cinema/detail/${id}`,
+    `/cinema/${id}`,
   );
 
   return data.data;

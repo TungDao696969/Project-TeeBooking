@@ -230,7 +230,6 @@ export function CinemaUpdateForm({ cinemaId }: Props) {
                 </div>
               </div>
             </div>
-
             {/* Section 2: Địa chỉ */}
             <div className="px-6 pt-5 pb-5 border-b border-[#222]">
               <SectionTitle icon="📍">Địa chỉ</SectionTitle>
@@ -284,8 +283,7 @@ export function CinemaUpdateForm({ cinemaId }: Props) {
                 </div>
               </div>
             </div>
-
-            {/* Section 3: Tọa độ */}
+            {/* Section 3: Tọa độ
             <div className="px-6 pt-5 pb-5">
               <SectionTitle icon="🧭">Tọa độ bản đồ</SectionTitle>
               <div className="grid grid-cols-2 gap-x-5 gap-y-4">
@@ -317,8 +315,7 @@ export function CinemaUpdateForm({ cinemaId }: Props) {
                   <FieldError message={errors.longitude?.message} />
                 </div>
               </div>
-            </div>
-
+            </div> */}
             {/* Actions */}
             <div className="px-6 py-4 bg-[#111] border-t border-[#222] flex items-center gap-3">
               <button

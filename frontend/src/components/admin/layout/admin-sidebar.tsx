@@ -13,6 +13,7 @@ import {
   Armchair,
   DoorOpen,
   Presentation,
+  Building,
 } from "lucide-react";
 
 const menus = [
@@ -33,10 +34,16 @@ const menus = [
     href: "/admin/banner",
     icon: Presentation,
   },
+
+  {
+    label: "City",
+    href: "/admin/city",
+    icon: Building2,
+  },
   {
     label: "Cinemas",
     href: "/admin/cinema",
-    icon: Building2,
+    icon: Building,
   },
 
   {

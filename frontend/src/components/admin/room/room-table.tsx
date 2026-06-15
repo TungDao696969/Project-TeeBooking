@@ -39,10 +39,22 @@ export function RoomTable({ data, pagination, onPageChange }: Props) {
     <div className="rounded-xl overflow-hidden border border-[#2a2a2a] bg-[#0d0d0d] shadow-[0_0_40px_rgba(0,0,0,0.6)]">
       {/* Header */}
       <div className="flex justify-between px-5 py-3 bg-gradient-to-r from-[#1a0000] to-[#0d0d0d] border-b border-[#3a1010] flex items-center gap-2">
-        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-[#e50000]">
-          <span className="w-2 h-2 rounded-full bg-[#e50000]" />
-          Quản lý phòng chiếu
-        </span>
+        <div>
+          <h2
+            className="text-2xl tracking-widest text-[#E8001D]"
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+            }}
+          >
+            TEE
+            <span className="text-white">STAR</span>
+          </h2>
+
+          <div className="flex items-center gap-2 mt-1 text-white">
+            <span className="w-[3px] h-6 bg-[#E8001D]" />
+            <span>Quản lý phòng chiếu</span>
+          </div>
+        </div>
 
         <div className="">
           <Link href="/admin/room/trash">

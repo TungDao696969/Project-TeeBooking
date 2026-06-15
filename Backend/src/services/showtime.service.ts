@@ -103,7 +103,7 @@ export const getAllShowtimesService = async (
       },
 
       orderBy: {
-        startTime: "desc",
+        createdAt: "desc",
       },
     }),
 

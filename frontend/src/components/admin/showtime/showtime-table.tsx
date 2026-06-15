@@ -10,7 +10,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Eye, Pencil, Trash, Plus, Search, Clock, Trash2 } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Trash,
+  Plus,
+  Search,
+  Clock,
+  Trash2,
+  Armchair,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Showtime } from "@/types/admin/showtime.type";
@@ -188,7 +197,7 @@ export default function ShowtimeTable({
           hover:text-white
         "
                     >
-                      <Clock className="h-4 w-4" />
+                      <Armchair className="h-4 w-4" />
                     </Button>
                   </Link>
 

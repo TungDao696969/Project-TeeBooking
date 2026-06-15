@@ -19,7 +19,13 @@ export default function RoomPage() {
   const rooms = data?.data ?? [];
   const filteredRooms =
     rooms.filter((room) =>
-      [room.roomName, room.roomType, room.screenType, room.soundSystem]
+      [
+        room.roomName,
+        room.roomType,
+        room.screenType,
+        room.soundSystem,
+        room.cinema?.name ?? "",
+      ]
         .join(" ")
         .toLowerCase()
         .includes(keyword.toLowerCase()),

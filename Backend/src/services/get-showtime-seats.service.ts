@@ -68,29 +68,37 @@ export const getShowtimeSeatsService = async (showtimeId: string) => {
   }
 
   // transform seats
-  const seats = showtime.seats.map((showtimeSeat) => ({
-    id: showtimeSeat.id,
+  const seats = showtime.seats.map((showtimeSeat) => {
+    const isLockedExpired =
+      showtimeSeat.status === "reserved" &&
+      showtimeSeat.lockedUntil &&
+      new Date(showtimeSeat.lockedUntil).getTime() < Date.now();
 
-    seatId: showtimeSeat.seat.id,
+    return {
+      id: showtimeSeat.id,
 
-    seatCode: showtimeSeat.seat.seatCode,
+      seatId: showtimeSeat.seat.id,
 
-    seatRow: showtimeSeat.seat.seatRow,
+      seatCode: showtimeSeat.seat.seatCode,
 
-    seatNumber: showtimeSeat.seat.seatNumber,
+      seatRow: showtimeSeat.seat.seatRow,
 
-    seatType: showtimeSeat.seat.seatType,
+      seatNumber: showtimeSeat.seat.seatNumber,
 
-    status: showtimeSeat.status,
+      seatType: showtimeSeat.seat.seatType,
 
-    price: Number(showtime.basePrice) + Number(showtimeSeat.seat.extraPrice),
+      status: isLockedExpired ? "available" : showtimeSeat.status,
 
-    extraPrice: showtimeSeat.seat.extraPrice,
+      price: Number(showtime.basePrice) + Number(showtimeSeat.seat.extraPrice),
 
-    lockedUntil: showtimeSeat.lockedUntil,
+      extraPrice: showtimeSeat.seat.extraPrice,
 
-    isCouple: showtimeSeat.seat.seatType === "couple",
-  }));
+      lockedUntil: isLockedExpired ? null : showtimeSeat.lockedUntil,
+
+      isCouple: showtimeSeat.seat.seatType === "couple",
+    };
+  });
+
 
   // build seat rows
   const rowsMap: Record<string, any[]> = {};

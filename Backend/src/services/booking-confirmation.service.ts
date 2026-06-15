@@ -1,4 +1,5 @@
 import { prisma } from "../utils/prisma";
+import { redis } from "../utils/redis";
 import { sendBookingConfirmationEmail } from "./send-booking-email.service";
 
 export const confirmBookingService = async (bookingId: string) => {
@@ -66,6 +67,8 @@ export const confirmBookingService = async (bookingId: string) => {
     return updateBooking;
   });
 
+  await redis.del(`showtime:${result.showtimeId}:seats`);
+
   // ── Send confirmation email with QR code (non-blocking) ──────────────────
   sendBookingConfirmationEmail(bookingId).catch((err) =>
     console.error("[ConfirmBooking] Failed to send confirmation email:", err),
@@ -73,3 +76,4 @@ export const confirmBookingService = async (bookingId: string) => {
 
   return result;
 };
+

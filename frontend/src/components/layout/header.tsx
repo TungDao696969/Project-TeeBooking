@@ -49,7 +49,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-[1320px] items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <Image
+          {/* <Image
             src="https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fheader-logo.png&w=1920&q=75"
             alt="Cinestar"
             width={180}
@@ -57,7 +57,16 @@ export default function Header() {
             priority
             className="object-contain"
             style={{ width: "auto", height: "auto" }}
-          />
+          /> */}
+          <h2
+            className="text-4xl tracking-widest text-[#E8001D]"
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+            }}
+          >
+            TEE
+            <span className="text-white">STAR</span>
+          </h2>
         </Link>
 
         {/* Action Buttons */}
@@ -210,16 +219,6 @@ export default function Header() {
                   <User className="h-4 w-4" />
 
                   <span>Thông tin cá nhân</span>
-                </Link>
-
-                {/* Change password */}
-                <Link
-                  href="/change-password"
-                  className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-white transition hover:bg-gray-600"
-                >
-                  <KeyRound className="h-4 w-4" />
-
-                  <span>Đổi mật khẩu</span>
                 </Link>
 
                 {/* Logout */}

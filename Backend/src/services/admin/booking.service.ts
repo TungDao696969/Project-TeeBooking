@@ -171,12 +171,14 @@ export const updateAdminBookingStatusService = async (
 
   if (!booking) throw new Error("Booking not found");
 
+  const { showtimeId } = booking;
+
   const allowed = ALLOWED_TRANSITIONS[booking.status] ?? [];
   if (!allowed.includes(newStatus)) {
     throw new Error(`Cannot transition from ${booking.status} to ${newStatus}`);
   }
 
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     // Update booking status
     const updated = await tx.booking.update({
       where: { id },
@@ -221,7 +223,14 @@ export const updateAdminBookingStatusService = async (
 
     return updated;
   });
+
+  if (newStatus === "cancelled" || newStatus === "refunded") {
+    await redis.del(`showtime:${showtimeId}:seats`);
+  }
+
+  return result;
 };
+
 
 export const adminCancelBookingService = async (
   id: string,
@@ -238,7 +247,7 @@ export const adminCancelBookingService = async (
     throw new Error(`Booking is already ${booking.status}`);
   }
 
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     // Cancel booking
     await tx.booking.update({
       where: { id },
@@ -284,4 +293,9 @@ export const adminCancelBookingService = async (
       message: refund ? "Booking cancelled and refunded" : "Booking cancelled",
     };
   });
+
+  await redis.del(`showtime:${booking.showtimeId}:seats`);
+
+  return result;
 };
+

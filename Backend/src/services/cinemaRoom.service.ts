@@ -69,7 +69,7 @@ export const getRoomsByCinemaIdService = async ({
       },
 
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
 
       skip,
@@ -116,10 +116,11 @@ export const getAllCinemaRoomsService = async (
       include: {
         seats: true,
         showtimes: true,
+        cinema: true,
       },
 
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
 
       skip,
@@ -154,6 +155,7 @@ export const getCinemaRoomByIdService = async (id: string) => {
     include: {
       seats: true,
       showtimes: true,
+      cinema: true,
     },
   });
 

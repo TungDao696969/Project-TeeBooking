@@ -1,4 +1,5 @@
 import { prisma } from "../utils/prisma";
+import { redis } from "../utils/redis";
 
 const LOCK_DURATION = 5 * 60 * 1000;
 
@@ -34,7 +35,7 @@ export const reservaSeatService = async (showTimeSeatId: string) => {
 
   const lockedUntil = new Date(Date.now() + LOCK_DURATION);
 
-  return prisma.showtimeSeat.update({
+  const updatedSeat = await prisma.showtimeSeat.update({
     where: {
       id: showTimeSeatId,
     },
@@ -44,6 +45,10 @@ export const reservaSeatService = async (showTimeSeatId: string) => {
       lockedUntil,
     },
   });
+
+  await redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+
+  return updatedSeat;
 };
 
 export const releaseSeatService = async (showtimeSeatId: string) => {
@@ -61,7 +66,7 @@ export const releaseSeatService = async (showtimeSeatId: string) => {
     throw new Error("Seat is not reserved");
   }
 
-  return prisma.showtimeSeat.update({
+  const updatedSeat = await prisma.showtimeSeat.update({
     where: {
       id: showtimeSeatId,
     },
@@ -70,6 +75,10 @@ export const releaseSeatService = async (showtimeSeatId: string) => {
       lockedUntil: null,
     },
   });
+
+  await redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+
+  return updatedSeat;
 };
 
 export const confirmBookingSeatService = async (showtimeSeatId: string) => {
@@ -96,7 +105,7 @@ export const confirmBookingSeatService = async (showtimeSeatId: string) => {
     throw new Error("Seat reservation expired");
   }
 
-  return prisma.showtimeSeat.update({
+  const updatedSeat = await prisma.showtimeSeat.update({
     where: {
       id: showtimeSeatId,
     },
@@ -105,4 +114,9 @@ export const confirmBookingSeatService = async (showtimeSeatId: string) => {
       lockedUntil: null,
     },
   });
+
+  await redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+
+  return updatedSeat;
 };
+

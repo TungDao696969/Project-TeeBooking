@@ -42,7 +42,7 @@ export const getMoviesListService = async (query: moviesListInput) => {
   //       genre ? { genres: { some: { genre: { slug: genre } } } } : {},
   //     ],
   //   };
-  const conditions = [];
+  const conditions: any[] = [{ deletedAt: null }];
 
   if (search) {
     conditions.push({

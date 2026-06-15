@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import Header from "@/components/layout/header";
@@ -8,7 +9,7 @@ import Footer from "@/components/layout/footer";
 import { useSearchMovies } from "@/hooks/use-search-movies";
 import { Movie } from "@/types/movie.type";
 import { getImageUrl } from "@/lib/image";
-import Link from "next/link";
+import TrailerModal from "@/components/movies/trailer-modal";
 // const GENRES = [
 //   { value: "", label: "Tất cả thể loại" },
 //   { value: "action", label: "Hành động" },
@@ -33,6 +34,8 @@ export default function MoviesPage() {
   const genre = searchParams.get("genre") || "";
   const sort = searchParams.get("sort") || "latest";
   const page = Number(searchParams.get("page") || 1);
+
+  const [trailerMovie, setTrailerMovie] = useState<Movie | null>(null);
 
   const { data, isLoading } = useSearchMovies({
     q,
@@ -169,11 +172,11 @@ export default function MoviesPage() {
                       {movie.title}
                     </h2>
                     <div className="flex gap-5 items-center justify-center">
-                      <Link
-                        href={movie.trailerUrl || "#"}
-                        className="flex shrink-0 items-center gap-1.5 text-white"
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setTrailerMovie(movie); }}
+                        className="flex shrink-0 items-center gap-1.5 text-white hover:text-yellow-400 transition"
                       >
-                        <div className="rounded-full border">
+                        <div className="rounded-full border border-white/30 p-0.5">
                           <img
                             src={getImageUrl(
                               "https://cinestar.com.vn/assets/images/icon-play-vid.svg",
@@ -188,7 +191,7 @@ export default function MoviesPage() {
                         <span className="hidden text-xs font-semibold md:inline md:text-sm">
                           Xem Trailer
                         </span>
-                      </Link>
+                      </button>
                       <button
                         className="w-full bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-bold
                                    py-2 rounded-lg transition-colors duration-200 backdrop-blur-sm"
@@ -302,6 +305,17 @@ export default function MoviesPage() {
       </main>
 
       <Footer />
+
+      {/* Trailer Modal */}
+      {trailerMovie && (
+        <TrailerModal
+          movieId={trailerMovie.id}
+          movieTitle={trailerMovie.title}
+          fallbackUrl={trailerMovie.trailerUrl}
+          isOpen={!!trailerMovie}
+          onClose={() => setTrailerMovie(null)}
+        />
+      )}
     </>
   );
 }

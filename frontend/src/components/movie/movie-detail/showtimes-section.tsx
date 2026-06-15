@@ -56,14 +56,19 @@ export default function ShowtimesSection({ movieSlug }: Props) {
   const availableProvinces = useMemo(() => {
     if (!data) return [];
     const provinces = new Set<string>();
-    data.forEach((c) => provinces.add(c.cinema.province));
+    data.forEach((c) => {
+      const cityName = c.cinema.city?.name || c.cinema.province;
+      if (cityName) provinces.add(cityName);
+    });
     return Array.from(provinces).sort((a, b) => a.localeCompare(b, "vi"));
   }, [data]);
 
   const filteredCinemas = useMemo(() => {
     if (!data) return [];
     if (selectedProvince === "ALL") return data;
-    return data.filter((c) => c.cinema.province === selectedProvince);
+    return data.filter(
+      (c) => (c.cinema.city?.name || c.cinema.province) === selectedProvince,
+    );
   }, [data, selectedProvince]);
 
   // reset when navigating between movies
@@ -208,7 +213,7 @@ export default function ShowtimesSection({ movieSlug }: Props) {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <h3 className="text-2xl font-extrabold text-yellow-300">
-                      {cinemaItem.cinema.name} ({cinemaItem.cinema.province})
+                      {cinemaItem.cinema.name} ({cinemaItem.cinema.city?.name || cinemaItem.cinema.province})
                     </h3>
                     <div className="mt-2 text-sm text-white/85">
                       {cinemaItem.cinema.address}

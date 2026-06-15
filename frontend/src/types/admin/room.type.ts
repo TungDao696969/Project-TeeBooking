@@ -19,6 +19,11 @@ export interface Room {
   soundSystem: string;
   createdAt: string;
   seats: Seat[];
+  cinema?: {
+    id: string;
+    name: string;
+    slug: string;
+  };
 }
 
 export interface RoomListResponse {

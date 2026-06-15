@@ -10,6 +10,11 @@ export interface CinemaShowtime {
     slug: string;
     address: string;
     province: string;
+    city?: {
+      id: string;
+      name: string;
+      slug: string;
+    } | null;
   };
 
   dates: ShowtimeDate[];

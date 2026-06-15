@@ -97,7 +97,7 @@ export default function MovieTable({
         <div className="flex items-center justify-between px-6 py-5">
           <div>
             <h2
-              className="text-4xl tracking-widest text-[#E8001D]"
+              className="text-2xl tracking-widest text-[#E8001D]"
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
               }}
