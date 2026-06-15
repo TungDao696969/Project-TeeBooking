@@ -87,21 +87,21 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/events"
+            href="#"
             className="font-medium transition hover:text-yellow-400"
           >
             Tổ chức sự kiện
           </Link>
 
           <Link
-            href="/entertainment"
+            href="#"
             className="font-medium transition hover:text-yellow-400"
           >
             Dịch vụ giải trí khác
           </Link>
 
           <Link
-            href="/about"
+            href="#"
             className="font-medium transition hover:text-yellow-400"
           >
             Giới thiệu

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -10,8 +11,18 @@ import RegisterForm from "@/components/auth/register-form";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 
-export default function LoginPage() {
+function LoginContent() {
+  const searchParams = useSearchParams();
   const [isRegister, setIsRegister] = useState(false);
+
+  useEffect(() => {
+    const mode = searchParams.get("mode");
+    if (mode === "register") {
+      setIsRegister(true);
+    } else {
+      setIsRegister(false);
+    }
+  }, [searchParams]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#070d28]">
@@ -51,5 +62,19 @@ export default function LoginPage() {
 
       <div className="absolute bottom-0 left-0 h-3 w-full bg-gradient-to-r from-purple-600 via-blue-500 to-purple-500" />
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#070d28] text-white">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-yellow-400"></div>
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }

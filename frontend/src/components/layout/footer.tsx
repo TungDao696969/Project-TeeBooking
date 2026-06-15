@@ -18,13 +18,15 @@ export default function Footer() {
           <div className="lg:col-span-2">
             {/* Logo */}
             <div className="mb-6">
-              <Image
-                src="https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fheader-logo.png&w=1920&q=75"
-                alt="Cinestar"
-                width={220}
-                height={80}
-                className="h-auto w-[180px]"
-              />
+              <Link href="/">
+                <Image
+                  src="https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fheader-logo.png&w=1920&q=75"
+                  alt="Cinestar"
+                  width={220}
+                  height={80}
+                  className="h-auto w-[180px] cursor-pointer"
+                />
+              </Link>
 
               <p className="mt-3 text-xl font-black uppercase">
                 Be Happy, Be A Star
@@ -33,15 +35,16 @@ export default function Footer() {
 
             {/* Buttons */}
             <div className="mb-6 flex flex-wrap gap-3">
-              <Button className="h-11 min-w-[155px] rounded-md bg-yellow-400 text-base font-black uppercase text-black hover:bg-yellow-300">
-                Đặt Vé
+              <Button asChild className="h-11 min-w-[155px] rounded-md bg-yellow-400 text-base font-black uppercase text-black hover:bg-yellow-300">
+                <Link href="/movies">Đặt Vé</Link>
               </Button>
 
               <Button
+                asChild
                 variant="outline"
                 className="h-11 min-w-[155px] rounded-md border-yellow-400 bg-transparent text-base font-black uppercase text-yellow-400 hover:bg-yellow-400 hover:text-black"
               >
-                Đặt Bắp Nước
+                <Link href="/showtimes">Đặt Bắp Nước</Link>
               </Button>
             </div>
 
@@ -96,19 +99,19 @@ export default function Footer() {
 
             <ul className="space-y-4 text-lg">
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/login" className="hover:text-yellow-300">
                   Đăng nhập
                 </Link>
               </li>
 
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/login?mode=register" className="hover:text-yellow-300">
                   Đăng ký
                 </Link>
               </li>
 
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/profile" className="hover:text-yellow-300">
                   Membership
                 </Link>
               </li>
@@ -120,19 +123,19 @@ export default function Footer() {
 
             <ul className="space-y-4 text-lg">
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/movies/showing" className="hover:text-yellow-300">
                   Phim đang chiếu
                 </Link>
               </li>
 
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/movies/comingsoon" className="hover:text-yellow-300">
                   Phim sắp chiếu
                 </Link>
               </li>
 
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/showtimes" className="hover:text-yellow-300">
                   Suất chiếu đặc biệt
                 </Link>
               </li>
@@ -145,13 +148,13 @@ export default function Footer() {
 
             <ul className="space-y-4 text-lg">
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/cinemas" className="hover:text-yellow-300">
                   Thuê rạp
                 </Link>
               </li>
 
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/cinemas" className="hover:text-yellow-300">
                   Các loại hình cho thuê khác
                 </Link>
               </li>
@@ -163,7 +166,7 @@ export default function Footer() {
 
             <ul className="space-y-4 text-lg">
               <li>
-                <Link href="#" className="hover:text-yellow-300">
+                <Link href="/about" className="hover:text-yellow-300">
                   Giới thiệu
                 </Link>
               </li>
@@ -246,7 +249,7 @@ export default function Footer() {
               Chính sách bảo mật
             </Link>
 
-            <Link href="#" className="hover:text-yellow-300">
+            <Link href="/promotions" className="hover:text-yellow-300">
               Tin điện ảnh
             </Link>
 

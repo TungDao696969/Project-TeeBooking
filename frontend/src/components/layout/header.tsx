@@ -79,7 +79,10 @@ export default function Header() {
             <span className="text-sm">ĐẶT VÉ NGAY</span>
           </Button>
 
-          <Button className="rounded-md bg-purple-600 px-2 py-5 text-base font-bold text-white hover:bg-purple-700">
+          <Button
+            className="rounded-md bg-purple-600 px-2 py-5 text-base font-bold text-white hover:bg-purple-700"
+            onClick={() => router.push("/showtimes")}
+          >
             <Popcorn className="mr-2 h-5 w-5" />
             <span className="text-sm">ĐẶT BẮP NƯỚC</span>
           </Button>
