@@ -127,17 +127,17 @@ export default function ShowtimesSection({ movieSlug }: Props) {
   }
 
   return (
-    <section className="bg-[#3F3B97] py-16">
-      <div className="container mx-auto px-4">
+    <section className="bg-[#3F3B97] py-12">
+      <div className="mx-auto max-w-5xl px-4">
         {/* heading */}
-        <div className="mb-10 text-center">
-          <h2 className="text-5xl font-black uppercase text-white">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-black uppercase text-white tracking-wider">
             Lịch Chiếu
           </h2>
         </div>
 
         {/* date tabs */}
-        <div className="mb-10 flex flex-wrap justify-center gap-5">
+        <div className="mb-8 flex flex-wrap justify-center gap-3">
           {availableDates.map((date) => {
             const isActive = currentSelectedDate === date;
 
@@ -145,17 +145,17 @@ export default function ShowtimesSection({ movieSlug }: Props) {
               <button
                 key={date}
                 onClick={() => setManualSelectedDate(date)}
-                className={`flex h-[140px] w-[120px] flex-col items-center justify-center rounded-md border text-center transition-all duration-200 ${
+                className={`flex h-[75px] w-[90px] flex-col items-center justify-center rounded-md border text-center transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "border-yellow-400 bg-yellow-400 text-[#4A3FB4]"
                     : "border-yellow-400 bg-transparent text-yellow-300 hover:bg-yellow-400 hover:text-[#4A3FB4]"
                 }`}
               >
-                <span className="text-4xl font-black">
+                <span className="text-lg font-black leading-none">
                   {dayjs(date).format("DD/MM")}
                 </span>
 
-                <span className="mt-3 text-xl font-semibold capitalize">
+                <span className="mt-1 text-xs font-semibold capitalize leading-none">
                   {dayjs(date).format("dddd")}
                 </span>
               </button>
@@ -165,18 +165,18 @@ export default function ShowtimesSection({ movieSlug }: Props) {
 
         {/* list heading + province filter */}
         <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <div className="text-4xl font-black uppercase tracking-wide text-white">
+          <div className="text-2xl font-black uppercase tracking-wide text-white">
             DANH SÁCH RẠP
           </div>
 
           <div className="relative">
-            <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-yellow-300">
-              <MapPin className="h-4 w-4" />
+            <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-yellow-300">
+              <MapPin className="h-3.5 w-3.5" />
             </div>
             <select
               value={selectedProvince}
               onChange={(e) => setSelectedProvince(e.target.value)}
-              className="h-11 min-w-[220px] appearance-none rounded-md border border-yellow-400/70 bg-transparent pl-10 pr-10 text-sm font-semibold uppercase text-yellow-300 outline-none transition-colors focus:border-yellow-400"
+              className="h-9 min-w-[160px] appearance-none rounded-md border border-yellow-400 bg-transparent pl-8 pr-8 text-xs font-bold uppercase text-yellow-300 outline-none transition-colors focus:border-yellow-400 cursor-pointer"
             >
               <option value="ALL" className="text-black">
                 Tất cả
@@ -187,14 +187,14 @@ export default function ShowtimesSection({ movieSlug }: Props) {
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-yellow-300">
-              <ChevronDown className="h-4 w-4" />
+            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-yellow-300">
+              <ChevronDown className="h-3.5 w-3.5" />
             </div>
           </div>
         </div>
 
         {/* cinema list */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {filteredCinemas.map((cinemaItem) => {
             const matchedDate = cinemaItem.dates.find(
               (d) => d.date === currentSelectedDate,
@@ -207,15 +207,15 @@ export default function ShowtimesSection({ movieSlug }: Props) {
             return (
               <Card
                 key={cinemaItem.cinema.id}
-                className="rounded-xl border-none bg-[#6A35A6]/90 p-6 text-white shadow-[0_12px_35px_rgba(0,0,0,0.25)]"
+                className="rounded-xl border-none bg-[#6A35A6]/90 p-5 text-white shadow-[0_12px_35px_rgba(0,0,0,0.25)]"
               >
                 {/* cinema header */}
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="text-2xl font-extrabold text-yellow-300">
+                    <h3 className="text-lg md:text-xl font-bold text-yellow-300">
                       {cinemaItem.cinema.name} ({cinemaItem.cinema.city?.name || cinemaItem.cinema.province})
                     </h3>
-                    <div className="mt-2 text-sm text-white/85">
+                    <div className="mt-1 text-xs md:text-sm text-white/80">
                       {cinemaItem.cinema.address}
                     </div>
                   </div>
@@ -235,19 +235,19 @@ export default function ShowtimesSection({ movieSlug }: Props) {
                         return next;
                       });
                     }}
-                    className="mt-1 inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/20 bg-white/10 text-white/90 transition-colors hover:bg-white/15"
+                    className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white/10 text-white/90 transition-colors hover:bg-white/15 cursor-pointer"
                     aria-label={isExpanded ? "Thu gọn" : "Mở rộng"}
                   >
                     {isExpanded ? (
-                      <ChevronUp className="h-5 w-5" />
+                      <ChevronUp className="h-4.5 w-4.5" />
                     ) : (
-                      <ChevronDown className="h-5 w-5" />
+                      <ChevronDown className="h-4.5 w-4.5" />
                     )}
                   </button>
                 </div>
 
                 {isExpanded && (
-                  <div className="mt-6 space-y-4">
+                  <div className="mt-4 space-y-3">
                     {(() => {
                       const groups = new Map<
                         string,
@@ -263,11 +263,11 @@ export default function ShowtimesSection({ movieSlug }: Props) {
                       return Array.from(groups.entries()).map(
                         ([format, items]) => (
                           <div key={format}>
-                            <div className="mb-3 text-sm font-semibold text-white/90">
+                            <div className="mb-2 text-xs font-semibold text-white/70">
                               {format}
                             </div>
 
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap gap-2.5">
                               {items
                                 .slice()
                                 .sort(
@@ -279,7 +279,7 @@ export default function ShowtimesSection({ movieSlug }: Props) {
                                   <Button
                                     key={showtime.id}
                                     variant="outline"
-                                    className="h-10 rounded-md border border-white/35 bg-transparent px-4 text-sm font-semibold text-white hover:bg-white/10"
+                                    className="h-8 rounded-md border border-white/35 bg-transparent px-3 text-xs font-semibold text-white hover:bg-white/10 cursor-pointer"
                                     onClick={() =>
                                       router.push(`/booking/${showtime.id}`)
                                     }
