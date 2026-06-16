@@ -18,7 +18,7 @@ export declare const createCinemaService: (data: CreateCinemaInput) => Promise<{
     deletedAt: Date | null;
 }>;
 export declare const getCinemaService: (page?: number, limit?: number) => Promise<any>;
-export declare const getCinemaBySlugService: (slug: string) => Promise<any>;
+export declare const getCinemaBySlugService: (slugOrId: string) => Promise<any>;
 export declare const getCinemaByIdService: (id: string) => Promise<{
     name: string;
     hotline: string | null;

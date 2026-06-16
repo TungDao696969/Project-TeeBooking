@@ -5,9 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cancelBookingService = void 0;
 const prisma_1 = require("../utils/prisma");
+const redis_1 = require("../utils/redis");
 const dayjs_1 = __importDefault(require("dayjs"));
 const cancelBookingService = async ({ bookingId, userId, }) => {
-    return prisma_1.prisma.$transaction(async (tx) => {
+    const result = await prisma_1.prisma.$transaction(async (tx) => {
         const booking = await tx.booking.findFirst({
             where: {
                 id: bookingId,
@@ -65,8 +66,14 @@ const cancelBookingService = async ({ bookingId, userId, }) => {
         return {
             success: true,
             message: "Booking cancelled successfully",
+            showtimeId: booking.showtimeId,
         };
     });
+    await redis_1.redis.del(`showtime:${result.showtimeId}:seats`);
+    return {
+        success: result.success,
+        message: result.message,
+    };
 };
 exports.cancelBookingService = cancelBookingService;
 //# sourceMappingURL=booking-cancel.service.js.map

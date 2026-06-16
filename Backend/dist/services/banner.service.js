@@ -1,12 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBannerService = exports.updateBannerService = exports.getBannerById = exports.getAllBannerService = exports.createBannerService = void 0;
+exports.deleteBannerService = exports.updateBannerService = exports.getBannerById = exports.getAllBannersAdminService = exports.getAllBannerService = exports.createBannerService = void 0;
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
 const cache_ttl = Number(process.env.CACHE_TTL);
 const createBannerService = async (data) => {
     const banner = await prisma_1.prisma.banner.create({
-        data,
+        data: {
+            title: data.title,
+            imageUrl: data.imageUrl,
+            redirectUrl: data.redirectUrl,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            isActive: data.isActive ?? true,
+        },
     });
     await redis_1.redis.del("banners:list");
     return banner;
@@ -30,8 +37,17 @@ const getAllBannerService = async () => {
     return banner;
 };
 exports.getAllBannerService = getAllBannerService;
+const getAllBannersAdminService = async () => {
+    const banners = await prisma_1.prisma.banner.findMany({
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    return banners;
+};
+exports.getAllBannersAdminService = getAllBannersAdminService;
 const getBannerById = async (id) => {
-    const banner = prisma_1.prisma.banner.findUnique({
+    const banner = await prisma_1.prisma.banner.findUnique({
         where: {
             id,
         },
@@ -44,7 +60,7 @@ const updateBannerService = async (id, data) => {
         where: {
             id,
         },
-        data,
+        data: data,
     });
     await redis_1.redis.del("banners:list");
     return banner;

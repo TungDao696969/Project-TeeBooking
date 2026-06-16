@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sepayWebhookController = void 0;
 const prisma_1 = require("../utils/prisma");
+const payment_success_queue_1 = require("../queue/payment-success.queue");
 const sepayWebhookController = async (req, res) => {
     try {
         console.log("SEPAY WEBHOOK RECEIVED:", req.body);
@@ -27,6 +28,7 @@ const sepayWebhookController = async (req, res) => {
         if (booking.status === "confirmed") {
             return res.status(200).json({ success: true });
         }
+        // Update payment record and set paymentStatus to "paid"
         await prisma_1.prisma.$transaction(async (tx) => {
             await tx.payment.create({
                 data: {
@@ -43,11 +45,12 @@ const sepayWebhookController = async (req, res) => {
                     id: booking.id,
                 },
                 data: {
-                    status: "confirmed",
                     paymentStatus: "paid",
                 },
             });
         });
+        // Enqueue the payment success job so the worker handles seat confirmation, PDF generation, and sends both QR + Invoice emails
+        await (0, payment_success_queue_1.enqueuePaymentSuccessJob)(booking.id);
         return res.status(200).json({ success: true });
     }
     catch (error) {

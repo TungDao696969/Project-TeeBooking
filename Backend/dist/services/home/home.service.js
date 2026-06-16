@@ -18,14 +18,12 @@ const getHomeService = async () => {
                 status: "now_showing",
                 deletedAt: null,
             },
-            select: {
-                id: true,
-                title: true,
-                slug: true,
-                posterUrl: true,
-                durationMinutes: true,
-                ageRating: true,
-                status: true,
+            include: {
+                genres: {
+                    include: {
+                        genre: true,
+                    },
+                },
             },
             take: 8,
             orderBy: {
@@ -37,13 +35,12 @@ const getHomeService = async () => {
                 status: "coming_soon",
                 deletedAt: null,
             },
-            select: {
-                id: true,
-                title: true,
-                slug: true,
-                posterUrl: true,
-                releaseDate: true,
-                status: true,
+            include: {
+                genres: {
+                    include: {
+                        genre: true,
+                    },
+                },
             },
             take: 8,
             orderBy: {
@@ -102,10 +99,29 @@ const getHomeService = async () => {
             },
         }),
     ]);
+    const formatMovie = (movie) => ({
+        id: movie.id,
+        title: movie.title,
+        slug: movie.slug,
+        originalTitle: movie.originalTitle,
+        description: movie.description,
+        durationMinutes: movie.durationMinutes,
+        releaseDate: movie.releaseDate,
+        ageRating: movie.ageRating,
+        language: movie.language,
+        subtitle: movie.subtitle,
+        trailerUrl: movie.trailerUrl,
+        posterUrl: movie.posterUrl,
+        bannerUrl: movie.bannerUrl,
+        status: movie.status,
+        country: movie.country,
+        producer: movie.producer,
+        genres: movie.genres.map((g) => g.genre.name),
+    });
     return {
         banners,
-        nowShowing,
-        comingSoon,
+        nowShowing: nowShowing.map(formatMovie),
+        comingSoon: comingSoon.map(formatMovie),
         cinemas,
         promotions,
         blogs,

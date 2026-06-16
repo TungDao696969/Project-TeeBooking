@@ -4,6 +4,7 @@ interface CreateBannerInput {
     redirectUrl?: string;
     startDate: Date;
     endDate: Date;
+    isActive?: boolean;
 }
 export declare const createBannerService: (data: CreateBannerInput) => Promise<{
     id: string;
@@ -17,6 +18,17 @@ export declare const createBannerService: (data: CreateBannerInput) => Promise<{
     startDate: Date;
 }>;
 export declare const getAllBannerService: () => Promise<any>;
+export declare const getAllBannersAdminService: () => Promise<{
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    isActive: boolean;
+    title: string;
+    endDate: Date;
+    imageUrl: string;
+    redirectUrl: string | null;
+    startDate: Date;
+}[]>;
 export declare const getBannerById: (id: string) => Promise<{
     id: string;
     createdAt: Date;
@@ -28,7 +40,7 @@ export declare const getBannerById: (id: string) => Promise<{
     redirectUrl: string | null;
     startDate: Date;
 } | null>;
-export declare const updateBannerService: (id: string, data: Partial<CreateBannerInput>) => Promise<{
+export declare const updateBannerService: (id: string, data: Record<string, unknown>) => Promise<{
     id: string;
     createdAt: Date;
     updatedAt: Date;

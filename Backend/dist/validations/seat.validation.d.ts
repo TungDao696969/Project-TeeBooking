@@ -28,9 +28,14 @@ export declare const updateSeatSchema: z.ZodObject<{
 export type CreateSeatInput = z.infer<typeof createSeatSchema>;
 export type UpdateSeatInput = z.infer<typeof updateSeatSchema>;
 export declare const generateSeatSchema: z.ZodObject<{
-    roomId: z.ZodUUID;
+    roomId: z.ZodString;
     rows: z.ZodArray<z.ZodString>;
     seatsPerRow: z.ZodNumber;
+}, z.core.$strip>;
+export declare const updateSeatTypeSchema: z.ZodObject<{
+    roomId: z.ZodString;
+    startRow: z.ZodString;
+    endRow: z.ZodString;
     seatType: z.ZodEnum<{
         standard: "standard";
         vip: "vip";

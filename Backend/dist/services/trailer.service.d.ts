@@ -22,8 +22,8 @@ export declare const createTrailerService: (payload: CreateTrailerPayload) => Pr
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        movieId: string;
         isActive: boolean;
+        movieId: string;
         title: string;
         thumbnailUrl: string | null;
         videoUrl: string;
@@ -38,8 +38,8 @@ export declare const getTrailerByIdService: (id: string) => Promise<{
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        movieId: string;
         isActive: boolean;
+        movieId: string;
         title: string;
         thumbnailUrl: string | null;
         videoUrl: string;
@@ -54,8 +54,8 @@ export declare const updateTrailerService: (id: string, payload: UpdateTrailerPa
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        movieId: string;
         isActive: boolean;
+        movieId: string;
         title: string;
         thumbnailUrl: string | null;
         videoUrl: string;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.restoreSeat = exports.getTrashSeats = exports.deleteSeat = exports.updateSeat = exports.getSeatById = exports.getSeatsByRoom = exports.getAllSeats = exports.generateSeats = exports.createSeat = void 0;
+exports.restoreSeat = exports.getTrashSeats = exports.deleteSeat = exports.updateSeat = exports.getSeatById = exports.getSeatsByRoom = exports.getAllSeats = exports.updateSeatType = exports.generateSeats = exports.createSeat = void 0;
 const seat_service_1 = require("../services/seat.service");
 const errorHandler_1 = require("../utils/errorHandler");
 const seat_validation_1 = require("../validations/seat.validation");
@@ -42,6 +42,25 @@ const generateSeats = async (req, res) => {
     }
 };
 exports.generateSeats = generateSeats;
+const updateSeatType = async (req, res) => {
+    try {
+        const payload = seat_validation_1.updateSeatTypeSchema.parse(req.body);
+        const updated = await (0, seat_service_1.updateSeatTypeService)(payload);
+        return res.status(200).json({
+            success: true,
+            message: "Seat types updated successfully",
+            count: updated.count,
+        });
+    }
+    catch (error) {
+        (0, errorHandler_1.errorHandler)({
+            error,
+            res,
+            defaultMessage: "Update seat types failed",
+        });
+    }
+};
+exports.updateSeatType = updateSeatType;
 // GET ALL
 const getAllSeats = async (req, res) => {
     try {

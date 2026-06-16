@@ -10,8 +10,8 @@ export declare const createTicketTypeService: (body: {
     name: string;
     id: string;
     createdAt: Date;
-    isActive: boolean;
     cinemaId: string | null;
+    isActive: boolean;
     description: string | null;
     code: string;
     price: import("@prisma/client-runtime-utils").Decimal;
@@ -22,8 +22,8 @@ export declare const getTicketTypeByIdService: (id: string) => Promise<{
     name: string;
     id: string;
     createdAt: Date;
-    isActive: boolean;
     cinemaId: string | null;
+    isActive: boolean;
     description: string | null;
     code: string;
     price: import("@prisma/client-runtime-utils").Decimal;
@@ -38,8 +38,8 @@ export declare const updateTicketTypeService: (id: string, body: {
     name: string;
     id: string;
     createdAt: Date;
-    isActive: boolean;
     cinemaId: string | null;
+    isActive: boolean;
     description: string | null;
     code: string;
     price: import("@prisma/client-runtime-utils").Decimal;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import Header from "@/components/layout/header";
@@ -26,7 +26,7 @@ import TrailerModal from "@/components/movies/trailer-modal";
 //   { value: "rating_asc", label: "Đánh giá thấp nhất" },
 // ];
 
-export default function MoviesPage() {
+function MoviesSearchContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -317,5 +317,19 @@ export default function MoviesPage() {
         />
       )}
     </>
+  );
+}
+
+export default function MoviesPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0b1633] text-white flex items-center justify-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-yellow-400"></div>
+        </div>
+      }
+    >
+      <MoviesSearchContent />
+    </Suspense>
   );
 }

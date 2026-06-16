@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirmBookingSeatService = exports.releaseSeatService = exports.reservaSeatService = void 0;
 const prisma_1 = require("../utils/prisma");
+const redis_1 = require("../utils/redis");
 const LOCK_DURATION = 5 * 60 * 1000;
 const reservaSeatService = async (showTimeSeatId) => {
     const seat = await prisma_1.prisma.showtimeSeat.findUnique({
@@ -27,7 +28,7 @@ const reservaSeatService = async (showTimeSeatId) => {
         throw new Error("Seat is temporarily reserved");
     }
     const lockedUntil = new Date(Date.now() + LOCK_DURATION);
-    return prisma_1.prisma.showtimeSeat.update({
+    const updatedSeat = await prisma_1.prisma.showtimeSeat.update({
         where: {
             id: showTimeSeatId,
         },
@@ -36,6 +37,8 @@ const reservaSeatService = async (showTimeSeatId) => {
             lockedUntil,
         },
     });
+    await redis_1.redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+    return updatedSeat;
 };
 exports.reservaSeatService = reservaSeatService;
 const releaseSeatService = async (showtimeSeatId) => {
@@ -50,7 +53,7 @@ const releaseSeatService = async (showtimeSeatId) => {
     if (seat.status !== "reserved") {
         throw new Error("Seat is not reserved");
     }
-    return prisma_1.prisma.showtimeSeat.update({
+    const updatedSeat = await prisma_1.prisma.showtimeSeat.update({
         where: {
             id: showtimeSeatId,
         },
@@ -59,6 +62,8 @@ const releaseSeatService = async (showtimeSeatId) => {
             lockedUntil: null,
         },
     });
+    await redis_1.redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+    return updatedSeat;
 };
 exports.releaseSeatService = releaseSeatService;
 const confirmBookingSeatService = async (showtimeSeatId) => {
@@ -79,7 +84,7 @@ const confirmBookingSeatService = async (showtimeSeatId) => {
         seat.lockedUntil < new Date()) {
         throw new Error("Seat reservation expired");
     }
-    return prisma_1.prisma.showtimeSeat.update({
+    const updatedSeat = await prisma_1.prisma.showtimeSeat.update({
         where: {
             id: showtimeSeatId,
         },
@@ -88,6 +93,8 @@ const confirmBookingSeatService = async (showtimeSeatId) => {
             lockedUntil: null,
         },
     });
+    await redis_1.redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+    return updatedSeat;
 };
 exports.confirmBookingSeatService = confirmBookingSeatService;
 //# sourceMappingURL=showtimeSeat.service.js.map

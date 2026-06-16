@@ -64,16 +64,24 @@ const getCinemaService = async (page = 1, limit = 10) => {
     return result;
 };
 exports.getCinemaService = getCinemaService;
-const getCinemaBySlugService = async (slug) => {
-    const cacheKey = `cinema: ${slug}`;
+// UUID regex — used to differentiate "slug" params from "id" params
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const getCinemaBySlugService = async (slugOrId) => {
+    const cacheKey = `cinema:${slugOrId}`;
     const cached = await redis_1.redis.get(cacheKey);
     if (cached) {
         return JSON.parse(cached);
     }
-    const cinema = await prisma_1.prisma.cinema.findUnique({
-        where: { slug },
-        include: { rooms: true },
-    });
+    // If the param looks like a UUID, find by ID; otherwise find by slug
+    const cinema = UUID_REGEX.test(slugOrId)
+        ? await prisma_1.prisma.cinema.findFirst({
+            where: { id: slugOrId, deletedAt: null },
+            include: { rooms: true },
+        })
+        : await prisma_1.prisma.cinema.findUnique({
+            where: { slug: slugOrId },
+            include: { rooms: true },
+        });
     if (!cinema)
         throw new Error("Cinema not found");
     await redis_1.redis.set(cacheKey, JSON.stringify(cinema), "EX", cache_ttl);
@@ -140,6 +148,9 @@ const getCinemaShowtimesService = async (slug) => {
     const showtimes = await prisma_1.prisma.showtime.findMany({
         where: {
             isActive: true,
+            startTime: {
+                gte: new Date(),
+            },
             room: {
                 cinema: {
                     slug,
@@ -148,6 +159,7 @@ const getCinemaShowtimesService = async (slug) => {
             },
             movie: {
                 status: "now_showing",
+                deletedAt: null,
             },
         },
         include: {

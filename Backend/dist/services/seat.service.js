@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.restoreSeatService = exports.getTrashSeatsService = exports.deleteSeatService = exports.updateSeatService = exports.getSeatByIdService = exports.getSeatsByRoomService = exports.getAllSeatsService = exports.generateSeatService = exports.createSeatService = void 0;
+exports.updateSeatTypeService = exports.restoreSeatService = exports.getTrashSeatsService = exports.deleteSeatService = exports.updateSeatService = exports.getSeatByIdService = exports.getSeatsByRoomService = exports.getAllSeatsService = exports.generateSeatService = exports.createSeatService = void 0;
+const enums_1 = require("../generated/prisma/enums");
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
 const cache_ttl = Number(process.env.CACHE_TTL);
@@ -37,7 +38,7 @@ const createSeatService = async (data) => {
 };
 exports.createSeatService = createSeatService;
 // tự động tạo ghế ngồi
-const generateSeatService = async ({ roomId, rows, seatsPerRow, seatType, }) => {
+const generateSeatService = async ({ roomId, rows, seatsPerRow, }) => {
     const room = await prisma_1.prisma.cinemaRoom.findUnique({
         where: {
             id: roomId,
@@ -65,7 +66,7 @@ const generateSeatService = async ({ roomId, rows, seatsPerRow, seatType, }) => 
                 seatRow: row,
                 seatNumber,
                 seatCode: `${row}${seatNumber}`,
-                seatType,
+                seatType: enums_1.SeatType.standard,
                 extraPrice: 0,
             });
         }
@@ -264,4 +265,28 @@ const restoreSeatService = async (id) => {
     return restoredSeat;
 };
 exports.restoreSeatService = restoreSeatService;
+const updateSeatTypeService = async ({ roomId, startRow, endRow, seatType, }) => {
+    const room = await prisma_1.prisma.cinemaRoom.findUnique({
+        where: { id: roomId },
+    });
+    if (!room) {
+        throw new Error("Cinema room not found");
+    }
+    const updated = await prisma_1.prisma.seat.updateMany({
+        where: {
+            roomId,
+            seatRow: {
+                gte: startRow,
+                lte: endRow,
+            },
+        },
+        data: {
+            seatType,
+        },
+    });
+    await redis_1.redis.del(`seats:${roomId}`);
+    await redis_1.redis.del("seats:all");
+    return updated;
+};
+exports.updateSeatTypeService = updateSeatTypeService;
 //# sourceMappingURL=seat.service.js.map

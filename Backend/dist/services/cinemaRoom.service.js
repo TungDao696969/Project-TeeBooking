@@ -44,7 +44,7 @@ const getRoomsByCinemaIdService = async ({ cinemaId, page, limit, }) => {
                 showtimes: true,
             },
             orderBy: {
-                createdAt: "asc",
+                createdAt: "desc",
             },
             skip,
             take: limit,
@@ -80,9 +80,10 @@ const getAllCinemaRoomsService = async (page = 1, limit = 10) => {
             include: {
                 seats: true,
                 showtimes: true,
+                cinema: true,
             },
             orderBy: {
-                createdAt: "asc",
+                createdAt: "desc",
             },
             skip,
             take: limit,
@@ -113,6 +114,7 @@ const getCinemaRoomByIdService = async (id) => {
         include: {
             seats: true,
             showtimes: true,
+            cinema: true,
         },
     });
     if (!room) {

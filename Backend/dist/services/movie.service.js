@@ -14,14 +14,78 @@ const clearMovieListCache = async () => {
     }
 };
 const createMovieService = async (data) => {
-    const slug = (0, slug_1.generateSlug)(data.title);
-    const movie = await prisma_1.prisma.movie.create({
-        data: {
-            ...data,
-            slug,
-            releaseDate: new Date(data.releaseDate),
-            endDate: data.endDate ? new Date(data.endDate) : null,
-        },
+    const { genreIds, directors, actors, ...movieData } = data;
+    const slug = (0, slug_1.generateSlug)(movieData.title);
+    const movie = await prisma_1.prisma.$transaction(async (tx) => {
+        const createdMovie = await tx.movie.create({
+            data: {
+                ...movieData,
+                slug,
+                releaseDate: new Date(movieData.releaseDate),
+                endDate: movieData.endDate ? new Date(movieData.endDate) : null,
+            },
+        });
+        if (genreIds) {
+            const genreIdList = String(genreIds)
+                .split(",")
+                .map((id) => id.trim())
+                .filter(Boolean);
+            if (genreIdList.length > 0) {
+                await tx.movieGenre.createMany({
+                    data: genreIdList.map((genreId) => ({
+                        movieId: createdMovie.id,
+                        genreId,
+                    })),
+                });
+            }
+        }
+        if (directors) {
+            const directorNames = String(directors)
+                .split(",")
+                .map((name) => name.trim())
+                .filter(Boolean);
+            for (const name of directorNames) {
+                let person = await tx.person.findFirst({
+                    where: { fullName: name },
+                });
+                if (!person) {
+                    person = await tx.person.create({
+                        data: { fullName: name },
+                    });
+                }
+                await tx.movieCast.create({
+                    data: {
+                        movieId: createdMovie.id,
+                        personId: person.id,
+                        roleType: "director",
+                    },
+                });
+            }
+        }
+        if (actors) {
+            const actorNames = String(actors)
+                .split(",")
+                .map((name) => name.trim())
+                .filter(Boolean);
+            for (const name of actorNames) {
+                let person = await tx.person.findFirst({
+                    where: { fullName: name },
+                });
+                if (!person) {
+                    person = await tx.person.create({
+                        data: { fullName: name },
+                    });
+                }
+                await tx.movieCast.create({
+                    data: {
+                        movieId: createdMovie.id,
+                        personId: person.id,
+                        roleType: "actor",
+                    },
+                });
+            }
+        }
+        return createdMovie;
     });
     await clearMovieListCache();
     return movie;
@@ -55,7 +119,16 @@ const getMoviesService = async (page = 1, limit = 10, search) => {
                 createdAt: "desc",
             },
             include: {
-                genres: true,
+                genres: {
+                    include: {
+                        genre: true,
+                    },
+                },
+                casts: {
+                    include: {
+                        person: true,
+                    },
+                },
             },
         }),
         prisma_1.prisma.movie.count({ where }),
@@ -80,26 +153,110 @@ const getMovieByIdService = async (id) => {
             deletedAt: null,
         },
         include: {
-            genres: true,
+            genres: {
+                include: {
+                    genre: true,
+                },
+            },
+            casts: {
+                include: {
+                    person: true,
+                },
+            },
         },
     });
 };
 exports.getMovieByIdService = getMovieByIdService;
 const updateMovieService = async (id, data) => {
-    if (data.title) {
-        data.slug = (0, slug_1.generateSlug)(data.title);
+    const { genreIds, directors, actors, ...movieData } = data;
+    if (movieData.title) {
+        movieData.slug = (0, slug_1.generateSlug)(movieData.title);
     }
-    if (data.releaseDate) {
-        data.releaseDate = new Date(data.releaseDate);
+    if (movieData.releaseDate) {
+        movieData.releaseDate = new Date(movieData.releaseDate);
     }
-    if (data.endDate) {
-        data.endDate = new Date(data.endDate);
+    if (movieData.endDate) {
+        movieData.endDate = new Date(movieData.endDate);
     }
-    const movie = await prisma_1.prisma.movie.update({
-        where: { id },
-        data,
+    const movie = await prisma_1.prisma.$transaction(async (tx) => {
+        const updatedMovie = await tx.movie.update({
+            where: { id },
+            data: movieData,
+        });
+        if (genreIds !== undefined) {
+            await tx.movieGenre.deleteMany({
+                where: { movieId: id },
+            });
+            const genreIdList = String(genreIds)
+                .split(",")
+                .map((gid) => gid.trim())
+                .filter(Boolean);
+            if (genreIdList.length > 0) {
+                await tx.movieGenre.createMany({
+                    data: genreIdList.map((genreId) => ({
+                        movieId: id,
+                        genreId,
+                    })),
+                });
+            }
+        }
+        if (directors !== undefined) {
+            await tx.movieCast.deleteMany({
+                where: { movieId: id, roleType: "director" },
+            });
+            const directorNames = String(directors)
+                .split(",")
+                .map((name) => name.trim())
+                .filter(Boolean);
+            for (const name of directorNames) {
+                let person = await tx.person.findFirst({
+                    where: { fullName: name },
+                });
+                if (!person) {
+                    person = await tx.person.create({
+                        data: { fullName: name },
+                    });
+                }
+                await tx.movieCast.create({
+                    data: {
+                        movieId: id,
+                        personId: person.id,
+                        roleType: "director",
+                    },
+                });
+            }
+        }
+        if (actors !== undefined) {
+            await tx.movieCast.deleteMany({
+                where: { movieId: id, roleType: "actor" },
+            });
+            const actorNames = String(actors)
+                .split(",")
+                .map((name) => name.trim())
+                .filter(Boolean);
+            for (const name of actorNames) {
+                let person = await tx.person.findFirst({
+                    where: { fullName: name },
+                });
+                if (!person) {
+                    person = await tx.person.create({
+                        data: { fullName: name },
+                    });
+                }
+                await tx.movieCast.create({
+                    data: {
+                        movieId: id,
+                        personId: person.id,
+                        roleType: "actor",
+                    },
+                });
+            }
+        }
+        return updatedMovie;
     });
     await clearMovieListCache();
+    await redis_1.redis.del(`movie:detail:${movie.slug}`);
+    await redis_1.redis.del(`movie:detail:${id}`);
     return movie;
 };
 exports.updateMovieService = updateMovieService;
@@ -163,7 +320,11 @@ const getMovieShowtimesService = async (slug) => {
         include: {
             room: {
                 include: {
-                    cinema: true,
+                    cinema: {
+                        include: {
+                            city: true,
+                        },
+                    },
                 },
             },
         },
@@ -189,6 +350,11 @@ const getMovieShowtimesService = async (slug) => {
                     slug: cinema.slug,
                     address: cinema.address,
                     province: cinema.province,
+                    city: cinema.city ? {
+                        id: cinema.city.id,
+                        name: cinema.city.name,
+                        slug: cinema.city.slug,
+                    } : null,
                 },
                 dates: {},
             };

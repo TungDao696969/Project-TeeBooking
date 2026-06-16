@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
 import { CheckCircle2, Ticket, House, Popcorn } from "lucide-react";
 
@@ -13,7 +13,7 @@ import { useBookingStore } from "@/store/booking.store";
 import { useComboStore } from "@/store/combo.store";
 import { useSearchParams } from "next/navigation";
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
   const bookingDetailHref = bookingId ? `/booking-detail/${bookingId}` : "/";
@@ -122,5 +122,19 @@ export default function PaymentSuccessPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[#06101d] text-white">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-yellow-400"></div>
+        </div>
+      }
+    >
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }

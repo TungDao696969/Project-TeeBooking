@@ -26,18 +26,19 @@ export declare const createShowtimeService: (data: CreateShowtimeInput) => Promi
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        isActive: boolean;
         cinemaId: string;
         roomName: string;
         roomType: string;
         totalSeats: number;
         screenType: string | null;
         soundSystem: string | null;
+        isActive: boolean;
     };
 } & {
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
+    isActive: boolean;
     movieId: string;
     roomId: string;
     showDate: Date;
@@ -47,10 +48,17 @@ export declare const createShowtimeService: (data: CreateShowtimeInput) => Promi
     format: string | null;
     language: string | null;
     subtitle: string | null;
-    isActive: boolean;
 }>;
 export declare const getAllShowtimesService: (page?: number, limit?: number) => Promise<any>;
 export declare const getShowtimeByIdService: (id: string) => Promise<({
+    seats: {
+        id: string;
+        status: import("../generated/prisma/enums").SeatStatus;
+        showtimeId: string;
+        seatId: string;
+        finalPrice: number;
+        lockedUntil: Date | null;
+    }[];
     movie: {
         id: string;
         slug: string;
@@ -77,22 +85,14 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        isActive: boolean;
         cinemaId: string;
         roomName: string;
         roomType: string;
         totalSeats: number;
         screenType: string | null;
         soundSystem: string | null;
+        isActive: boolean;
     };
-    seats: {
-        id: string;
-        status: import("../generated/prisma/enums").SeatStatus;
-        showtimeId: string;
-        seatId: string;
-        finalPrice: number;
-        lockedUntil: Date | null;
-    }[];
     bookings: {
         id: string;
         status: import("../generated/prisma/enums").BookingStatus;
@@ -111,6 +111,7 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
+    isActive: boolean;
     movieId: string;
     roomId: string;
     showDate: Date;
@@ -120,7 +121,6 @@ export declare const getShowtimeByIdService: (id: string) => Promise<({
     format: string | null;
     language: string | null;
     subtitle: string | null;
-    isActive: boolean;
 }) | null>;
 export declare const updateShowtimeService: (id: string, data: UpdateShowtimeInput) => Promise<{
     movie: {
@@ -149,18 +149,19 @@ export declare const updateShowtimeService: (id: string, data: UpdateShowtimeInp
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        isActive: boolean;
         cinemaId: string;
         roomName: string;
         roomType: string;
         totalSeats: number;
         screenType: string | null;
         soundSystem: string | null;
+        isActive: boolean;
     };
 } & {
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
+    isActive: boolean;
     movieId: string;
     roomId: string;
     showDate: Date;
@@ -170,12 +171,12 @@ export declare const updateShowtimeService: (id: string, data: UpdateShowtimeInp
     format: string | null;
     language: string | null;
     subtitle: string | null;
-    isActive: boolean;
 }>;
 export declare const deleteShowtimeService: (id: string) => Promise<{
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
+    isActive: boolean;
     movieId: string;
     roomId: string;
     showDate: Date;
@@ -185,7 +186,6 @@ export declare const deleteShowtimeService: (id: string) => Promise<{
     format: string | null;
     language: string | null;
     subtitle: string | null;
-    isActive: boolean;
 }>;
 export declare const getShowtimeTicketTypesService: (showtimeId: string) => Promise<any>;
 export declare const getTrashShowtimesService: () => Promise<any>;
@@ -193,6 +193,7 @@ export declare const restoreShowtimeService: (id: string) => Promise<{
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
+    isActive: boolean;
     movieId: string;
     roomId: string;
     showDate: Date;
@@ -202,7 +203,6 @@ export declare const restoreShowtimeService: (id: string) => Promise<{
     format: string | null;
     language: string | null;
     subtitle: string | null;
-    isActive: boolean;
 }>;
 export declare const forceDeleteShowtimeService: (id: string) => Promise<boolean>;
 //# sourceMappingURL=showtime.service.d.ts.map

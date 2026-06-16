@@ -17,6 +17,9 @@ export declare const createMovieSchema: z.ZodObject<{
     }>;
     country: z.ZodOptional<z.ZodString>;
     producer: z.ZodOptional<z.ZodString>;
+    genreIds: z.ZodOptional<z.ZodString>;
+    directors: z.ZodOptional<z.ZodString>;
+    actors: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type CreateMoviesInput = z.infer<typeof createMovieSchema>;
 export declare const updateMovieSchema: z.ZodObject<{
@@ -39,6 +42,9 @@ export declare const updateMovieSchema: z.ZodObject<{
     }>>;
     country: z.ZodOptional<z.ZodString>;
     producer: z.ZodOptional<z.ZodString>;
+    genreIds: z.ZodOptional<z.ZodString>;
+    directors: z.ZodOptional<z.ZodString>;
+    actors: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type UpdateMoviesInput = z.infer<typeof updateMovieSchema>;
 export declare const getMovieShowtimesSchema: z.ZodObject<{

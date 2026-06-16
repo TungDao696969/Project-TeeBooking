@@ -4,9 +4,9 @@ export declare const createPromotionSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodString>;
     imageUrl: z.ZodOptional<z.ZodString>;
     type: z.ZodEnum<{
+        combo: "combo";
         percentage: "percentage";
         fixed_amount: "fixed_amount";
-        combo: "combo";
     }>;
     discountValue: z.ZodNumber;
     minOrderValue: z.ZodOptional<z.ZodNumber>;
@@ -20,9 +20,9 @@ export declare const updatePromotionSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     imageUrl: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     type: z.ZodOptional<z.ZodEnum<{
+        combo: "combo";
         percentage: "percentage";
         fixed_amount: "fixed_amount";
-        combo: "combo";
     }>>;
     discountValue: z.ZodOptional<z.ZodNumber>;
     minOrderValue: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;

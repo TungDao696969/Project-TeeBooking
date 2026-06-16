@@ -5,34 +5,33 @@ interface GenerateSeatPayload {
     roomId: string;
     rows: string[];
     seatsPerRow: number;
-    seatType: SeatType;
 }
 export declare const createSeatService: (data: CreateSeatInput) => Promise<{
     room: {
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        isActive: boolean;
         cinemaId: string;
         roomName: string;
         roomType: string;
         totalSeats: number;
         screenType: string | null;
         soundSystem: string | null;
+        isActive: boolean;
     };
 } & {
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
-    roomId: string;
     isActive: boolean;
+    roomId: string;
     seatRow: string;
     seatNumber: number;
     seatCode: string;
     seatType: SeatType;
     extraPrice: number;
 }>;
-export declare const generateSeatService: ({ roomId, rows, seatsPerRow, seatType, }: GenerateSeatPayload) => Promise<Prisma.SeatCreateManyInput[]>;
+export declare const generateSeatService: ({ roomId, rows, seatsPerRow, }: GenerateSeatPayload) => Promise<Prisma.SeatCreateManyInput[]>;
 export declare const getAllSeatsService: (page?: number, limit?: number) => Promise<{
     seats: ({
         room: {
@@ -58,13 +57,13 @@ export declare const getAllSeatsService: (page?: number, limit?: number) => Prom
             id: string;
             createdAt: Date;
             deletedAt: Date | null;
-            isActive: boolean;
             cinemaId: string;
             roomName: string;
             roomType: string;
             totalSeats: number;
             screenType: string | null;
             soundSystem: string | null;
+            isActive: boolean;
         };
         showtimeSeats: {
             id: string;
@@ -78,8 +77,8 @@ export declare const getAllSeatsService: (page?: number, limit?: number) => Prom
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        roomId: string;
         isActive: boolean;
+        roomId: string;
         seatRow: string;
         seatNumber: number;
         seatCode: string;
@@ -99,13 +98,13 @@ export declare const getSeatByIdService: (id: string) => Promise<({
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        isActive: boolean;
         cinemaId: string;
         roomName: string;
         roomType: string;
         totalSeats: number;
         screenType: string | null;
         soundSystem: string | null;
+        isActive: boolean;
     };
     showtimeSeats: {
         id: string;
@@ -119,8 +118,8 @@ export declare const getSeatByIdService: (id: string) => Promise<({
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
-    roomId: string;
     isActive: boolean;
+    roomId: string;
     seatRow: string;
     seatNumber: number;
     seatCode: string;
@@ -132,20 +131,20 @@ export declare const updateSeatService: (id: string, data: UpdateSeatInput) => P
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
-        isActive: boolean;
         cinemaId: string;
         roomName: string;
         roomType: string;
         totalSeats: number;
         screenType: string | null;
         soundSystem: string | null;
+        isActive: boolean;
     };
 } & {
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
-    roomId: string;
     isActive: boolean;
+    roomId: string;
     seatRow: string;
     seatNumber: number;
     seatCode: string;
@@ -156,8 +155,8 @@ export declare const deleteSeatService: (id: string) => Promise<{
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
-    roomId: string;
     isActive: boolean;
+    roomId: string;
     seatRow: string;
     seatNumber: number;
     seatCode: string;
@@ -169,13 +168,20 @@ export declare const restoreSeatService: (id: string) => Promise<{
     id: string;
     createdAt: Date;
     deletedAt: Date | null;
-    roomId: string;
     isActive: boolean;
+    roomId: string;
     seatRow: string;
     seatNumber: number;
     seatCode: string;
     seatType: SeatType;
     extraPrice: number;
 }>;
+interface UpdateSeatTypePayload {
+    roomId: string;
+    startRow: string;
+    endRow: string;
+    seatType: SeatType;
+}
+export declare const updateSeatTypeService: ({ roomId, startRow, endRow, seatType, }: UpdateSeatTypePayload) => Promise<Prisma.BatchPayload>;
 export {};
 //# sourceMappingURL=seat.service.d.ts.map

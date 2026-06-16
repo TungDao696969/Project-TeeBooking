@@ -59,19 +59,24 @@ const getShowtimeSeatsService = async (showtimeId) => {
         throw new Error("Showtime not found");
     }
     // transform seats
-    const seats = showtime.seats.map((showtimeSeat) => ({
-        id: showtimeSeat.id,
-        seatId: showtimeSeat.seat.id,
-        seatCode: showtimeSeat.seat.seatCode,
-        seatRow: showtimeSeat.seat.seatRow,
-        seatNumber: showtimeSeat.seat.seatNumber,
-        seatType: showtimeSeat.seat.seatType,
-        status: showtimeSeat.status,
-        price: Number(showtime.basePrice) + Number(showtimeSeat.seat.extraPrice),
-        extraPrice: showtimeSeat.seat.extraPrice,
-        lockedUntil: showtimeSeat.lockedUntil,
-        isCouple: showtimeSeat.seat.seatType === "couple",
-    }));
+    const seats = showtime.seats.map((showtimeSeat) => {
+        const isLockedExpired = showtimeSeat.status === "reserved" &&
+            showtimeSeat.lockedUntil &&
+            new Date(showtimeSeat.lockedUntil).getTime() < Date.now();
+        return {
+            id: showtimeSeat.id,
+            seatId: showtimeSeat.seat.id,
+            seatCode: showtimeSeat.seat.seatCode,
+            seatRow: showtimeSeat.seat.seatRow,
+            seatNumber: showtimeSeat.seat.seatNumber,
+            seatType: showtimeSeat.seat.seatType,
+            status: isLockedExpired ? "available" : showtimeSeat.status,
+            price: Number(showtime.basePrice) + Number(showtimeSeat.seat.extraPrice),
+            extraPrice: showtimeSeat.seat.extraPrice,
+            lockedUntil: isLockedExpired ? null : showtimeSeat.lockedUntil,
+            isCouple: showtimeSeat.seat.seatType === "couple",
+        };
+    });
     // build seat rows
     const rowsMap = {};
     for (const seat of seats) {

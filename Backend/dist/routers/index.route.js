@@ -87,10 +87,11 @@ router.patch("/users/address/:addressId/default", auth_middleware_1.authMiddlewa
 //home
 router.get("/home", home_controller_1.getHomeController);
 // banner
-router.post("/banner", banner_controller_1.createBannerController);
+router.post("/banner", upload_middleware_1.upload.single("image"), banner_controller_1.createBannerController);
 router.get("/banner", banner_controller_1.getAllBannerController);
+router.get("/admin/banners", banner_controller_1.getAllBannersAdminController);
 router.get("/banner/:id", banner_controller_1.getBannerByIdController);
-router.patch("/banner/:id", banner_controller_1.updateBannerController);
+router.patch("/banner/:id", upload_middleware_1.upload.single("image"), banner_controller_1.updateBannerController);
 router.delete("/banner/:id", banner_controller_1.deleteBannerController);
 // membership
 router.get("/membership", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.customer, enums_1.UserRole.admin), membership_controller_1.getMembershipController);
@@ -188,6 +189,7 @@ router.post("/seat/generate", seat_controller_1.generateSeats);
 router.get("/seat", seat_controller_1.getAllSeats);
 router.get("/seat/room/:roomId", seat_controller_1.getSeatsByRoom);
 router.get("/seat/:id", seat_controller_1.getSeatById);
+router.patch("/seat/update-type", seat_controller_1.updateSeatType);
 router.put("/seat/:id", (0, validation_middleware_1.validate)(seat_validation_1.updateSeatSchema), seat_controller_1.updateSeat);
 router.patch("/seat/:id/restore", seat_controller_1.restoreSeat);
 router.delete("/seat/:id", seat_controller_1.deleteSeat);
@@ -267,5 +269,10 @@ router.patch("/user/:id", user_controller_2.updateUser);
 router.delete("/user/:id", user_controller_2.deleteUser);
 router.patch("/user/:id/restore", user_controller_2.restoreUser);
 router.get("/admin/dashboard", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin), admin_controller_1.getDashboardStatsController);
+const booking_controller_2 = require("../controllers/admin/booking.controller");
+router.get("/admin/booking", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin, enums_1.UserRole.staff), booking_controller_2.getAdminBookings);
+router.get("/admin/booking/:id", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin, enums_1.UserRole.staff), booking_controller_2.getAdminBookingById);
+router.patch("/admin/booking/:id/status", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin, enums_1.UserRole.staff), booking_controller_2.updateAdminBookingStatus);
+router.post("/admin/booking/:id/cancel", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(enums_1.UserRole.admin, enums_1.UserRole.staff), booking_controller_2.adminCancelBooking);
 exports.default = router;
 //# sourceMappingURL=index.route.js.map

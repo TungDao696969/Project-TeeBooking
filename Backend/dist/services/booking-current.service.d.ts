@@ -45,18 +45,19 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
             id: string;
             createdAt: Date;
             deletedAt: Date | null;
-            isActive: boolean;
             cinemaId: string;
             roomName: string;
             roomType: string;
             totalSeats: number;
             screenType: string | null;
             soundSystem: string | null;
+            isActive: boolean;
         };
     } & {
         id: string;
         createdAt: Date;
         deletedAt: Date | null;
+        isActive: boolean;
         movieId: string;
         roomId: string;
         showDate: Date;
@@ -66,7 +67,6 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
         format: string | null;
         language: string | null;
         subtitle: string | null;
-        isActive: boolean;
     };
     tickets: ({
         showtimeSeat: {
@@ -74,8 +74,8 @@ export declare const getBookingDetailService: (bookingId: string, userId: string
                 id: string;
                 createdAt: Date;
                 deletedAt: Date | null;
-                roomId: string;
                 isActive: boolean;
+                roomId: string;
                 seatRow: string;
                 seatNumber: number;
                 seatCode: string;

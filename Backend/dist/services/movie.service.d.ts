@@ -22,10 +22,34 @@ export declare const createMovieService: (data: any) => Promise<{
 }>;
 export declare const getMoviesService: (page?: number, limit?: number, search?: string) => Promise<any>;
 export declare const getMovieByIdService: (id: string) => Promise<({
-    genres: {
+    genres: ({
+        genre: {
+            name: string;
+            id: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         movieId: string;
         genreId: string;
-    }[];
+    })[];
+    casts: ({
+        person: {
+            id: string;
+            fullName: string;
+            avatarUrl: string | null;
+            bio: string | null;
+            birthDate: Date | null;
+            nationality: string | null;
+        };
+    } & {
+        id: string;
+        movieId: string;
+        personId: string;
+        roleType: string;
+        characterName: string | null;
+    })[];
 } & {
     id: string;
     slug: string;

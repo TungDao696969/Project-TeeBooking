@@ -16,6 +16,9 @@ exports.createMovieSchema = zod_1.z.object({
     status: zod_1.z.enum(["coming_soon", "now_showing", "ended"]),
     country: zod_1.z.string().optional(),
     producer: zod_1.z.string().optional(),
+    genreIds: zod_1.z.string().optional(),
+    directors: zod_1.z.string().optional(),
+    actors: zod_1.z.string().optional(),
 });
 exports.updateMovieSchema = zod_1.z.object({
     title: zod_1.z.string().min(2).max(255).optional(),
@@ -33,6 +36,9 @@ exports.updateMovieSchema = zod_1.z.object({
     status: zod_1.z.enum(["coming_soon", "now_showing", "ended"]).optional(),
     country: zod_1.z.string().optional(),
     producer: zod_1.z.string().optional(),
+    genreIds: zod_1.z.string().optional(),
+    directors: zod_1.z.string().optional(),
+    actors: zod_1.z.string().optional(),
 });
 exports.getMovieShowtimesSchema = zod_1.z.object({
     params: zod_1.z.object({

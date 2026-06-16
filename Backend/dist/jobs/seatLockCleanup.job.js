@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.startSeatLockCleanupJob = void 0;
 const node_cron_1 = __importDefault(require("node-cron"));
 const prisma_1 = require("../utils/prisma");
+const redis_1 = require("../utils/redis");
 // Run every minute to release seats whose reservation has expired
 const startSeatLockCleanupJob = () => {
     node_cron_1.default.schedule("* * * * *", async () => {
@@ -48,23 +49,41 @@ const startSeatLockCleanupJob = () => {
                         });
                     }
                 });
+                const showtimeIds = Array.from(new Set(expiredBookings.map((b) => b.showtimeId)));
+                for (const showtimeId of showtimeIds) {
+                    await redis_1.redis.del(`showtime:${showtimeId}:seats`);
+                }
                 console.log(`Cancelled ${expiredBookings.length} expired bookings and released ${seatIds.length} seats`);
             }
             // 2. Release any orphaned reserved seats that expired
-            const result = await prisma_1.prisma.showtimeSeat.updateMany({
+            const expiredSeats = await prisma_1.prisma.showtimeSeat.findMany({
                 where: {
                     status: "reserved",
                     lockedUntil: {
                         lt: new Date(),
                     },
                 },
-                data: {
-                    status: "available",
-                    lockedUntil: null,
+                select: {
+                    id: true,
+                    showtimeId: true,
                 },
             });
-            if (result.count > 0) {
-                console.log(`Released ${result.count} orphaned expired reserved seats`);
+            if (expiredSeats.length > 0) {
+                const expiredSeatIds = expiredSeats.map((s) => s.id);
+                const orphanedShowtimeIds = Array.from(new Set(expiredSeats.map((s) => s.showtimeId)));
+                await prisma_1.prisma.showtimeSeat.updateMany({
+                    where: {
+                        id: { in: expiredSeatIds },
+                    },
+                    data: {
+                        status: "available",
+                        lockedUntil: null,
+                    },
+                });
+                for (const showtimeId of orphanedShowtimeIds) {
+                    await redis_1.redis.del(`showtime:${showtimeId}:seats`);
+                }
+                console.log(`Released ${expiredSeats.length} orphaned expired reserved seats`);
             }
         }
         catch (error) {

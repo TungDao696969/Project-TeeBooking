@@ -80,7 +80,7 @@ const getAllShowtimesService = async (page = 1, limit = 10) => {
                 bookings: true,
             },
             orderBy: {
-                startTime: "desc",
+                createdAt: "desc",
             },
         }),
         prisma_1.prisma.showtime.count({

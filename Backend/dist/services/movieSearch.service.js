@@ -16,7 +16,7 @@ const searchMoviesService = async (params) => {
     const pageNumber = Number(params.page || 1);
     const limitNumber = Number(params.limit || 10);
     const skip = (pageNumber - 1) * limitNumber;
-    const where = {};
+    const where = { deletedAt: null };
     if (q) {
         where.OR = [
             {
@@ -135,6 +135,7 @@ const getMovieSuggestionsService = async (q) => {
     }
     const movies = await prisma_1.prisma.movie.findMany({
         where: {
+            deletedAt: null,
             OR: [
                 {
                     title: {
