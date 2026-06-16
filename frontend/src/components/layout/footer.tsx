@@ -19,13 +19,15 @@ export default function Footer() {
             {/* Logo */}
             <div className="mb-6">
               <Link href="/">
-                <Image
-                  src="https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fheader-logo.png&w=1920&q=75"
-                  alt="Cinestar"
-                  width={220}
-                  height={80}
-                  className="h-auto w-[180px] cursor-pointer"
-                />
+                <h2
+                  className="text-4xl tracking-widest text-[#E8001D]"
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                  }}
+                >
+                  TEE
+                  <span className="text-white">STAR</span>
+                </h2>
               </Link>
 
               <p className="mt-3 text-xl font-black uppercase">
@@ -35,7 +37,10 @@ export default function Footer() {
 
             {/* Buttons */}
             <div className="mb-6 flex flex-wrap gap-3">
-              <Button asChild className="h-11 min-w-[155px] rounded-md bg-yellow-400 text-base font-black uppercase text-black hover:bg-yellow-300">
+              <Button
+                asChild
+                className="h-11 min-w-[155px] rounded-md bg-yellow-400 text-base font-black uppercase text-black hover:bg-yellow-300"
+              >
                 <Link href="/movies">Đặt Vé</Link>
               </Button>
 
@@ -105,7 +110,10 @@ export default function Footer() {
               </li>
 
               <li>
-                <Link href="/login?mode=register" className="hover:text-yellow-300">
+                <Link
+                  href="/login?mode=register"
+                  className="hover:text-yellow-300"
+                >
                   Đăng ký
                 </Link>
               </li>
@@ -129,7 +137,10 @@ export default function Footer() {
               </li>
 
               <li>
-                <Link href="/movies/comingsoon" className="hover:text-yellow-300">
+                <Link
+                  href="/movies/comingsoon"
+                  className="hover:text-yellow-300"
+                >
                   Phim sắp chiếu
                 </Link>
               </li>

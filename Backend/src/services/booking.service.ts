@@ -19,9 +19,10 @@ export const createBookingService = async (
   // 1. Showtime
   //--------------------------------
 
-  const showtime = await prisma.showtime.findUnique({
+  const showtime = await prisma.showtime.findFirst({
     where: {
       id: showtimeId,
+      deletedAt: null,
     },
   });
 

@@ -14,9 +14,10 @@ export const getShowtimeSeatsService = async (showtimeId: string) => {
   }
 
   // get showtime
-  const showtime = await prisma.showtime.findUnique({
+  const showtime = await prisma.showtime.findFirst({
     where: {
       id: showtimeId,
+      deletedAt: null,
     },
 
     include: {

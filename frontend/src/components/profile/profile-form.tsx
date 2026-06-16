@@ -375,7 +375,7 @@ export default function ProfileForm() {
             Friends
           </div>
 
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <p className="text-xl text-white">
               Tích điểm{" "}
               <span className="font-bold text-yellow-300">Friends</span>
@@ -389,7 +389,7 @@ export default function ProfileForm() {
               <span className="text-orange-400">0</span>
               /10K
             </p>
-          </div>
+          </div> */}
 
           <div className="my-8 border-t border-white/20"></div>
 
@@ -397,7 +397,7 @@ export default function ProfileForm() {
             <button
               onClick={() => setActiveTab("profile")}
               className={`
-    flex w-full items-center gap-4 px-4 py-4 text-left text-xl transition
+    flex w-full items-center gap-4 px-4 py-4 text-left text-lg transition
     ${
       activeTab === "profile"
         ? "border-l-4 border-yellow-400 bg-white/5 font-bold text-yellow-300"
@@ -412,7 +412,7 @@ export default function ProfileForm() {
             <button
               onClick={() => setActiveTab("member")}
               className={`
-    flex w-full items-center gap-4 px-4 py-4 text-left text-xl transition
+    flex w-full items-center gap-4 px-4 py-4 text-left text-lg transition
     ${
       activeTab === "member"
         ? "border-l-4 border-yellow-400 bg-white/5 font-bold text-yellow-300"
@@ -427,7 +427,7 @@ export default function ProfileForm() {
             <button
               onClick={() => setActiveTab("history")}
               className={`
-    flex w-full items-center gap-4 px-4 py-4 text-left text-xl transition
+    flex w-full items-center gap-4 px-4 py-4 text-left text-lg transition
     ${
       activeTab === "history"
         ? "border-l-4 border-yellow-400 bg-white/5 font-bold text-yellow-300"

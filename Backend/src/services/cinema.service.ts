@@ -192,6 +192,7 @@ export const getCinemaShowtimesService = async (slug: string) => {
   const showtimes = await prisma.showtime.findMany({
     where: {
       isActive: true,
+      deletedAt: null,
       startTime: {
         gte: new Date(),
       },

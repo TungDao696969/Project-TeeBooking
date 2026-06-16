@@ -65,7 +65,11 @@ export const getRoomsByCinemaIdService = async ({
 
       include: {
         seats: true,
-        showtimes: true,
+        showtimes: {
+          where: {
+            deletedAt: null,
+          },
+        },
       },
 
       orderBy: {
@@ -115,7 +119,11 @@ export const getAllCinemaRoomsService = async (
 
       include: {
         seats: true,
-        showtimes: true,
+        showtimes: {
+          where: {
+            deletedAt: null,
+          },
+        },
         cinema: true,
       },
 
@@ -154,7 +162,11 @@ export const getCinemaRoomByIdService = async (id: string) => {
 
     include: {
       seats: true,
-      showtimes: true,
+      showtimes: {
+        where: {
+          deletedAt: null,
+        },
+      },
       cinema: true,
     },
   });
@@ -203,7 +215,7 @@ export const deleteCinemaRoomService = async (id: string) => {
   const upcomingShowtime = await prisma.showtime.findFirst({
     where: {
       roomId: id,
-
+      deletedAt: null,
       startTime: {
         gte: new Date(),
       },
