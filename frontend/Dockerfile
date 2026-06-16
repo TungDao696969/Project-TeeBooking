@@ -1,15 +1,14 @@
 FROM node:24-alpine
 
-# Tạo folder trong container
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --production
-
-RUN npm run build
+RUN npm install
 
 COPY . .
+
+RUN npm run build
 
 EXPOSE 3000
 

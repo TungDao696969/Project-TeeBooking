@@ -15,12 +15,35 @@ services:
     ports:
       - 6380:6379
 
+  backend:
+    build:
+      context: ./Backend
+    container_name: booking-backend
+    restart: always
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./Backend/.env # Sửa chữ B viết hoa
+    environment:
+      # Ghi đè cấu hình kết nối trong container trỏ về mạng nội bộ của docker
+      - DATABASE_URL=postgresql://f8:123456@postgres_db:5432/booking_movie?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379 # Port nội bộ của redis trong docker
+    depends_on:
+      - postgres_db # Sửa từ postgres thành postgres_db
+      - redis
+
   frontend:
-    build: 
+    build:
       context: ./frontend
-      dockerfile: Dockerfile
-    ports: 
-      - 3000:3000
+    container_name: booking-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001/api
+    depends_on:
+      - backend
 
 volumes:
   postgres_db:
