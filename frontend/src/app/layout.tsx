@@ -8,6 +8,13 @@ const montserrat = Montserrat({
   subsets: ["latin", "vietnamese"],
 });
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tee Star Cinema - Đặt vé xem phim",
+  description: "Hệ thống đặt vé xem phim trực tuyến Tee Star Cinema",
+};
+
 export default function RootLayout({
   children,
 }: {
