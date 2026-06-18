@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getMovieShowtimes } from "@/services/movies.api";
 import dayjs from "dayjs";
+import { useAuthStore } from "@/store/auth.store";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +28,7 @@ interface Props {
 
 export default function QuickBooking({ movies = [] }: Props) {
   const router = useRouter();
+  const user = useAuthStore((state) => state.user);
 
   const [selectedMovieSlug, setSelectedMovieSlug] = useState("");
   const [selectedCinemaId, setSelectedCinemaId] = useState("");
@@ -72,6 +74,11 @@ export default function QuickBooking({ movies = [] }: Props) {
   };
 
   const handleBook = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
     if (selectedShowtimeId) {
       router.push(`/booking/${selectedShowtimeId}`);
     }

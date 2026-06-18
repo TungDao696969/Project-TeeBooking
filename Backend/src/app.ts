@@ -18,7 +18,11 @@ app.use(helmet());
 // );
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: [
+    process.env.CLIENT_URL || "",
+    "http://tee-star.xyz",
+    "https://tee-star.xyz"
+  ].filter(Boolean),
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
