@@ -2,13 +2,18 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    fullName: z.string().min(2, "Họ tên tối thiểu 2 ký tự"),
+    fullName: z.string().min(3, "Họ tên tối thiểu 3 ký tự"),
 
-    email: z.email("Email không hợp lệ"),
+    email: z.string().email("Email không hợp lệ"),
 
-    phone: z.string().min(10),
+    phone: z.string().min(8, "Số điện thoại tối thiểu 8 ký tự"),
 
-    password: z.string().min(6, "Mật khẩu tối thiểu 6 ký tự"),
+    password: z
+      .string()
+      .min(8, "Mật khẩu tối thiểu 8 ký tự")
+      .regex(/[A-Z]/, "Mật khẩu phải chứa ít nhất 1 chữ hoa")
+      .regex(/[a-z]/, "Mật khẩu phải chứa ít nhất 1 chữ thường")
+      .regex(/[0-9]/, "Mật khẩu phải chứa ít nhất 1 chữ số"),
 
     confirmPassword: z.string(),
 

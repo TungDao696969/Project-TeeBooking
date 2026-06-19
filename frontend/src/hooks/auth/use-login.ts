@@ -32,10 +32,11 @@ export const useLogin = () => {
     },
 
     onError: (error: unknown) => {
-      const message =
-        error instanceof AxiosError
-          ? (error.response?.data as { message?: string } | undefined)?.message
-          : undefined;
+      const data = error instanceof AxiosError ? error.response?.data : undefined;
+      let message = data?.message;
+      if (data?.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+        message = data.errors[0].message;
+      }
 
       toast.error(message || "Đăng nhập thất bại");
     },

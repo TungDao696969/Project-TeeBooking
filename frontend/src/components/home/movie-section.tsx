@@ -239,7 +239,7 @@ export default function MovieSection({ title, movies }: Props) {
                       />
                     </div>
 
-                    <span className="hidden text-xs font-semibold md:inline md:text-sm">
+                    <span className="text-[9px] sm:text-[10px] font-semibold md:text-sm whitespace-nowrap">
                       Xem Trailer
                     </span>
                   </button>
@@ -252,6 +252,7 @@ export default function MovieSection({ title, movies }: Props) {
     text-black
     font-bold
     hover:bg-yellow-300
+    text-[9px] sm:text-xs px-2 sm:px-3 h-7 sm:h-9
   "
                   >
                     {buttonLabel(movie)}

@@ -10,7 +10,11 @@ type ApiErrorResponse = {
 
 const getApiErrorMessage = (error: unknown) => {
   if (error instanceof AxiosError) {
-    return (error.response?.data as ApiErrorResponse | undefined)?.message;
+    const data = error.response?.data;
+    if (data?.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+      return data.errors[0].message;
+    }
+    return data?.message;
   }
 
   return undefined;
