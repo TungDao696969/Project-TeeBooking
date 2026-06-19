@@ -36,7 +36,7 @@ export default async function BookingPage({ params }: Props) {
               <h1 className="text-4xl font-bold text-white">Chọn Bắp Nước</h1>
             </div>
 
-            <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
+            <div className="w-full">
               <ComboList />
             </div>
           </div>

@@ -48,12 +48,12 @@ export default function LoginForm({ setIsRegister }: LoginFormProps) {
   };
 
   return (
-    <div className="w-[720px] max-w-full bg-white p-10 shadow-2xl">
+    <div className="w-full bg-white p-5 sm:p-10 shadow-2xl">
       {/* Tabs */}
-      <div className="mb-10 flex border-b border-gray-200">
+      <div className="mb-6 sm:mb-10 flex border-b border-gray-200">
         <button
           type="button"
-          className="flex-1 border-b-4 border-purple-600 pb-4 text-center text-2xl font-black uppercase text-black"
+          className="flex-1 border-b-4 border-purple-600 pb-3 sm:pb-4 text-center text-lg sm:text-2xl font-black uppercase text-black"
         >
           Đăng nhập
         </button>
@@ -61,7 +61,7 @@ export default function LoginForm({ setIsRegister }: LoginFormProps) {
         <button
           type="button"
           onClick={() => setIsRegister(true)}
-          className="flex-1 pb-4 text-center text-2xl font-black uppercase text-gray-400 transition hover:text-black"
+          className="flex-1 pb-3 sm:pb-4 text-center text-lg sm:text-2xl font-black uppercase text-gray-400 transition hover:text-black"
         >
           Đăng ký
         </button>
@@ -154,13 +154,13 @@ export default function LoginForm({ setIsRegister }: LoginFormProps) {
           {isPending ? "Loading..." : "Đăng nhập"}
         </Button>
 
-        <div className="flex justify-center gap-5">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5">
           <GoogleLoginButton />
 
           <Button
             disabled={isPending}
             type="button"
-            className="flex h-12 items-center gap-2 rounded-md border border-gray-300 bg-[#1877F2] px-6 text-base font-semibold text-white hover:bg-[#166fe5]"
+            className="flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-md border border-gray-300 bg-[#1877F2] px-6 text-base font-semibold text-white hover:bg-[#166fe5]"
           >
             <FaFacebookF className="size-5" aria-hidden="true" />
 

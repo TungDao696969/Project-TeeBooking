@@ -138,48 +138,50 @@ export default function BookingSummary() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.07] bg-[#05080f]/95 backdrop-blur-xl">
-      <div className="container mx-auto flex items-center gap-4 px-6 py-3">
+      <div className="container mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 px-4 py-3 md:px-6">
         {/* Movie / Booking Info */}
         <div className="min-w-0 flex flex-1 flex-col justify-center">
           <h3 className="font-bebas truncate text-base leading-tight tracking-widest text-white md:text-lg">
             {showtime.movie.title}
           </h3>
 
-          <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-white/50">
+          <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px] md:text-xs text-white/50">
             <span>
               {showtime.cinema.name} | {ticketSummary}
             </span>
           </div>
 
-          <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-white/50">
+          <div className="hidden md:flex mt-0.5 flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-white/50">
             <span>
               Phòng chiếu: {showtime.room.name} | {seatSummary} |{" "}
               {dayjs(showtime.startTime).format("HH:mm")}
             </span>
           </div>
 
-          <div className="mt-0.5 text-xs text-white/50">{comboSummary}</div>
+          <div className="hidden md:block mt-0.5 text-xs text-white/50">{comboSummary}</div>
         </div>
 
         {/* Timer + Total + CTA */}
-        <div className="flex flex-shrink-0 items-center gap-3">
+        <div className="flex flex-shrink-0 items-center justify-between md:justify-end gap-3 w-full md:w-auto">
           {/* Timer */}
           {latestLockedUntil && (
-            <ReserveTimer lockedUntil={latestLockedUntil} />
+            <div className="hidden sm:block">
+              <ReserveTimer lockedUntil={latestLockedUntil} />
+            </div>
           )}
 
           {/* Total + Button */}
-          <div className="flex flex-col items-end gap-1">
-            <div className="text-xs text-white/50 mb-1">
-              Tạm tính:{" "}
-              <span className="text-sm font-bold text-white">
+          <div className="flex flex-1 md:flex-none items-center justify-between md:flex-col md:items-end md:justify-center gap-2 md:gap-1">
+            <div className="text-xs text-white/70 mb-0 md:mb-1 flex flex-col md:block">
+              <span className="md:inline-block">Tạm tính: </span>
+              <span className="text-sm md:text-base font-bold text-white md:ml-1">
                 {finalTotal.toLocaleString("vi-VN")} VND
               </span>
             </div>
 
             <button
               disabled={finalTotal === 0 || isPending}
-              className="rounded-lg bg-yellow-400 px-6 py-2 font-bold text-lg tracking-[2px] text-black transition-all hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-30"
+              className="rounded-lg bg-yellow-400 px-4 md:px-6 py-2 md:py-2 text-sm md:text-lg font-bold tracking-[1px] md:tracking-[2px] text-black transition-all hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-30 whitespace-nowrap"
               onClick={handleBooking}
             >
               {isPending ? "ĐANG XỬ LÝ..." : "ĐẶT VÉ"}

@@ -14,7 +14,7 @@ export default function QuantityButton({
   onDecrease,
 }: Props) {
   return (
-    <div className="flex h-12 overflow-hidden rounded-md bg-slate-400 shadow-sm">
+    <div className="inline-flex w-fit h-12 overflow-hidden rounded-md bg-slate-400 shadow-sm">
       <button
         type="button"
         onClick={onDecrease}

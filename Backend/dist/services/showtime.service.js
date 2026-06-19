@@ -181,9 +181,10 @@ const getShowtimeTicketTypesService = async (showtimeId) => {
         return JSON.parse(cachedData);
     }
     // find showtime
-    const showtime = await prisma_1.prisma.showtime.findUnique({
+    const showtime = await prisma_1.prisma.showtime.findFirst({
         where: {
             id: showtimeId,
+            deletedAt: null,
         },
         include: {
             movie: true,

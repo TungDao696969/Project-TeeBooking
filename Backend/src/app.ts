@@ -20,6 +20,9 @@ app.use(helmet());
 const corsOptions = {
   origin: [
     process.env.CLIENT_URL || "",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
     "http://tee-star.xyz",
     "https://tee-star.xyz"
   ].filter(Boolean),

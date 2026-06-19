@@ -55,20 +55,20 @@ export default function RegisterForm({ setIsRegister }: RegisterFormProps) {
   };
 
   return (
-    <div className="w-[720px] max-w-full bg-white p-10 shadow-2xl">
+    <div className="w-full bg-white p-5 sm:p-10 shadow-2xl">
       {/* Tabs */}
-      <div className="mb-10 flex border-b border-gray-200">
+      <div className="mb-6 sm:mb-10 flex border-b border-gray-200">
         <button
           type="button"
           onClick={() => setIsRegister(false)}
-          className="flex-1 pb-4 text-center text-2xl font-black uppercase text-gray-400 transition hover:text-black"
+          className="flex-1 pb-3 sm:pb-4 text-center text-lg sm:text-2xl font-black uppercase text-gray-400 transition hover:text-black"
         >
           Đăng nhập
         </button>
 
         <button
           type="button"
-          className="flex-1 border-b-4 border-purple-600 pb-4 text-center text-2xl font-black uppercase text-black"
+          className="flex-1 border-b-4 border-purple-600 pb-3 sm:pb-4 text-center text-lg sm:text-2xl font-black uppercase text-black"
         >
           Đăng ký
         </button>

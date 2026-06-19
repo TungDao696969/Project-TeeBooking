@@ -22,7 +22,14 @@ app.use((0, helmet_1.default)());
 //   }),
 // );
 const corsOptions = {
-    origin: process.env.CLIENT_URL,
+    origin: [
+        process.env.CLIENT_URL || "",
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002",
+        "http://tee-star.xyz",
+        "https://tee-star.xyz"
+    ].filter(Boolean),
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

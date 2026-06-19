@@ -246,7 +246,7 @@ export default function QuickBooking({ movies = [] }: Props) {
         <Button
           onClick={handleBook}
           disabled={!selectedShowtimeId}
-          className="h-14 rounded-xl bg-[#6A35A6] px-8 text-lg font-extrabold uppercase hover:bg-[#582c8d] disabled:opacity-100 disabled:cursor-not-allowed"
+          className="h-14 w-full lg:w-auto rounded-xl bg-[#6A35A6] px-8 text-lg font-extrabold uppercase hover:bg-[#582c8d] disabled:opacity-100 disabled:cursor-not-allowed"
         >
           Đặt Ngay
         </Button>

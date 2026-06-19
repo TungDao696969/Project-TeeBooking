@@ -38,7 +38,7 @@ export default function SeatMap({ seatRows }: Props) {
   );
 
   return (
-    <div className="w-full flex flex-col items-center bg-gradient-to-b from-[#0f0e26] to-[#17123a] p-10 rounded-3xl shadow-2xl border border-white/5 mx-auto max-w-4xl">
+    <div className="w-full flex flex-col items-center bg-gradient-to-b from-[#0f0e26] to-[#17123a] p-4 md:p-10 rounded-3xl shadow-2xl border border-white/5 mx-auto lg:w-fit lg:min-w-[800px]">
       {/* Screen / Màn hình */}
       <div className="w-full max-w-2xl mx-auto mb-14 flex flex-col items-center relative select-none">
         <div className="w-full h-8 relative overflow-hidden">
@@ -48,11 +48,11 @@ export default function SeatMap({ seatRows }: Props) {
       </div>
 
       {/* Seat Layout */}
-      <div className="flex flex-col gap-4 w-full select-none overflow-x-auto pb-4 max-w-fit">
+      <div className="flex flex-col gap-4 w-full select-none overflow-x-auto lg:overflow-x-hidden pb-4 max-w-full scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
         {seatRows.map((row) => (
-          <div key={row.row} className="flex items-center gap-6">
+          <div key={row.row} className="flex items-center gap-2 md:gap-6 w-max mx-auto px-4">
             {/* Row Label */}
-            <div className="w-8 font-black text-white/50 text-base text-center uppercase">
+            <div className="w-6 md:w-8 font-black text-white/50 text-sm md:text-base text-center uppercase sticky left-0 bg-[#0f0e26] z-10 py-1">
               {row.row}
             </div>
 
@@ -61,8 +61,9 @@ export default function SeatMap({ seatRows }: Props) {
               style={{
                 display: "grid",
                 gridTemplateColumns: `repeat(${maxCol}, minmax(0, 1fr))`,
-                gap: "10px",
+                gap: "8px",
               }}
+              className="md:gap-[10px]"
             >
               {row.seats.map((seat) => {
                 const colStart = getGridColumn(seat.seatCode);

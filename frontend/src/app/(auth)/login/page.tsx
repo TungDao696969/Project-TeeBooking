@@ -30,10 +30,11 @@ function LoginContent() {
         <Header />
 
         <div className="min-h-screen bg-[#030B3F] px-4 py-16">
-          <div className="mx-auto flex max-w-7xl justify-center">
+          <div className="mx-auto flex w-full max-w-7xl justify-center">
             <AnimatePresence mode="wait">
               {isRegister ? (
                 <motion.div
+                  className="w-full max-w-[720px]"
                   key="register"
                   initial={{ opacity: 0, x: 40 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -44,6 +45,7 @@ function LoginContent() {
                 </motion.div>
               ) : (
                 <motion.div
+                  className="w-full max-w-[720px]"
                   key="login"
                   initial={{ opacity: 0, x: -40 }}
                   animate={{ opacity: 1, x: 0 }}

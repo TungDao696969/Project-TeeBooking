@@ -90,17 +90,17 @@ export default function PromotionSection({ promotions }: Props) {
         {/* Left Arrow */}
         <button
           onClick={handlePrev}
-          className="absolute -left-10 top-1/2 z-10 -translate-y-1/2 text-white transition hover:scale-110"
+          className="absolute left-0 lg:-left-12 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition hover:scale-110 lg:bg-transparent lg:p-0 opacity-0 group-hover:opacity-100 md:opacity-100 hidden md:block"
         >
-          <ChevronLeft className="h-10 w-10" />
+          <ChevronLeft className="h-6 w-6 lg:h-10 lg:w-10" />
         </button>
 
         {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute -right-10 top-1/2 z-10 -translate-y-1/2 text-white transition hover:scale-110"
+          className="absolute right-0 lg:-right-12 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition hover:scale-110 lg:bg-transparent lg:p-0 opacity-0 group-hover:opacity-100 md:opacity-100 hidden md:block"
         >
-          <ChevronRight className="h-10 w-10" />
+          <ChevronRight className="h-6 w-6 lg:h-10 lg:w-10" />
         </button>
       </div>
 

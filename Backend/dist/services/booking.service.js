@@ -12,9 +12,10 @@ const createBookingService = async (userId, payload) => {
     //--------------------------------
     // 1. Showtime
     //--------------------------------
-    const showtime = await prisma_1.prisma.showtime.findUnique({
+    const showtime = await prisma_1.prisma.showtime.findFirst({
         where: {
             id: showtimeId,
+            deletedAt: null,
         },
     });
     if (!showtime) {
