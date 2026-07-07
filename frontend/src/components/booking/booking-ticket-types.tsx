@@ -3,6 +3,7 @@
 import { useMemo, useEffect, useState } from "react";
 import { useTicketTypes } from "@/hooks/booking/use-ticket-types";
 import { useBookingStore } from "@/store/booking.store";
+import { useReleaseSeat } from "@/hooks/seat/use-release-seat";
 import BookingHeader from "./booking-header";
 
 // ─── TicketTypeCard ───────────────────────────────────────────────────────────
@@ -77,6 +78,7 @@ export default function BookingTicketTypes({ showtimeId }: Props) {
   const { data, isLoading } = useTicketTypes(showtimeId);
   const { tickets, increaseTicket, decreaseTicket, selectedSeats } =
     useBookingStore();
+  const releaseSeatMutation = useReleaseSeat();
   const [seconds, setSeconds] = useState(300);
 
   useEffect(() => {
@@ -115,6 +117,23 @@ export default function BookingTicketTypes({ showtimeId }: Props) {
 
   if (!data) return null;
 
+  const handleDecrease = (ticketId: string) => {
+    const ticket = tickets.find((t) => t.ticketTypeId === ticketId);
+    if (!ticket || ticket.quantity <= 0) return;
+
+    const currentTotal = tickets.reduce((t, i) => t + i.quantity, 0);
+    const newTotal = currentTotal - 1;
+
+    if (selectedSeats.length > newTotal) {
+      const droppedSeats = selectedSeats.slice(newTotal);
+      droppedSeats.forEach((seat) => {
+        releaseSeatMutation.mutate(seat.id);
+      });
+    }
+
+    decreaseTicket(ticketId);
+  };
+
   return (
     <section className="min-h-screen text-white">
       <div className="mx-auto max-w-6xl px-8 py-10">
@@ -136,7 +155,7 @@ export default function BookingTicketTypes({ showtimeId }: Props) {
                 onIncrease={() =>
                   increaseTicket(ticket.id, Number(ticket.price))
                 }
-                onDecrease={() => decreaseTicket(ticket.id)}
+                onDecrease={() => handleDecrease(ticket.id)}
               />
             );
           })}

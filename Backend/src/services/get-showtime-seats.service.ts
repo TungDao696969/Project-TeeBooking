@@ -4,14 +4,6 @@ import { redis } from "../utils/redis";
 const CACHE_TTL = 60; // 1 minute
 
 export const getShowtimeSeatsService = async (showtimeId: string) => {
-  const cacheKey = `showtime:${showtimeId}:seats`;
-
-  // cache redis
-  const cachedData = await redis.get(cacheKey);
-
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
 
   // get showtime
   const showtime = await prisma.showtime.findFirst({
@@ -172,9 +164,6 @@ export const getShowtimeSeatsService = async (showtimeId: string) => {
 
     seatRows,
   };
-
-  // cache
-  await redis.set(cacheKey, JSON.stringify(result), "EX", CACHE_TTL);
 
   return result;
 };

@@ -1,6 +1,7 @@
 import cron from "node-cron";
 import { prisma } from "../utils/prisma";
 import { redis } from "../utils/redis";
+import { getIo } from "../utils/socket";
 
 // Run every minute to release seats whose reservation has expired
 export const startSeatLockCleanupJob = () => {
@@ -55,6 +56,22 @@ export const startSeatLockCleanupJob = () => {
           await redis.del(`showtime:${showtimeId}:seats`);
         }
 
+        try {
+          const io = getIo();
+          const seatUpdates = expiredBookings.flatMap((b) => 
+            b.tickets.map(t => ({ id: t.showtimeSeatId, showtimeId: b.showtimeId }))
+          );
+          for (const update of seatUpdates) {
+            io.to(`showtime:${update.showtimeId}`).emit("seatUpdate", {
+              id: update.id,
+              status: "available",
+              lockedUntil: null
+            });
+          }
+        } catch (err) {
+          console.error("Socket error on job 1:", err);
+        }
+
         console.log(`Cancelled ${expiredBookings.length} expired bookings and released ${seatIds.length} seats`);
       }
 
@@ -88,6 +105,19 @@ export const startSeatLockCleanupJob = () => {
 
         for (const showtimeId of orphanedShowtimeIds) {
           await redis.del(`showtime:${showtimeId}:seats`);
+        }
+
+        try {
+          const io = getIo();
+          for (const s of expiredSeats) {
+            io.to(`showtime:${s.showtimeId}`).emit("seatUpdate", {
+              id: s.id,
+              status: "available",
+              lockedUntil: null
+            });
+          }
+        } catch (err) {
+          console.error("Socket error on job 2:", err);
         }
 
         console.log(`Released ${expiredSeats.length} orphaned expired reserved seats`);

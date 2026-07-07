@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import indexRoute from "./routers/index.route";
+import http from "http";
+import { Server } from "socket.io";
+import { initSocket } from "./utils/socket";
 import { startSeatLockCleanupJob } from "./jobs/seatLockCleanup.job";
 import "./worker/payment-success.worker";
 const app = express();
@@ -52,7 +55,14 @@ app.use(
 );
 const PORT = process.env.PORT || 3000;
 app.use("/api", indexRoute);
-app.listen(PORT, () => {
+
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+  cors: corsOptions,
+});
+initSocket(io);
+
+httpServer.listen(PORT, () => {
   console.log(`Server running with Port: ${PORT}`);
 });
 export default app;

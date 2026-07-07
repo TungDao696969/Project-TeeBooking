@@ -1,5 +1,6 @@
 import { prisma } from "../utils/prisma";
 import { redis } from "../utils/redis";
+import { getIo } from "../utils/socket";
 
 const LOCK_DURATION = 5 * 60 * 1000;
 
@@ -48,6 +49,17 @@ export const reservaSeatService = async (showTimeSeatId: string) => {
 
   await redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
 
+  try {
+    const io = getIo();
+    io.to(`showtime:${updatedSeat.showtimeId}`).emit("seatUpdate", {
+      id: updatedSeat.id,
+      status: updatedSeat.status,
+      lockedUntil: updatedSeat.lockedUntil,
+    });
+  } catch (err) {
+    console.error("Socket error on reserveSeat:", err);
+  }
+
   return updatedSeat;
 };
 
@@ -77,6 +89,17 @@ export const releaseSeatService = async (showtimeSeatId: string) => {
   });
 
   await redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+
+  try {
+    const io = getIo();
+    io.to(`showtime:${updatedSeat.showtimeId}`).emit("seatUpdate", {
+      id: updatedSeat.id,
+      status: updatedSeat.status,
+      lockedUntil: updatedSeat.lockedUntil,
+    });
+  } catch (err) {
+    console.error("Socket error on releaseSeat:", err);
+  }
 
   return updatedSeat;
 };
@@ -116,6 +139,17 @@ export const confirmBookingSeatService = async (showtimeSeatId: string) => {
   });
 
   await redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+
+  try {
+    const io = getIo();
+    io.to(`showtime:${updatedSeat.showtimeId}`).emit("seatUpdate", {
+      id: updatedSeat.id,
+      status: updatedSeat.status,
+      lockedUntil: updatedSeat.lockedUntil,
+    });
+  } catch (err) {
+    console.error("Socket error on confirmBookingSeat:", err);
+  }
 
   return updatedSeat;
 };
