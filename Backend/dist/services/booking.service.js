@@ -128,7 +128,7 @@ const createBookingService = async (userId, payload) => {
             await tx.bookingTicket.createMany({
                 data: seats.map((seat) => {
                     const tPrice = tickets && tickets.length > 0
-                        ? (totalTicketPrice / seats.length)
+                        ? totalTicketPrice / seats.length
                         : seat.finalPrice;
                     return {
                         bookingId: booking.id,

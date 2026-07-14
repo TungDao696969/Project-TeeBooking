@@ -6,7 +6,10 @@ export const registerSchema = z
 
     email: z.string().email("Email không hợp lệ"),
 
-    phone: z.string().min(8, "Số điện thoại tối thiểu 8 ký tự"),
+    phone: z
+      .string()
+      .min(8, "Số điện thoại tối thiểu 8 ký tự")
+      .regex(/^\d+$/, "Số điện thoại chỉ được chứa số"),
 
     password: z
       .string()

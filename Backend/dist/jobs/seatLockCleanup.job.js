@@ -7,6 +7,7 @@ exports.startSeatLockCleanupJob = void 0;
 const node_cron_1 = __importDefault(require("node-cron"));
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
+const socket_1 = require("../utils/socket");
 // Run every minute to release seats whose reservation has expired
 const startSeatLockCleanupJob = () => {
     node_cron_1.default.schedule("* * * * *", async () => {
@@ -53,6 +54,20 @@ const startSeatLockCleanupJob = () => {
                 for (const showtimeId of showtimeIds) {
                     await redis_1.redis.del(`showtime:${showtimeId}:seats`);
                 }
+                try {
+                    const io = (0, socket_1.getIo)();
+                    const seatUpdates = expiredBookings.flatMap((b) => b.tickets.map(t => ({ id: t.showtimeSeatId, showtimeId: b.showtimeId })));
+                    for (const update of seatUpdates) {
+                        io.to(`showtime:${update.showtimeId}`).emit("seatUpdate", {
+                            id: update.id,
+                            status: "available",
+                            lockedUntil: null
+                        });
+                    }
+                }
+                catch (err) {
+                    console.error("Socket error on job 1:", err);
+                }
                 console.log(`Cancelled ${expiredBookings.length} expired bookings and released ${seatIds.length} seats`);
             }
             // 2. Release any orphaned reserved seats that expired
@@ -82,6 +97,19 @@ const startSeatLockCleanupJob = () => {
                 });
                 for (const showtimeId of orphanedShowtimeIds) {
                     await redis_1.redis.del(`showtime:${showtimeId}:seats`);
+                }
+                try {
+                    const io = (0, socket_1.getIo)();
+                    for (const s of expiredSeats) {
+                        io.to(`showtime:${s.showtimeId}`).emit("seatUpdate", {
+                            id: s.id,
+                            status: "available",
+                            lockedUntil: null
+                        });
+                    }
+                }
+                catch (err) {
+                    console.error("Socket error on job 2:", err);
                 }
                 console.log(`Released ${expiredSeats.length} orphaned expired reserved seats`);
             }

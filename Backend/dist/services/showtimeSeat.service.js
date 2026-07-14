@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirmBookingSeatService = exports.releaseSeatService = exports.reservaSeatService = void 0;
 const prisma_1 = require("../utils/prisma");
 const redis_1 = require("../utils/redis");
+const socket_1 = require("../utils/socket");
 const LOCK_DURATION = 5 * 60 * 1000;
 const reservaSeatService = async (showTimeSeatId) => {
     const seat = await prisma_1.prisma.showtimeSeat.findUnique({
@@ -38,6 +39,17 @@ const reservaSeatService = async (showTimeSeatId) => {
         },
     });
     await redis_1.redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+    try {
+        const io = (0, socket_1.getIo)();
+        io.to(`showtime:${updatedSeat.showtimeId}`).emit("seatUpdate", {
+            id: updatedSeat.id,
+            status: updatedSeat.status,
+            lockedUntil: updatedSeat.lockedUntil,
+        });
+    }
+    catch (err) {
+        console.error("Socket error on reserveSeat:", err);
+    }
     return updatedSeat;
 };
 exports.reservaSeatService = reservaSeatService;
@@ -63,6 +75,17 @@ const releaseSeatService = async (showtimeSeatId) => {
         },
     });
     await redis_1.redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+    try {
+        const io = (0, socket_1.getIo)();
+        io.to(`showtime:${updatedSeat.showtimeId}`).emit("seatUpdate", {
+            id: updatedSeat.id,
+            status: updatedSeat.status,
+            lockedUntil: updatedSeat.lockedUntil,
+        });
+    }
+    catch (err) {
+        console.error("Socket error on releaseSeat:", err);
+    }
     return updatedSeat;
 };
 exports.releaseSeatService = releaseSeatService;
@@ -94,6 +117,17 @@ const confirmBookingSeatService = async (showtimeSeatId) => {
         },
     });
     await redis_1.redis.del(`showtime:${updatedSeat.showtimeId}:seats`);
+    try {
+        const io = (0, socket_1.getIo)();
+        io.to(`showtime:${updatedSeat.showtimeId}`).emit("seatUpdate", {
+            id: updatedSeat.id,
+            status: updatedSeat.status,
+            lockedUntil: updatedSeat.lockedUntil,
+        });
+    }
+    catch (err) {
+        console.error("Socket error on confirmBookingSeat:", err);
+    }
     return updatedSeat;
 };
 exports.confirmBookingSeatService = confirmBookingSeatService;

@@ -148,16 +148,19 @@ const forgotPasswordService = async (email) => {
         otp,
     });
     if (!mailInfo) {
-        await redis_1.redis.del(`forgot:${email}`);
-        // Xóa OTP khỏi database nếu gửi mail thất bại
-        await prisma_1.prisma.user.update({
-            where: { email },
-            data: {
-                resetPasswordCode: null,
-                resetPasswordExpiresAt: null,
-            },
-        });
-        throw new Error("Failed to send reset email");
+        console.log(`[DEV ONLY] Gửi mail reset password thất bại. OTP của bạn là: ${otp}`);
+        if (process.env.NODE_ENV === "production") {
+            await redis_1.redis.del(`forgot:${email}`);
+            // Xóa OTP khỏi database nếu gửi mail thất bại
+            await prisma_1.prisma.user.update({
+                where: { email },
+                data: {
+                    resetPasswordCode: null,
+                    resetPasswordExpiresAt: null,
+                },
+            });
+            throw new Error("Failed to send reset email");
+        }
     }
     return true;
 };

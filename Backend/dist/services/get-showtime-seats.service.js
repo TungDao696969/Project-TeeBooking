@@ -2,15 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getShowtimeSeatsService = void 0;
 const prisma_1 = require("../utils/prisma");
-const redis_1 = require("../utils/redis");
 const CACHE_TTL = 60; // 1 minute
 const getShowtimeSeatsService = async (showtimeId) => {
-    const cacheKey = `showtime:${showtimeId}:seats`;
-    // cache redis
-    const cachedData = await redis_1.redis.get(cacheKey);
-    if (cachedData) {
-        return JSON.parse(cachedData);
-    }
     // get showtime
     const showtime = await prisma_1.prisma.showtime.findFirst({
         where: {
@@ -126,8 +119,6 @@ const getShowtimeSeatsService = async (showtimeId) => {
         },
         seatRows,
     };
-    // cache
-    await redis_1.redis.set(cacheKey, JSON.stringify(result), "EX", CACHE_TTL);
     return result;
 };
 exports.getShowtimeSeatsService = getShowtimeSeatsService;

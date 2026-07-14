@@ -24,11 +24,12 @@ export default function RegisterForm({ setIsRegister }: RegisterFormProps) {
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { mutate, isPending } = useRegister();
+  const { mutateAsync, isPending } = useRegister();
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -43,15 +44,27 @@ export default function RegisterForm({ setIsRegister }: RegisterFormProps) {
     },
   });
 
-  const onSubmit = (data: RegisterSchemaType) => {
-    mutate({
-      fullName: data.fullName,
-      email: data.email,
-      phone: data.phone,
-      password: data.password,
-      gender: data.gender,
-      dateOfBirth: data.dateOfBirth,
-    });
+  const onSubmit = async (data: RegisterSchemaType) => {
+    try {
+      await mutateAsync({
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        gender: data.gender,
+        dateOfBirth: data.dateOfBirth,
+      });
+    } catch (error: any) {
+      const responseData = error?.response?.data;
+      const message = responseData?.message;
+      if (message === "Email already exists") {
+        setError("email", { type: "server", message: "Email đã tồn tại" });
+      } else if (message === "Phone already exists") {
+        setError("phone", { type: "server", message: "Số điện thoại đã tồn tại" });
+      } else if (message === "Failed to send verification email") {
+        setError("email", { type: "server", message: "Email không tồn tại hoặc không thể gửi mã OTP" });
+      }
+    }
   };
 
   return (
@@ -119,7 +132,11 @@ export default function RegisterForm({ setIsRegister }: RegisterFormProps) {
 
           <Input
             placeholder="Nhập số điện thoại..."
-            {...register("phone")}
+            {...register("phone", {
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/\D/g, "");
+              },
+            })}
             className="h-14 rounded-none border border-gray-300 px-4 text-black text-base focus-visible:ring-0"
           />
 

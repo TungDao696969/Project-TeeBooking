@@ -11,7 +11,11 @@ exports.registerSchema = zod_1.z.object({
         .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
         .regex(/[a-z]/, "Password must contain at least one lowercase letter")
         .regex(/[0-9]/, "Password must contain at least one number"),
-    phone: zod_1.z.string().trim().min(8, "Phone must be at least 8 characters"),
+    phone: zod_1.z
+        .string()
+        .trim()
+        .min(8, "Phone must be at least 8 characters")
+        .regex(/^\d+$/, "Phone must contain only numbers"),
     gender: zod_1.z.enum(["male", "female", "other"]).optional(),
     dateOfBirth: zod_1.z.coerce.date().optional(),
 });

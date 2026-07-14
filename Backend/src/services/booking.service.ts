@@ -89,7 +89,7 @@ export const createBookingService = async (
       for (const t of tickets) {
         ticketSum += t.price * t.quantity;
       }
-      
+
       let extraSum = 0;
       seats.forEach((seat) => {
         extraSum += Number(seat.seat.extraPrice || 0);
@@ -175,9 +175,10 @@ export const createBookingService = async (
 
       await tx.bookingTicket.createMany({
         data: seats.map((seat) => {
-          const tPrice = tickets && tickets.length > 0 
-            ? (totalTicketPrice / seats.length) 
-            : seat.finalPrice;
+          const tPrice =
+            tickets && tickets.length > 0
+              ? totalTicketPrice / seats.length
+              : seat.finalPrice;
 
           return {
             bookingId: booking.id,
@@ -231,5 +232,3 @@ export const createBookingService = async (
     }
   }
 };
-
-

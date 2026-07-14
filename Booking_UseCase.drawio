@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2024-01-01T00:00:00.000Z" agent="Antigravity" version="21.6.8" type="device">
+	<diagram id="use_case_diagram" name="Use Case Diagram">
+		<mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+			<root>
+				<mxCell id="0" />
+				<mxCell id="1" parent="0" />
+				
+				<!-- Actors -->
+				<mxCell id="actor_customer" value="Khách hàng" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+					<mxGeometry x="100" y="250" width="40" height="80" as="geometry" />
+				</mxCell>
+				<mxCell id="actor_admin" value="Quản trị viên" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+					<mxGeometry x="100" y="650" width="40" height="80" as="geometry" />
+				</mxCell>
+				<mxCell id="actor_system" value="Hệ thống" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+					<mxGeometry x="100" y="1000" width="40" height="80" as="geometry" />
+				</mxCell>
+
+				<!-- System Boundary -->
+				<mxCell id="boundary" value="Hệ Thống Đặt Vé Xem Phim (TeeBooking)" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=250;height=30;" vertex="1" parent="1">
+					<mxGeometry x="300" y="50" width="450" height="1150" as="geometry" />
+				</mxCell>
+
+				<!-- Customer Use Cases -->
+				<mxCell id="uc_1" value="Quản lý tài khoản" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="100" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_c_0" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_customer" target="uc_1">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_2" value="Tìm kiếm phim, rạp" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="180" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_c_1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_customer" target="uc_2">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_3" value="Đặt vé (Ghế, bắp nước)" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="260" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_c_2" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_customer" target="uc_3">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_4" value="Thanh toán" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="340" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_c_3" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_customer" target="uc_4">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_5" value="Quản lý vé điện tử" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="420" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_c_4" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_customer" target="uc_5">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<!-- Admin Use Cases -->
+				<mxCell id="uc_6" value="Báo cáo &amp; Thống kê" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="550" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_a_0" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_admin" target="uc_6">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_7" value="Quản lý dữ liệu hệ thống" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="630" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_a_1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_admin" target="uc_7">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_8" value="Quản lý sơ đồ ghế" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="710" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_a_2" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_admin" target="uc_8">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_9" value="Quản lý thành viên" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="790" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_a_3" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_admin" target="uc_9">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_10" value="Nhật ký &amp; Thùng rác" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="870" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_a_4" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_admin" target="uc_10">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<!-- System Use Cases -->
+				<mxCell id="uc_11" value="Xác nhận webhook" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="950" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_s_0" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_system" target="uc_11">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_12" value="Giải phóng ghế ảo" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="1030" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_s_1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_system" target="uc_12">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+
+				<mxCell id="uc_13" value="Gửi Email tự động" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+					<mxGeometry x="420" y="1110" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="edge_s_2" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_system" target="uc_13">
+					<mxGeometry width="50" height="50" relative="1" as="geometry" />
+				</mxCell>
+			</root>
+		</mxGraphModel>
+	</diagram>
+</mxfile>
